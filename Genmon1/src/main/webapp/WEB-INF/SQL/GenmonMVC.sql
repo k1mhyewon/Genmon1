@@ -30,6 +30,8 @@ insert into tbl_member_test(userid, pwd, name, email, mobile, postcode, address,
                     
 select *
 from tbl_member_test;
+
+-- ?????
                     
                     
                     
