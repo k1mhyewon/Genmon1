@@ -21,3 +21,17 @@ create table tbl_member_test
 ,idle               number(1) default 0 not null     -- 휴면유무      0 : 활동중  /  1 : 휴면중 
 );
 -- Table TBL_MEMBER_TEST이(가) 생성되었습니다.
+
+
+insert into tbl_member_test(userid, pwd, name, email, mobile, postcode, address, detailaddress, 
+                            extraaddress, gender, birthday ) 
+                    values ('kimhw', 'qWer1234$', '김혜원', 'kimhw@gmail.com', '01012345678', '14547', '제주특별자치도 제주시 첨단로 242', '1동', ' (영평동)', '2', '2000-01-01' );
+                    
+                    
+select *
+from tbl_member_test;
+
+-- ?????
+                    
+                    
+                    
