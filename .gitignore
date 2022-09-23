@@ -61,7 +61,7 @@ local.properties
 
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
+.project
 
 ### Eclipse Patch ###
 # Spring Boot Tooling
@@ -97,3 +97,5 @@ replay_pid*
 
 ##### commit 제외파일 #####
 /Genmon1/src/main/webapp/WEB-INF/web.xml
+/Genmon1/src/main/webapp/WEB-INF/SQL/GenmonMVC.sql
+/Genmon1/src/main/webapp/WEB-INF/Command.properties
