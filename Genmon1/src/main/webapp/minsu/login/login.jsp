@@ -28,9 +28,33 @@
     	text-align: left;
     	line-height: 200%;
     }
+    
+    span > button {
+    	cursor: pointer;
+		font-size: 12px;
+		text-decoration: underline;
+		background-color: white;
+		border: none;
+    }
 
 
 </style>
+
+<script>
+
+$(document).ready(function(){});
+
+	// == 이메일찾기 팝업창 띄우기 === // 
+	function emailFindPopup() { window.open("emailFind.jsp", "이메일찾기", "width=400, height=320, left=100, top=50" ); }
+
+	// == 비밀번호찾기 팝업창 띄우기 === // 
+	function pwdFindPopup() { window.open("pwdFindModal1.jsp", "이메일찾기", "width=400, height=320, left=100, top=50"); }
+
+
+
+
+
+</script>
 
 <!-- 인덱스 시작 -->
     <div class="container">
@@ -48,11 +72,12 @@
         	</ul>
         	
         	
-        	<span>
-               	<a style="cursor: pointer; font-size: 12px; margin-left: 8%; text-decoration: underline;" data-toggle="modal" data-target="#emailFind" data-dismiss="modal" data-backdrop="static">이메일 찾기</a>
-               	<a style="cursor: pointer; font-size: 12px;margin-left: 2%;text-decoration: underline;" data-toggle="modal" data-target="#passwdFind" data-dismiss="modal" data-backdrop="static">비밀번호 찾기</a>
+        	<span> 
+        	   <button type='button' value="팝업창 호출" id="modal_btn" onclick="emailFindPopup();" style="margin-left: 7%;"> 이메일 찾기</button> 
+               <button type='button' value="팝업창 호출" id="modal_btn" onclick="pwdFindPopup();"> 비밀번호 찾기</button> 
             </span> 
-             																			
+           
+           												
         	
         	<button type="button" style="background-color: black; color: white; width: 74%;margin: 10% 0 0 8%; line-height: 250%;">로그인</button>
         	
@@ -68,55 +93,4 @@
 <jsp:include page="/minsu/footer.jsp" />
 
 
- 
-<!-- 이메일찾기 모달창 -->
-	<div class="modal fade" id="idFind">
-	    <div class="modal-dialog">
-	      <div class="modal-content">
-	      
-	        <!-- Modal header -->
-	        <div class="modal-header">
-	          <h6 class="modal-title" style="font-weight: bold;" >이메일 찾기</h6>
-	          <button type="button" class="close emailFindClose" data-dismiss="modal">&times;</button> 
-	        </div>
-	        
-	        <!-- Modal body -->
-	        <div class="modal-body">
-	          <div id="idFind">
-	          <h3>아이디 찾기</h3>
-	          	<iframe id="pwFind" style="border: none; width: 100%; height: 350px;" src="http://localhost:9090/Genmon/minsu/emailFind.jsp">
-	          	
-	             </iframe>
-	          </div>
-	        </div>
-	        
-	    </div>
-	   </div>
-	</div>    
-    
-<!-- 비밀번호찾기 모달창 -->
-	<div class="modal fade" id="passwdFind">
-	    <div class="modal-dialog">
-	      <div class="modal-content">
-	      
-	        <!-- Modal header -->
-	        <div class="modal-header">
-	          <h6 class="modal-title" style="font-weight: bold;" >비밀번호 찾기</h6>
-	          <button type="button" class="close passwdFindClose" data-dismiss="modal">&times;</button> 
-	        </div>
-	        
-	        <!-- Modal body -->
-	        <div class="modal-body">
-	          <div id="idFind">
-	          <h3>계정에 연결된 이메일을 입력하시면 비밀번호를 재설정하실 수 있습니다.</h3>
-	          	<iframe id="pwFind" style="border: none; width: 100%; height: 350px; src="http://localhost:9090/Genmon/minsu/pwdFind.jsp" >
-	          		
-	             </iframe>
-	          </div>
-	        </div>
-	    </div>
-	   </div>
-	</div>
-	
-<jsp:include page="/minsu/footer.jsp" />
 	
