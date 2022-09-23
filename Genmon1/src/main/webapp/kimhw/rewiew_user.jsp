@@ -1,22 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
+
 <jsp:include page="header.jsp" />
 
 <style>
 
+	* {font-family: 'Roboto Condensed', sans-serif;}
+	
 	div#review_desc {
-        /* border: solid 1px gray;  */
+        /* border: solid 1px gray; */
         width: 60%;
-        margin-bottom: 90px;
+        margin-bottom: 30px;
         margin-top: 70px;
         
     }
 
     div.containers {
-        
         width: 60%;
         margin: 3% auto;
     }
@@ -25,7 +25,7 @@
         /* border: solid 1px gray; */
         background-color: #f2f2f2;
         height: 35px;
-        margin-bottom: 90px;
+        margin-bottom: 50px;
     }
 
 
@@ -61,37 +61,87 @@
 
     div.content_desc {
         margin-top: 10px;
+        width: 400px;
     }
 
     img.review_img {
         margin: 20px 0 10px 0;
-        max-width: 25%; height: auto;
+        max-width: 100%; height: auto;
     }
     
     #empty {
         height: 100px;
     }
     
-    div#prod_info {
+	div#prod_info {
         /* border: solid 1px gray; */
         width: 250px;
-        height: 400px;
+        height: 280px;
         float: left;
         font-weight: bold;
-        padding-top: 310px;
-        padding-left: 10px;
+        padding-top: 200px;
         margin-top: 20px;
 
     }
 
     div#prod_photo {
         /* border: solid 1px pink; */
-        width: 250px;
-        height: 400px;
+        width: 220px;
+        height: 280px;
         float: left;
         margin-top: 20px;
     }
     
+    .rate_content_1 {
+    	/* border: solid 1px pink; */
+    	display: inline-block;
+    	width: 220px;
+    }
+    
+    .rate_content_2 {
+    	/* border: solid 1px black; */
+    	display: inline-block;
+    	vertical-align: bottom;
+    	padding-bottom: 10px;
+    	padding-left: 20px;
+    }
+    
+    .toggle_btn, .toggle_content {
+    	font-size: 11pt; 
+    	margin-top: 10px;
+    }
+    
+    .toggle_btn {
+    	font-weight: bold;
+    }
+    
+    .toggle_content {
+    	border: solid 1px gray;
+    	width: 450px;
+    	height: 130px;
+    	margin-top: 20px;
+    	padding: 10px 0 10px 10px;
+    	border-radius: 15px 15px 15px 15px;
+    }
+    
+    .toggle_box {
+    	/* border: solid 1px pink; */
+    	display: inline-block;
+    	width: 60%;
+    }
+    
+    .modify {
+    	/* border: solid 1px gray; */
+    	display: inline-block;
+    	width: 38%;
+    	
+    }
+    
+    .btn_modify {
+    	font-size: 10pt;
+        font-weight: bold;
+        width: 20%;
+    }
 
 </style>
 
@@ -104,16 +154,16 @@
             </ul>
             <hr>
             <div id="prod_photo">
-                <img src="le_iv1_1.jpg" style="width:250px; height:370px;">
+                <img src="le_iv1_1.jpg" style="width:200px; height:auto;">
             </div>
             <div id="prod_info">
             	<div style="font-size: 11pt;">르</div>
                 <div style="font-size: 10pt;">189,000원</div>
+                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
             </div>
             <div style="clear:both;"></div>
         </div>
-
-        <hr style="width: 60%;">
+		<hr style="width: 60%;">
 
         <div id="rate_title" class="containers">
             <select id="select_category" name="select_category">
@@ -129,16 +179,56 @@
             </div>
         </div>
 
-        <div id="rate_contentBox" class="containers">
-            <div class="rate_content">
-                <div id="userid" class="content_desc" style="font-weight: bold; font-size: 11pt;">gentlemons***</div>
-                <div id="writeDate" style="font-size: 9pt;">2022-09-13</div>
-                <div id="star" class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
-                <div id="content" class="content_desc" style="font-size: 11pt;">내용내용내용내용내용내용내용내용내용내용</div>
+        <div class="containers each_box">
+            <div class="rate_content_1">
+                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">gentlemons***</div>
+                <div style="font-size: 9pt;">2022-09-13</div>
+                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
                 <img src="le_iv1_1.jpg" class="review_img">
             </div>
+            <div class="rate_content_2">
+                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
+                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+            </div>
+            <div class="toggle_box">
+	            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_1">
+					댓글(1)
+				</div>
+				<div class="toggle_content collapse" id="reply_1">
+					<div style="font-weight: bold;">Gentle Monster</div>
+					<div style="font-size: 10pt; margin-top: 10px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+				</div>
+			</div>
         </div>
         <hr style="width: 60%;">
+        
+        <div class="containers each_box">
+            <div class="rate_content_1">
+                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">gentlemons***</div>
+                <div style="font-size: 9pt;">2022-09-13</div>
+                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
+                <img src="le_iv1_1.jpg" class="review_img">
+            </div>
+            <div class="rate_content_2">
+                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
+                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+            </div>
+            <div class="toggle_box">
+	            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_1">
+					댓글(1)
+				</div>
+				<div class="toggle_content collapse" id="reply_1">
+					<div style="font-weight: bold;">Gentle Monster</div>
+					<div style="font-size: 10pt; margin-top: 10px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+				</div>
+			</div>
+			<div class="modify" align="right">
+				<button type="button" class="btn btn-light btn_modify" >수정</button>
+			</div>
+        </div>
+        <hr style="width: 60%;">
+        
+        
     </div>
     <div id="empty"></div>
 
