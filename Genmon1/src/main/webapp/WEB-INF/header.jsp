@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+    String ctxPath = request.getContextPath();
+    //    /MyMVC
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +14,7 @@
 <title>GENTLE MONSTER Official Site</title>
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css">
 
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -150,9 +155,12 @@
 </style>
 
 <!-- Optional JavaScript -->
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js"" type="text/javascript" ></script>
+<script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript" ></script>
 <script>
+
+
+
     $(document).ready(function(){
 
         // toast(광고창)
@@ -260,13 +268,13 @@
                     <div>
                         <div class="collections">
                             <a href="#">
-                            	<img src="le_iv1_1.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                            	<!-- <img src="le_iv1_1.jpg" style="width:70px; height:70px; border-radius: 50%;"> -->
                             </a>
                             <div style="margin-top: 10px;">베스트셀러</div>
                         </div>
                         <div class="collections">
                         	<a href="#">
-                            	<img src="le_01.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                            	<!-- <img src="le_01.jpg" style="width:70px; height:70px; border-radius: 50%;"> -->
                             </a>
                             <div style="margin-top: 10px;">캣아이프레임</div>
                         </div>

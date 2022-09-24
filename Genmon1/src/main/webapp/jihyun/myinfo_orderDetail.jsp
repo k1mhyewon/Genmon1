@@ -5,6 +5,8 @@
 
 <style>
 
+	* {font-family: 'Noto Sans KR', sans-serif; !important}
+
 	div#order_nav{
 		width: 40%;
 		margin: auto;
@@ -97,7 +99,200 @@
 		height: 200px;
 	}
 	
+	
+	
+	/* === 모달 CSS 시작 === */
+    
+    .modal-dialog.modals-fullsize_cancel {
+    width: 50%;
+    height: 80%;
+    }
+    
+    .modal-dialog.modals-fullsize {
+    width: 50%;
+    height: 90%;
+    }
+
+    .modal-content.modals-fullsize {
+	    height: auto;
+	    min-height: 100%;
+	    border-radius: 0;
+    }
+    
+    
+    /* .title_container : Modal 맨위에 글씨들 박스 */
+    .title_container {
+    	/* border : solid 1px pink; */
+    	text-align: left;
+    	margin: 20px 0 10px 0;
+    	padding-left: 20px;
+    }
+    
+    /* .modal_contents_size : 이건 가운데 정렬하려고 */
+    .modal_contents_size {
+    	width: 350px;
+    	margin: auto;
+    }
+    
+    
+    #cancel_title {
+    	font-weight: bold;
+    	font-size: 12pt;
+    	display: inline;
+    	margin: 10px 10px 0 20px; 
+    }
+    
+    #cancel_orderno {
+    	font-weight: bold;
+    	font-size: 12pt;
+    	display: inline;
+    }
+
+	#cancel_sub_title {
+    	font-size: 10pt;
+    	margin-top: 10px;
+    	margin-left: 45px;
+    	
+    }
+    
+    /* 스크롤 영역 크기 */
+    .prod_container_cancel {
+    	overflow: auto; 
+    	height: 320px;
+    	margin: auto;
+    	
+    }
+    
+    .prod_container {
+    	overflow: auto; 
+    	height: 280px;
+    	margin: auto;
+    	
+    }
+    
+    /* 스크롤 내부의 개별 상품 박스 */
+    .prod_container_each {
+    	border : solid 2px #bfbfbf;
+    	text-align: left;
+    	padding: 25px 0 25px 20px;
+    	margin-bottom: 20px;
+    	
+    }
+    
+    .serial_no{ font-size: 10px; }
+    
+    
+    .prod_chkboxs {
+    	display: block;
+    }
+    
+    .prod_content_chk{
+    	display: inline-block;
+    	vertical-align: top;
+    	margin-right: 15px;
+    }
+    
+    .prod_content_img {
+    	display: inline-block;
+    	vertical-align: top;
+    }
+    
+    .prod_contents {
+    	display: inline-block;
+    	/* border : solid 1px pink; */
+    	margin: 13px 0 0 15px;
+    }
+    
+    .sub_prod_contents {
+    	font-size: 8.5pt;
+    	margin-bottom: 5px;
+    }
+    
+    .prod_select {
+    	width: 70px;
+    }
+    
+    .modal_footer {
+    	/* border : solid 1px pink; */
+    	margin-top: 15px;
+    	font-size: 8pt;
+    	text-align: left;
+    	
+    }
+    
+    .modal_btn {
+    	text-align: center;
+    	margin-top: 20px;
+    }
+    
+    .request_btn {
+    	width: 100px;
+    	height: 30px;
+    	font-size: 10pt;
+    }
+    
+    
+    .why_content {
+    	height: 150px;
+    	margin: auto;
+    	font-size: 9pt;
+    }
+    
+    .why_container {
+    	width: 70%;
+    	text-align: left;
+    	font-size: 10pt;
+    	font-weight: bold;
+    	padding: 15px 0 10px 0 ;
+    	margin-left: 14%;
+    	margin-top: 10px;
+    }
+    
+    .terms_chk {
+    	width: 70%;
+    	text-align: left;
+    	font-size: 9pt;
+    	margin-left: 14%;
+    	margin-top: 10px;
+    }
+    
+    
+    /* === 모달 CSS 끝 === */
+	
 </style>
+
+<script>
+
+	$(document).ready(function(){
+		
+		
+		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
+		$('.why_content').keyup(function (e) {
+			let rev_content = $(this).val();
+		    
+		    // 글자수 세기
+		    if (rev_content.length == 0 || rev_content == '') {
+		    	$('#text_cnt').text('0자');
+		    } else {
+		    	$('#text_cnt').text(rev_content.length + '자');
+		    }
+		    
+		    // 글자수 제한
+		    if (rev_content.length > 50) {
+		    	// 50자 부터는 타이핑이 안되게
+		        $(this).val($(this).val().substring(0, 50));
+		    };
+		}); // end of $('#rev_content').keyup() ---------------------------------
+		
+		
+		
+		
+	}); // end of $(document).ready() ---------------
+	
+	
+	
+
+</script>
 
 <%-- 상단네비 시작 --%>
 <div class="border-top"></div>
@@ -124,7 +319,338 @@
 			<tr><td><strong>2022/09/03</strong></td></tr>
 			<tr><td>주문수량 : 3</td></tr>
 			<tr>
-				<td class="myright" style="height: 50px;"><a class="link_tag">주문취소</a><a class="link_tag">교환요청</a><a class="link_tag">반품요청</a></td>
+				<td class="myright" style="height: 50px;">
+				
+				
+					<!-- ======== [주문취소 Modal] ================================================================ -->
+					
+					<!-- 주문 취소 Modal 버튼 -->
+			        <span id="cancel" type="button" class="link_tag" data-toggle="modal" data-target="#cancel_modal">주문취소</span>
+			        <!-- 주문 취소 Modal 버튼 끝 -->  
+			
+			
+					<!-- 주문 취소 Modal 시작 -->
+					
+			        <div class="modal fade" id="cancel_modal">
+			        	<div class="modal-dialog modals-fullsize_cancel">
+
+			        		<div class="modal-content modals-fullsize">
+			                
+			                <!-- Modal body -->
+				                <div class="cancel_modal-body">
+				                
+				                	<!-- .title_container : Modal 맨위에 글씨들 박스 -->
+				                	<div class="title_container">
+					                    <div id="cancel_title">주문 취소</div>
+					                    <div id="cancel_orderno">Order&nbsp;#00001010</div>
+					                  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+					                  	<div id="cancel_sub_title">주문취소할 상품을 선택하세요.</div>
+				                  	</div>
+				                  	
+				                  	<!-- .prod_container : 스크롤 영역 -->
+				                  	<div class="prod_container_cancel">
+				                  	
+				                  		<!-- foreach 여기부터 하면 됨 (아마도..?) -->
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents serial_no">시리얼넘버: 0000111123</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="1">1</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	<!-- foreach 여기까지 끊으면 됨 -->
+					                  	
+					                  	<!-- 여기부터는 삭제 ㄱㄱ -->
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="1">1</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="1">1</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	<!-- 여기까지 삭제 ㄱㄱ -->
+					                  	
+				                  	</div>
+				                  	<!-- .prod_container : 스크롤 영역 끝 -->
+				                  	
+				                  	<!-- .modal_footer: 밑에 글씨들 -->
+				                  	<div class="modal_footer modal_contents_size">
+				                  		<div>환불예정금액: 259,000원</div>
+				                  		<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+				                  	</div>
+				                  	<!-- .modal_footer -->
+				                  	
+				                  	<!-- .modal_btn: 환불신청 버튼 -->
+				                  	<div class="modal_btn modal_contents_size">
+				                  		<button type="button" class="btn btn-dark request_btn">환불신청</button>
+				                  	</div>
+				                  	<!-- .modal_btn -->
+				                </div>
+			         		</div>
+			         	</div>
+			         </div>
+			        
+					<!-- 주문 취소 Modal 끝 똑같이 두번 하면 됨 -->
+					
+					
+					
+					<!-- ======== [환불신청 Modal] ================================================================ -->
+					
+					<!-- 환불신청 Modal 버튼 -->
+			        <span id="refund" type="button" class="link_tag" data-toggle="modal" data-target="#refund_modal">환불신청</span>
+			        <!-- 환불신청 Modal 버튼 끝 -->  
+			
+			
+					<!-- 환불신청 Modal 시작 -->
+					
+			        <div class="modal fade" id="refund_modal">
+			        	<div class="modal-dialog modals-fullsize">
+
+			        		<div class="modal-content modals-fullsize">
+			                
+			                <!-- Modal body -->
+				                <div class="refund_modal-body">
+				                
+				                	<!-- .title_container : Modal 맨위에 글씨들 박스 -->
+				                	<div class="title_container">
+					                    <div id="cancel_title">환불 신청</div>
+					                    <div id="cancel_orderno">Order&nbsp;#00001010</div>
+					                  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+					                  	<div id="cancel_sub_title">환불을 신청할 상품을 선택하세요.</div>
+				                  	</div>
+				                  	
+				                  	<!-- .prod_container : 스크롤 영역 -->
+				                  	<div class="prod_container">
+				                  	
+				                  		<!-- foreach 여기부터 하면 됨 (아마도..?) -->
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents serial_no">시리얼넘버: 0000111123</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="1">1</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	<!-- foreach 여기까지 끊으면 됨 -->
+					                  	
+				                  	</div>
+				                  	<!-- .prod_container : 스크롤 영역 끝 -->
+				                  	
+				                  	<!-- .modal_footer: 밑에 글씨들 -->
+				                  	<div class="modal_footer modal_contents_size">
+				                  		<div>환불예정금액: 259,000원</div>
+				                  		<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+				                  	</div>
+				                  	<!-- .modal_footer -->
+				                  	<div style="text-align: left;" class=" why_container">
+					                  	<div style="display: inline; margin-right: 70px; text-align: left;">환불사유를 입력해주세요 (최대 50자)</div>
+					                  	<div id="text_cntBox"  style="display: inline;">
+							                <span id="text_cnt">0자</span>
+							                <span>/50자</span>
+							            </div>
+					                  	<div>
+							                <textarea class="col-auto form-control why_content" type="text" 
+							                          placeholder="사유를 50자 이내로 입력해주세요."></textarea>
+							            </div>
+				                  	</div>
+				                  	
+				                  	<div class="terms_chk">
+			                  			<input type="checkbox" name="terms1" value="terms1" style="display: inline" >
+			                  			<div style="display:inline">단순 변심등의 사유는 배송비가 청구될 수 있습니다.</div><br>
+			                  			<input type="checkbox" name="terms2" value="terms2" style="display: inline" >
+			                  			<div style="display:inline">상품 상태에 따라 환불신청이 거부될 수 있습니다.</div>
+			                  		</div>
+				                  	
+				                  	
+				                  	<!-- .modal_btn: 환불신청 버튼 -->
+				                  	<div class="modal_btn modal_contents_size">
+				                  		<button type="button" class="btn btn-dark request_btn">환불신청</button>
+				                  	</div>
+				                  	<!-- .modal_btn -->
+				                </div>
+			         		</div>
+			         	</div>
+			         </div>
+			        
+					<!-- 환불신청 Modal 끝 -->
+
+
+
+					<!-- ======== [교환신청 Modal] ================================================================ -->
+					
+					<!-- 교환신청 Modal 버튼 -->
+			        <span id="refund" type="button" class="link_tag" data-toggle="modal" data-target="#exchange_modal">교환신청</span>
+			        <!-- 교환신청 Modal 버튼 끝 -->  
+			
+			
+					<!-- 환불신청 Modal 시작 -->
+					
+			        <div class="modal fade" id="exchange_modal">
+			        	<div class="modal-dialog modals-fullsize">
+
+			        		<div class="modal-content modals-fullsize">
+			                
+			                <!-- Modal body -->
+				                <div class="refund_modal-body">
+				                
+				                	<!-- .title_container : Modal 맨위에 글씨들 박스 -->
+				                	<div class="title_container">
+					                    <div id="cancel_title">교환 신청</div>
+					                    <div id="cancel_orderno">Order&nbsp;#00001010</div>
+					                  	<button type="button" class="close" data-dismiss="modal">&times;</button>
+					                  	<div id="cancel_sub_title">교환을 신청할 상품을 선택하세요.</div>
+				                  	</div>
+				                  	
+				                  	<!-- .prod_container : 스크롤 영역 -->
+				                  	<div class="prod_container">
+				                  	
+				                  		<!-- foreach 여기부터 하면 됨 (아마도..?) -->
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents serial_no">시리얼넘버: 0000111123</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="색상">블랙</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	<!-- foreach 여기까지 끊으면 됨 -->
+					                  	
+					                  	<!-- 여기부터는 삭제 ㄱㄱ -->
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="1">1</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	
+					                  	<div class="prod_container_each modal_contents_size">
+					                  		<div class="prod_content_chk">
+					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+					                  		</div>
+				                  			<div class="prod_content_img">
+					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  		</div>
+					                  		<div class="prod_contents">
+						                  		<div class="sub_prod_contents">젠몬 01</div>
+						                  		<div class="sub_prod_contents">259,000원</div>
+						                  		<select name="상품아이디_cnt" class="prod_select">
+												  <option value="1">1</option>
+												</select>
+											</div>
+											<div style="clear:both;"></div>
+					                  	</div>
+					                  	<!-- 여기까지 삭제 ㄱㄱ -->
+					                  	
+				                  	</div>
+				                  	<!-- .prod_container : 스크롤 영역 끝 -->
+				                  	
+				                  	<!-- .modal_footer: 밑에 글씨들 -->
+				                  	<div class="modal_footer modal_contents_size">
+				                  		<div>환불예정금액: 259,000원</div>
+				                  		<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+				                  	</div>
+				                  	<!-- .modal_footer -->
+				                  	<div style="text-align: left;" class=" why_container">
+					                  	<div style="display: inline; margin-right: 70px; text-align: left;">교환사유를 입력해주세요 (최대 50자)</div>
+					                  	<div id="text_cntBox"  style="display: inline;">
+							                <span id="text_cnt">0자</span>
+							                <span>/50자</span>
+							            </div>
+					                  	<div>
+							                <textarea class="col-auto form-control why_content" type="text" 
+							                          placeholder="사유를 50자 이내로 입력해주세요."></textarea>
+							            </div>
+				                  	</div>
+				                  	
+				                  	<div class="terms_chk">
+			                  			<input type="checkbox" name="terms1" value="terms1" style="display: inline" >
+			                  			<div style="display:inline">단순 변심등의 사유는 배송비가 청구될 수 있습니다.</div><br>
+			                  			<input type="checkbox" name="terms2" value="terms2" style="display: inline" >
+			                  			<div style="display:inline">상품 상태에 따라 환불신청이 거부될 수 있습니다.</div>
+			                  		</div>
+				                  	
+				                  	
+				                  	<!-- .modal_btn: 교환신청 버튼 -->
+				                  	<div class="modal_btn modal_contents_size">
+				                  		<button type="button" class="btn btn-dark request_btn">교환신청</button>
+				                  	</div>
+				                  	<!-- .modal_btn -->
+				                </div>
+			         		</div>
+			         	</div>
+			         </div>
+			        
+					<!-- 교환신청 Modal 끝 -->
+
+					
+					<!-- ======== [Modal 끝] ================================================================ -->
+
+
+				</td>
 			</tr>
 		</tbody>
 	</table>

@@ -49,55 +49,41 @@
 	/* 상단바 끝 */
 	
 	div#container{
-		width: 55%;
+		width: 50%;
 		margin: 40px auto;
 	}
 	
 	span.boldtxt{
-		display: block;
+		display: inline-block;
 		font-weight: bold;
 		font-size: 11pt;
 	}
 	
-	table {
-		width: 100%;
-		border : 1px solid black; 
+	span.puretxt{
+		display: block;
 		font-size: 10pt;
-		text-align: center;
 	}
 	
-	thead td {
-		font-size: 11.5pt;
-		font-weight: bold;
-		background: black;
-		color: white;
-		height: 45px;
+	ul{
+		padding-bottom :15px;
+		font-size: 10pt;
+		list-style-type: none;
 	}
 	
-	td{
-		padding-left: 9px;
+	label.li_lb{
+		width: 100px;
+		margin-left: 25px;
 	}
 	
-	tr {
-		border-collapse:collapse;
-		border : 1px solid black;
-		height: 40px;
-	}
-	
-	tr:hover{
-		background-color: rgb(235, 235, 235); 
+	label.click:hover{
 		cursor: pointer;
-	}
-	
-	tr > td:first-child{
-		font-weight: bold;
+		color: gray;
 	}
 	
 	.link_tag{
-		font-size: 11pt;
-		color: black;
+		font-size: 10pt;
+		color: gray;
 		text-decoration: underline;
-		font-weight:bold;
 		cursor: pointer;
 	}
 	
@@ -106,41 +92,31 @@
 		width: 120px;
 		height: 35px;
 		border: 1px solid black;
-		font-size: 11pt;
-		font-weight : bold;
-		text-indent: 24px;
+		font-size: 10pt;
+		text-indent: 12px;
 	}
 	
 	select#sort:hover{
 		cursor: pointer;
 	}
 	
-	button#btn_deli{
-		margin-left: 20px;
-		margin-bottom: 20px;
-		width: 120px;
-		height: 35px;
-		font-size: 10pt;
-		background: black;
-		color: white;
-	}
-	
 	input.input_style{
 		display :inline-block;
-		width: 70%;
-		margin: 30px 0 20px 8%;
-		height: 40px;
+		width: 60%;
+		margin-left: 8px;
+		height: 35px;
 		border: 1px solid black;
 		font-size: 10pt;
 		text-indent: 30px;
 	}
 	
-	button#search{
-		width: 120px;
+	button#btn_tracking_num{
+		width: 25%;
 		height: 40px;
 		font-size: 10pt;
 		background: black;
 		color: white;
+		margin : 40px 35% ;
 	}
 	
 </style>
@@ -166,162 +142,130 @@
 
 <div class="border-top"></div>
 <div class="my-5" id="container">
-	<span class="boldtxt mb-3">주문목록</span>
+	<span class="boldtxt">주문목록</span>
+	<span class="link_tag" style="margin-left:15px;">업데이트 09-19 14:20 ㉿</span>
 	
-	<span class="link_tag" style="margin-left:58%;">업데이트 09-19 14:20 ㉿</span>
-	<table>
-		<thead>
-			<tr>
-				<td>구분</td>
-				<td>상태</td>
-				<td>주문번호</td>
-				<td>주문자명</td>
-				<td>주문상품</td>
-				<td>주문날짜</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>주문</td>
-				<td>신규주문</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>주문</td>
-				<td>결제완료</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>주문</td>
-				<td>배송중</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>주문</td>
-				<td>배송완료</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>취소</td>
-				<td>취소요청</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>취소</td>
-				<td>환불완료</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>반품</td>
-				<td>반품요청</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>반품</td>
-				<td>반품수거전</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>반품</td>
-				<td>반품수거중</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>반품</td>
-				<td>반품상품도착</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>반품</td>
-				<td>환불완료</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>교환</td>
-				<td>교환요청</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>교환</td>
-				<td>교환수거전</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>교환</td>
-				<td>교환수거중</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>교환</td>
-				<td>교환상품도착</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>교환</td>
-				<td>교환배송중</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-			<tr>
-				<td>교환</td>
-				<td>교환완료</td>
-				<td>202209190001</td>
-				<td>김지현</td>
-				<td>젠몬01(3), 젠몬02(1)</td>
-				<td>2022-09-19 14:02</td>
-			</tr>
-		</tbody>
-	</table>
 	
-	<input type="search" class="input_style" aria-label="Search" placeholder="주문번호, 상품명, 고객명으로 검색가능합니다."/>
-	<button id="search" type="button">검색</button>
+	<%-- 반복시작 --%>
+	<div class="row mt-4 border">
+		<div  class="col-md-6">
+			<label class="click"><input type="checkbox" name="tracking_num" class="m-4">
+			<span class="boldtxt">주문 배송 &nbsp;&nbsp;&nbsp;&nbsp;(2022.09.20)</span></label>
+			<ul>
+				<li><label class="li_lb">받는분 :</label>김민수</li>
+				<li><label class="li_lb">연락처 :</label>010-1234-5678 </li>
+				<li><label class="li_lb">배송메모 :</label> X</li>
+				<li><label class="li_lb">배송주소 :</label>서울특별시 관악구 청림3마길 28-8</li>
+				<li><label class="li_lb"></label>101동 101호 (우: 08732 )</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<ul style="margin: 45px 0 0 0; padding-left: 0;">
+				<li><span class="boldtxt mb-2">주문번호 26498472692</span></li>
+				<li>젠몬01(3), 멋쟁이 선글라스(1)</li>
+			</ul>
+			<span class="puretxt my-1">운송장 입력</span>
+			<select id="sort" class="mb-3">
+				<option value="cj" selected>CJ대한통운</option> 
+		        <option value="lozen">로젠</option>
+		        <option value="lotte">롯데</option>
+		        <option value="hanjin">한진</option>
+		        <option value="post_office">우체국택배</option>
+			</select>
+		<input type="text" class="input_style"  placeholder="운송장번호를 입력하세요" />
+		</div>
+	</div>
+	<%-- 반복끝 --%>
+	<div class="row mt-4 border">
+		<div  class="col-md-6">
+			<label class="click"><input type="checkbox" name="tracking_num" class="m-4">
+			<span class="boldtxt">교환 배송 &nbsp;&nbsp;&nbsp;&nbsp;(2022.09.20)</span></label>
+			<ul>
+				<li><label class="li_lb">받는분 :</label>김민수</li>
+				<li><label class="li_lb">연락처 :</label>010-1234-5678 </li>
+				<li><label class="li_lb">배송메모 :</label> X</li>
+				<li><label class="li_lb">배송주소 :</label>서울특별시 관악구 청림3마길 28-8</li>
+				<li><label class="li_lb"></label>101동 101호 (우: 08732 )</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<ul style="margin: 45px 0 0 0; padding-left: 0;">
+				<li><span class="boldtxt mb-2">주문번호 26498472692</span></li>
+				<li>시리얼넘버 32468256387</li>
+				<li>젠몬01(3), 멋쟁이 선글라스(1)</li>
+			</ul>
+			<span class="puretxt my-1">운송장 입력</span>
+			<select id="sort" class="mb-3">
+				<option value="cj" selected>CJ대한통운</option> 
+		        <option value="lozen">로젠</option>
+		        <option value="lotte">롯데</option>
+		        <option value="hanjin">한진</option>
+		        <option value="post_office">우체국택배</option>
+			</select>
+		<input type="text" class="input_style"  placeholder="운송장번호를 입력하세요" />
+		</div>
+	</div>
+	<div class="row mt-4 border">
+		<div  class="col-md-6">
+			<label class="click"><input type="checkbox" name="tracking_num" class="m-4">
+			<span class="boldtxt">교환 수거 &nbsp;&nbsp;&nbsp;&nbsp;(2022.09.20)</span></label>
+			<ul>
+				<li><label class="li_lb">보내는 분 :</label>김민수</li>
+				<li><label class="li_lb">연락처 :</label>010-1234-5678 </li>
+				<li><label class="li_lb">배송메모 :</label> X</li>
+				<li><label class="li_lb">배송주소 :</label>서울특별시 관악구 청림3마길 28-8</li>
+				<li><label class="li_lb"></label>101동 101호 (우: 08732 )</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<ul style="margin: 45px 0 0 0; padding-left: 0;">
+				<li><span class="boldtxt mb-2">주문번호 26498472692</span></li>
+				<li>시리얼넘버 32468256387</li>
+				<li>젠몬01(3), 멋쟁이 선글라스(1)</li>
+			</ul>
+			<span class="puretxt my-1">운송장 입력</span>
+			<select id="sort" class="mb-3">
+				<option value="cj" selected>CJ대한통운</option> 
+		        <option value="lozen">로젠</option>
+		        <option value="lotte">롯데</option>
+		        <option value="hanjin">한진</option>
+		        <option value="post_office">우체국택배</option>
+			</select>
+		<input type="text" class="input_style"  placeholder="운송장번호를 입력하세요" />
+		</div>
+	</div>
+	<div class="row mt-4 border">
+		<div  class="col-md-6">
+			<label class="click"><input type="checkbox" name="tracking_num" class="m-4">
+			<span class="boldtxt">반품 수거 &nbsp;&nbsp;&nbsp;&nbsp;(2022.09.20)</span></label>
+			<ul>
+				<li><label class="li_lb">보내는 분 :</label>김민수</li>
+				<li><label class="li_lb">연락처 :</label>010-1234-5678 </li>
+				<li><label class="li_lb">배송메모 :</label> X</li>
+				<li><label class="li_lb">배송주소 :</label>서울특별시 관악구 청림3마길 28-8</li>
+				<li><label class="li_lb"></label>101동 101호 (우: 08732 )</li>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<ul style="margin: 45px 0 0 0; padding-left: 0;">
+				<li><span class="boldtxt mb-2">주문번호 26498472692</span></li>
+				<li>시리얼넘버 32468256387</li>
+				<li>젠몬01(3), 멋쟁이 선글라스(1)</li>
+			</ul>
+			<span class="puretxt my-1">운송장 입력</span>
+			<select id="sort" class="mb-3">
+				<option value="cj" selected>CJ대한통운</option> 
+		        <option value="lozen">로젠</option>
+		        <option value="lotte">롯데</option>
+		        <option value="hanjin">한진</option>
+		        <option value="post_office">우체국택배</option>
+			</select>
+		<input type="text" class="input_style"  placeholder="운송장번호를 입력하세요" />
+		</div>
+	</div>
+	
+	<%-- 버튼 --%>
+	<button id="btn_tracking_num" type="button">운송장 일괄등록</button>
 </div>
 
 <jsp:include page="footer.jsp" />
