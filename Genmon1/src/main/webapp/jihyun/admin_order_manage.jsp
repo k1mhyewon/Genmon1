@@ -181,6 +181,7 @@
         <option value="cancel">취소</option>
         <option value="return">반품</option>
         <option value="excahnge">교환</option>
+        <option value="end">완료</option>
 	</select>
 	<span class="link_tag" style="margin-left:58%;">업데이트 09-19 14:20 ㉿</span>
 	<button type="button" id="btn_deli" onclick="click_event()">배송등록</button>
