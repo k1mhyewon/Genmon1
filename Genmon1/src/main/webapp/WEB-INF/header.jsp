@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
     String ctxPath = request.getContextPath();
-    //    /MyMVC
+    //    /Genmon1
 %>
 <!DOCTYPE html>
 <html>
@@ -155,7 +157,7 @@
 </style>
 
 <!-- Optional JavaScript -->
-<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js"" type="text/javascript" ></script>
+<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js" type="text/javascript" ></script>
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript" ></script>
 <script>
 
@@ -180,7 +182,16 @@
             }
         });
         
+        // 로그인 버튼을 누르면
+        $("button#btn_login").click(function(){
+        	location.href="<%= ctxPath%>/login.sun";
+			
+		}); // end of $("button#btnSubmit").click() --------------
+        
     });
+    
+    
+
 
 </script>
 
@@ -229,7 +240,7 @@
         <!-- Modal 버튼 -->
         <button id="search" type="button" class="btn btn-light" data-toggle="modal" data-target="#search_modal"> 
             검색
-          </button>
+        </button>
         <!-- Modal 버튼 끝 -->  
 
           <!-- Modal -->
@@ -289,6 +300,15 @@
           </div>
         <!-- Modal 끝 -->
         
-        
+        <c:if test="${ empty sessionScope.email }">
+	        <button type="button" id="btn_login"> 
+	            로그인
+	        </button>
+        </c:if>
+        <c:if test="${ not empty sessionScope.email }">
+	        <button type="button" id="btn_logout" > 
+	            로그아웃
+	        </button>
+        </c:if>
     </nav>
     <%-- 상단바 끝 --%>

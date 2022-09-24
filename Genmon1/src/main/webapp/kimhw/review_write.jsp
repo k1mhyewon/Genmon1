@@ -119,8 +119,6 @@ div#reviewTbl {
 
 	$(document).ready(function(){
 		
-		
-		
 		// 리뷰내용 글자수 200자 제한 -------------------------------------------------
 		$('#rev_content').keyup(function (e) {
 			let rev_content = $(this).val();
@@ -138,8 +136,6 @@ div#reviewTbl {
 		        $(this).val($(this).val().substring(0, 200));
 		    };
 		}); // end of $('#rev_content').keyup() ---------------------------------
-		
-		
 		
 	}); // end of $(document).ready() ---------------
 	
