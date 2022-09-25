@@ -182,11 +182,18 @@
             }
         });
         
-        // 로그인 버튼을 누르면
+        // 홈화면 헤더에서 로그인 버튼을 누르면
         $("button#btn_login").click(function(){
         	location.href="<%= ctxPath%>/login.sun";
 			
-		}); // end of $("button#btnSubmit").click() --------------
+		}); // end of $("button#btn_login").click() --------------
+		
+		
+		// 홈화면 헤더에서 로그아웃 버튼을 누르면
+        $("button#btn_logout").click(function(){
+        	location.href="<%= ctxPath%>/logout.sun";
+			
+		}); // end of $("button#btn_logout").click() --------------
         
     });
     
@@ -300,12 +307,12 @@
           </div>
         <!-- Modal 끝 -->
         
-        <c:if test="${ empty sessionScope.email }">
+        <c:if test="${ empty sessionScope.loginuser }">
 	        <button type="button" id="btn_login"> 
 	            로그인
 	        </button>
         </c:if>
-        <c:if test="${ not empty sessionScope.email }">
+        <c:if test="${ not empty sessionScope.loginuser }">
 	        <button type="button" id="btn_logout" > 
 	            로그아웃
 	        </button>

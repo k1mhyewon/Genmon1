@@ -1,11 +1,12 @@
 
 
 
+---- *** 테스트용 회원테이블 생성 *** ----
 create table tbl_member_test
-(userid             varchar2(40)             -- 회원아이디
-,pwd                varchar2(200)            -- 비밀번호 (SHA-256 암호화 대상)
-,name               varchar2(30)             -- 회원명
-,email              varchar2(200)            -- 이메일 (AES-256 암호화/복호화 대상)
+(userid             varchar2(40)   not null  -- 회원아이디
+,pwd                varchar2(200)  not null  -- 비밀번호 (SHA-256 암호화 대상)
+,name               varchar2(30)   not null  -- 회원명
+,email              varchar2(200)  not null  -- 이메일 (AES-256 암호화/복호화 대상)
 ,mobile             varchar2(200)            -- 연락처 (AES-256 암호화/복호화 대상) 
 ,postcode           varchar2(5)              -- 우편번호
 ,address            varchar2(200)            -- 주소
@@ -19,8 +20,13 @@ create table tbl_member_test
 ,lastpwdchangedate  date default sysdate     -- 마지막으로 암호를 변경한 날짜  
 ,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
 ,idle               number(1) default 0 not null     -- 휴면유무      0 : 활동중  /  1 : 휴면중 
+,constraint PK_tbl_member_userid primary key(userid)
+,constraint UQ_tbl_member_email  unique(email)
+,constraint CK_tbl_member_gender check( gender in('1','2') )
+,constraint CK_tbl_member_status check( status in(0,1) )
+,constraint CK_tbl_member_idle check( idle in(0,1) )
 );
--- Table TBL_MEMBER_TEST이(가) 생성되었습니다.
+-- Table TBL_MEMBER이(가) 생성되었습니다.
 
 
 insert into tbl_member_test(userid, pwd, name, email, mobile, postcode, address, detailaddress, 
@@ -31,7 +37,18 @@ insert into tbl_member_test(userid, pwd, name, email, mobile, postcode, address,
 select *
 from tbl_member_test;
 
--- ?????
-                    
+show user;
+
+select * from tab;
+
+
+
+create table tbl_login_history_test
+( fk_userid      varchar2(40)         not null  -- 회원아이디
+, logindate      date default sysdate not null
+, clientip       varchar2(20)         not null  -- 123.456.789.123
+, constraint     FK_tbl_login_history_fk_userid foreign key(fk_userid) references tbl_member(userid)
+);
+Table TBL_LOGIN_HISTORY이(가) 생성되었습니다.
                     
                     
