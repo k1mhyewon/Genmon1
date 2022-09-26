@@ -100,17 +100,18 @@
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
 		       		<a href="#"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
 					<div style="margin-top: 5%; font-size: 11px; ">
-						<ul id="gender" name="gender">성별&nbsp;&nbsp;: </ul>
-						<ul id="name" name="name">이름&nbsp;&nbsp;: </ul>
-						<ul id="birth" name="birth">생년월일&nbsp;&nbsp;: </ul>
-						<ul id="email" name="email">이메일&nbsp;&nbsp;: </ul>
-						<ul id="gender" name="gender">주소&nbsp;&nbsp;:
+						<ul>
+							<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
+							<li id="name" name="name">이름&nbsp;&nbsp;: </li>
+							<li id="birth" name="birth">생년월일&nbsp;&nbsp;: </li>
+							<li id="email" name="email">이메일&nbsp;&nbsp;: </li>
+							<li id="gender" name="gender">주소&nbsp;&nbsp;: </li>
+						</ul>
 							<%-- <c:if test="">
 				    				<div>저장된 주소가 없습니다</div>
 				    				<button id="btn_adradd">새로운 주소 추가</button>
 				   				</c:if>
 				   			--%>	
-						</ul>
 						 
 					</div>
 	        	</div>
