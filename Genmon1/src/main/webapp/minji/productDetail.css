@@ -1,0 +1,228 @@
+@charset "UTF-8";
+
+	.whole-box { 
+	/* 	border: solid 1px green; */
+		position: static;
+		width: 97%;
+		margin-left: 2%;
+	}
+	
+	.item-info-box {
+	/* 	border: solid 1px blue; */
+		position: relative;
+		float: right;
+		/* padding: 3% 0 0 0; */
+		left: -1%;
+		margin-top: 10%;
+	}
+	
+	.item-info-cotent-box {
+		width: 100%;
+	}
+	.item-info-cotent {
+		width: 100%;
+	}
+	
+	.item-name {
+		width: 45%;
+		box-sizing: border-box;
+		float: left;
+		font-size: 15pt;
+		font-weight: bold;
+		margin-right: 5%; 
+		
+	}
+	
+	.item-price {
+		width: 50%;
+		box-sizing: border-box;
+		float: right;
+		font-weight: bold;
+		text-align: center;
+		padding: 2% 0 0 0 ;
+	}
+	
+	.item-info-color-box {
+		padding: 15% 0% 10% 0%;
+		width: 110%;
+	}
+	
+	.item-info-color {
+		clear: right;
+		width: 100%;
+		margin: 0;
+		padding: 0%;
+	}
+	
+	.color-list {
+	/* 	border: 1px gray solid; */
+		list-style-type: none;
+		margin: 0;
+		padding: 0
+	}
+	
+	.color-img {
+		display: inline;
+	}
+	
+	.admin-review {
+		text-align: center;
+	}
+	
+	.color-real-img {
+		padding: 2% 5% 2% 0;
+		width: 20%;
+	}
+	
+	.item-info-description-box {
+		width: 100%;
+	/* 	border: 1px gray solid; */
+	}
+	
+	.item-info-description {
+		font-size: 11pt;
+		letter-spacing: 10%;
+		word-spacing: 5%;
+	}
+	
+	.add-option-btn {
+	/* 	border: solid 1px gray; */
+		width: 85%;
+	}
+	
+	a, a:visited, a:hover, a:active {
+	  	color: inherit;
+	}
+	
+	input, button{
+		border:none;
+	  /*border-radius:4px 가능 */
+	}
+	
+	input:focus, input:active,
+	button:focus, button:active {
+		outline: none;
+		box-shadow: none;
+	}
+	
+	.collapse-whole {
+	/* 	border: solid 1px gray; */
+		width: 100%;
+	}
+	
+	.btn btn-outline-dark btn-block {
+		border: none;
+		text-align: left;
+	}
+
+	.accordion-whole {
+		width: 85%;
+	}
+	
+	.accordion-item {
+		text-align: left;
+	}
+	
+	.accordion-button collapsed {
+		padding: 0%;
+	}
+	
+	.img-row-box {
+	/* 	border: solid 1px red; */
+		width: 67%;
+	}
+
+	.img-row {
+		position: relative;
+	}
+	
+	.sun-row {
+		margin: 0% 5% 5% 0%;
+		display: inline-block;
+	/* 	border: solid 1px yellow; */
+		margin: 0% 15% 5% 0%;
+		width: 30%;
+		height: 30%;
+	}
+	
+	.sunglasses-image {
+	/* 	border: solid 1px pink; */
+		object-fit: fill;
+		width: 140%; 
+		overflow: hidden;
+		object-fit: cover;
+	}
+	
+	.related-box {
+		margin-top: 5%;
+		clear: left;
+	} 
+	
+	.related-title {
+		font-size: 14pt;
+		margin-bottom: 5%;
+		font-weight: bold;
+	}
+	
+	.related-item {
+		padding: 0
+	}
+	.related-item-list {
+		display: inline-block;
+		margin-right: 1%;
+	}
+
+	.related-go {
+		display: inline-block;
+		list-style: none;
+		margin-top: 5%;
+		padding: 0;
+		
+	}
+	
+	.sun-title {
+		font-size: 11pt;
+		font-weight: bold;
+	}
+	
+	.sun-price {
+		font-size: 11pt;
+	}
+	
+	.sun-color {
+		margin-top: 5%;
+		font-size: 10pt;
+	}
+	
+	.color-count {
+		color: rgba(181, 41, 41, 0.78);
+	}
+	
+	/* footer-navbar 하단메뉴바 */
+	    
+	    .footer-navbar {
+	    	 width: 20%;
+	    	 height: auto;
+	    	 background: #fff;
+		     border-top: 1px solid #a1a1a1;
+		     border-left: 1px solid #a1a1a1;
+	    }
+   	
+	    .container-fluid {
+	   		clear:both;
+	 	    border: 1px black green;
+	    	margin-top: 1%;
+	    	text-align: center; 
+	    	padding: 0;
+	    }
+	    
+	    .footer-bar__btn {
+	    	float: right; 
+	    	cursor: pointer;
+	    	margin-top: 4%;
+	    	margin-bottom: 4%; 
+	    	margin-right: 15%; 
+	    	font-size: 11pt;
+	    	font-weight: bold;
+
+	    }

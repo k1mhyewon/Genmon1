@@ -73,6 +73,15 @@ div#reviewTbl {
         font-size: 10pt;
     }
     
+    #text_cntBox {
+        /* border: solid 1px gray;  */
+        text-align: right;
+        font-size: 9pt;
+        margin-bottom: 40px;
+    }
+    
+    
+    
     
     
     
@@ -83,34 +92,64 @@ div#reviewTbl {
     border:0;
     margin-bottom: 25px;
     }
-    #myform fieldset legend{
+    #reviewFrm fieldset legend{
         text-align: right;
     }
-    #myform input[type=radio]{
+    #reviewFrm input[type=radio]{
         display: none;
     }
-    #myform label{
+    #reviewFrm label{
         font-size: 30pt;
         color: transparent;
         text-shadow: 0 0 0 #f0f0f0;
     }
-    #myform label:hover{
+    #reviewFrm label:hover{
         text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
     }
-    #myform label:hover ~ label{
+    #reviewFrm label:hover ~ label{
         text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
     }
-    #myform input[type=radio]:checked ~ label{
+    #reviewFrm input[type=radio]:checked ~ label{
         text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
     }
-
 </style>
+
+<script type="text/javascript">
+
+
+	$(document).ready(function(){
+		
+		// 리뷰내용 글자수 200자 제한 -------------------------------------------------
+		$('#rev_content').keyup(function (e) {
+			let rev_content = $(this).val();
+		    
+		    // 글자수 세기
+		    if (rev_content.length == 0 || rev_content == '') {
+		    	$('#text_cnt').text('0자');
+		    } else {
+		    	$('#text_cnt').text(rev_content.length + '자');
+		    }
+		    
+		    // 글자수 제한
+		    if (rev_content.length > 200) {
+		    	// 200자 부터는 타이핑이 안되게
+		        $(this).val($(this).val().substring(0, 200));
+		    };
+		}); // end of $('#rev_content').keyup() ---------------------------------
+		
+	}); // end of $(document).ready() ---------------
+	
+	
+
+	
+	
+</script>
 
 <%-- 인덱스 시작 --%>
 
     <div id="reviewTbl">
         <div id="rev_title">리뷰작성</div>
-        <form class="mb-3" name="myform" id="myform" method="post">
+        <form class="mb-3" name="reviewFrm" id="reviewFrm" method="post">
             <select id="rev_category" name="rev_category">
                 <option value ="select_prod">제품선택</option>
                 <option value ="prod_1">제품1</option>
@@ -135,6 +174,10 @@ div#reviewTbl {
             <div>
                 <textarea class="col-auto form-control" type="text" id="rev_content"
                           placeholder="리뷰내용을 입력해주세요."></textarea>
+            </div>
+            <div id="text_cntBox">
+                <span id="text_cnt">0자</span>
+                <span>/200자</span>
             </div>
             <p>파일첨부</p>
             <input type="file" name="photo" id="photo" />

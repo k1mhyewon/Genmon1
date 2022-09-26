@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>GENTLE MONSTER Officail Site</title>
+<title>GENTLE MONSTER Official Site</title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
@@ -14,13 +14,19 @@
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<!-- 폰트 -->
-<link href="//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica" rel="stylesheet" type="text/css"/>
-<style type="text/css">
+<!-- 폰트 - 영어 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<!-- 폰트 - 한글 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
 
     /* 폰트 적용(헬베티카) */
     @import url(//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica);
-    #logo, #footer_logo {font-family: "Helvetica"; src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot"); src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff") format("woff"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.svg#Helvetica") format("svg"); }
+    #logo, #footer_logo, .text-area__title, .text-area__sub-title {font-family: 'Roboto Condensed', sans-serif;}
     
     div.toast { 
         max-width: 100%; 
@@ -68,9 +74,84 @@
         cursor: pointer;
     }
     
-    nav{
-    	border: solid 1px pink;
+    /* 모달 */
+    
+    #search {
+        border: solid 1px pink;
+        font-size: 10pt;
     }
+
+    .modal-dialog.modal-fullsize {
+    width: 100%;
+    max-width:100%;
+    height: 40%;
+    margin-top: 44px;
+    padding: 0;
+    }
+
+    .modal-content.modal-fullsize {
+    height: auto;
+    min-height: 100%;
+    border-radius: 0;
+    }
+
+    #search_input {
+        width: 40%;
+        height: 30px;
+        margin-left: 30%;
+        font-size: 10pt;
+        border-radius: 15px 15px 15px 15px;
+        padding-left: 20px;
+    }
+
+    .navbar-popular {
+        font-weight: bold;
+        font-size: 10pt;
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .popular-link {
+        color: black;
+    }
+    .popular-link:hover {
+        text-decoration: none;
+        color:gray;
+    }
+
+    #popular_title {
+        margin-bottom: 20px;
+        color: gray;
+    }
+
+    #popular_box {
+        /* border: solid 1px pink; */
+        width: 10%;
+        margin: 35px 0 0 30%;
+        float: left;
+    }
+
+    #collection_box {
+        /* border: solid 1px gray; */
+        float: left;
+        width: 30%;
+        margin-top: 35px;
+        font-size: 10pt;
+        color: gray;
+        font-weight: bold;
+    }
+
+    .collections {
+        /* border: solid 1px pink; */
+        float: left;
+        width: 100px;
+        height: 100px;
+        font-size: 9pt;
+        color: black;
+        margin-top: 20px;
+    }
+    
+    /* 모달 */
 
 </style>
 
@@ -141,6 +222,71 @@
               </li>     
           </ul>
         </div>  
+        
+        
+        <!-- Modal 버튼 -->
+        <button id="search" type="button" class="btn btn-light" data-toggle="modal" data-target="#search_modal"> 
+            검색
+          </button>
+        <!-- Modal 버튼 끝 -->  
+
+          <!-- Modal -->
+          <!-- Modal 구성 요소는 현재 페이지 상단에 표시되는 대화 상자/팝업 창입니다. -->
+          <div class="modal fade" id="search_modal">
+            <div class="modal-dialog modal-fullsize">
+            <!-- .modal-dialog 클래스를 사용하여 <div> 요소에 크기 클래스를 추가합니다. -->
+              <div class="modal-content modal-fullsize">
+                
+                <!-- Modal header -->
+                
+                <!-- Modal body -->
+                
+                <div class="modal-body">
+                    <input type="text" id="search_input" name="search_input" placeholder="검색어를 입력하세요."  />
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <div id="popular_box">
+                    <ul class="navbar-popular" >
+                        <div id="popular_title">인기검색어</div>
+                        <li>
+                          <a class="popular-link" href="#">릴리트 01</a>
+                        </li>
+                        <li>
+                          <a class="popular-link" href="#">로지 01</a>
+                        </li>
+                        <li>
+                          <a class="popular-link" href="#">르 01</a>
+                        </li>
+                        <li>
+                            <a class="popular-link" href="#">로셀 01</a>
+                        </li>     
+                      </ul>
+                  </div>
+                  <div id="collection_box">
+                    <div>다양한 컬렉션을 만나보세요</div>
+                    <div>
+                        <div class="collections">
+                            <a href="#">
+                            	<img src="le_iv1_1.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                            </a>
+                            <div style="margin-top: 10px;">베스트셀러</div>
+                        </div>
+                        <div class="collections">
+                        	<a href="#">
+                            	<img src="le_01.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                            </a>
+                            <div style="margin-top: 10px;">캣아이프레임</div>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                  </div>
+                  <div style="clear:both;"></div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        <!-- Modal 끝 -->
+        
         
     </nav>
     <%-- 상단바 끝 --%>

@@ -83,12 +83,8 @@
  function fnImgPop(url){
   var img=new Image();
   img.src=url;
-  var img_width=300;
-  var win_width=img.width+25;
-  var img_height=500;
-  var win=img.height+30;
-  var OpenWindow=window.open('','_blank', 'width='+img_width+', height='+img_height+', menubars=no, scrollbars=auto');
-  OpenWindow.document.write("<style>body{margin:0px;}</style><img src='"+url+"' width='"+win_width+"'>");
+  var OpenWindow=window.open('','_blank', 'width=500px', 'height=auto', 'menubars=no', 'scrollbars=auto');
+  OpenWindow.document.write("<style>body{margin:0px;}</style><img src='"+url+"' width='500px'>");
  }
 
 </script>
