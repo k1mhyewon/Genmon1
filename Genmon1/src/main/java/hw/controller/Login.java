@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
+import hw.model.InterMemberDAO;
+import hw.model.MemberDAO;
+import common.model.MemberVO;
 
 
 public class Login extends AbstractController {

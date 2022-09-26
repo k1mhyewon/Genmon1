@@ -17,7 +17,7 @@
     
     div#login_container > ul > li > label, p{
     	display: block;
-    	font-size: 12px;
+    	font-size: 9pt;
     	
     }
     
