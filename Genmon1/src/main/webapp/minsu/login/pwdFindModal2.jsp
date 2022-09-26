@@ -3,28 +3,28 @@
     
 <style type="text/css">
 
+	
+
 	form#frm_infoupdate {
-		margin-bottom: 20%;
+		margin-bottom: 20px;
+		
 	}
 	
 	button#btn_pwdupdateEnd {
 		background-color: black;
 		color: white;
-		width: 30%;
 		display: block;
 		line-height: 200%;
 		margin: 7% 0 0 30%;
 	}
 	
 	div#frm_pwdupdate {
-		border: solid 1px orange;
-		margin-left:20%;
+		
 		display: inline-block;
-		width: 30%;
 		font-size: 12px;
 		margin-top: 10%;
 		left: 15%;
-    	position: absolute;
+    	position: flex;
 	}
 	
 	section#section_pwd > ul {
@@ -42,10 +42,11 @@
 	.first_error, .error {
   		font-size: 11px;
   		color:red;
+  		
   	}
 
 </style>
-<form>
+<form id="frm_container">
 	<div id="frm_pwdupdate">
 		<section id="section_pwd">
 			  <ul>

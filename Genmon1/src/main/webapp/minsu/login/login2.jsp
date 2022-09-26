@@ -44,12 +44,7 @@
 
 $(document).ready(function(){});
 
-	// == 이메일찾기 팝업창 띄우기 === // 
-	function emailFindPopup() { window.open("emailFind.jsp", "이메일찾기", "width=400, height=320, left=100, top=50" ); }
-
-	// == 비밀번호찾기 팝업창 띄우기 === // 
-	function pwdFindPopup() { window.open("pwdFindModal1.jsp", "이메일찾기", "width=400, height=320, left=100, top=50"); }
-
+	
 
 
 
@@ -73,8 +68,8 @@ $(document).ready(function(){});
         	
         	
         	<span> 
-        	   <button type='button' value="팝업창 호출" id="modal_btn" onclick="emailFindPopup();" style="margin-left: 7%;"> 이메일 찾기</button> 
-               <button type='button' value="팝업창 호출" id="modal_btn" onclick="pwdFindPopup();"> 비밀번호 찾기</button> 
+	        	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#emailFindModal"style="margin-left: 7%;">이메일찾기</button>
+	        	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#pwdFindModal">비밀번호</button>
             </span> 
            
            												
@@ -88,9 +83,32 @@ $(document).ready(function(){});
         	
         </div>
     </div>    	
+    
+    
+    <!-- 이메일 찾기 Modal  -->
+<div class="modal fade" id="emailFindModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+		<h4 class="modal-title" id="myModalLabel">아이디찾기</h4>
+        <button type="button" class="close " data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+
+      <div class="modal-body">
+        <iframe id="iframe_emailFind" style="border: none; width: 500px; height: 350px;" src="http://localhost:9090/Genmon/minsu/login/emailFind.jsp">
+        </iframe>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+	
         	
     <!-- 인덱스 끝 -->
 <jsp:include page="/minsu/footer.jsp" />
 
-
-	

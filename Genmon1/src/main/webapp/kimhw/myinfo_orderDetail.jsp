@@ -272,9 +272,9 @@
 		    
 		    // 글자수 세기
 		    if (rev_content.length == 0 || rev_content == '') {
-		    	$('#text_cnt').text('0자');
+		    	$('.text_cnt').text('0자');
 		    } else {
-		    	$('#text_cnt').text(rev_content.length + '자');
+		    	$('.text_cnt').text(rev_content.length + '자');
 		    }
 		    
 		    // 글자수 제한
@@ -490,7 +490,7 @@
 				                  	<div style="text-align: left;" class=" why_container">
 					                  	<div style="display: inline; margin-right: 70px; text-align: left;">환불사유를 입력해주세요 (최대 50자)</div>
 					                  	<div id="text_cntBox"  style="display: inline;">
-							                <span id="text_cnt">0자</span>
+							                <span class="text_cnt">0자</span>
 							                <span>/50자</span>
 							            </div>
 					                  	<div>
@@ -617,7 +617,7 @@
 				                  	<div style="text-align: left;" class=" why_container">
 					                  	<div style="display: inline; margin-right: 70px; text-align: left;">교환사유를 입력해주세요 (최대 50자)</div>
 					                  	<div id="text_cntBox"  style="display: inline;">
-							                <span id="text_cnt">0자</span>
+							                <span class="text_cnt">0자</span>
 							                <span>/50자</span>
 							            </div>
 					                  	<div>
