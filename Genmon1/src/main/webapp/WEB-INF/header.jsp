@@ -221,26 +221,26 @@
 
 
     <%-- 상단바 시작 --%>
-    <nav class="navbar navbar-expand-md" >
-        <a class="navbar-brand" href="#"><span id="logo">GENTLE MONSTER</span></a>
-        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-          <span class="navbar-toggler-icon"><i class="fab fa-windows fa-lg"></i></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav" style="margin: auto 2% auto 25%;">
-            <li class="nav-item">
-              <a class="nav-link" href="#">브랜드</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">선글라스</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">스타일</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">고객서비스</a>
-              </li>     
-          </ul>
+	<nav class="navbar navbar-expand-md" >
+		<a class="navbar-brand" href="<%= ctxPath%>/index.sun"><span id="logo">GENTLE MONSTER</span></a>
+		<button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"><i class="fab fa-windows fa-lg"></i></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav" style="margin: auto 2% auto 25%;">
+				<li class="nav-item">
+					<a class="nav-link" href="#">브랜드</a>
+	            </li>
+	            <li class="nav-item">
+					<a class="nav-link" href="#">선글라스</a>
+	            </li>
+	            <li class="nav-item">
+					<a class="nav-link" href="#">스타일</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#">고객서비스</a>
+				</li>     
+			</ul>
         </div>  
         
         

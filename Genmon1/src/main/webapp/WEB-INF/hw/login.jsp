@@ -197,7 +197,7 @@
         	
         	<ul><li>
         		<label for="pwd">비밀번호</label>
-        		<input type="text" name="pwd" class="input_login" id="loginPwd" required/>
+        		<input type="password" name="pwd" class="input_login" id="loginPwd" required/>
         	</li></ul>
         	
         	<div class="save_box">
