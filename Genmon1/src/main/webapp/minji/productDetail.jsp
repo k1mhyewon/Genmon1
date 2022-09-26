@@ -3,7 +3,7 @@
     
 <jsp:include page="header.jsp" />
 
-<link rel="stylesheet" type="text/css" href="productdetail2.css">
+<link rel="stylesheet" type="text/css" href="productDetail.css">
 <style type="text/css">
 </style>
 
@@ -168,29 +168,18 @@
        	 </div>	
       </div>
 	
-	
-	
-	  	<%-- 제품 상세 이미지 박스--%>
-	  	<div class="img-whole-box">
+	  <%-- 제품 상세 이미지 박스 --%>
 	  		<div class="img-row-box"> 
 		      <div class="img-row">
-			        <div class="sun-row"><img src="images/릴리트01상세.jpg" alt="" class="sunglasses-image"></div>
+			        <div class="sun-row"><img src="images/릴리트01정면.jpg" alt="" class="sunglasses-image"></div>
 			        <div class="sun-row"><img src="images/릴리트착샥02.jpg" alt="" class="sunglasses-image"></div>
-			   </div>   
-			   <div class="img-row">     
-			        <div class=""><img src="images/릴리트01착샷.jpg" alt="" class="sunglasses-image"></div>
-			        <div class=""><img src="images/릴리트착샥02.jpg" alt="" class="sunglasses-image"></div>
-			   </div>     
-			   <div class="img-row">     
-			        <div class=""><img src="images/릴리트01상세.jpg" alt="" class="sunglasses-image" ></div>
-			        <div class=""><img src="images/릴리트01상세.jpg" alt="" class="sunglasses-image" ></div>
-			   </div> 
-			   <div class="img-row">     
-			        <div class=""><img src="images/릴리트파우치.jpg" alt="" class="sunglasses-image" ></div>
-			        <div class=""><img src="images/릴리트01상세.jpg" alt="" class="sunglasses-image" ></div>
+			        <div class="sun-row"><img src="images/릴리트01상세.jpg" alt="" class="sunglasses-image"></div>
+			        <div class="sun-row"><img src="images/릴리트01착샷.jpg" alt="" class="sunglasses-image"></div>
+			        <div class="sun-row"><img src="images/릴리트옆면.jpg" alt="" class="sunglasses-image" ></div>
+			        <div class="sun-row"><img src="images/릴리트01옆.jpg" alt="" class="sunglasses-image" ></div>
+			        <div class="sun-row"><img src="images/릴리트파우치.jpg" alt="" class="sunglasses-image" ></div>
 			   </div> 
 	 		</div>
-	 	</div>	
 	 
 					     
  
@@ -199,7 +188,8 @@
          <div class="related-title">릴리트01과 비슷한 추천제품을 만나보세요</div>
        		<ul class="related-item">
        			<li class="related-item-list">
-  					<a href="" class="related-img"><img alt="" src="images/릴리트01상세.jpg"></a>
+       			<div class="related-deep-box">
+  					<div><a href="" class="related-img"><img alt="" src="images/related/디디온01(G)1.jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
       						<li class=""><a href="#" class="link">로셀 01</a></li>
@@ -207,9 +197,11 @@
       						<li class=""><a href="#" class="link">+5 Colors</a></li>
       					</ul>
    					</div>
+   				</div>
        			</li>
         		<li class="related-item-list">
-  					<a href="" class="related-img"><img alt="" src="images/릴리트01상세.jpg"></a>
+        		<div class="related-deep-box">
+  					<div><a href="" class="related-img"><img alt="" src="images/related/로셀BC5(1).jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
       						<li class=""><a href="#" class="link">로셀 01</a></li>
@@ -217,9 +209,11 @@
       						<li class=""><a href="#" class="link">+5 Colors</a></li>
       					</ul>
        				</div>
+       			</div>	
        			</li>
        			<li class="related-item-list">
-  					<a href="" class="related-img"><img alt="" src="images/릴리트01상세.jpg"></a>
+       			<div class="related-deep-box">
+  					<div><a href="" class="related-img"><img alt="" src="images/related/모마티01(OR)2.jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
       						<li class=""><a href="#" class="link">로셀 01</a></li>
@@ -227,9 +221,11 @@
       						<li class=""><a href="#" class="link">+5 Colors</a></li>
       					</ul>
        				</div>
+       			</div >
        			</li>
        			<li class="related-item-list">
-  					<a href="" class="related-img"><img alt="" src="images/릴리트01상세.jpg"></a>
+       			<div class="related-deep-box">
+  					<div><a href="" class="related-img"><img alt="" src="images/related/밀01(K)1.jpg"></a></div>
       				<div class="related-item-info-box">
       					<ul class="related-go">
       						<li class=""><a href="#" class="link">로셀 01</a></li>
@@ -237,6 +233,19 @@
       						<li class=""><a href="#" class="link">+5 Colors</a></li>
       					</ul>
        				</div>
+       			</div>
+       			</li>
+       			<li class="related-item-list">
+       			<div class="related-deep-box">
+  					<div><a href="" class="related-img"><img alt="" src="images/related/밀Y2(1).jpg"></a></div>
+      				<div class="related-item-info-box">
+      					<ul class="related-go">
+      						<li class=""><a href="#" class="link">로셀 01</a></li>
+      						<li class=""><a href="#" class="link" style="margin: 0;">259,000원</a></li>
+      						<li class=""><a href="#" class="link">+5 Colors</a></li>
+      					</ul>
+       				</div>
+       			</div>
        			</li>
         	</ul>
        	</div>
