@@ -2,12 +2,19 @@
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/minsu/header.jsp" />
-<jsp:include page="myinfoMenu.jsp" />
+<jsp:include page="myinfo_sideMenu.jsp" />
 
 <style type="text/css">
 
-	form#frm_infoupdate {
-		margin-bottom: 20%;
+	div#container {
+	 	display: inline-block;
+	 	
+	}
+
+	form#frm_adrupdateMenu {
+		vertical-align: top;
+		top: -150px;
+	 	position: relative;
 	}
 	
 	button.btn {
@@ -16,21 +23,17 @@
 		width: 30%;
 		display: block;
 		line-height: 200%;
-		margin: 7% 0 0 30%;
+		margin: 5% 0 0 30%;
 	}
 	
-	div#menu_adrupdate {
-		/* border: solid 1px orange; */
-		margin-left:20%;
-		display: inline-block;
-		width: 35%;
+	form#frm_adrupdateMenu {
+		/*border: solid 1px orange;*/ 
+		display: inline-table;
 		font-size: 12px;
-		margin-top: 10%;
-		left: 15%;
-    	position: absolute;
+		width: 600px;
 	}
 	
-	div#menu_adrupdate > ul {
+	form#frm_adrupdateMenu > ul >li{
 		margin-bottom: 5%;
 	}
 	
@@ -52,6 +55,11 @@
 	.first_error, .error {
   		font-size: 11px;
   		color:red;
+  	}
+  	
+  	ul {
+  		list-style: none;
+  		line-height: 25px;
   	}
 
 </style>
@@ -107,43 +115,51 @@
 	    }).open();
 	} // end of openDaumPOST()
 </script>
+
+
+<div id="container">	
+<form name="frm_adrupdateMenu" id="frm_adrupdateMenu">
 	
-	<div id="menu_adrupdate">
-	
-	<%-- 배송지 시작(만들어놓은 입력값 자동으로 들어가게하기) --%>
-	
+<%-- 배송지 시작(만들어놓은 입력값 자동으로 들어가게하기) --%>
+
 		  <ul>
-	         <label >성명</label>
-	       	 <input type="text" id="name" name="name"/>
-	       	 <div class="first_error">필수 입력란입니다.</div>
+			 <li>
+		         <label >성명</label>
+		       	 <input type="text" id="name" name="name"/>
+		       	 <div class="first_error">필수 입력란입니다.</div>
+	       	</li>
 	      </ul>
 	      
 	       <ul>
-	         <label >전화번호</label>
-	         <input type="text" id="mobile" name="mobile"/>
-	         <div class="first_error">필수 입력란입니다.</div>
+		       <li>
+		         <label >전화번호</label>
+		         <input type="text" id="mobile" name="mobile"/>
+		         <div class="first_error">필수 입력란입니다.</div>
+		      </li>
 	      </ul>
 	      
 	      <ul>
-			<div class="puretxt">주소검색</div>
-			<input type="hidden" id="postcode" name=""/>
-			<input type="text" id="address" name="" class="input_style" placeholder="예)00동, 00로" style="display: inline-block; width: 40%" />
-			<button type="button" class="btn_adrsearch" onclick="openDaumPOST();">검색</button>
-			<div class="error">검색을 통하여 배송지를 입력해주세요.</div>
-			<div class="first_error">필수 입력란입니다.</div>
+		      <li>
+				<div class="puretxt">주소검색</div>
+				<input type="hidden" id="postcode" name=""/>
+				<input type="text" id="address" name="" class="input_style" placeholder="예)00동, 00로" style="display: inline-block; width: 40%" />
+				<button type="button" class="btn_adrsearch" onclick="openDaumPOST();">검색</button>
+				<div class="error">검색을 통하여 배송지를 입력해주세요.</div>
+				<div class="first_error">필수 입력란입니다.</div>
+			</li>
 		</ul>
 			
 		<ul>
-			<span class="puretxt">상세주소</span>
-			<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
-			<div class="first_error">필수 입력란입니다.</div>
+			<li>
+				<span class="puretxt">상세주소</span>
+				<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
+				<div class="first_error">필수 입력란입니다.</div>
+			</li>
 		</ul>
 			<%-- 배송지 끝 --%>
 		
 		<button type="button" id="btn_update" class="btn">저장</button> <%-- 저장을 누르면 다시 adrAdd1로 이동 --%>
-	</div>
-
-</form>
-
+	</form>
+</div>
 
 <jsp:include page="/minsu/footer.jsp" />
