@@ -182,11 +182,18 @@
             }
         });
         
-        // 로그인 버튼을 누르면
+        // 홈화면 헤더에서 로그인 버튼을 누르면
         $("button#btn_login").click(function(){
         	location.href="<%= ctxPath%>/login.sun";
 			
-		}); // end of $("button#btnSubmit").click() --------------
+		}); // end of $("button#btn_login").click() --------------
+		
+		
+		// 홈화면 헤더에서 로그아웃 버튼을 누르면
+        $("button#btn_logout").click(function(){
+        	location.href="<%= ctxPath%>/logout.sun";
+			
+		}); // end of $("button#btn_logout").click() --------------
         
     });
     
@@ -214,26 +221,26 @@
 
 
     <%-- 상단바 시작 --%>
-    <nav class="navbar navbar-expand-md" >
-        <a class="navbar-brand" href="#"><span id="logo">GENTLE MONSTER</span></a>
-        <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-          <span class="navbar-toggler-icon"><i class="fab fa-windows fa-lg"></i></span>
-        </button>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <ul class="navbar-nav" style="margin: auto 2% auto 25%;">
-            <li class="nav-item">
-              <a class="nav-link" href="#">브랜드</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">선글라스</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">스타일</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">고객서비스</a>
-              </li>     
-          </ul>
+	<nav class="navbar navbar-expand-md" >
+		<a class="navbar-brand" href="<%= ctxPath%>/index.sun"><span id="logo">GENTLE MONSTER</span></a>
+		<button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"><i class="fab fa-windows fa-lg"></i></span>
+		</button>
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav" style="margin: auto 2% auto 25%;">
+				<li class="nav-item">
+					<a class="nav-link" href="#">브랜드</a>
+	            </li>
+	            <li class="nav-item">
+					<a class="nav-link" href="#">선글라스</a>
+	            </li>
+	            <li class="nav-item">
+					<a class="nav-link" href="#">스타일</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#">고객서비스</a>
+				</li>     
+			</ul>
         </div>  
         
         
@@ -300,12 +307,12 @@
           </div>
         <!-- Modal 끝 -->
         
-        <c:if test="${ empty sessionScope.email }">
+        <c:if test="${ empty sessionScope.loginuser }">
 	        <button type="button" id="btn_login"> 
 	            로그인
 	        </button>
         </c:if>
-        <c:if test="${ not empty sessionScope.email }">
+        <c:if test="${ not empty sessionScope.loginuser }">
 	        <button type="button" id="btn_logout" > 
 	            로그아웃
 	        </button>
