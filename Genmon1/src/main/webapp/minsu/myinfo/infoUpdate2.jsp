@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/minsu/header.jsp" />
-<jsp:include page="myinfoMenu.jsp" />
+<jsp:include page="myinfo_sideMenu.jsp" />
 
 <style type="text/css">
 
@@ -61,6 +61,12 @@
 <script>
        
     $(document).ready(function(){
+    	
+    	 // === select box 연도 , 월 표시 === //
+		  setDateBox();
+    	
+    
+  		 
 		//=== 국가선택 시작 ===
 		$.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
 		
@@ -72,9 +78,54 @@
 		                .text(value.name));
 		        });
 		    });
-		});
+		}); // end of $(document).ready(function() ------------------------------------
+				
+				
+		// >>> Function Declaration <<< //
+        // select box 연도 , 월 표시
+		  function setDateBox() {
+		    var dt = new Date();
+		    var year = "";
+		    var com_year = dt.getFullYear();
+
+		    // 발행 뿌려주기
+		    $("#year").append("<option value=''>년도</option>");
+
+		    // 올해 기준으로 -50년부터 +1년을 보여준다.
+		    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
+		      $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
+		    }
+
+		    // 월 뿌려주기(1월부터 12월)
+		    var month;
+		    $("#month").append("<option value=''>월</option>");
+		    for (var i = 1; i <= 12; i++) {
+		      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
+		    }
+
+		    // 일 뿌려주기(1일부터 31일)
+		    var day;
+		    $("#day").append("<option value=''>일</option>");
+		    for (var i = 1; i <= 31; i++) {
+		      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
+		    }
+
+		  }
+		  
+		/* let dd_html = "";
+		for(var i=1; i<=31; i++) {
+			if(i<10) {
+				dd_html += "<option>0"+i+"</option>";
+			}
+			else {
+				dd_html += "<option>"+i+"</option>";
+			}
+		}
+		$("select#birthdd").html(dd_html);
+		// === 생년월일 끝 === 
+  		 */
 		
-		//Function to fetch states
+  		// === 국가선택 함수 시작 === //
 		function initStates(){
 		    //Get selected country name
 		    let country=$("#country-select").val();
@@ -95,8 +146,8 @@
 		        });
 		    });
 		}
-		//=== 국가선택 끝 ===
-		}
+  		// === 국가선택 함수 끝 === //
+		
 </script>
 
 	<div id=updateFrm>
@@ -116,22 +167,23 @@
 	          </select>
 	      </ul>
 	      
+	      <%-- 성명과 생년월일은 수정불가함으로 ${requestScope.___}로 정보 부르기--%>
 	      <ul>
 	         <label >성명</label>
-	         <input type="text" id="name" class="requiredInfo" required/>
+	         <input type="text" id="name" class="requiredInfo" required readonly/>
 	      </ul>
 		      
 	    
 	     <ul>
 	         <span>생년월일</span>
 	         <div style="text-align: left;" id="birth">
-			    	<select name="year" id="year" title="년도" class="custom-select"></select>
-					<select name="month" id="month" title="월" class="custom-select"></select>
-					<select name="day" id="day" title="일" class="custom-select"></select>
+			    	<select name="year" id="year" title="년도" class="custom-select" readonly></select>
+					<select name="month" id="month" title="월" class="custom-select" readonly></select>
+					<select name="day" id="day" title="일" class="custom-select" readonly></select>
 				</div>
-	         
      	 </ul>
-   
+     	  
+     	 
 	      <ul>
 	      	<label>국가</label>
 	      	<select id="nation" class="form-control">
