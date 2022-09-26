@@ -47,8 +47,8 @@ create table tbl_login_history_test
 ( fk_userid      varchar2(40)         not null  -- 회원아이디
 , logindate      date default sysdate not null
 , clientip       varchar2(20)         not null  -- 123.456.789.123
-, constraint     FK_tbl_login_history_fk_userid foreign key(fk_userid) references tbl_member(userid)
+, constraint     FK_tbl_login_history_fk_userid foreign key(fk_userid) references tbl_member_test(userid)
 );
 Table TBL_LOGIN_HISTORY이(가) 생성되었습니다.
                     
-                    
+delete table TBL_LOGIN_HISTORY

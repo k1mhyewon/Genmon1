@@ -1,4 +1,4 @@
-package member.model;
+package common.model;
 
 public class MemberVO {
 	
