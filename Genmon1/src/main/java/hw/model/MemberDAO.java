@@ -1,4 +1,4 @@
-package member.model;
+package hw.model;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
@@ -10,9 +10,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import util.security.AES256;
-import util.security.SecretMyKey;
-import util.security.Sha256;
+import common.model.MemberVO;
+import common.util.security.AES256;
+import common.util.security.SecretMyKey;
+import common.util.security.Sha256;
 
 public class MemberDAO implements InterMemberDAO {
 	
@@ -31,7 +32,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			Context initContext = new InitialContext(); // javax.naming import
 		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
-		    ds = (DataSource)envContext.lookup("jdbc/myoracle"); // "jdbc/myoracle" 은 web.xml 에서 지정해둔 이름, context.xml 을 참조하고 있음
+		    ds = (DataSource)envContext.lookup("jdbc/semi_oracle"); // "jdbc/myoracle" 은 web.xml 에서 지정해둔 이름, context.xml 을 참조하고 있음
 		    
 		    aes = new AES256(SecretMyKey.KEY);
 		} catch(NamingException e) {
@@ -67,29 +68,29 @@ public class MemberDAO implements InterMemberDAO {
 	@Override
 	public MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException {
 
-MemberVO member = null;
+		MemberVO member = null;
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, "+
-						"       birthyyyy, birthmm, birthdd, coin, point, registerday, pwdchangegap, "+
-						"       nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap "+
-						"FROM "+
-						"("+
-						"    select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender "+
-						"         , substr(birthday,1,4) AS birthyyyy, substr(birthday,6,2) AS birthmm, substr(birthday,9) AS birthdd "+
-						"         , coin, point, to_char(registerday, 'yyyy-mm-dd') AS registerday "+
-						"         , trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap "+
-						"    from tbl_member "+
-						"    where status = 1 and userid = ? and pwd = ? "+ 
-						") M "+
-						"CROSS JOIN "+
-						"("+
-						"    select trunc( months_between(sysdate, max(logindate)) ) as lastlogingap "+
-						"    from tbl_login_history "+
-						"    where fk_userid = ? "+
-						") H";
+			String sql = "SELECT userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender\n"+
+						"     , birthyyyy, birthmm, birthdd, coin, point, registerday, pwdchangegap\n"+
+						"     , nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap\n"+
+						"from\n"+
+						"(\n"+
+						"select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender          \n"+
+						"     , substr(birthday,1,4) AS birthyyyy, substr(birthday,6,2) AS birthmm, substr(birthday,9) AS birthdd\n"+
+						"     , coin, point, to_char(registerday, 'yyyy-mm-dd') AS registerday\n"+
+						"     , trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap\n"+
+						"from tbl_member_test\n"+
+						"where status = 1 and userid = ? and pwd = ?\n"+
+						") M\n"+
+						"CROSS JOIN\n"+
+						"(\n"+
+						"    select trunc( months_between(sysdate, max(logindate)) ) as lastlogingap\n"+
+						"    from tbl_login_history_test\n"+
+						"    where fk_userid = ?\n"+
+						")H";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -128,7 +129,7 @@ MemberVO member = null;
 					member.setIdle(1);
 					
 					// === tbl_member 테이블의 idle 컬럼의 값을 1 로 변경하기 === //
-					sql = " update tbl_member set idle = 1 "
+					sql = " update tbl_member_test set idle = 1 "
 						+ " where userid = ? "; 
 					
 					pstmt = conn.prepareStatement(sql);
@@ -139,7 +140,7 @@ MemberVO member = null;
 				
 				// === tbl_login_history(로그인기록) 테이블에 insert 하기 === //
 				if(member.getIdle() != 1) {
-					sql = " insert into tbl_login_history(fk_userid, clientip) "
+					sql = " insert into tbl_login_history_test(fk_userid, clientip) "
 						+ " values(?, ?) ";
 					
 					pstmt = conn.prepareStatement(sql);
@@ -197,5 +198,42 @@ MemberVO member = null;
 		return userid;
 		
 	} // end of public String idFind(Map<String, String> paraMap) throws SQLException {} =========
+
+
+	
+	
+	
+	
+	
+	// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 존재여부를 알려준다.) ============================================
+	@Override
+	public boolean isUserExists(Map<String, String> paraMap) throws SQLException {
+		
+		boolean isUserExists = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select userid "
+					   + " from tbl_member "
+					   + " where status = 1 and userid = ? and email = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, aes.encrypt( paraMap.get("email") ));
+			
+			rs = pstmt.executeQuery(); 
+			
+			isUserExists = rs.next();
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) { // 암호화 catch
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return isUserExists;
+		
+	} // end of public boolean isUserExists(Map<String, String> paraMap) throws SQLException {} ========
 
 }
