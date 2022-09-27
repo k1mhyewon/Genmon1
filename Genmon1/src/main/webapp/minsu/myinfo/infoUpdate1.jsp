@@ -6,31 +6,36 @@
 
 <style type="text/css">
 
+	form#frm_update {
+		display: inline-block;
+		width: 30%;
+	}
+
 	button.btn {
 		background-color: black; 
 		color: white;
-		width: 70%;
+		width: 100px;
 		display: block;
 		line-height: 200%;
 		margin: 7% 0 -2% 10%;
 	}
 	
 	div#menu_myinfoupdate {
-		/* border: solid 1px orange; */
-		margin: 5% 0 10% 30%;
+	border: solid 1px orange;
 		display: inline-block;
-		width: 30%;
-		font-size: 12px;
+		width: 800px;
 	}
 	
 
 </style>
-
+<form id="frm_update">
 	<div id="menu_myinfoupdate">
-		<ul id="gender" name="gender">성별&nbsp;&nbsp;: </ul>
-		<ul id="name" name="name">성명&nbsp;&nbsp;: </ul>
-		<ul id="birth" name="birth">생년월일&nbsp;&nbsp;: </ul>
-		<ul id="email" name="email">이메일&nbsp;&nbsp;: </ul>
+		<ul style="list-style: none;">
+			<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
+			<li id="name" name="name">성명&nbsp;&nbsp;: </li>
+			<li id="birth" name="birth">생년월일&nbsp;&nbsp;: </li>
+			<li id="email" name="email">이메일&nbsp;&nbsp;: </li>
+		</ul>
 		<a href="pwdInput.jsp" style="text-decoration: none;"><button type="button" id="btn_update" class="btn" >수정하기</button></a>
 		<button type="button" id="btn_update" class="btn"  data-toggle="modal" data-target="#accountDropout" data-dismiss="modal" data-backdrop="static">회원 탈퇴하기</button>
 	</div>
