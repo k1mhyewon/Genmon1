@@ -28,7 +28,7 @@
     }
 
     button.btnWish{
-        width: 250px; 
+        width: 220px; 
         height: 30px;
         font-size: 9pt;
         margin-bottom: 5px;
@@ -39,15 +39,12 @@
     }
 
     img.product_img {
-        width: 250px;
+        width: 220px;
         height: auto;
         margin-bottom: 10px;
     }
 
-    div.wish_container{
-        border: solid 1px purple;
-        margin: auto;
-    }
+   
 
     div.card_body {
         /* border: solid 1px pink; */
@@ -99,8 +96,8 @@
     </div>
         <div class="album">
             <div class="container">
-                <div class="wish_container row row-cols-1 row-cols-md-4">
-                    <div class="col" style="margin-right: 50px;">
+                <div class="wish_container row row-cols-sm-1 row-cols-md-4">
+                    <div class="col">
                         <div class="card_body mx-1 my-3">
                             <img src="le_iv1_1.jpg" class="product_img">
                             <div id="productDesc">
@@ -178,6 +175,7 @@
                 </div>
             </div>
         </div>
+        <div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>
 
 <jsp:include page="footer.jsp" />
