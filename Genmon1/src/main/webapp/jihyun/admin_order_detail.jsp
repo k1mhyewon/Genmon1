@@ -18,6 +18,13 @@
 		font-size: 11pt;
 	}
 	
+	span.boldtxt2{
+		display: block;
+		font-weight: bold;
+		font-size: 10pt;
+		margin-bottom: 6px;
+	}
+	
 	span.puretxt{
 		display: block;
 		font-size: 10pt;
@@ -26,12 +33,12 @@
 	
 	div.tbl_box{
 		width: 100%;
-		height: 170px;
+		height: 180px;
 	}
 	
 	table {
 		width: 90%;
-		margin : 17px auto;
+		margin : 7px auto;
 		/* border : 1px solid black; */
 		font-size: 10pt;
 		/* vertical-align: top; */
@@ -63,6 +70,12 @@
 		height: 130px;
 	}
 	
+	span.tf_span {
+		display:inline-block;
+		width: 360px;
+		height: 25px;
+	}
+	
 	img.image{
 		padding : auto 10px;
 		width: 110px;
@@ -89,7 +102,7 @@
 		margin-bottom: 20px;
 		width: 120px;
 		height: 35px;
-		border: 2px solid black;
+		border: 1px solid black;
 		font-size: 10pt;
 		text-indent: 15px;
 		margin-left :10px;
@@ -132,6 +145,8 @@
 		font-weight: bold;
 	}
 	
+	
+	
 </style>
 
 <!-- Optional JavaScript -->
@@ -146,33 +161,39 @@
 <body>
 	<div style="width: 80%; margin: 0 auto;">
 		<span class="boldtxt my-4">주문상세</span>
-		<span class="puretxt mb-2">주문상품</span>
+		<span class="boldtxt2 mb-2">주문상품</span>
 		<%-- 반복 시작 --%>
 		<div class="border tbl_box mb-2" >
 			<table>
 				<tbody>
 					<tr>
 						<td rowspan="5" class="image"><img src="sun_img.png" class="image"></td>
-						<td class="myright">상품명</td>
+						<td class="myright"></td>
+						<td class="myleft"></td>
+					</tr>
+					<tr>
+						<td>상품명</td>
 						<td class="myleft">젠몬01</td>
 					</tr>
 					<tr>
-						<td class="myright">품명</td>
+						<td>품명</td>
 						<td class="myleft">00004</td>
+						
 					</tr>
 					<tr>
-						<td class="myright">수량</td>
+						<td>출고수량</td>
 						<td class="myleft">3</td>
 					</tr>
 					<tr>
-						<td class="myright">재고</td>
-						<td class="myleft">30</td>
-					</tr>
-					<tr>
-						<td class="myright">출고후 재고</td>
-						<td class="myleft">27</td>
+						<td class="myright"></td>
+						<td class="myleft"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr style="height: 30px;">
+						<td colspan="3" style="vertical-align: bottom ;"><span class="tf_span border">재고 수량 : 30</span></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 		<%-- 반복 끝 --%>
@@ -181,30 +202,36 @@
 				<tbody>
 					<tr>
 						<td rowspan="5" class="image"><img src="sun_img.png" class="image"></td>
-						<td class="myright">상품명</td>
+						<td class="myright"></td>
+						<td class="myleft"></td>
+					</tr>
+					<tr>
+						<td>상품명</td>
 						<td class="myleft">젠몬01</td>
 					</tr>
 					<tr>
-						<td class="myright">품명</td>
+						<td>품명</td>
 						<td class="myleft">00004</td>
+						
 					</tr>
 					<tr>
-						<td class="myright">수량</td>
+						<td>출고수량</td>
 						<td class="myleft">3</td>
 					</tr>
 					<tr>
-						<td class="myright">재고</td>
-						<td class="myleft">30</td>
-					</tr>
-					<tr>
-						<td class="myright">출고후 재고</td>
-						<td class="myleft">27</td>
+						<td class="myright"></td>
+						<td class="myleft"></td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr style="height: 30px;">
+						<td colspan="3" style="vertical-align: bottom ;"><span class="tf_span border">재고 수량 : 30</span></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 		<div class="border-bottom mt-4"></div>
-		<span class="puretxt my-3">주문상품</span>
+		<span class="boldtxt2 my-3">주문 정보</span>
 		<ul>
 			<li><span class="list_span">결제일 </span> 2022-09-19 14:20:08</li>
 			<li><span class="list_span">받는분 </span> 김지현</li>
@@ -215,9 +242,10 @@
 			<li><span class="list_span"> </span> 08732</li>
 		</ul>
 		
+		<%-- 구분선 --%>
 		
 		<div class="border-bottom mt-4"></div>
-		<span class="puretxt my-3">배송등록</span>
+		<span class="boldtxt2 my-3">배송등록</span>
 		<span class="puretxt ml-3">운송장 등록</span>
 		<select id="sort">
 			<option value="cj" selected>CJ대한통운</option> 
@@ -228,10 +256,30 @@
 		</select>
 		<input type="text"  placeholder="송장번호를 입력하세요" />
 		
-		<div id="btn" class="mt-3 mb-5">
+		<div id="btn" class="mt-3 mb-4">
 			<button type="button" id="btn_1">판매취소</button>
 			<button type="button" id="btn_2">배송등록</button>
 		</div>
+		
+		<%-- 구분선 --%>
+		
+		<div class="border-bottom mt-4"></div>
+		<span class="boldtxt2 my-3">배송정보</span>
+		<ul class="mb-5">
+			<li>배송중 / 또는 배송완료</li>
+			<li>CJ 대한통운 047648304569 / 또는 2022.09.17</li>
+		</ul>
+		
+		<%-- 구분선 --%>
+		
+		<div class="border-bottom mt-4"></div>
+		<span class="boldtxt2 my-3">주문완료</span>
+		<ul class="mb-5">
+			<li>주문확정</li>
+			<li>2022.09.17</li>
+		</ul>
+		
+		<%-- 구분선 --%>
 		
 		
 	</div>

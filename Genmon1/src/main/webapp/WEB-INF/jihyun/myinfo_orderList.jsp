@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% String ctxPath = request.getContextPath(); %>
     
-<jsp:include page="header.jsp" />
+<jsp:include page="../header.jsp" />
 
 <style>
 
@@ -127,7 +128,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
 				</tr>
 				<tr>
@@ -141,7 +142,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
 				</tr>
 				<tr>
@@ -155,7 +156,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
 				</tr>
 				<tr>
@@ -169,7 +170,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
 					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
 				</tr>
 				<tr>
@@ -183,7 +184,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
 					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
 				</tr>
 				<tr>
@@ -199,4 +200,4 @@
 	<%-- 주문내역 있을때 끝 --%>
 </div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />
