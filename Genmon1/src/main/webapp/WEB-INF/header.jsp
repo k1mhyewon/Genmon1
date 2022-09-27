@@ -358,6 +358,7 @@
 							<button id="btn_login" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">login</button>
 						</c:if>
 						<c:if test="${ not empty sessionScope.loginuser }">
+							<button id="btn_myPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">MyPage</button>
 							<button id="btn_logout" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">logout</button>
 						</c:if>
 						
