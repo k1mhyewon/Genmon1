@@ -8,8 +8,10 @@
 
 	* {font-family: 'Roboto Condensed', sans-serif;}
 	
-	.review_container {
+	#review_container {
 		/* width: 80%; */
+		/* border: solid 1px gray; */
+		margin: 0 auto;
 	}
 	
 	
@@ -22,8 +24,10 @@
     }
 
     div.containers {
+    /* 	border: solid 1px gray; */
         width: 70%;
         margin: 3% auto;
+        padding-left: 100px;
     }
 
     div#rate_title {
@@ -77,10 +81,10 @@
 	div#prod_info {
         /* border: solid 1px gray; */
         width: 250px;
-        height: 280px;
+        height: 340px;
         float: left;
         font-weight: bold;
-        padding-top: 200px;
+        padding: 250px 0 0 25px;
 
     }
 
@@ -161,6 +165,7 @@
     }
     
     
+    
 
 </style>
 
@@ -190,12 +195,12 @@
         
        	<div class="containers">
 	        <div id="prod_photo">
-	            <img src="le_iv1_1.jpg" style="width:200px; height:auto;">
+	            <img src="le_iv1_1.jpg" style="width:230px; height:auto;">
 	        </div>
 	        <div id="prod_info">
 	        	<div style="font-size: 11pt;">르</div>
 	            <div style="font-size: 10pt;">189,000원</div>
-	            <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+	            <div style="font-size: 10pt; color: #666666; margin-top: 5px;">리뷰(2)</div>
 	        </div>
 		</div>
         
@@ -220,18 +225,14 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="le_iv1_1.jpg" style="width: 80px;">
 	            </div>
 	            <div class="toggle_box">
 		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_1">
-						댓글(1)
-					</div>
-					<div class="toggle_content collapse" id="reply_1">
-						<div style="font-weight: bold;">Gentle Monster</div>
-						<div style="font-size: 10pt; margin-top: 10px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+						댓글(0)
 					</div>
 				</div>
 	        </div>
@@ -243,7 +244,7 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">
@@ -266,10 +267,9 @@
 				</div>
 				<div class="modify">
 					<button type="button" class="btn btn-light btn_modify" onclick="go_rev_modify()">수정</button>
-				</div>`
+				</div>
 	        </div>
 	        <hr>
-	        
 	        
 	        
 	        

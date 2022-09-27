@@ -24,6 +24,7 @@
     div.containers {
         width: 70%;
         margin: 3% auto;
+        padding-left: 80px;
     }
 
     div#rate_title {
@@ -77,10 +78,11 @@
 	div#prod_info {
         /* border: solid 1px gray; */
         width: 250px;
-        height: 280px;
+        height: 340px;
         float: left;
         font-weight: bold;
-        padding-top: 200px;
+        padding: 250px 0 0 25px;
+        
 
     }
 
@@ -119,7 +121,7 @@
     .toggle_content {
     	border: solid 1px gray;
     	width: 450px;
-    	height: 130px;
+    	height: 140px;
     	margin-top: 20px;
     	padding: 10px 0 10px 10px;
     	border-radius: 15px 15px 15px 15px;
@@ -175,6 +177,15 @@
     .color_red {
     	color: red;
     }
+  
+    
+    .reply_btns {
+    	font-size: 10pt;
+    	height: 30px;
+    	margin: 7px 0 0 7px;
+    }
+    
+    
     
 
 </style>
@@ -241,12 +252,12 @@
         
        	<div class="containers">
 	        <div id="prod_photo">
-	            <img src="le_iv1_1.jpg" style="width:200px; height:auto;">
+	            <img src="le_iv1_1.jpg" style="width:230px; height:auto;">
 	        </div>
 	        <div id="prod_info">
-	        	<div style="font-size: 11pt;">르</div>
+	        	<div style="font-size: 11pt; ">르</div>
 	            <div style="font-size: 10pt;">189,000원</div>
-	            <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+	            <div style="font-size: 10pt; color: #666666; margin-top: 5px;">리뷰(2)</div>
 	        </div>
 		</div>
         
@@ -271,7 +282,7 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+	                <div style="font-size: 10pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="le_iv1_1.jpg" style="width: 80px;">
@@ -289,6 +300,7 @@
 			                <div align="right" style="padding-right: 10px;">
 				                <span class="text_cnt">0자</span>
 				                <span>/50자</span>
+				                <button type="button" id="btn_reply" class="btn btn-dark reply_btns">작성완료</button>
 				            </div>
 			            </div>
 					</div>
@@ -305,7 +317,7 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 10pt; color: pink; margin-top: 5px;">♥ 13</div>
+	                <div style="font-size: 10pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">
@@ -324,7 +336,11 @@
 					<div class="toggle_content collapse" id="see_reply_2">
 						<span style="font-weight: bold;">Gentle Monster</span>
 						<span style="font-size: 9pt; color: gray; margin-left: 15px;">2022/10/01</span>
-						<div style="font-size: 10pt; margin-top: 10px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+						<div style="font-size: 10pt; margin-top: 10px; height: 52px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+						<div style="text-align: right; padding-right: 10px;">
+							<button type="button" class="btn btn-light reply_btns">수정</button>
+							<button type="button" class="btn btn-dark reply_btns">삭제</button>
+						</div>
 					</div>
 				</div>
 				<div class="modify">

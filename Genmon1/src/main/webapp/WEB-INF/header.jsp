@@ -345,7 +345,7 @@
 		
 		<nav class="navbar navbar-expand-lg  ftco_navbar ftco-navbar-light" id="ftco-navbar">
 			<div class="container">
-				<a  href="#"><img src="images/Gentle_monster_logo.png" style="width: 20%; max-width: 200px; min-width: 175px;"/></a>
+				<a  href="<%= ctxPath%>/index.sun"><img src="images/Gentle_monster_logo.png" style="width: 20%; max-width: 200px; min-width: 175px;"/></a>
 				<div class="searchform order-sm-start order-lg-last">
 					<div class="form-group d-flex" style="padding-top:11px; padding-left: 0px;">
 							
@@ -358,6 +358,12 @@
 							<button id="btn_login" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">login</button>
 						</c:if>
 						<c:if test="${ not empty sessionScope.loginuser }">
+							<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
+								<button id="btn_myPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">MyPage</button>
+							</c:if>
+							<c:if test="${ sessionScope.loginuser.userid == 'admin' }">
+								<button id="btn_adminPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">관리자페이지</button>
+							</c:if>
 							<button id="btn_logout" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">logout</button>
 						</c:if>
 						
