@@ -8,8 +8,10 @@
 
 	* {font-family: 'Roboto Condensed', sans-serif;}
 	
-	.review_container {
+	#review_container {
 		/* width: 80%; */
+		/* border: solid 1px gray; */
+		margin: 0 auto;
 	}
 	
 	
@@ -22,6 +24,7 @@
     }
 
     div.containers {
+    /* 	border: solid 1px gray; */
         width: 70%;
         margin: 3% auto;
     }
@@ -161,6 +164,7 @@
     }
     
     
+    
 
 </style>
 
@@ -269,7 +273,6 @@
 				</div>`
 	        </div>
 	        <hr>
-	        
 	        
 	        
 	        
