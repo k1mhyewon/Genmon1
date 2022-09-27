@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <jsp:include page="/minsu/header.jsp" />
-<jsp:include page="myinfoMenu.jsp" />
+<jsp:include page="myinfo_sideMenu.jsp" /> />
 
 <script type="text/javascript">
 
