@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <% String ctxPath = request.getContextPath(); %>
     
 <jsp:include page="../header.jsp" />
@@ -10,9 +12,10 @@
 	
     
     div#login_container {
-    /*  border: solid 1px red;  */
-    	margin: 10% auto;
+      /* border: solid 1px red;  */ 
+    	margin: 8% auto;
     	width: 35%;
+    	padding-left: 25px;
     }
     
     div#login_container > ul > li > label, p{
@@ -69,7 +72,7 @@
     	background-color: black; 
     	color: white; 
     	width: 74%;
-    	margin: 5% 0 3% 8%; 
+    	margin: 3% 0 3% 8%; 
     	line-height: 250%;
     	font-size: 10pt;
     }
@@ -203,8 +206,12 @@
         	<div class="save_box">
         		<input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
         	</div>
-        	
-           
+        	<c:if test="${ not empty requestScope.isLogined && isLogined == 'false' }">
+	           	<div id="loginFailed" style="font-size: 9pt; color: red; margin: 10px 0 0 80px;">
+	           		잘못된 아이디 또는 비밀번호를 입력하셨습니다. 다시 입력해주세요.
+	           	</div>
+           	</c:if>
+           	
         	<button id="btn_goLogin" class="login_btn" type="button">로그인</button>
         	
         	<div> 

@@ -94,88 +94,88 @@
     <div id="wishlist">
         <div id="wishText">위시리스트(0)</div>
     </div>
-        <div class="album">
-            <div class="container">
-                <div class="wish_container row row-cols-sm-1 row-cols-md-4">
-                    <div class="col">
-                        <div class="card_body mx-1 my-3">
-                            <img src="le_iv1_1.jpg" class="product_img">
-                            <div id="productDesc">
-                                <p class="productName">르1</p>
-                                <p class="productPrice">280,000원</p>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-light">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card_body mx-1 my-3">
-                            <img src="le_iv1_1.jpg" class="product_img">
-                            <div id="productDesc">
-                                <p class="productName">르1</p>
-                                <p class="productPrice">280,000원</p>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-light">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card_body mx-1 my-3">
-                            <img src="le_iv1_1.jpg" class="product_img">
-                            <div id="productDesc">
-                                <p class="productName">르1</p>
-                                <p class="productPrice">280,000원</p>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-light">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card_body mx-1 my-3">
-                            <img src="le_iv1_1.jpg" class="product_img">
-                            <div id="productDesc">
-                                <p class="productName">르1</p>
-                                <p class="productPrice">280,000원</p>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-light">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card_body mx-1 my-3">
-                            <img src="le_iv1_1.jpg" class="product_img">
-                            <div id="productDesc">
-                                <p class="productName">르1</p>
-                                <p class="productPrice">280,000원</p>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-                            </div>
-                            <div>
-                                <button type="button" class="btnWish btn btn-light">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="height: 50px;"></div>
+	<div class="album">
+		<div class="container">
+			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
+				<div class="col">
+					<div class="card_body mx-1 my-3">
+						<img src="le_iv1_1.jpg" class="product_img">
+						<div id="productDesc">
+							<p class="productName">르1</p>
+							<p class="productPrice">280,000원</p>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-light">삭제</button>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card_body mx-1 my-3">
+						<img src="le_iv1_1.jpg" class="product_img">
+						<div id="productDesc">
+							<p class="productName">르1</p>
+							<p class="productPrice">280,000원</p>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-light">삭제</button>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card_body mx-1 my-3">
+						<img src="le_iv1_1.jpg" class="product_img">
+						<div id="productDesc">
+							<p class="productName">르1</p>
+							<p class="productPrice">280,000원</p>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-light">삭제</button>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card_body mx-1 my-3">
+						<img src="le_iv1_1.jpg" class="product_img">
+						<div id="productDesc">
+							<p class="productName">르1</p>
+							<p class="productPrice">280,000원</p>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-light">삭제</button>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card_body mx-1 my-3">
+						<img src="le_iv1_1.jpg" class="product_img">
+						<div id="productDesc">
+							<p class="productName">르1</p>
+							<p class="productPrice">280,000원</p>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+						</div>
+						<div>
+							<button type="button" class="btnWish btn btn-light">삭제</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>
 
 <jsp:include page="footer.jsp" />

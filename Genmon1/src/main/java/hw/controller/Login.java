@@ -37,6 +37,7 @@ public class Login extends AbstractController {
 				String userid = request.getParameter("userid");
 				String pwd = request.getParameter("pwd");
 				
+				
 				// System.out.println("확인용 userid : "+ userid);
 				// System.out.println("확인용 pwd : "+ pwd);
 				
@@ -101,13 +102,18 @@ public class Login extends AbstractController {
 						// System.out.println("확인용 loginuser.pwd : " + loginuser.getPwd());
 						
 						super.setRedirect(true); // setRedirect 방식으로 페이지를 이동시키는 것이다.
-						 super.setViewPage(request.getContextPath()+"/index.sun"); // 시작홈페이지로 이동
+						super.setViewPage(request.getContextPath()+"/index.sun"); // 시작홈페이지로 이동
 					}
 					
 					
 				}
 				else {
 					// 로그인 실패
+					
+					request.setAttribute("isLogined", "false");
+					// System.out.println("로그인 실패");
+					
+					/*
 					String message = "로그인 실패";
 					String loc = "javascript:history.back()";
 					
@@ -116,6 +122,7 @@ public class Login extends AbstractController {
 					
 					super.setRedirect(false);
 					super.setViewPage("/WEB-INF/msg.jsp");
+					*/
 				}
 				
 				

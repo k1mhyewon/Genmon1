@@ -3,7 +3,14 @@
     
 <jsp:include page="header.jsp" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+
+	* {font-family: 'Roboto Condensed', sans-serif;}
+	
 	.container_sq .main.seeme .text-area {
 		background: none;
 	}
@@ -16,33 +23,33 @@
 	
 	.text1 {
 		position: absolute;
-		top: 650px;
+		top: 800px;
 		left : 43%; 
 	}
 	
 	.text2 {
 		position: absolute;
-		top: 1390px;
-		left : 38%; 
+		top: 1700px;
+		left : 40%; 
 		text-align: center;
 	}
 	
 	.text3 {
 		position: absolute;
-		top: 2200px;
+		top: 2700px;
 		left : 40%; 
 		text-align: center;
 	}
 	
 	.text-area__title {
-		font-size: 21pt;
+		font-size: 24pt;
 		font-weight: bold;
 		color: white;
 		margin-bottom: 25px;
 	}
 	
 	.text-area__sub-title {
-		font-size: 13pt;
+		font-size: 14pt;
 		font-weight: bold;
 		color: white;
 	}
