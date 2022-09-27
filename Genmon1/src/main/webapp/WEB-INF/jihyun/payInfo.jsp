@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +54,8 @@
         margin: auto 11px;
     }
 
-    a.nav-link:hover{
+    a:hover{
+    	cursor : pointer;
         color: rgb(63, 63, 63);
     }
 
@@ -207,6 +210,10 @@
 		height: 30px;
 	}
 	
+	select:hover {
+		cursor: pointer;
+	}
+	
 </style>
 <!-- Optional JavaScript -->
 <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
@@ -214,6 +221,9 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(document).ready(function(){
+		
+		// 무통장 감추기
+		$("div#account").hide();
 	
 	    // toast(광고창)
 	    $('.toast.fade').toast('show');
@@ -232,63 +242,68 @@
 	        }
 	    });
 	    
+	    
+	    // 배송지 수정 클릭이벤트(뒤로가기)
+	    $("a#goDeliInfo").click(function(){
+	    	history.back();
+	    });
+	    // 뒤로가기 클릭 이벤트 
+	    $("button#prev").click(function(){
+	    	history.back();
+	    });
+	    
+	    
+	    // 결제방법 클릭 이벤트
+	    $("input:radio[name='payment']").click(function(e){
+	    	$("div#account").hide();
+	    	
+	    	//console.log($("input:radio[name='payment']:checked").val());
+	    	if($("input:radio[name='payment']:checked").val()=="account"){
+	    		$("div#account").show();
+	    	}
+	    }); // end of 결제방법 클릭 이벤트
+	    
+	    
+	    // 결제하기 버튼 클릭이벤트
+	    $("button#purchase").click(function(){
+	    	
+	    	// 카드 결제일때
+	    	if($("input:radio[name='payment']:checked").val()=="card"){
+	    		goPurchase();
+	    	} else if ($("input:radio[name='payment']:checked").val()=="account"){ // 무통장일때
+	    		
+	    	}
+	    	
+	    	
+	    });// end of 결제하기 버튼 클릭이벤트
+	    
 	}); // end of ready
 	
-	// 우편번호 찾기
-	function openDaumPOST(){
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 	
-	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	            let addr = ''; // 주소 변수
-	            let extraAddr = ''; // 참고항목 변수
-	
-	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-	                addr = data.roadAddress;
-	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
-	                addr = data.jibunAddress;
-	            }
-	
-	            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-	            if(data.userSelectedType === 'R'){
-	                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                    extraAddr += data.bname;
-	                }
-	                // 건물명이 있고, 공동주택일 경우 추가한다.
-	                if(data.buildingName !== '' && data.apartment === 'Y'){
-	                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                }
-	                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-	                if(extraAddr !== ''){
-	                    extraAddr = ' (' + extraAddr + ')';
-	                }
-	                // 조합된 참고항목을 해당 필드에 넣는다.
-	                document.getElementById("extraAddress").value = extraAddr;
-	            
-	            } else {
-	                document.getElementById("extraAddress").value = '';
-	            }
-	
-	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	            document.getElementById('postcode').value = data.zonecode;
-	            document.getElementById("address").value = addr;
-	            // 커서를 상세주소 필드로 이동한다.
-	            document.getElementById("detailAddress").focus();
-	        }
-	    }).open();
-	} // end of openDaumPOST()
-	
-	
-	// 서비스 가입사실 클릭 이벤트
+	// 서비스 가입사실 클릭 이벤트 (나중에 모달로 바꾸장)
 	function click_service(){
-		window.open("service.png", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+		window.open("<%=ctxPath %>/images/money_service.png", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
                 , "left=300px, top=100px, width=1015px, height=560px"); 
 	} // end of 서비스 가입사실 클릭 이벤트
+	
+	
+	// 카드 결제 함수
+	function goPurchase(){
+		const url = "<%=request.getContextPath()%>/order/purchase.sun";
+		
+		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
+		const pop_width = 845;
+		const pop_height = 625;
+		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
+		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
+		
+		window.open(url, "Purchase",
+					"left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px");
+		
+		window.open(url, "Purchase",
+					"left=350px, top=100px, width=845px, height=625px");
+	}
+	
 	
 </script>
 
@@ -343,9 +358,9 @@
 			<span class="puretxt my-4">원하시는 결제 방법을 선택해주세요.</span>
 			
 			<%-- 라디오 시작 --%>
-			<input type="radio" name="payment" id="card"><label class="labelst" for="card">신용카드</label><br>
-			<input type="radio" name="payment" id="potint"><label class="labelst" for="potint">카카오페이</label><br>
-			<input type="radio" name="payment" id="account"><label class="labelst" for="account">가상계좌</label><br>
+			<input type="radio" name="payment" id="card" value="card"><label class="labelst" for="card">신용카드</label><br>
+			<input type="radio" name="payment" id="kakao" value="kakao"><label class="labelst" for="kakao">카카오페이</label><br>
+			<input type="radio" name="payment" id="account" value="account"><label class="labelst" for="account">무통장 입금</label><br>
 			<%-- 라디오 끝 --%>
 			
 			<%-- 적립금 사용 --%>
@@ -353,7 +368,7 @@
 			<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag"> 1000원</a></span>
 			<input type="text" name="" class="input_style" placeholder="사용하실 금액을 입력하세요"/>
 			
-			<%-- 가상계좌 등장메뉴 --%>
+			<%-- 무통장 입급 등장메뉴 --%>
 			<div id="account">
 				<br><div class="border-bottom my-3"></div><br>
 				
@@ -369,14 +384,14 @@
 	            </select>
 				
 				<span class="puretxt">환불 계좌번호</span>
-				<input type="number" name="" class="input_style" placeholder="환불 계좌번호"/>
+				<input type="text" name="" class="input_style" placeholder="환불 계좌번호"/>
 				<span></span>
 				
 				<span class="puretxt">계좌주명</span>
 				<input type="text" name="" class="input_style" placeholder="계좌주명"/>
 				<span></span>
 			</div>
-			<%-- 가상계좌 등장메뉴 끝 --%>
+			<%-- 무통장 입금 등장메뉴 끝 --%>
 			
 			<br>
 			<span class="puretxt by-5" style="color: gray;">채무지급보증안내 - 고객님의 안전한 현금자산 거래를 위하여 하나은행과 채무지급보증계약을 체결하여 보장해드리고 있습니다.</span>
@@ -392,7 +407,7 @@
 				<thead>
 					<tr style="height: 40px;">
 						<td style="font-weight: bold; font-size: 11pt;">배송</td>
-						<td class="myright"><strong><a href="#" class="link_tag">수정</a></strong></td>
+						<td class="myright"><strong><a class="link_tag" id="goDeliInfo">수정</a></strong></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -441,8 +456,8 @@
 			<%-- 체크박스 끝 --%>
 			
 			<br><br>
-			<button type="button" class="button2">이전 단계로</button>
-			<button type="button" class="button1" style="width: 245px;">결제</button>
+			<button type="button" class="button2" id="prev">이전 단계로</button>
+			<button type="button" class="button1" id="purchase" style="width: 245px;">결제</button>
 		</form>
 	</div>
 	<%-- 결제구역 끝 --%>
@@ -464,7 +479,7 @@
 			<tbody>
 				<%-- 반복시작 --%>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%=ctxPath %>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -477,7 +492,7 @@
 				</tr>
 				<%-- 반복끝 --%>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%=ctxPath %>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -489,7 +504,7 @@
 					<td colspan="3" class="empty_td"></td>
 				</tr>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%=ctxPath %>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -526,4 +541,4 @@
 	<%-- 장바구니 끝 --%>
 </div>
 	
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -207,7 +208,13 @@
 	        }
 	    });
 	    
-	});
+	    
+	    // 다음 단계로 클릭이벤트
+	    $("button#next").click(function(){
+	    	location.href = "<%=ctxPath%>/order/payInfo.sun";
+	    });
+	    
+	}); // end of ready 
 	
 	
 	function openDaumPOST(){
@@ -332,8 +339,8 @@
 			<input type="hidden" id="extraAddress" name="" />
 			<%-- 배송지 끝 --%>
 			<br><br>
-			<button type="button" class="button2">이전 단계로</button>
-			<button type="button" class="button1" style="width: 245px;">다음 단계로</button>
+			<button type="button" id="prev" class="button2">이전 단계로</button>
+			<button type="button" id="next" class="button1" style="width: 245px;">다음 단계로</button>
 		</form>
 	</div>
 	<div id="box2">
@@ -408,4 +415,4 @@
 	</div>
 </div>
 	
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />

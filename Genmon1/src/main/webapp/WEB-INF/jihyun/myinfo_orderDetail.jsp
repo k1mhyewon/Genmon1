@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<jsp:include page="header.jsp" />
+<% String ctxPath = request.getContextPath(); %>
+<jsp:include page="../header.jsp" />
 
 <style>
 
@@ -356,7 +356,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -376,7 +376,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -393,7 +393,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -464,7 +464,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -555,7 +555,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -575,7 +575,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -592,7 +592,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -667,7 +667,7 @@
 					</tr>
 					<%-- 반복시작 --%>
 					<tr>
-						<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 						<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
 					</tr>
 					<tr>
@@ -678,7 +678,7 @@
 					</tr>
 					<%-- 반복끝 --%>
 					<tr>
-						<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 						<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
 					</tr>
 					<tr>
@@ -688,7 +688,7 @@
 						<td  style="height: 70px;"> </td>
 					</tr>
 					<tr>
-						<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 						<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
 					</tr>
 					<tr>
@@ -759,4 +759,4 @@
 	<%-- 밑에 테이블 두개 끝 --%>
 </div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../footer.jsp" />
