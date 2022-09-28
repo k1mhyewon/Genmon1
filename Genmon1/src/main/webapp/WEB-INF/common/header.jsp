@@ -345,14 +345,14 @@
 		
 		<nav class="navbar navbar-expand-lg  ftco_navbar ftco-navbar-light" id="ftco-navbar">
 			<div class="container">
-				<a  href="<%= ctxPath%>/index.sun"><img src="../images/Gentle_monster_logo.png" style="width: 20%; max-width: 200px; min-width: 175px;"/></a>
+				<a href="<%= ctxPath%>/index.sun"><img src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="width: 20%; max-width: 200px; min-width: 175px;"/></a>
 				<div class="searchform order-sm-start order-lg-last">
 					<div class="form-group d-flex" style="padding-top:11px; padding-left: 0px;">
 							
 						<%-- Modal 검색 버튼 --%>
 			            <button id="search" type="button" class="form-control search" data-toggle="modal" data-target="#search_modal" style="border: 0px;"><span class="fa fa-search"></span></button>
 			        	<%-- Modal 검색 버튼 끝 --%>  
-			
+						
 			
      					<c:if test="${ empty sessionScope.loginuser }">
 							<button id="btn_login" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">login</button>
@@ -414,7 +414,7 @@
                			<div>
                    			<div class="collections">
                            		<a href="#">
-                           			<img src="images/le_iv1_1.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                           			<img src="/Genmon1/src/main/webapp/images/Gentle_monster_logo.png" style="width:70px; height:70px; border-radius: 50%;">
                        			</a>
                        			<div style="margin-top: 10px;">베스트셀러</div>
                        		</div>

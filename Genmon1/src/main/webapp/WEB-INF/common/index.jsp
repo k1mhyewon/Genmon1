@@ -23,20 +23,20 @@
 	
 	.text1 {
 		position: absolute;
-		top: 800px;
+		top: 82%;
 		left : 43%; 
 	}
 	
 	.text2 {
 		position: absolute;
-		top: 1700px;
+		top: 180%;
 		left : 40%; 
 		text-align: center;
 	}
 	
 	.text3 {
 		position: absolute;
-		top: 2700px;
+		top: 290%;
 		left : 40%; 
 		text-align: center;
 	}
@@ -72,6 +72,7 @@
 </style>
 
 <%-- 인덱스 시작 --%>
+<div>
 <section class="main moncler font--kr">
 	<div>
 	<article class="main-wrapper">
@@ -127,6 +128,7 @@
 		</div>
 	</article>
 </section>
+</div>
 <%-- 인덱스 끝 --%>
 
 <jsp:include page="footer.jsp" />
