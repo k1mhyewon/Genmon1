@@ -99,3 +99,4 @@ replay_pid*
 /Genmon1/src/main/webapp/WEB-INF/web.xml
 /Genmon1/src/main/webapp/WEB-INF/SQL/GenmonMVC.sql
 /Genmon1/src/main/webapp/WEB-INF/Command.properties
+/.codetogether.ignore
