@@ -2,8 +2,8 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="<%=ctxPath %>/WEB-INF/common/header.jsp" />
-<jsp:include page="myinfo_mainMenu.jsp" />
+<jsp:include page="<../common/header.jsp" />
+<jsp:include page="../common/myinfo_mainMenu.jsp" />
 
 <style>
 
@@ -707,4 +707,4 @@
 	<%-- 밑에 테이블 두개 끝 --%>
 </div>
 
-<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />
+<jsp:include page="../common/footer.jsp" />
