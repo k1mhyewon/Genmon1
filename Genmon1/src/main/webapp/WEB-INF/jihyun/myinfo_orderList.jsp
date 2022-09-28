@@ -3,7 +3,7 @@
 <% String ctxPath = request.getContextPath(); %>
     
 
-<jsp:include page="<%=ctxPath %>/WEB-INF/common/header.jsp" />
+<jsp:include page="../common/header.jsp" />
 <jsp:include page="myinfo_mainMenu.jsp" />
 
 <style>
@@ -158,4 +158,4 @@
 	<%-- 주문내역 있을때 끝 --%>
 </div>
 
-<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />
+<jsp:include page="../common/footer.jsp" />
