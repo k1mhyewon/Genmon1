@@ -5,7 +5,7 @@
     
 <% String ctxPath = request.getContextPath(); %>
     
-<jsp:include page="../header.jsp" />
+<jsp:include page="../common/header.jsp" />
 
 <style type="text/css">
 
@@ -255,5 +255,5 @@
 	
         	
     <!-- 인덱스 끝 -->
-<jsp:include page="../footer.jsp" />
+<jsp:include page="../common/footer.jsp" />
 

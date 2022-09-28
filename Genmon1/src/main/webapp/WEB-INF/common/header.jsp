@@ -345,7 +345,7 @@
 		
 		<nav class="navbar navbar-expand-lg  ftco_navbar ftco-navbar-light" id="ftco-navbar">
 			<div class="container">
-				<a  href="<%= ctxPath%>/index.sun"><img src="images/Gentle_monster_logo.png" style="width: 20%; max-width: 200px; min-width: 175px;"/></a>
+				<a  href="<%= ctxPath%>/index.sun"><img src="../images/Gentle_monster_logo.png" style="width: 20%; max-width: 200px; min-width: 175px;"/></a>
 				<div class="searchform order-sm-start order-lg-last">
 					<div class="form-group d-flex" style="padding-top:11px; padding-left: 0px;">
 							
