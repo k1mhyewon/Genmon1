@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+  
+ <% String ctxPath = request.getContextPath(); %>
+   
 <jsp:include page="../common/header.jsp" />
-<jsp:include page="myinfo_mainMenu.jsp"/>
+<jsp:include page="../common/myinfo_mainMenu.jsp" />
 
 <style type="text/css">
 
@@ -101,13 +103,34 @@
 	
 </style>
 
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		
+		
+		// 클릭한 메인메뉴 글씨 굵게
+    	$("span#info_detail").css("font-weight","bold");
+		
+		
+		// 마이페이지에서 수정으로 누르면 내정보수정으로 넘가는 버튼
+        $("span#btn_myinfoupdate").click(function(){
+        	location.href="<%= ctxPath%>/myinfo/infoUpdate.sun";
+			
+		}); // end of $("button#btn_logout").click() --------------
+		
+	}); // end of $(document).ready(function()
+
+
+
+</script>
+
    <form name="frm_mypage" id="frm_mypage">
         <div>
         	<div id="frm_my">
         	<section id="main1">
 	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 20px;">
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
-		       		<a href="infoUpdate1.jsp"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
+		       		<span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span>
 					<div style="padding: 5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
 							<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
@@ -157,13 +180,13 @@
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="point" style="width: 250px; display: inline-block;" >
+	        	<div id="point" style="width: 300px; display: inline-block;" >
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
 	        		<div style="text-align: center;margin: 3%;font-size: 13px;">포인트</div>
 	        		<button type="button" id="btn_point" class="btn_money" onclick="">적립내역</button>
 	        	</div>
 	        	
-	        	<div id="coin" style="width: 250px;margin-left:50px;display: inline-block;">
+	        	<div id="coin" style="width: 300px;margin-left:50px;display: inline-block;">
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">코인</span>
 	        		<div style="text-align: center;margin: 3%; font-size: 13px;">코인</div>
 	        		<button type="button" id="btn_coin" class="btn_money" onclick="">충전하기</button>

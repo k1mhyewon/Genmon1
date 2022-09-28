@@ -132,7 +132,11 @@
 		
 		
 		
-		
+		// 신규가입 버튼을 누르면
+        $("button#btn_gojoin").click(function(){
+        	location.href="<%= ctxPath%>/join.sun";
+			
+		}); // end of $("button#btn_logout").click() --------------
 
 		
 		
