@@ -1,55 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<jsp:include page="header.jsp" />
+<% String ctxPath = request.getContextPath(); %>
+
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/header.jsp" />
+<jsp:include page="myinfo_mainMenu.jsp" />
 
 <style>
 
 	* {font-family: 'Noto Sans KR', sans-serif; !important}
 
-	div#order_nav{
-		width: 40%;
-		margin: auto;
-	}
-	
-	nav > ul {
-	    /* border: solid 1px blue; */
-	
-	    display: flex;
-	    list-style-type: none;
-	    padding: 0;
-	    height: 90px;
-	    position: relative;
-	    top: 9px;
-	}
-	
-	nav > ul > li {
-	    /* border: solid 1px red; */
-	    width: 15%;
-	    
-	    /* text-align: center; */
-	
-	    /* 안먹어 그니까 테이블셋이나 플렉스를 조야댐 */
-	    /* vertical-align: middle;  */
-	    margin: auto;
-	}
-	
-	nav > ul > li > a {
-	    /* border: solid 1px green; */
-	
-	    text-decoration: none;
-	    color: black;
-	    font-size: 13pt;
-	    font-weight: bold;
-	    padding: 3%;
-	}
-	
-	nav > ul > li > a:hover{
-	    color: gray;
-	}
-	
-	/* 상단바 끝 */
-	
 	span.boldtxt{
 		display: block;
 		font-weight: bold;
@@ -265,6 +224,8 @@
 
 	$(document).ready(function(){
 		
+		$("span#order_deli").css("font-weight","bold");
+		
 		
 		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
 		$('.why_content').keyup(function (e) {
@@ -294,19 +255,6 @@
 
 </script>
 
-<%-- 상단네비 시작 --%>
-<div class="border-top"></div>
-<div id="order_nav">
-	<nav>
-	    <ul>
-	    	<li><a href="#">회원정보</a></li>
-	    	<li><a href="#">주문/배송</a></li>
-	    	<li><a href="#">위시리스트</a></li>
-	    	<li><a href="#">상품문의</a></li>
-	    </ul>
-	</nav>
-</div>
-<%-- 상단네비 끝 --%>
 
 <div class="border-top"></div>
 <div class="container my-5">
@@ -356,7 +304,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -376,7 +324,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -393,7 +341,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -464,7 +412,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -555,7 +503,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -575,7 +523,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -592,7 +540,7 @@
 					                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
 					                  		</div>
 				                  			<div class="prod_content_img">
-					                  			<img src="sun_img.png" style="max-width: 100%; height: auto;">
+					                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
 					                  		</div>
 					                  		<div class="prod_contents">
 						                  		<div class="sub_prod_contents">젠몬 01</div>
@@ -667,7 +615,7 @@
 					</tr>
 					<%-- 반복시작 --%>
 					<tr>
-						<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 						<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
 					</tr>
 					<tr>
@@ -678,7 +626,7 @@
 					</tr>
 					<%-- 반복끝 --%>
 					<tr>
-						<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 						<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
 					</tr>
 					<tr>
@@ -688,7 +636,7 @@
 						<td  style="height: 70px;"> </td>
 					</tr>
 					<tr>
-						<td rowspan="3" class="image"><img src="sun_img.png"  class="image"></td>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
 						<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
 					</tr>
 					<tr>
@@ -759,4 +707,4 @@
 	<%-- 밑에 테이블 두개 끝 --%>
 </div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />

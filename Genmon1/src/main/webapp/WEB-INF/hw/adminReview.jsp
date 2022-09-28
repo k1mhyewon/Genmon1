@@ -1,17 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+<% String ctxPath = request.getContextPath(); %>
 
-
-<jsp:include page="header.jsp" />
+<jsp:include page="../common/header.jsp" />
 
 <style>
 
 	* {font-family: 'Roboto Condensed', sans-serif;}
 	
-	#review_container {
+	.review_container {
 		/* width: 80%; */
-		/* border: solid 1px gray; */
-		margin: 0 auto;
 	}
 	
 	
@@ -24,10 +25,9 @@
     }
 
     div.containers {
-    /* 	border: solid 1px gray; */
         width: 70%;
         margin: 3% auto;
-        padding-left: 100px;
+        padding-left: 80px;
     }
 
     div#rate_title {
@@ -85,6 +85,7 @@
         float: left;
         font-weight: bold;
         padding: 250px 0 0 25px;
+        
 
     }
 
@@ -123,7 +124,7 @@
     .toggle_content {
     	border: solid 1px gray;
     	width: 450px;
-    	height: 130px;
+    	height: 140px;
     	margin-top: 20px;
     	padding: 10px 0 10px 10px;
     	border-radius: 15px 15px 15px 15px;
@@ -138,6 +139,7 @@
     .modify {
     	/* border: solid 1px gray; */
     	text-align: right;
+    	margin-top: 10px;
     }
     
     .btn_modify {
@@ -164,6 +166,28 @@
 	    height: auto;
     }
     
+    .write_reply_btn {
+    	text-decoration: underline;
+    	font-weight: normal;
+    	margin-left: 10px;
+    }
+    
+    .reply_content {
+    	font-size: 10pt;
+    	width: 97%;
+    }
+    
+    .color_red {
+    	color: red;
+    }
+  
+    
+    .reply_btns {
+    	font-size: 10pt;
+    	height: 30px;
+    	margin: 7px 0 0 7px;
+    }
+    
     
     
 
@@ -180,6 +204,42 @@
 		
 	} // end of function go_rev_modify() -------------------
 	
+
+	
+	$(document).ready(function(){
+		
+		
+		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
+		$('.reply_content').keyup(function (e) {
+			let reply_content = $(this).val();
+		    
+		    // 글자수 세기
+		    if (reply_content.length == 0 || reply_content == '') {
+		    	$('.text_cnt').text('0자');
+		    } else {
+		    	$('.text_cnt').text(reply_content.length + '자');
+		    }
+		    
+		    // 글자수 제한
+		    if (reply_content.length > 49) {
+		    	// 50자 부터는 타이핑이 안되게
+		    	$('.text_cnt').addClass('color_red');
+		        $(this).val($(this).val().substring(0, 49));
+		    }
+		    else {
+		    	$('.text_cnt').removeClass('color_red');
+		    }
+		}); // end of $('#rev_content').keyup() ---------------------------------
+		
+		
+		
+		
+	}); // end of $(document).ready() ---------------
+	
+	function delete_rev() {
+		
+		alert("정말 삭제하시겠습니까?");
+	}
 
 </script>
 
@@ -198,7 +258,7 @@
 	            <img src="le_iv1_1.jpg" style="width:230px; height:auto;">
 	        </div>
 	        <div id="prod_info">
-	        	<div style="font-size: 11pt;">르</div>
+	        	<div style="font-size: 11pt; ">르</div>
 	            <div style="font-size: 10pt;">189,000원</div>
 	            <div style="font-size: 10pt; color: #666666; margin-top: 5px;">리뷰(2)</div>
 	        </div>
@@ -225,15 +285,31 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
+	                <div style="font-size: 10pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="le_iv1_1.jpg" style="width: 80px;">
 	            </div>
 	            <div class="toggle_box">
-		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_1">
-						댓글(0)
+		            <span style="font-weight: bold;">댓글(0)</span>
+					<span id="reply_no" class="toggle_btn write_reply_btn" type="button" data-toggle="collapse" 
+						  data-target="#see_reply_1">댓글 작성
+					</span>
+					<div class="toggle_content collapse reply_container" id="see_reply_1">
+						<div style="font-weight: bold;">Gentle Monster</div>
+						<div style="margin-top: 10px;">
+			                <textarea class="col-auto form-control reply_content" type="text" 
+			                          placeholder="댓글내용을 작성해주세요." ></textarea>
+			                <div align="right" style="padding-right: 10px;">
+				                <span class="text_cnt">0자</span>
+				                <span>/50자</span>
+				                <button type="button" id="btn_reply" class="btn btn-dark reply_btns">작성완료</button>
+				            </div>
+			            </div>
 					</div>
+				</div>
+				<div class="modify">
+					<button type="button" class="btn btn-light btn_modify" onclick="delete_rev()">리뷰삭제</button>
 				</div>
 	        </div>
 	        <hr>
@@ -244,7 +320,7 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
+	                <div style="font-size: 10pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">
@@ -257,19 +333,25 @@
 			         </div>
 	            </div>
 	            <div class="toggle_box">
-		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_2">
+		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#see_reply_2">
 						댓글(1)
 					</div>
-					<div class="toggle_content collapse" id="reply_2">
-						<div style="font-weight: bold;">Gentle Monster</div>
-						<div style="font-size: 10pt; margin-top: 10px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+					<div class="toggle_content collapse" id="see_reply_2">
+						<span style="font-weight: bold;">Gentle Monster</span>
+						<span style="font-size: 9pt; color: gray; margin-left: 15px;">2022/10/01</span>
+						<div style="font-size: 10pt; margin-top: 10px; height: 52px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
+						<div style="text-align: right; padding-right: 10px;">
+							<button type="button" class="btn btn-light reply_btns">수정</button>
+							<button type="button" class="btn btn-dark reply_btns">삭제</button>
+						</div>
 					</div>
 				</div>
 				<div class="modify">
-					<button type="button" class="btn btn-light btn_modify" onclick="go_rev_modify()">수정</button>
+					<button type="button" class="btn btn-light btn_modify">리뷰삭제</button>
 				</div>
 	        </div>
 	        <hr>
+	        
 	        
 	        
 	        
@@ -278,4 +360,4 @@
     </div>
     <div id="empty"></div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../common/footer.jsp" />

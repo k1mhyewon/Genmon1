@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +19,10 @@
 <link href="//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica" rel="stylesheet" type="text/css"/>
 
 <style>
-
 	/* 폰트 적용(헬베티카) */
     @import url(//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica);
-    #logo, #footer_logo {font-family: "Helvetica" !important; src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot"); src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff") format("woff"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.svg#Helvetica") format("svg"); }
-   
+    #logo, #footer_logo {font-family: "Helvetica"; src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot"); src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff") format("woff"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.svg#Helvetica") format("svg"); }
+    
     div.toast { 
         max-width: 100%; 
         text-align: center;
@@ -69,11 +69,6 @@
         cursor: pointer;
     }
     
-    
-    
-    
-    /*  헤더 끗  */
-    
 	span.boldtxt{
 		display: block;
 		font-weight: bold;
@@ -86,15 +81,19 @@
 		margin-bottom: 6px;
 	}
 	
+	/*
+	span.nm{
+		font-size: 10pt;
+		margin-bottom: 6px;
+	} */
 	
-	.link_tag{
-		font-size: 11pt;
+	a.link_tag{
+		font-size: 10pt;
 		color: black;
 		text-decoration: underline;
 	}
 	
-	
-	input.input_style, select{
+	input.input_style{
 		margin-bottom: 20px;
 		width: 100%;
 		height: 40px;
@@ -133,9 +132,6 @@
 		display:inline-block;
 		width: 350px;
 		margin-left: 10%;
-		position: fixed;
-		top: 250px;
-		overflow: auto;
 	}
 	
 	/* 반응형 */
@@ -146,7 +142,6 @@
     		margin-right: auto;
     	}
         div#box2{
-        	position: static;
         	display:block;
         	width: 500px;
         	margin: 100px auto 150px auto;
@@ -187,32 +182,13 @@
 		border-top: 1px solid gray;
 	}
 	
-	label.labelst, a.labelst{
-		font-size: 10pt; 
-		padding-left: 10px;
-	}
-	
-	/* a:link    : 방문 전 링크 상태이다.
-       a:visited : 방문 후 링크 상태이다.
-      a:hover   : 마우스 오버 했을 때 링크 상태이다.
-      a:active  : 클릭 했을 때 링크 상태이다.
-    */
-	
-	label.labelst:hover, span.link_tag{
-		cursor: pointer;
-	}
-	
-	/* 주문상세 테이블 */
-	table#tbl_pay tr{
-		height: 30px;
-	}
-	
 </style>
 <!-- Optional JavaScript -->
 <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
 	$(document).ready(function(){
 	
 	    // toast(광고창)
@@ -232,9 +208,15 @@
 	        }
 	    });
 	    
-	}); // end of ready
+	    
+	    // 다음 단계로 클릭이벤트
+	    $("button#next").click(function(){
+	    	location.href = "<%=ctxPath%>/order/payInfo.sun";
+	    });
+	    
+	}); // end of ready 
 	
-	// 우편번호 찾기
+	
 	function openDaumPOST(){
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -282,14 +264,6 @@
 	        }
 	    }).open();
 	} // end of openDaumPOST()
-	
-	
-	// 서비스 가입사실 클릭 이벤트
-	function click_service(){
-		window.open("service.png", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-                , "left=300px, top=100px, width=1015px, height=560px"); 
-	} // end of 서비스 가입사실 클릭 이벤트
-	
 </script>
 
 </head>
@@ -332,128 +306,48 @@
     </nav>
     <%-- 상단바 끝 --%>
     
-   
+    
 	<div class="container-fluid" style="margin-top:120px; margin-bottom:120px;">
-	
-	<%-- 결제구역 시작 --%>
 	<div id="box1" >
-		<form name="frmPayInfo" >
-			<span class="boldtxt mb-4">결제 방법</span>
-			<div class="border-bottom"></div><br>
-			<span class="puretxt my-4">원하시는 결제 방법을 선택해주세요.</span>
+		<form name="frmDeliveryInfo">
+			<span class="boldtxt mb-4">배송지정보</span>
+			<span class="puretxt mb-4"> 현재 배송 지역은 South Korea 입니다. <a href="#" class="link_tag">다른 지역으로 배송하시겠습니까?</a> </span>
+			<span class="puretxt">이메일</span>
+			<input type="text" name="" class="input_style" autofocus placeholder="이메일"/>
+			<span></span>
 			
-			<%-- 라디오 시작 --%>
-			<input type="radio" name="payment" id="card"><label class="labelst" for="card">신용카드</label><br>
-			<input type="radio" name="payment" id="potint"><label class="labelst" for="potint">카카오페이</label><br>
-			<input type="radio" name="payment" id="account"><label class="labelst" for="account">가상계좌</label><br>
-			<%-- 라디오 끝 --%>
+			<%-- 
+			<span class="nm">성</span> <span class="nm" style="margin-left: 250px">이름</span><br>
+			<input type="text" name="" class="input_style" style="width: 245px;" placeholder="성"/>
+			<input type="text" name="" class="input_style" style="width: 245px; margin-left: 5px;" placeholder="이름"/>
+			--%>
 			
-			<%-- 적립금 사용 --%>
-			<span class="puretxt my-4">적립금 및 포인트 사용</span>
-			<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag"> 1000원</a></span>
-			<input type="text" name="" class="input_style" placeholder="사용하실 금액을 입력하세요"/>
+			<span class="puretxt">이름</span>
+			<input type="text" name="" class="input_style" placeholder="이름"/>
 			
-			<%-- 가상계좌 등장메뉴 --%>
-			<div id="account">
-				<br><div class="border-bottom my-3"></div><br>
-				
-				<span class="puretxt mb-3">잔액환불 원하는 계좌 정보를 입력해주세요</span>
-				<span class="puretxt">환불 계좌 은행명</span>
-				<select  class="myselect">
-					<option value="0" selected>은행명선택</option> 
-                    <option value="kakao">카카오뱅크</option>
-                    <option value="nong">농협</option>
-                    <option value="woori">우리</option>
-                    <option value="shinhan">신한</option>
-                    <option value="hana">하나</option>
-	            </select>
-				
-				<span class="puretxt">환불 계좌번호</span>
-				<input type="number" name="" class="input_style" placeholder="환불 계좌번호"/>
-				<span></span>
-				
-				<span class="puretxt">계좌주명</span>
-				<input type="text" name="" class="input_style" placeholder="계좌주명"/>
-				<span></span>
-			</div>
-			<%-- 가상계좌 등장메뉴 끝 --%>
+			<span class="puretxt">전화번호</span>
+			<input type="text" name="" class="input_style" placeholder="전화번호"/>
 			
-			<br>
-			<span class="puretxt by-5" style="color: gray;">채무지급보증안내 - 고객님의 안전한 현금자산 거래를 위하여 하나은행과 채무지급보증계약을 체결하여 보장해드리고 있습니다.</span>
-			<span class="link_tag" onclick="click_service()">서비스 가입사실 확인</span><br><br><br><br>
-		
-
-			<%-- 주문상세 시작 --%>
-			<span class="boldtxt mb-4">주문상세</span>
-			<span class="puretxt mb-3">이메일</span>
-			<span class="puretxt">kimgenmon@naver.com</span>
+			<%-- 배송지 시작 --%>
+			<span class="puretxt">배송지검색</span>
+			<input type="hidden" id="postcode" name=""/>
 			
-			<table class="my-4" id="tbl_pay">
-				<thead>
-					<tr style="height: 40px;">
-						<td style="font-weight: bold; font-size: 11pt;">배송</td>
-						<td class="myright"><strong><a href="#" class="link_tag">수정</a></strong></td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="width: 250px;">배송주소</td>
-						<td>전화번호</td>
-					</tr>
-					<tr>
-						<td style="width: 250px;">김젠몬</td>
-						<td>01012345678</td>
-					</tr>
-					<tr>
-						<td colspan="2">서울특별시 관악구 청림3마길 28-8</td>
-					</tr>
-					<tr>
-						<td colspan="2">101동 101호</td>
-					</tr>
-					<tr>
-						<td colspan="2">08732</td>
-					</tr>
-					<tr>
-						<td colspan="2"> </td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2">배송사</td>
-					</tr>
-					<tr>
-						<td colspan="2">CJ대한통운</td>
-					</tr>
-				</tfoot>
-			</table> <br>
-			<%-- 주문상세 끝 --%>
-			
-			
-			<%-- 체크박스 시작 --%>
-			<div class="my-3">
-				<input id="agree_all" type="checkbox" /><label for="agree_all" class="labelst">전체동의</label><br>
-				<input id="agree_1" type="checkbox" /><label for="agree_1" class="labelst">[필수]만14세이상입니다</label><br>
-				<input id="agree_2" type="checkbox" /><label><a href="#" class="link_tag labelst">[필수]이용약관동의</a></label><br>
-				<input id="agree_3" type="checkbox" /><label><a href="#" class="link_tag labelst">[필수]개인정보 수집 및 이용동의</a></label><br>
-				<input id="agree_4" type="checkbox" /><label><a href="#" class="link_tag labelst">[선택]마켓팅목적 개인정보 수집 및 이용동의</a></label><br>
-				<input id="agree_5" type="checkbox" /><label><a href="#" class="link_tag labelst">[선택]마켓팅정보수신 및 활용동의</a></label><br>
-			</div>
-			<%-- 체크박스 끝 --%>
-			
+			<input type="text" id="address" name="" class="input_style" placeholder="주소" style="display: inline-block; width: 380px;"/>
+			<button type="button" class="button1" onclick="openDaumPOST();">검색</button>
+			<span class="puretxt">상세주소</span>
+			<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
+			<input type="hidden" id="extraAddress" name="" />
+			<%-- 배송지 끝 --%>
 			<br><br>
-			<button type="button" class="button2">이전 단계로</button>
-			<button type="button" class="button1" style="width: 245px;">결제</button>
+			<button type="button" id="prev" class="button2">이전 단계로</button>
+			<button type="button" id="next" class="button1" style="width: 245px;">다음 단계로</button>
 		</form>
 	</div>
-	<%-- 결제구역 끝 --%>
-	
-	
-	<%-- 장바구니 시작 --%>
 	<div id="box2">
 		<table>
 			<thead>
 				<tr>
-					<td style="font-weight: bold; font-size: 11pt;">주문내역</td>
+					<td style="font-weight: bold;">주문내역</td>
 					<td colspan="2" class="myright"><strong><a href="#" class="link_tag">수정</a></strong></td>
 				</tr>
 				<tr style="height: 50px;">
@@ -508,22 +402,17 @@
 					<td colspan="2" class="myright">37826원</td>
 				</tr>
 				<tr class="height_tr">
-					<td>적립금 사용</td>
-					<td colspan="2" class="myright">-1000원</td>
-				</tr>
-				<tr class="height_tr">
 					<td>배송비</td>
 					<td colspan="2" class="myright">0원</td>
 				</tr>
 				<tr style="height: 50px;" class="top_line">
-					<td>총 결제금액</td>
+					<td>총합계</td>
 					<td>수량:10</td>
 					<td class="myright">37826원</td>
 				</tr>
 			</tfoot>
 		</table>
 	</div>
-	<%-- 장바구니 끝 --%>
 </div>
 	
-<jsp:include page="footer.jsp" />
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />

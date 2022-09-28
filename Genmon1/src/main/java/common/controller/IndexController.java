@@ -10,7 +10,7 @@ public class IndexController extends AbstractController {
 		
 		try {
 		// super.setRedirect(false);
-		super.setViewPage("/WEB-INF/index.jsp");
+		super.setViewPage("/WEB-INF/common/index.jsp");
 		} catch(Exception e) {
 			e.printStackTrace();
 			super.setRedirect(true);

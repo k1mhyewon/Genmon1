@@ -5,9 +5,11 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
+
+
 <style type="text/css">
 
-	* {font-family: 'Noto Sans KR', sans-serif;}
+
 	
 	li { list-style : none; }
     
@@ -20,7 +22,7 @@
     }
     
     .fontSize_small {
-    	font-size: 9pt;
+    	font-size: 10pt;
     }
     
     .find_result_content {

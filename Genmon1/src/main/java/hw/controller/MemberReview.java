@@ -5,14 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class UserSearch extends AbstractController {
+public class MemberReview extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		
 		try {
 			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/hw/userSearch.jsp");
+			super.setViewPage("/WEB-INF/hw/memberReview.jsp");
 			} catch(Exception e) {
 				e.printStackTrace();
 				super.setRedirect(true);
@@ -20,5 +21,7 @@ public class UserSearch extends AbstractController {
 			}
 		
 		}
+		
+	
 
 }

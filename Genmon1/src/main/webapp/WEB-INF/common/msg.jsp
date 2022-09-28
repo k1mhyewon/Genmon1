@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
     
 <script type="text/javascript">
-	alert("${requestScope.message}"); // 메세지 출력해주기
-	location.href ="${loc}"; // 페이지 이동
+
+	// alert("${message}");
+	alert("${requestScope.message}"); // 메시지 출력하기 requestScope. 는 생략 가능
 	
-	// (부모창을) 새로고침 해야만 변경된 세션을 보여줌 (부모창이 있다면 .. 없다면 노상관)
-	opener.location.reload(true);
-	self.close(); // 팝업창 닫기 (본인)
-	
+//	location.href = "${loc}";
+	location.href = "${requestScope.loc}"; // 페이지 이동
+
+	opener.location.reload(true); // 부모창 새로고침
 	// opener.history.go(0);         // 부모창 새로 고침
     /*   
       location.href="javascript:history.go(-2);";  // 이전이전 페이지로 이동 
@@ -21,4 +23,7 @@
        location.href="javascript:history.forward();";    // 다음 페이지로 이동.
    */
    
+	self.close(); // 팝업창 닫기
+	
+	
 </script>
