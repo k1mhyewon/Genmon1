@@ -28,7 +28,7 @@ div#reviewTbl {
     }
 
     select#rev_category {
-        width: 35%;
+        width: 200px;
         font-size: 10pt;
         margin-bottom: 10px;
     }
@@ -81,9 +81,12 @@ div#reviewTbl {
     }
     
     
-    
-    
-    
+    #review_prod {
+    	/* border: solid 1px gray; */
+    	float: right;
+    	padding: 0 0 50px 0;
+    }
+
     
     
     fieldset{
@@ -119,8 +122,6 @@ div#reviewTbl {
 
 	$(document).ready(function(){
 		
-		
-		
 		// 리뷰내용 글자수 200자 제한 -------------------------------------------------
 		$('#rev_content').keyup(function (e) {
 			let rev_content = $(this).val();
@@ -139,8 +140,6 @@ div#reviewTbl {
 		    };
 		}); // end of $('#rev_content').keyup() ---------------------------------
 		
-		
-		
 	}); // end of $(document).ready() ---------------
 	
 	
@@ -154,31 +153,38 @@ div#reviewTbl {
     <div id="reviewTbl">
         <div id="rev_title">리뷰작성</div>
         <form class="mb-3" name="reviewFrm" id="reviewFrm" method="post">
-            <select id="rev_category" name="rev_category">
-                <option value ="select_prod">제품선택</option>
-                <option value ="prod_1">제품1</option>
-                <option value ="prod_2">제품2</option>
-                <option value ="prod_3">제품3</option>
-            </select>
-        
-            <fieldset> <!-- 필드셋은 여러 컨트롤과 레이블을 묶을 때 사용 -->
-                <input type="radio" name="reviewStar" value="5" id="rate1"><label
-                    for="rate1">★</label>
-                <input type="radio" name="reviewStar" value="4" id="rate2"><label
-                    for="rate2">★</label>
-                <input type="radio" name="reviewStar" value="3" id="rate3"><label
-                    for="rate3">★</label>
-                <input type="radio" name="reviewStar" value="2" id="rate4"><label
-                    for="rate4">★</label>
-                <input type="radio" name="reviewStar" value="1" id="rate5"><label
-                    for="rate5">★</label>
-            </fieldset>
-            <p>아이디</p>
-            <input type="text" id="userid" name="userid" value="userid" />
+        	<div style="float: left;">
+	            <select id="rev_category" name="rev_category">
+	                <option value ="select_prod">제품선택</option>
+	                <option value ="prod_1">제품1</option>
+	                <option value ="prod_2">제품2</option>
+	                <option value ="prod_3">제품3</option>
+	            </select>
+	        
+	            <fieldset > <!-- 필드셋은 여러 컨트롤과 레이블을 묶을 때 사용 -->
+	                <input type="radio" name="reviewStar" value="5" id="rate1"><label
+	                    for="rate1">★</label>
+	                <input type="radio" name="reviewStar" value="4" id="rate2"><label
+	                    for="rate2">★</label>
+	                <input type="radio" name="reviewStar" value="3" id="rate3"><label
+	                    for="rate3">★</label>
+	                <input type="radio" name="reviewStar" value="2" id="rate4"><label
+	                    for="rate4">★</label>
+	                <input type="radio" name="reviewStar" value="1" id="rate5"><label
+	                    for="rate5">★</label>
+	            </fieldset>
+	            <p>아이디</p>
+	            <input type="text" id="userid" name="userid" value="userid" />
+            </div>
+            <div id="review_prod">
+            	<img src="le_iv1_1.jpg" style="width:200px; height:auto;">
+            </div>
             <div>
                 <textarea class="col-auto form-control" type="text" id="rev_content"
                           placeholder="리뷰내용을 입력해주세요."></textarea>
             </div>
+            
+            <div style="clear: both;"></div>
             <div id="text_cntBox">
                 <span id="text_cnt">0자</span>
                 <span>/200자</span>

@@ -16,7 +16,7 @@
 
     div#wishlist{
         /* border: solid 1px gray; */
-        width: 90%;
+        width: 100%;
         margin: auto;
     }
 
@@ -40,13 +40,12 @@
 
     img.product_img {
         width: 250px;
-        height: 400px;
+        height: auto;
         margin-bottom: 10px;
     }
 
     div.wish_container{
-        /* border: solid 1px purple; */
-        width: 100%;
+        border: solid 1px purple;
         margin: auto;
     }
 
@@ -55,7 +54,7 @@
         margin: 20px 200px 20px 200px;
     }
 
-b.nav-link{
+	b.nav-link{
         /* 추가 */
         color: black;
         font-size: 15pt;
@@ -101,7 +100,7 @@ b.nav-link{
         <div class="album">
             <div class="container">
                 <div class="wish_container row row-cols-1 row-cols-md-4">
-                    <div class="col">
+                    <div class="col" style="margin-right: 50px;">
                         <div class="card_body mx-1 my-3">
                             <img src="le_iv1_1.jpg" class="product_img">
                             <div id="productDesc">
@@ -109,7 +108,7 @@ b.nav-link{
                                 <p class="productPrice">280,000원</p>
                             </div>
                             <div>
-                                <button type="button" class="btnWish btn btn-dark">쇼핑백에 추가</button>
+                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
                             </div>
                             <div>
                                 <button type="button" class="btnWish btn btn-light">삭제</button>
@@ -124,7 +123,7 @@ b.nav-link{
                                 <p class="productPrice">280,000원</p>
                             </div>
                             <div>
-                                <button type="button" class="btnWish btn btn-dark">쇼핑백에 추가</button>
+                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
                             </div>
                             <div>
                                 <button type="button" class="btnWish btn btn-light">삭제</button>
@@ -139,7 +138,7 @@ b.nav-link{
                                 <p class="productPrice">280,000원</p>
                             </div>
                             <div>
-                                <button type="button" class="btnWish btn btn-dark">쇼핑백에 추가</button>
+                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
                             </div>
                             <div>
                                 <button type="button" class="btnWish btn btn-light">삭제</button>
@@ -154,7 +153,7 @@ b.nav-link{
                                 <p class="productPrice">280,000원</p>
                             </div>
                             <div>
-                                <button type="button" class="btnWish btn btn-dark">쇼핑백에 추가</button>
+                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
                             </div>
                             <div>
                                 <button type="button" class="btnWish btn btn-light">삭제</button>
@@ -169,7 +168,7 @@ b.nav-link{
                                 <p class="productPrice">280,000원</p>
                             </div>
                             <div>
-                                <button type="button" class="btnWish btn btn-dark">쇼핑백에 추가</button>
+                                <button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
                             </div>
                             <div>
                                 <button type="button" class="btnWish btn btn-light">삭제</button>
