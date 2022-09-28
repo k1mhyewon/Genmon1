@@ -48,6 +48,12 @@
 		vertical-align: top;
 	}
 	
+	section#main2 > div{
+		border-top: solid 1px #cccccc; 
+		padding: 20px;
+		
+	}
+	
 	span#money > div > button{
 		margin: 20% 30%;
 		background-color: #808080;
@@ -76,12 +82,23 @@
   	
  
 	.info {
-		margin: 10%
+		margin: 20px;
+		font-size: 12px;
+		text-align: center;
 	}
 	.info > span {
 		margin-right: 15%;
 	}
-  	
+	
+	.btn_money {
+		background-color: #cccccc;
+		border: none;
+		width: 100px;
+		margin: 30px 80px;
+		font-size: 12px;
+		line-height: 25px;
+	}
+	
 </style>
 
    <form name="frm_mypage" id="frm_mypage">
@@ -90,8 +107,8 @@
         	<section id="main1">
 	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 20px;">
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
-		       		<a href="#"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
-					<div style="padding: 5%; font-size: 12px;">
+		       		<a href="infoUpdate1.jsp"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
+					<div style="padding: 5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
 							<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
 							<li id="name" name="name">이름&nbsp;&nbsp;: </li>
@@ -107,25 +124,12 @@
 					</div>
 	        	</div>
 	        	 
-	          	<span id="money">
-		        	<div id="point" style="display: inline-block; width: 250px; border-top: solid 1px #cccccc; padding: 30px;" >
-		        		<h4>포인트</h4>
-		        		<div style="text-align: center;">포인트</div>
-		        		<button type="button" id="btn_point">적립내역</button>
-		        	</div>
-		        	
-		        	<div id="coin" style="display: inline-block; width: 250px;margin-left:50px; border-top: solid 1px #cccccc; padding: 30px;">
-		        		<h4 style="font-size: 16px; font-weight: bold; display: inline-block;">코인</h4>
-		        		<div style="text-align: center;">코인</div>
-		        		<button type="button" id="btn_coin">충전하기</button>
-		        	</div>
-	        	</span>
         	</section>
         	
         	<section id="main2">
-	        	<div id="order" style="border-top: solid 1px #cccccc; padding: 20px;" >
+	        	<div id="order">
 		        	<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">주문</span>
-		        	<a href=""><span id="btn_myinfoupdate" class="btn" type="button" style="text-decoration: underline; margin-left: 80%;font-size: 11px; ">모두보기</span></a>
+		        	<a href=""><span id="btn_myinfoupdate" class="btn" type="button" style="text-decoration: underline; margin-left: 80%;font-size: 12px; ">모두보기</span></a>
 	        		<div class="info">
 		        		<span>주문번호</span>
 		        		<span>주문날짜</span>
@@ -138,7 +142,7 @@
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="query" style="display: inline-block;  width: 100%; border-top: solid 1px #cccccc;padding: 20px;">
+	        	<div id="query">
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">문의</span>
 	        		<a href=""><span id="btn_query" class="btn" type="button" style="text-decoration: underline; margin-left: 80%;font-size: 12px; ">모두보기</span></a>
 	        		<div class="info">
@@ -151,6 +155,18 @@
 				   				</c:if>
 				   			--%>	
 	        		</div>
+	        	</div>
+	        	
+	        	<div id="point" style="width: 250px; display: inline-block;" >
+	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
+	        		<div style="text-align: center;margin: 3%;font-size: 13px;">포인트</div>
+	        		<button type="button" id="btn_point" class="btn_money" onclick="">적립내역</button>
+	        	</div>
+	        	
+	        	<div id="coin" style="width: 250px;margin-left:50px;display: inline-block;">
+	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">코인</span>
+	        		<div style="text-align: center;margin: 3%; font-size: 13px;">코인</div>
+	        		<button type="button" id="btn_coin" class="btn_money" onclick="">충전하기</button>
 	        	</div>
      		</section>
      		
