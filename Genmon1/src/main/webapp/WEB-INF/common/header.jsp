@@ -341,7 +341,7 @@
 	    color: #4f4f4f;
 	    background-color: #fff;
 	    background-clip: padding-box;
-	    border: 1px solid #bdbdbd;
+	    border: 1px solid #bdbdbd; 
 	    -webkit-appearance: none;
 	    -moz-appearance: none;
 	    appearance: none;
