@@ -2,52 +2,12 @@
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
     
-<jsp:include page="../header.jsp" />
+
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/header.jsp" />
+<jsp:include page="myinfo_mainMenu.jsp" />
 
 <style>
 
-	div#order_nav{
-		width: 40%;
-		margin: auto;
-	}
-	
-	nav > ul {
-	    /* border: solid 1px blue; */
-	
-	    display: flex;
-	    list-style-type: none;
-	    padding: 0;
-	    height: 90px;
-	    position: relative;
-	    top: 9px;
-	}
-	
-	nav > ul > li {
-	    /* border: solid 1px red; */
-	    width: 15%;
-	    
-	    /* text-align: center; */
-	
-	    /* 안먹어 그니까 테이블셋이나 플렉스를 조야댐 */
-	    /* vertical-align: middle;  */
-	    margin: auto;
-	}
-	
-	nav > ul > li > a {
-	    /* border: solid 1px green; */
-	
-	    text-decoration: none;
-	    color: black;
-	    font-size: 13pt;
-	    font-weight: bold;
-	    padding: 3%;
-	}
-	
-	nav > ul > li > a:hover{
-	    color: gray;
-	}
-	
-	/* 상단바 끝 */
 	
 	span.boldtxt{
 		display: block;
@@ -102,23 +62,21 @@
 		font-size: 11px;
 		background-color: black;
 		color: white;
+		font-weight: bold;
 	}
 	
 </style>
 
-<%-- 상단네비 시작 --%>
-<div class="border-top"></div>
-<div id="order_nav">
-	<nav>
-	    <ul>
-	    	<li><a href="#">회원정보</a></li>
-	    	<li><a href="#">주문/배송</a></li>
-	    	<li><a href="#">위시리스트</a></li>
-	    	<li><a href="#">상품문의</a></li>
-	    </ul>
-	</nav>
-</div>
-<%-- 상단네비 끝 --%>
+<script>
+
+	$(document).ready(function(){
+		
+		$("span#order_deli").css("font-weight","bold");
+		
+	}); // end of ready
+
+</script>
+
 
 <div class="border-top"></div>
 <div class="container my-5">
@@ -200,4 +158,4 @@
 	<%-- 주문내역 있을때 끝 --%>
 </div>
 
-<jsp:include page="../footer.jsp" />
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />

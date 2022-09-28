@@ -415,4 +415,4 @@
 	</div>
 </div>
 	
-<jsp:include page="../footer.jsp" />
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />

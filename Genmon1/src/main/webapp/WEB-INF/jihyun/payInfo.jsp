@@ -541,4 +541,4 @@
 	<%-- 장바구니 끝 --%>
 </div>
 	
-<jsp:include page="../footer.jsp" />
+<jsp:include page="<%=ctxPath %>/WEB-INF/common/footer.jsp" />
