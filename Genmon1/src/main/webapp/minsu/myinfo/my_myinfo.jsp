@@ -48,10 +48,21 @@
 		vertical-align: top;
 	}
 	
+<<<<<<< HEAD
 	section#main2 > div{
 		border-top: solid 1px #cccccc; 
 		padding: 20px;
 		
+=======
+	section#main2 > div {
+		padding: 30px;
+		border-top: solid 1px #cccccc;
+	}
+	
+	section#main2 > div > span {
+		font-size: 16px; 
+		font-weight: bold;
+>>>>>>> refs/heads/main
 	}
 	
 	span#money > div > button{
@@ -61,7 +72,6 @@
 		color: white; 
 		width: 40%;
 		line-height: 200%;
-		
 	}	
 	
 	div#frm_my {
@@ -83,13 +93,17 @@
  
 	.info {
 		margin: 20px;
+<<<<<<< HEAD
 		font-size: 12px;
 		text-align: center;
+=======
+>>>>>>> refs/heads/main
 	}
 	.info > span {
 		margin-right: 15%;
 	}
 	
+<<<<<<< HEAD
 	.btn_money {
 		background-color: #cccccc;
 		border: none;
@@ -99,6 +113,13 @@
 		line-height: 25px;
 	}
 	
+=======
+	ul {
+		list-style: none;
+		line-height: 40px;
+	}
+  	
+>>>>>>> refs/heads/main
 </style>
 
    <form name="frm_mypage" id="frm_mypage">
@@ -107,28 +128,42 @@
         	<section id="main1">
 	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 20px;">
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
+<<<<<<< HEAD
 		       		<a href="infoUpdate1.jsp"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
 					<div style="padding: 5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
+=======
+		       		<a href="#"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
+					<div style="margin-top: 5%;">
+						<ul >
+>>>>>>> refs/heads/main
 							<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
 							<li id="name" name="name">이름&nbsp;&nbsp;: </li>
 							<li id="birth" name="birth">생년월일&nbsp;&nbsp;: </li>
 							<li id="email" name="email">이메일&nbsp;&nbsp;: </li>
-							<li id="gender" name="gender">주소&nbsp;&nbsp;:</li>
-								<%-- <c:if test="">
-					    				<div>저장된 주소가 없습니다</div>
-					    				<button id="btn_adradd">새로운 주소 추가</button>
-					   				</c:if>
-					   			--%>	
-						</ul> 
-					</div>
+							<li id="gender" name="gender">주소&nbsp;&nbsp;: </li>
+						</ul>
+							<%-- <c:if test="">
+				    				<div>저장된 주소가 없습니다</div>
+				    				<button id="btn_adradd">새로운 주소 추가</button>
+				   				</c:if>
+				   			--%>	
+					
 	        	</div>
+<<<<<<< HEAD
 	        	 
+=======
+>>>>>>> refs/heads/main
         	</section>
         	
         	<section id="main2">
+<<<<<<< HEAD
 	        	<div id="order">
 		        	<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">주문</span>
+=======
+	        	<div id="order" >
+		        	<span >주문</span>
+>>>>>>> refs/heads/main
 		        	<a href=""><span id="btn_myinfoupdate" class="btn" type="button" style="text-decoration: underline; margin-left: 80%;font-size: 12px; ">모두보기</span></a>
 	        		<div class="info">
 		        		<span>주문번호</span>
@@ -143,7 +178,11 @@
 	        	</div>
 	        	
 	        	<div id="query">
+<<<<<<< HEAD
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">문의</span>
+=======
+	        		<span style="font-size: 16px; font-weight: bold;">문의</span>
+>>>>>>> refs/heads/main
 	        		<a href=""><span id="btn_query" class="btn" type="button" style="text-decoration: underline; margin-left: 80%;font-size: 12px; ">모두보기</span></a>
 	        		<div class="info">
 		        		<span>문의번호</span>
@@ -157,6 +196,7 @@
 	        		</div>
 	        	</div>
 	        	
+<<<<<<< HEAD
 	        	<div id="point" style="width: 250px; display: inline-block;" >
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
 	        		<div style="text-align: center;margin: 3%;font-size: 13px;">포인트</div>
@@ -168,8 +208,21 @@
 	        		<div style="text-align: center;margin: 3%; font-size: 13px;">코인</div>
 	        		<button type="button" id="btn_coin" class="btn_money" onclick="">충전하기</button>
 	        	</div>
+=======
+		        	<div id="point" style="width: 250px;" >
+		        		<h4>포인트</h4>
+		        		<div style="text-align: center;">포인트</div>
+		        		<button type="button" id="btn_point">적립내역</button>
+		        	</div>
+		        	
+		        	<div id="coin" style="width: 250px;margin-left:50px;">
+		        		<h4 >코인</h4>
+		        		<div style="text-align: center;">코인</div>
+		        		<button type="button" id="btn_coin">충전하기</button>
+		        	</div>
+		        	
+>>>>>>> refs/heads/main
      		</section>
-     		
      		</div>
        </div>
    </form>
