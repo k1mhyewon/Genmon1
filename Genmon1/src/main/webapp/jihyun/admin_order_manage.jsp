@@ -151,8 +151,30 @@
 	// tr 클릭 이벤트 (나중에 바인드로 다 고치쟝) 주문/ 취소/ 반품/ 교환 다 달라야해
 	// 창 닫으면 자동으로 refresh 하도록 하자
 	function click_event(){
-		window.open("order_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	            , "left=650px, top=100px, width=600px, height=800px"); 
+		
+		//팝업창을 화면 가운데 위치시키기
+		const pop_width = 600;
+		const pop_height = 800;
+		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
+		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
+		
+		/*
+		// 주문상세
+		window.open("admin_order_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		
+		// 취소상세
+		window.open("admin_cancel_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		
+		// 반품상세
+		window.open("admin_return_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		*/
+		// 교환상세
+		window.open("admin_change_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		
 	} // end of tr 클릭 이벤트
 
 

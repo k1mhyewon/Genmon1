@@ -5,9 +5,11 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
+
+
 <style type="text/css">
 
-	* {font-family: 'Noto Sans KR', sans-serif;}
+
 	
 	li { list-style : none; }
     
@@ -20,7 +22,7 @@
     }
     
     .fontSize_small {
-    	font-size: 9pt;
+    	font-size: 10pt;
     }
     
     .find_result_content {
@@ -106,7 +108,7 @@
 	<div id="idFind_result" style="text-align: center; margin: 30px 20px 0 0;">
 		<c:if test="${ not empty requestScope.userid }">
 			<span class="fontSize_small find_result_content">회원님의 아이디는
-				<span style="color: red; font-size: 16pt; ">${requestScope.userid}</span>입니다.
+				<span style="color: gray; font-weight: bold; font-size: 16pt; ">${requestScope.userid}</span>&nbsp;입니다.
 			</span>
 		</c:if>
 		<c:if test="${ empty requestScope.userid }">

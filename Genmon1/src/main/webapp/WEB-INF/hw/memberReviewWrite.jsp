@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<jsp:include page="header.jsp" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+<% String ctxPath = request.getContextPath(); %>
+
+<jsp:include page="../common/header.jsp" />
 
 <style>
 
@@ -202,4 +206,4 @@ div#reviewTbl {
 
 <%-- 인덱스 끝 --%>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../common/footer.jsp" />

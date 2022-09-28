@@ -176,7 +176,7 @@ public class MemberDAO implements InterMemberDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select userid "
-					   + " from tbl_member "
+					   + " from tbl_member_test "
 					   + " where status = 1 and name = ? and email = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -215,7 +215,7 @@ public class MemberDAO implements InterMemberDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select userid "
-					   + " from tbl_member "
+					   + " from tbl_member_test "
 					   + " where status = 1 and userid = ? and email = ? ";
 			
 			pstmt = conn.prepareStatement(sql);

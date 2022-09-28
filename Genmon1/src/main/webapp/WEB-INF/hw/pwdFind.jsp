@@ -42,6 +42,7 @@
 </style>
 
 
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,17 +58,73 @@
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
+<script>
+
+	$(document).ready(function(){
+		//찾기
+		$("button#find_pwd").click(function(){
+			
+			const useridVal = $("input#userid").val().trim();
+			const emailVal = $("input#email").val().trim();
+			// console.log("userid: "+useridVal + "email: "+emailVal);
+			
+			// 아이디 및 이메일에 대한 정규표현식을 사용한 유효성 검사는 생략한다.
+			
+			if( useridVal != "" && emailVal != "" ) {
+				const frm = document.findPwdFrm;
+				frm.action = "<%= ctxPath%>/pwdFind.sun";
+				frm.method = "POST"; // 대소문자 구분 안함
+				frm.submit();
+			}
+			else{
+				alert("아이디와 이메일을 입력하세요 !!");
+				return;
+			}
+			
+		}); // end of $("button#btnFind").click() ---------------------
+		
+		const method = "${requestScope.method}"; // requestScope. 은 생략 가능 / "" 넣어줘야 함
+		
+		if(method == "POST"){
+			$("div#pwdFind_result").show();
+			$("input#userid").val("${requestScope.userid}");
+			$("input#email").val("${requestScope.email}");
+			
+			if("${requestScope.sendMailSuccess}"){
+				$("div#div_btnFind").hide(); // 찾기버튼 감춤
+			}
+		}
+		else { // get 방식이라면 결과물을 보여주면 안됨
+			$("div#pwdFind_result").hide();
+		}
+		
+		
+		$("button#codeConfirm_btn").click(function(){ // -------------------
+			
+			const frm = document.verifyCertiFrm;
+			frm.userid.value = $("input#userid").val();
+			frm.userCertiCode.value = $("input#input_confirmCode").val();
+			
+			frm.action = "<%= ctxPath%>/verifyCertification.sun";
+			frm.method = "POST";
+			frm.submit();
+			
+		}); // end of $("button#codeConfirm_btn").click() ------------------
+		
+		
+	}); // end of $(document).ready() -------------------------------
+</script>
 
 
     
-<form name="pwdFindFrm" class="form_container">
+<form name="findPwdFrm" class="form_container">
 	<div style="font-size: 15pt; font-weight: bold;  margin-bottom: 20px;">비밀번호 찾기</div>
 	<div class="fontSize_small">아이디와 이메일을 입력해주세요.</div>
 	<hr>
 	<ul style="list-style-type: none; margin-top: 30px;" class="fontSize_small">
 		<li style="margin: 25px 0">
 			<label for="name" style="display: inline-block; width: 90px">아이디</label>
-			<input type="text" name="name" id="name" size="25" placeholder="김젠몬" autocomplete="off" required />
+			<input type="text" name="userid" id="userid" size="25" placeholder="genmon" autocomplete="off" required />
 		</li>
 		<li style="margin: 25px 0">
 			<label for="email" style="display: inline-block; width: 90px">이메일</label>
@@ -84,6 +141,12 @@
 		<div style="font-size: 9pt;">로 발송되었습니다.</div>
 		<div style="font-size: 9pt;">인증코드를 입력해주세요.</div>
 		<input type="text" name="input_confirmCode" id="input_confirmCode" required /><br>
-		<button type="button" class="btn btn-light" id="btnConfirmCode" style="font-size: 9pt;">인증하기</button>
+		<button type="button" class="btn btn-light" id="codeConfirm_btn" style="font-size: 9pt;">인증하기</button>
 	</div>
+</form>
+
+<%-- 인증하기 form --%>
+<form name="verifyCertiFrm">
+	<input type="hidden" name="userid" />
+	<input type="hidden" name="userCertiCode" />
 </form>

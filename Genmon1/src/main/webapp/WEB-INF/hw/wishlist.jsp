@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
-<jsp:include page="header.jsp" />
+<% String ctxPath = request.getContextPath(); %>
+    
+<jsp:include page="../common/header.jsp" />
+
 <style>
 
 /* 추가 */
@@ -51,43 +56,12 @@
         margin: 20px 200px 20px 200px;
     }
 
-	b.nav-link{
-        /* 추가 */
-        color: black;
-        font-size: 15pt;
-        font-weight: bold;
-        margin-left: 130px;
-    }
 
     /* 추가 */
 
 </style>
     <!-- 인덱스 시작 -->
-    <div>
-        <nav class="navbar navbar-expand-md" >
-            <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-              <span class="navbar-toggler-icon"><i class="fab fa-windows fa-lg"></i></span>
-            </button>
-            <div class="collapse navbar-collapse" id="myPageNav">
-              <ul class="navbar-nav" style="margin: 0 auto;">
-                <li class="nav-item">
-                  <b class="nav-link" href="#">회원정보</b>
-                </li>
-                <li class="nav-item">
-                  <b class="nav-link" href="#">주문/배송</b>
-                </li>
-                <li class="nav-item">
-                  <b class="nav-link" href="#">위시리스트</b>
-                </li>
-                <li class="nav-item">
-                    <b class="nav-link" href="#">상품문의</b>
-                </li>     
-              </ul>
-            </div>  
-            
-        </nav>
-    </div>
-    
+ 
     <!-- 위시리스트 목록 -->
 
 
@@ -99,7 +73,7 @@
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
 				<div class="col">
 					<div class="card_body mx-1 my-3">
-						<img src="le_iv1_1.jpg" class="product_img">
+						<img src="../images/le_iv1_1.jpg" class="product_img">
 						<div id="productDesc">
 							<p class="productName">르1</p>
 							<p class="productPrice">280,000원</p>
@@ -114,7 +88,7 @@
 				</div>
 				<div class="col">
 					<div class="card_body mx-1 my-3">
-						<img src="le_iv1_1.jpg" class="product_img">
+						<img src="../images/le_iv1_1.jpg" class="product_img">
 						<div id="productDesc">
 							<p class="productName">르1</p>
 							<p class="productPrice">280,000원</p>
@@ -129,7 +103,7 @@
 				</div>
 				<div class="col">
 					<div class="card_body mx-1 my-3">
-						<img src="le_iv1_1.jpg" class="product_img">
+						<img src="../images/le_iv1_1.jpg" class="product_img">
 						<div id="productDesc">
 							<p class="productName">르1</p>
 							<p class="productPrice">280,000원</p>
@@ -144,7 +118,7 @@
 				</div>
 				<div class="col">
 					<div class="card_body mx-1 my-3">
-						<img src="le_iv1_1.jpg" class="product_img">
+						<img src="../images/le_iv1_1.jpg" class="product_img">
 						<div id="productDesc">
 							<p class="productName">르1</p>
 							<p class="productPrice">280,000원</p>
@@ -159,7 +133,7 @@
 				</div>
 				<div class="col">
 					<div class="card_body mx-1 my-3">
-						<img src="le_iv1_1.jpg" class="product_img">
+						<img src="../images/le_iv1_1.jpg" class="product_img">
 						<div id="productDesc">
 							<p class="productName">르1</p>
 							<p class="productPrice">280,000원</p>
@@ -178,4 +152,4 @@
 	<div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../common/footer.jsp" />

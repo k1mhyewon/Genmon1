@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
+<% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="header.jsp" />
+<jsp:include page="../common/header.jsp" />
 
 <style>
 
@@ -195,7 +198,7 @@
         
        	<div class="containers">
 	        <div id="prod_photo">
-	            <img src="le_iv1_1.jpg" style="width:230px; height:auto;">
+	            <img src="../images/le_iv1_1.jpg" style="width:230px; height:auto;">
 	        </div>
 	        <div id="prod_info">
 	        	<div style="font-size: 11pt;">르</div>
@@ -228,7 +231,7 @@
 	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
-	                <img src="le_iv1_1.jpg" style="width: 80px;">
+	                <img src="../images/le_iv1_1.jpg" style="width: 80px;">
 	            </div>
 	            <div class="toggle_box">
 		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_1">
@@ -247,7 +250,7 @@
 	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
-	                <img src="le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">
+	                <img src="../images/le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">
 	                <div class="modal fade" id="img_modal">
 			        	<div class="modal-dialog modals-fullsize_img">
 			        		<div class="modal-content modals-fullsize">
@@ -278,4 +281,4 @@
     </div>
     <div id="empty"></div>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="../common/footer.jsp" />
