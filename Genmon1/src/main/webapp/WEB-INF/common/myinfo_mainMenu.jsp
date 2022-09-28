@@ -3,10 +3,10 @@
 <% String ctxPath =request.getContextPath();  %>
 <style>
 
-	form#frm_myinfoMainmenu {
+	div#frm_myinfoMainmenu {
 		/* border-top: solid 1px gray;  */
 		align-content: center;
-		margin: 2% 0%;
+		margin: 0% 0%;
 		padding: 2%;
 	}	
 	
@@ -57,8 +57,7 @@
 
 
 
-<form name="frm_myinfoMainmenu" id="frm_myinfoMainmenu">
-
+<div id="frm_myinfoMainmenu">
 	<span id="main_menu">
 		<span><a href="my_myinfo.jsp">회원정보</a></span>
 		<span id="order_deli"><a href="javascript:location.href='<%=ctxPath %>/myinfo/orderList.sun'">주문/배송</a></span>
@@ -66,7 +65,7 @@
 		<span><a href="#">상품문의</a></span>
 	</span>
 
-</form>		
+</div>		
 	
 
 

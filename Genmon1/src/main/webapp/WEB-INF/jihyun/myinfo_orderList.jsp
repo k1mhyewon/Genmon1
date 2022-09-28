@@ -4,7 +4,7 @@
     
 
 <jsp:include page="../common/header.jsp" />
-<jsp:include page="myinfo_mainMenu.jsp" />
+<jsp:include page="../common/myinfo_mainMenu.jsp" />
 
 <style>
 
