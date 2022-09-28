@@ -521,11 +521,16 @@
 				<button id="btn_adminPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">관리자페이지</button>
 			</c:if>
 			<button id="btn_logout" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">logout</button>
+			
 		</c:if>
-        <a type="button" class="link-secondary me-3 " href="#">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="badge rounded-pill badge-notification bg-danger">1</span>
-        </a>
+		<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
+			<a type="button" class="link-secondary me-3 " href="#">
+          		<i class="fas fa-shopping-cart"></i>
+          		<span class="badge rounded-pill badge-notification bg-danger">1</span>
+        	</a>
+        </c:if>
+		
+        
 			        
 			        
         
