@@ -485,7 +485,7 @@
           <a class="nav-link" href="#">브랜드</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">선글라스</a>
+          <a class="nav-link" href="<%=ctxPath %>/product/productList.sun">선글라스</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">스타일</a>
@@ -565,13 +565,13 @@
                			<div>
                    			<div class="collections">
                            		<a href="#">
-                           			<img src="/Genmon1/src/main/webapp/images/Gentle_monster_logo.png" style="width:70px; height:70px; border-radius: 50%;">
+                           			<img src="<%=ctxPath %>/images/Gentle_monster_logo.png" style="width:70px; height:70px; border-radius: 50%;">
                        			</a>
                        			<div style="margin-top: 10px;">베스트셀러</div>
                        		</div>
                        		<div class="collections">
                        			<a href="#">
-                           			<img src="images/le_01.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                           			<img src="<%=ctxPath %>/images/le_01.jpg" style="width:70px; height:70px; border-radius: 50%;">
                        			</a>
                          		<div style="margin-top: 10px;">캣아이프레임</div>
                        		</div>
