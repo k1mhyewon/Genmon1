@@ -312,6 +312,13 @@
         	location.href="<%= ctxPath%>/logout.sun";
 			
 		}); // end of $("button#btn_logout").click() --------------
+		
+		// 홈화면 헤더에서 마이페이지 버튼을 누르면
+        $("button#btn_myPage").click(function(){
+        	location.href="<%= ctxPath%>/member/myinfo.sun";
+			
+		}); // end of $("button#btn_logout").click() --------------
+        
         
     });
 
