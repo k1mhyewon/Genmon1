@@ -4,7 +4,9 @@
 <jsp:include page="header.jsp" />
 
 <link rel="stylesheet" type="text/css" href="productDetail.css">
+
 <style type="text/css">
+
 </style>
 
 
@@ -28,10 +30,10 @@
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
 			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트01색1미니.jpg"></a></li>
+			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트미니.jpg"></a></li>
+			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트초록미니.jpg"></a></li>
 			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트01색상2미니.jpg"></a></li>
 			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트01색상3미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트01색상4미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트01색상4미니.jpg"></a></li>
 			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="images/릴리트01색상4미니.jpg"></a></li>
 			 		</ul>
 		 		</div>
@@ -167,7 +169,8 @@
 		 	  </div>
        	 </div>	
       </div>
-	
+	  
+	  	
 	  <%-- 제품 상세 이미지 박스 --%>
 	  		<div class="img-row-box"> 
 		      <div class="img-row">
@@ -192,9 +195,9 @@
   					<div><a href="" class="related-img"><img alt="" src="images/related/디디온01(G)1.jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
-      						<li class=""><a href="#" class="link">로셀 01</a></li>
-      						<li class=""><a href="#" class="link" style="margin: 0;">259,000원</a></li>
-      						<li class=""><a href="#" class="link">+5 Colors</a></li>
+      						<li class="sun-title"><a href="#" class="link">디디온01(G)</a></li>
+      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">270,000원</a></li>
+      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
       					</ul>
    					</div>
    				</div>
@@ -204,9 +207,9 @@
   					<div><a href="" class="related-img"><img alt="" src="images/related/로셀BC5(1).jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
-      						<li class=""><a href="#" class="link">로셀 01</a></li>
-      						<li class=""><a href="#" class="link" style="margin: 0;">259,000원</a></li>
-      						<li class=""><a href="#" class="link">+5 Colors</a></li>
+      						<li class="sun-title"><a href="#" class="link">로셀BC5</a></li>
+      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">269,000원</a></li>
+      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
       					</ul>
        				</div>
        			</div>	
@@ -216,9 +219,9 @@
   					<div><a href="" class="related-img"><img alt="" src="images/related/모마티01(OR)2.jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
-      						<li class=""><a href="#" class="link">로셀 01</a></li>
-      						<li class=""><a href="#" class="link" style="margin: 0;">259,000원</a></li>
-      						<li class=""><a href="#" class="link">+5 Colors</a></li>
+      						<li class="sun-title"><a href="#" class="link">모마티01(OR)</a></li>
+      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">249,000원</a></li>
+      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
       					</ul>
        				</div>
        			</div >
@@ -228,9 +231,9 @@
   					<div><a href="" class="related-img"><img alt="" src="images/related/밀01(K)1.jpg"></a></div>
       				<div class="related-item-info-box">
       					<ul class="related-go">
-      						<li class=""><a href="#" class="link">로셀 01</a></li>
-      						<li class=""><a href="#" class="link" style="margin: 0;">259,000원</a></li>
-      						<li class=""><a href="#" class="link">+5 Colors</a></li>
+      						<li class="sun-title"><a href="#" class="link">밀01(K)</a></li>
+      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">249,000원</a></li>
+      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
       					</ul>
        				</div>
        			</div>
@@ -240,9 +243,9 @@
   					<div><a href="" class="related-img"><img alt="" src="images/related/밀Y2(1).jpg"></a></div>
       				<div class="related-item-info-box">
       					<ul class="related-go">
-      						<li class=""><a href="#" class="link">로셀 01</a></li>
-      						<li class=""><a href="#" class="link" style="margin: 0;">259,000원</a></li>
-      						<li class=""><a href="#" class="link">+5 Colors</a></li>
+      						<li class="sun-title"><a href="#" class="link">밀Y2</a></li>
+      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">249,000원</a></li>
+      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
       					</ul>
        				</div>
        			</div>
@@ -250,6 +253,20 @@
         	</ul>
        	</div>
     </div>
+	 
+	 
+	 <%-- footer 하단bar 고정 --%>
+	
+	<nav class="footer-navbar fixed-bottom navbar-light bg-light ml-auto ">
+	  <div class="container-fluid">
+	    <span class="footer-bar__btn" data-target-slide="recent-list" data-category="footer" data-action="footer_click" data-label="최근 본 상품">
+			최근 본 상품 <span class="recent-count font--md">(3)</span>
+		</span> 
+		<span class="footer-bar__btn" data-target-slide="wish-list" data-category="footer" data-action="footer_click" data-label="관심상품">
+			관심상품 <span class="wish-count font--md">(0)</span>
+		</span>
+	  </div>
+	</nav>
 	 
 <%-- 인덱스 끝 --%>
 
