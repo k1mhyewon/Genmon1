@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -167,7 +169,7 @@
 			<table>
 				<tbody>
 					<tr>
-						<td rowspan="5" class="image"><img src="sun_img.png" class="image"></td>
+						<td rowspan="5" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
 						<td class="myright"></td>
 						<td class="myleft"></td>
 					</tr>
@@ -201,7 +203,7 @@
 			<table>
 				<tbody>
 					<tr>
-						<td rowspan="5" class="image"><img src="sun_img.png" class="image"></td>
+						<td rowspan="5" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
 						<td class="myright"></td>
 						<td class="myleft"></td>
 					</tr>
