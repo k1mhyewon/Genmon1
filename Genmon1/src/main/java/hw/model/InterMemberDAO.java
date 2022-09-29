@@ -14,7 +14,10 @@ public interface InterMemberDAO {
 	// id 찾기(성명, 이메일을 입력받아서 해당 사용자의 아이디를 알려준다.)
 	String idFind(Map<String, String> paraMap) throws SQLException;
 
-	// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 존재여부를 알려준다.)
+	// 회원의 존재여부 확인 - 비밀번호 찾기 (아이디, 이메일을 입력받아서 해당 사용자의 존재여부를 알려준다.)
 	boolean isUserExists(Map<String, String> paraMap) throws SQLException;
+
+	// 비밀번호 변경(update)
+	int pwdUpdate(Map<String, String> paraMap) throws SQLException;
 
 }

@@ -28,6 +28,7 @@
     	width: 80%;
     	padding: 2%;
     	margin: auto;
+    	margin-top: 50px;
     	
     }
     
@@ -62,7 +63,7 @@
 
 	$(document).ready(function(){
 		//찾기
-		$("button#find_pwd").click(function(){
+		$("button#link_btn").click(function(){
 			
 			const useridVal = $("input#userid").val().trim();
 			const emailVal = $("input#email").val().trim();
@@ -99,17 +100,11 @@
 		}
 		
 		
-		$("button#codeConfirm_btn").click(function(){ // -------------------
-			
-			const frm = document.verifyCertiFrm;
-			frm.userid.value = $("input#userid").val();
-			frm.userCertiCode.value = $("input#input_confirmCode").val();
-			
-			frm.action = "<%= ctxPath%>/verifyCertification.sun";
-			frm.method = "POST";
-			frm.submit();
-			
-		}); // end of $("button#codeConfirm_btn").click() ------------------
+		// 닫기버튼을 클릭하면 모달창 닫기
+		$("#btn_close").click(function(){ // -----------------------
+			self.close();
+		}); // end of $("#btn_close").click() ----------------------
+		
 		
 		
 	}); // end of $(document).ready() -------------------------------
@@ -117,7 +112,7 @@
 
 
     
-<form name="findPwdFrm" class="form_container">
+<form name="findPwdFrm" class="form_container" id="findPwdFrm">
 	<div style="font-size: 15pt; font-weight: bold;  margin-bottom: 20px;">비밀번호 찾기</div>
 	<div class="fontSize_small">아이디와 이메일을 입력해주세요.</div>
 	<hr>
@@ -132,21 +127,15 @@
 		</li>
 	</ul>
 	<div style="text-align: center; margin-top: 30px;">
-		<button type="button" class="btn btn-dark" id="find_pwd" style="font-size: 9pt;">찾기</button>
+		<button type="button" class="btn btn-dark" id="link_btn" style="font-size: 9pt;">비밀번호 변경 링크 전송</button>
 	</div>
 	
 	<div id="pwdFind_result" >
-		<div style="font-size: 9pt;">인증코드가 회원님의 이메일</div>
+		<div style="font-size: 9pt;">비밀번호 변경 링크가 회원님의 이메일</div>
 		<div style="font-size: 9pt; font-weight: bold;">"${requestScope.email}"</div>
 		<div style="font-size: 9pt;">로 발송되었습니다.</div>
-		<div style="font-size: 9pt;">인증코드를 입력해주세요.</div>
-		<input type="text" name="input_confirmCode" id="input_confirmCode" required /><br>
-		<button type="button" class="btn btn-light" id="codeConfirm_btn" style="font-size: 9pt;">인증하기</button>
+		<div style="font-size: 9pt;">이메일을 확인해주세요.</div>
+		<button type="button" class="btn btn-light" id="btn_close" style="font-size: 9pt;">닫기</button>
 	</div>
 </form>
 
-<%-- 인증하기 form --%>
-<form name="verifyCertiFrm">
-	<input type="hidden" name="userid" />
-	<input type="hidden" name="userCertiCode" />
-</form>

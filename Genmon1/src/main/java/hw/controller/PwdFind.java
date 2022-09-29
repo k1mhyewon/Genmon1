@@ -37,13 +37,13 @@ public class PwdFind extends AbstractController {
 				// System.out.println("유저 확인.");
 				// 회원으로 존재하는 경우
 				
-				// 인증키를 랜덤하게 생성한다.
+				// *** 랜덤한 인증키 생성 시작 *** // ---------------------------------------------
 				Random rnd = new Random();
-
+				
 				String certificationCode = "";
 				// 인증키는 영문소문자 5글자 + 숫자 7글자 로 만듦
 				// 예: certificationCode ==> dnfef5334238
-
+				
 				char randchar = ' ';
 				for(int i=0; i<5; i++) {
 					// min 부터 max 사이의 값으로 랜덤한 정수를 얻으려면 
@@ -54,7 +54,7 @@ public class PwdFind extends AbstractController {
 					certificationCode += randchar;
 					
 				} // end of for -----------------------------
-
+				
 				int randnum = 0;
 				for(int i=0; i<7; i++) {
 					
@@ -63,27 +63,34 @@ public class PwdFind extends AbstractController {
 					
 				} // end of for -----------------------------
 				
-				System.out.println("~~~~~~~ 확인용 certificationCode " + certificationCode);
+				// System.out.println("~~~~~~~ 확인용 certificationCode " + certificationCode);
 				// ~~~~~~~ 확인용 certificationCode uxajw2694210
 				
+				// *** 랜덤한 인증키 생성 끝  *** // --------------------------------------------
+				
+				String pwdChangeLink = "http://localhost:9090/Genmon1/member/pwdChange.sun";
+				// 비밀번호 변경 페이지 링크
+				pwdChangeLink += "?userid="+userid+"&certificationCode="+certificationCode;
+				
+				System.out.println("pwdChangeLink: " + pwdChangeLink);
+
 				// 랜덤하게 생성한 인증코드(certificationCode) 를 비밀번호 찾기를 하고자 하는 사용자의 email 로 전송한다. khwclass@gmail.com qWer1234$
 				GoogleMail mail = new GoogleMail();
 				
 				try {
-					mail.sendmail(email, certificationCode);
+					mail.sendmail(email, pwdChangeLink);
 					sendMailSuccess = true; // 메일 전송 성공 기록
 	
-					// 세션(Session) 영역에 저장된 데이터는 모든 클래스 파일 및 모든 jsp 파일에서 사용가능하다.
-					// 그런데 request 영역에 저장된 데이터는 forward 된 특정 jsp 파일에서만 사용가능하다. 
 					// 세션(Session) 불러오기
 					HttpSession session = request.getSession();
+					session.setAttribute("certificationCode", certificationCode);
+					// 발급한 인증코드를 세션에 저장함
 					
-					session.setAttribute("certificationCode", certificationCode); // 발급한 인증코드를 세션에 저장함
 				} catch(Exception e) {
 					e.printStackTrace();
 					sendMailSuccess = false; // 메일 전송 실패 기록 / 디폴트가 false 이기 때문에 굳이 안해도 됨. 
 				}
-				
+			
 			} // end of if(isUserExists) ----------------------------
 		
 
