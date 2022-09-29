@@ -131,7 +131,10 @@
 		}); // end of $("input#loginPwd").bind("keydown") ----------------
 		
 		
-		
+		$("button#btn_close").click(function(){ // -------------------
+			$('#findPwdFrm').modal('hide');
+			
+		}); // end of $("button#codeConfirm_btn").click() ------------------
 		
 
 		
