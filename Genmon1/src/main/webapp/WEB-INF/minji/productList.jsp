@@ -7,16 +7,15 @@
 
 		.item-category {
 	        text-align: center;
-		    margin-left: 10%;
+		    margin: 2% 0% 0% 10%;
 		    padding: 0;
 		}
-	
+		
    	   .item-category>li {
 	        display: inline-block;
 	        top: 10px;
 	        text-align: center;
 	        width: 10%;
-	        
         }
 
         .item-category>li>a {
@@ -29,11 +28,11 @@
         .item-category>li>a>img {
 	         position: relative;
 	         text-align: center;
-	         width: 70%;
+	         width: 60%;
 	         border-radius: 50%;
 	         padding: 70;
         }
-
+        
         .item-category>li>a>span {
 	          position: absolute;
 	          bottom: 0;
@@ -42,7 +41,9 @@
 	          line-height: 1.462em;
 	          white-space: nowrap;
 	          transform: translate(-50%, 0);
-	          font-size: 3pt;
+	          font-size: 9.5pt;
+	          font-weight: bold;
+	          margin-top: 7%;
        }
        
         .grid-container {
@@ -304,7 +305,7 @@
  
     <ul class="item-category">
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/셀리컬렉션.jpg"><span class="category-font">전체보기</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/셀리컬렉션.jpg"><span class="category-font">전체보기</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
@@ -327,7 +328,7 @@
         <div class="product-filter">
 	       <a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short">간략보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
-		   <a href="#pop01"><button class="popup_btn">필터</button></a>
+		   <a href="#pop01"><button type="button" class="popup_btn">필터</button></a>
 		</div>
 		
 				<%-- 검색 필터 팝업창  --%>  
@@ -394,8 +395,8 @@
 	 		<div class="grid-item-img"><a href="<%= ctxPath %>/product/productDetail.sun" class="product" ><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
 	  			<div class="grid-item-text" style="inline-block">
 	  				<a href="<%= ctxPath %>/product/productDetail.sun" class="product">
-		 		 		<span class="grid-item-name">릴리트 01</span>
-		 		 		<span class="grid-item-price">270,000원</span>
+		 		 		<span class="grid-item-name">릴리트 01(BR)</span>
+		 		 		<span class="grid-item-price">259,000원</span>
 		 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
 	 		 		</a>
 				 </div>
@@ -472,7 +473,7 @@
 	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Ic1.jpg" ></a></div>
 	  			<div class="grid-item-text" style="inline-block">
 	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">르Ic1</span>
+		 		 		<span class="grid-item-name">르 Ic1</span>
 		 		 		<span class="grid-item-price">280,000원</span>
 		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
 	 		 		</a>
@@ -535,10 +536,10 @@
 			
 	  	
 	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/크렐라01.jpg" ></a></div>
+	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/로티 IC1.jpg" ></a></div>
 	  			<div class="grid-item-text" style="inline-block">
 	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">크렐라 01</span>
+		 		 		<span class="grid-item-name">로티 IC1</span>
 		 		 		<span class="grid-item-price">280,000원</span>
 		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
 	 		 		</a>
