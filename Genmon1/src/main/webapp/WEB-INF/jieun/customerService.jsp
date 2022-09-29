@@ -113,22 +113,22 @@ h2.nav_title{
      	<div class="pagelink">
 		<ul class="menu-nav-items nav flex-column" >
 			<li class="menu-nav-item menu nav-item">
-				<a id="contact" class="nav-link2 link" href="#">문의</a>
+				<a id="contact" class="nav-link2 link" href="<%=ctxPath %>/customerCare/contact.sun">문의</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="shipping"  class="nav-link2" href="<%=ctxPath %>/customerCare/contact.sun">배송</a>
+				<a id="shipping"  class="nav-link2" href="<%=ctxPath %>/customerCare/contact/shipping.sun">배송</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="return" class="nav-link2" href="<%=ctxPath %>/customerCare/contact_return.sun">교환 및 반품</a>
+				<a id="return" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/return.sun">교환 및 반품</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="orderCancel" class="nav-link2 active" href="<%=ctxPath %>/customerCare/contact_ordercancel.sun">주문취소</a>
+				<a id="orderCancel" class="nav-link2 active" href="<%=ctxPath %>/customerCare/contact/ordercancel.sun">주문취소</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="order" class="nav-link2" href="<%=ctxPath %>/customerCare/contact_order.sun">주문조회</a>
+				<a id="order" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/order.sun">주문조회</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="productcare" class="nav-link2" href="<%=ctxPath %>/customerCare/contact_productcare.sun">제품 사용 가이드</a>
+				<a id="productcare" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/productcare.sun">제품 사용 가이드</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
 				<a id="pickcard" class="nav-link2" href="#">시리얼 넘버 조회</a>
