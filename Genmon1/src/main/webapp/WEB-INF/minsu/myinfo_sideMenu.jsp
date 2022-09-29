@@ -5,12 +5,12 @@
 
 <style>
 
-	
+
 	form#frm_setting {
 	/* 	border: solid 1px blue;  */
 		line-height: 40px;
 		display: inline-block;
-		margin-right: 500px;
+		margin-right: 20px;
 		position: absolute;
 		
 	}
@@ -61,6 +61,5 @@
 			<li><a href="pwdUpdate.jsp">비밀번호 변경</a></li>
 		</ul>
 </form>		
-	
 
 
