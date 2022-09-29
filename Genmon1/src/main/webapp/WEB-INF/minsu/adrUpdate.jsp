@@ -1,52 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
- <% String ctxPath = request.getContextPath(); %>
+<% String ctxPath = request.getContextPath(); %>
+
  
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="myinfo_sideMenu.jsp" />
 
-
-
 <style type="text/css">
 
-	div#container {
-	 	display: flex;
-		font-size: 14px;
-		width: 600px;
-		height: 600px;
-		margin: 20px auto 3% auto;
-	 	
-	}
-
-	form#frm_adrupdateMenu {
-		display: inline-block;
+	form#menu_adrupdate {
+		margin: 40px auto;
+		width: 500px;
+		height: 500px;
+		font-size: 12px;
+		
 	}
 	
-	button.btn {
+	button#btn_update {
 		background-color: black;
 		color: white;
-		width: 35%;
+		width: 320px;
 		display: block;
-		line-height: 150%;
-		margin: 5% 0 0 20%;
+		line-height: 210%;
+		margin: 7% 0 0 40px;
 	}
 	
-	form#frm_adrupdateMenu {
-		/*border: solid 1px orange;*/ 
-		display: inline-table;
-		font-size: 12px;
-		width: 600px;
-	}
-	
-	form#frm_adrupdateMenu > ul >li{
+	ul {
+		list-style: none;
 		margin-bottom: 5%;
 	}
+	
+	div#menu_adrupdate {
+		/*border: solid 1px orange;*/
+		margin-left:20%;
+		display: inline-block;
+		width: 35%;
+		font-size: 12px;
+		margin-top: 10%;
+		left: 15%;
+    	position: absolute;
+	}
+
 	
 	input {
 		width:70%;
 		display: block;
 		line-height: 200%;
+		margin-top: 2%;
 	}
 	
 	button.btn_adrsearch {
@@ -57,35 +58,17 @@
 		background-color: black;
 		color:white;
 	}
-
-	.first_error, .error {
-  		font-size: 11px;
-  		color:red;
-  	}
-  	
-  	ul {
-  		list-style: none;
-  		line-height: 25px;
-  	}
+	
+	div.error {
+		 color: red;
+	}
+	
 
 </style>
 
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript">
-
-	$(document).ready(function(){
-		
-		$("div.first_error").hide();
-		$("div.error").hide();
-		
-		
-		
-		
-		
-	}); // end of $(document).ready(function(){}-----------------------------------------
-
-
+<script>
 	function openDaumPOST(){
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -133,39 +116,34 @@
 	        }
 	    }).open();
 	} // end of openDaumPOST()
-	
 </script>
-
-
-<div id="container">	
-<form name="frm_adrupdateMenu" id="frm_adrupdateMenu">
 	
-<%-- 배송지 시작(만들어놓은 입력값 자동으로 들어가게하기) --%>
-
+	<form id="menu_adrupdate">
+	
 		  <ul>
-			 <li>
-		         <label >성명</label>
+			  <li>
+		         <label>성명</label>
 		       	 <input type="text" id="name" name="name"/>
-		       	 <div class="first_error">필수 입력란입니다.</div>
-	       	</li>
+	       	 </li>
 	      </ul>
 	      
 	       <ul>
-		       <li>
+	       	 <li>
 		         <label >전화번호</label>
 		         <input type="text" id="mobile" name="mobile"/>
-		         <div class="first_error">필수 입력란입니다.</div>
-		      </li>
+	         </li>
 	      </ul>
 	      
-	      <ul>
-		      <li>
+	      
+	
+	<%-- 배송지 시작(만들어놓은 입력값, 자동으로 들어가게하기) --%>
+	    <ul>
+		    <li>
 				<div class="puretxt">주소검색</div>
 				<input type="hidden" id="postcode" name=""/>
-				<input type="text" id="address" name="" class="input_style" placeholder="예)00동, 00로" style="display: inline-block; width: 40%" />
+				<input type="text" id="address" name="" class="input_style" placeholder="주소" style="display: inline-block; width: 40%" />
 				<button type="button" class="btn_adrsearch" onclick="openDaumPOST();">검색</button>
 				<div class="error">검색을 통하여 배송지를 입력해주세요.</div>
-				<div class="first_error">필수 입력란입니다.</div>
 			</li>
 		</ul>
 			
@@ -173,13 +151,14 @@
 			<li>
 				<span class="puretxt">상세주소</span>
 				<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
-				<div class="first_error">필수 입력란입니다.</div>
+				<input type="hidden" id="extraAddress" name="" />
 			</li>
 		</ul>
-			<%-- 배송지 끝 --%>
+	<%-- 배송지 끝 --%>
 		
-		<button type="button" id="btn_update" class="btn">저장</button> <%-- 저장을 누르면 다시 adrAdd1로 이동 --%>
-	</form>
-</div>
+		<button type="button" id="btn_update" >저장</button> <%-- 저장을 누르면 다시 adrAdd1로 이동 --%>
+</form>
+
+
 
 <jsp:include page="/minsu/footer.jsp" />

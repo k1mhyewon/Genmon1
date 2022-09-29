@@ -3,8 +3,7 @@
     
 <% String ctxPath = request.getContextPath(); %>
 
-<jsp:include page="/minsu/header.jsp" />
-<jsp:include page="myinfo_mainMenu.jsp" />
+<jsp:include page="../common/header.jsp" />
 <jsp:include page="myinfo_sideMenu.jsp" />
 
 
@@ -29,6 +28,7 @@
     	line-height: 25px;
     	display: block;
     }
+    
     label {
 	    display: block;
 	    line-height: 25px;
@@ -56,7 +56,7 @@
 		color: white;
 		width: 72%;
 		display: block;
-		line-height: 250%;
+		line-height: 150%;
 		margin: 7% 0 -2% 10%;
 	}
   	
@@ -213,7 +213,7 @@
 	     <ul>
 	      <li>
 		      	<label>국가</label>
-		      	<select id="nation" class="form-control">
+		      	<select id="nation" >
 				    <option>대한민국</option>
 				    <option>미국</option>
 					<option>영국</option>
