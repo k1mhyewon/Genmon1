@@ -131,7 +131,7 @@
         	<section id="main1">
 	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 20px;">
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
-		       		<a href="infoUpdate1.jsp"><span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span></a>
+		       		<span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span>
 					<div style="padding: 5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
 							<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>

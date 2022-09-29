@@ -27,8 +27,8 @@
 		color: white;
 		width: 300px;
 		display: block;
-		line-height: 200%;
-		margin: 10% 0 -3% 10%;
+		line-height: 100%;
+		margin: 10% 0 -5% 10%;
 	}
 	
 	
@@ -89,15 +89,15 @@
 			<li id="email" name="email">이메일&nbsp;&nbsp;: </li>
 		</ul>
 		<div>
-			<a href="pwdInput.jsp" style="text-decoration: none;"><button type="button" id="btn_update" class="btn" >수정하기</button></a>
-			<button type="button" id="btn_update" class="btn"  data-toggle="modal" data-target="#accountDropout">회원 탈퇴하기</button>
+			<button type="button" id="btn_update" class="btn" >수정하기</button>
+			<button type="button" id="btn_accountDrop" class="btn"  data-toggle="modal" data-target="#accountDropout">회원 탈퇴하기</button>
 		</div>
 	</div>
 </div>
 
-<%-- 
 
-*** 회원탈퇴하기 찾기 Modal(부트스트랩기능) ***
+
+<%--*** 회원탈퇴하기 찾기 Modal(부트스트랩기능) *** --%>
    <div class="modal fade" id="accountDropout">
        	<div class="modal-dialog modals-fullsize_accountDropout">
 
@@ -105,13 +105,13 @@
      
                <!-- Modal body -->
                 <div class="cancel_modal-body">
-                	<iframe id="iframe_emailFind" style="border: none; width: 800px; height: 350px;" src="http://localhost:9090/Genmon/minsu/myinfo/accountDropout.jsp">
+                	<iframe id="iframe_emailFind" style="border: none; width: 700px; height: 350px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
              		</iframe>
              		
                 </div>
        		</div>
        	</div>
-   </div> --%>
+   </div>
    
    
    <jsp:include page="/minsu/footer.jsp" />
