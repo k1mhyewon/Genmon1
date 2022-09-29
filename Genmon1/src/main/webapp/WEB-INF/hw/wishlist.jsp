@@ -8,6 +8,10 @@
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/myinfo_mainMenu.jsp" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 
 /* 추가 */
