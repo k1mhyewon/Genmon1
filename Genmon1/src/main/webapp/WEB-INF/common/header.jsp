@@ -380,6 +380,9 @@
 
     $(document).ready(function(){
 
+    	
+    	
+    	
     	/* 광고창시작 */
     	var swiper = new Swiper(".mySwiper", {
     	        navigation: {
@@ -430,6 +433,7 @@
         	location.href="<%= ctxPath%>/logout.sun";
 			
 		}); // end of $("button#btn_logout").click() --------------
+		
 		
 		// 홈화면 헤더에서 마이페이지 버튼을 누르면
         $("button#btn_myPage").click(function(){
@@ -483,7 +487,7 @@
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
-        <a class="navbar-brand mt-2 mt-lg-0" href="<%= ctxPath%>/index.sun"><img  height="15" src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px;"/></a>
+        <a class="navbar-brand mt-2 mt-lg-0" href="<%= ctxPath%>"><img  height="15" src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px;"/></a>
     </div>
       <!-- Left links -->
       <div class="collapse navbar-collapse">

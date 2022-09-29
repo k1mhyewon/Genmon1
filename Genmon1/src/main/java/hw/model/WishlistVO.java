@@ -1,4 +1,4 @@
-package common.model;
+package hw.model;
 
 public class WishlistVO {
 	
