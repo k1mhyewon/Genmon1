@@ -499,7 +499,7 @@
           <a class="nav-link" href="<%=ctxPath %>/product/productList.sun">선글라스</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">스타일</a>
+          <a class="nav-link" href="<%=ctxPath %>/customerCare/contact.sun">스타일</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">고객서비스</a>
