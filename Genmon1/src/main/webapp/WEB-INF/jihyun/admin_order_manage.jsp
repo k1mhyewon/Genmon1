@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% String ctxPath = request.getContextPath(); %>
     
-<jsp:include page="header.jsp" />
+<jsp:include page="../common/adminSidebar.jsp" />
 
 <style>
 
@@ -158,11 +159,11 @@
 		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
 		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
 		
-		/*
-		// 주문상세
-		window.open("admin_order_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
 		
+		// 주문상세
+		window.open("<%=ctxPath%>/admin/adminOrderDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		<%--
 		// 취소상세
 		window.open("admin_cancel_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
 	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
@@ -172,27 +173,14 @@
 	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
 		*/
 		// 교환상세
-		window.open("admin_change_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
-		
+		 window.open("<%=ctxPath%>/admin/adminChangDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	           , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		--%>
 	} // end of tr 클릭 이벤트
 
 
 </script>
 
-<%-- 상단네비 시작 --%>
-<div class="border-top"></div>
-<div id="order_nav">
-	<nav>
-	    <ul>
-	    	<li><a href="#">상품관리</a></li>
-	    	<li><a href="#">주문관리</a></li>
-	    	<li><a href="#">문의관리</a></li>
-	    	<li><a href="#">리뷰관리</a></li>
-	    </ul>
-	</nav>
-</div>
-<%-- 상단네비 끝 --%>
 
 <div class="border-top"></div>
 <div class="my-5" id="container">
@@ -361,5 +349,3 @@
 	<input type="search" class="input_style" aria-label="Search" placeholder="주문번호, 상품명, 고객명으로 검색가능합니다."/>
 	<button id="search" type="button">검색</button>
 </div>
-
-<jsp:include page="footer.jsp" />
