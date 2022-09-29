@@ -88,19 +88,19 @@
 		.color-count {
 			color: rgba(181, 41, 41, 0.78);
 		}
+		
 		.item-wish-btn {
 			border:none;
 			float: right;
 			margin-top: 4%;
-			
 		}
 
         .button {
             cursor: pointer;
         }
 		
-		a, a:visited, a:hover, a:active { /* 클릭 후에도 색상 변경 없도록 함  */
- 	 		color: inherit;
+		a:link, a:visited, a:hover, a:active { /* 클릭 후에도 색상 변경 없도록 함  */
+ 	 		 color: inherit;
 		}
 		
         .product-list {
@@ -149,8 +149,6 @@
 	    	font-size: 11pt;
 	    	font-weight: bold;
 	    }
-	    
-<<<<<<< HEAD
 	    
 	    #item-short {
 			background-color: white;
@@ -327,7 +325,7 @@
         </div>
         
         <div class="product-filter">
-	       <a href="productListSimple.jsp"><button type="button" id="item-short">간략보기</button></a>
+	       <a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short">간략보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
 		   <a href="#pop01"><button class="popup_btn">필터</button></a>
 		</div>
@@ -393,9 +391,9 @@
     <!-- 상품목록 -->
     <div class="grid-container">
     	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product" onclick="location.href='http://localhost:9090/Semiproject/practice01/productDetail.jsp'"><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
+	 		<div class="grid-item-img"><a href="<%= ctxPath %>/product/productDetail.sun" class="product" ><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
 	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product" onclick="location.href='http://localhost:9090/Semiproject/practice01/productDetail.jsp'">
+	  				<a href="<%= ctxPath %>/product/productDetail.sun" class="product">
 		 		 		<span class="grid-item-name">릴리트 01</span>
 		 		 		<span class="grid-item-price">270,000원</span>
 		 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
@@ -549,8 +547,6 @@
 			</div>	
 	</div>
 
-</div>
-	
 	
 	<%-- footer 하단bar 고정 --%>
 	
