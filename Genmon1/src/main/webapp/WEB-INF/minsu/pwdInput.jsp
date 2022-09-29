@@ -7,27 +7,22 @@
 <% String ctxPath = request.getContextPath(); %>
 
 <style type="text/css">
-
 	form#menu_myinfoupdate {
 		/*border: solid 1px orange;*/
 		display: flex;
 		font-size: 14px;
 		width: 400px;
 		height: 300px;
-		margin: 0 auto 3% auto;
-	}
-	
-	form#menu_myinfoupdate > div{
-		
+		margin: 2% auto 3% auto;
 	}
 	
 	
 	button#btn_pwdcheck {
 		background-color: black;
 		color: white;
-		width: 300px;
+		width: 310px;
 		display: block;
-		margin: 10% 0 0 12%;
+		margin: 10% 0 0 10%;
 		line-height:30px;
 	}
 	
@@ -40,6 +35,7 @@
 	li {
 		list-style: none;
 	}
+	
 
 </style>
 
@@ -70,16 +66,14 @@
 </script>
 
 
-
-
-	<form id="menu_myinfoupdate" >
+<form id="menu_myinfoupdate" >
 		<div>
-		<ul>
-			<li>
-				<label for="passwd" style="font-size: 16px; font-weight: bold;">비밀번호</label>
-				<div><input type="password" name="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required/></div>
-			<li>
-		</ul>
+			<ul>
+				<li>
+					<label for="passwd" style="font-size: 16px; font-weight: bold;">비밀번호</label>
+					<input type="password" name="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required/>
+				<li>
+			</ul>
 		<button type="button" id="btn_pwdcheck"  >비밀번호 확인</button>
 		</div>
 </form>
