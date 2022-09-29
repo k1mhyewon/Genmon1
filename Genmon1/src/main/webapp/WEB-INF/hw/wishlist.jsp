@@ -34,7 +34,7 @@
     }
 
     button.btnWish{
-        width: 220px; 
+        width: 250px; 
         height: 30px;
         font-size: 9pt;
         margin-bottom: 5px;
@@ -45,12 +45,17 @@
     }
 
     img.product_img {
-        width: 220px;
+        width: 250px;
         height: auto;
         margin-bottom: 10px;
     }
 
-   
+   .wish_container {
+    	/* border: solid 1px green; */
+    	width: 1400px;
+    	margin: 0 auto;
+    	
+    }
 
     div.card_body {
         /* border: solid 1px pink; */
@@ -80,7 +85,7 @@
         <div id="wishText">위시리스트(0)</div>
     </div>
 	<div class="album">
-		<div class="container">
+		<div class="box">
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
 				<div class="col">
 					<div class="card_body mx-1 my-3">
