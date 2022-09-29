@@ -3,7 +3,7 @@
     
  <% String ctxPath = request.getContextPath(); %>
  
-<jsp:include page="/minsu/header.jsp" />
+<jsp:include page="../common/header.jsp" />
 <jsp:include page="myinfo_sideMenu.jsp" />
 
 
@@ -35,11 +35,10 @@
 		width:400px;
 	}
 	
-	button#update,
-	button#delete {
+	button#btn_update,
+	button#btn_delete {
 		margin: 3% 0 5% 0%;
-		width: 35%;
-		line-height: 200%;
+		width: 144px;
 	}
 	ul {
 		list-style: none;
@@ -47,11 +46,13 @@
 		font-size: 13px;
 		line-height: 30px;
 		margin: 30px 0;
-		
 	}
 	
 	button:hover {
 		cursor: pointer;
+	}
+	button {
+		line-height:30px;
 	}
 
 </style>
@@ -108,7 +109,7 @@
 				
 				<button type="button" id="btn_update" style="background-color: black; color: white; margin-left: 10%;">수정</button>
 				<button type="button" id="btn_delete" style="background-color: white;">삭제</button>
-				<button type="button" id="btn_adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%; line-height: 200%;">주소추가하기</button>
+				<button type="button" id="btn_adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%;">주소추가하기</button>
 				<%-- <c:if test="">
 	    				<div>등록된 배송지가 없습니다.</div>
 	    				<button type="button" id="adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%; line-height: 200%;">주소추가하기</button>

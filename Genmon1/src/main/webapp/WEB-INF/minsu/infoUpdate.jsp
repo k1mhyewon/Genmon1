@@ -31,23 +31,22 @@
 		margin: 10% 0 -5% 10%;
 	}
 	
-	
 	 /* === 모달 CSS === */
     
     .modal-dialog.modals-fullsize_accountDropout {
-    width: 50%;
-    height: 80%;
+    width: 90%;
+    height: 50%;
     }
     
     .modal-dialog.modals-fullsize {
-    width: 50%;
-    height: 90%;
+    width: 90%;
+    height: 30%;
     }
     
     
     .modal-content.modals-fullsize {
 	    height: auto;
-	    min-height: 100%;
+	    min-height:50%;
 	    border-radius: 0;
     }
 	
@@ -105,9 +104,8 @@
      
                <!-- Modal body -->
                 <div class="cancel_modal-body">
-                	<iframe id="iframe_emailFind" style="border: none; width: 700px; height: 350px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
+                	<iframe id="iframe_emailFind" style="border: none; width: 750px; height: 700px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
              		</iframe>
-             		
                 </div>
        		</div>
        	</div>

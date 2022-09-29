@@ -12,7 +12,7 @@ public class AdrUpdate extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/minsu/adrView.jsp");
+			super.setViewPage("/WEB-INF/minsu/adrUpdate.jsp");
 			} catch(Exception e) {
 				e.printStackTrace();
 				super.setRedirect(true);
