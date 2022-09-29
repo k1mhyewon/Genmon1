@@ -524,9 +524,6 @@
 			<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
 				<button id="btn_myPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">MyPage</button>
 			</c:if>
-			<c:if test="${ sessionScope.loginuser.userid == 'admin' }">
-				<button id="btn_adminPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">관리자페이지</button>
-			</c:if>
 			<button id="btn_logout" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">logout</button>
 			
 		</c:if>

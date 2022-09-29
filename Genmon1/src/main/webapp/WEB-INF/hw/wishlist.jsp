@@ -10,7 +10,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -95,7 +95,7 @@
 					<div class="card_body mx-1 my-3">
 						<img src="../images/le_iv1_1.jpg" class="product_img">
 						<div id="productDesc">
-							<p class="productName">르1</p>
+							<p class="productName" style="font-weight: bold;">르1</p>
 							<p class="productPrice">280,000원</p>
 						</div>
 						<div>
