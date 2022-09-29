@@ -1,64 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<title>GENTLE MONSTER Officail Site</title>
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-<!-- 폰트 -->
-<link href="//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica" rel="stylesheet" type="text/css"/>
-
+<jsp:include page="orderHeader.jsp" />
 <style>
-	/* 폰트 적용(헬베티카) */
-    @import url(//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica);
-    #logo, #footer_logo {font-family: "Helvetica"; src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot"); src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff") format("woff"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.svg#Helvetica") format("svg"); }
     
-    div.toast { 
-        max-width: 100%; 
-        text-align: center;
-    }
 
-    nav.navbar{
-        height: 73px;
-        background-color: white;
-    }
-
-    #logo{
-        font-size: 19pt;
-        font-weight: bold;
-        color: black;
-    }
-
-    /* 반응형 */
-    @media (max-width: 768px) {
-        nav.navbar { height: 60px; }
-        #logo{font-size: 14pt;}
-    }
-
-    a.nav-link, span.nav-link{
-        color: black;
-        font-size: 12pt;
-        font-weight: bold;
-        margin: auto 11px;
-    }
-
-    a.nav-link:hover{
-        color: rgb(63, 63, 63);
-    }
-
-    footer{
-        background-color: rgb(243, 243, 243);
-    }
 
     .small_font{
         font-size: 9pt;
@@ -184,35 +130,17 @@
 	
 </style>
 <!-- Optional JavaScript -->
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
 	$(document).ready(function(){
 	
-	    // toast(광고창)
-	    $('.toast.fade').toast('show');
-	    
-	    $('#liveToastBtn').click(function(){
-	        $('.toast.hide').toast('show');
-	    });
-	
-	    // 하단 토글
-	    $("div.hid").hide();
-	    $("span.span_click").click(function(){
-	        if($(this).text()=="법적고지+"){
-	            $("div#toggle_list").toggle();
-	        } else if($(this).text()=="소셜미디어+"){
-	            $("div#toggle_list2").toggle();
-	        }
-	    });
-	    
-	    
 	    // 다음 단계로 클릭이벤트
 	    $("button#next").click(function(){
 	    	location.href = "<%=ctxPath%>/order/payInfo.sun";
 	    });
+	    
+	    $("a#2_add").css('color','black');
 	    
 	}); // end of ready 
 	
@@ -266,47 +194,7 @@
 	} // end of openDaumPOST()
 </script>
 
-</head>
-<body>
-	
-	<%-- 광고창 시작 --%>
-    <div>
-		<div class="toast fade" data-autohide="false" role="alert" aria-live="assertive" aria-atomic="true">
-		  <div class="toast-header">
-		    <div class="mx-auto" style="padding: 6px 0;"><span style="font-size: 9pt; font-weight: bold;">광고 할라는데 캐러셀 넣을 수 있나? 암튼 더 해봐야 할듯</span></div>
-		    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-		      <span aria-hidden="true">&times;</span>
-		    </button>
-		  </div>
-		</div>
-    </div>
-    <%-- 광고창 끝 --%>
-    
 
-
-    <%-- 상단바 시작 --%>
-    <nav class="navbar navbar-expand-md border-bottom" >
-        <a class="navbar-brand" href="#"><span id="logo">GENTLE MONSTER</span></a>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <span style="font-weight: bold; font-size: 11pt;">결제</span>
-          <ul class="navbar-nav" style="margin: auto 0 auto 30%;">
-            <li class="nav-item">
-              <a class="nav-link" style="color: gray;">①로그인</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">②배송주소</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" style="color: gray;">③결제방법</a>
-            </li>
-          </ul>
-          <a class="link_tag ml-5" href="#">쇼핑계속하기</a>
-        </div>  
-        
-    </nav>
-    <%-- 상단바 끝 --%>
-    
-    
 	<div class="container-fluid" style="margin-top:120px; margin-bottom:120px;">
 	<div id="box1" >
 		<form name="frmDeliveryInfo">
@@ -358,7 +246,7 @@
 			<tbody>
 				<%-- 반복시작 --%>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -371,7 +259,7 @@
 				</tr>
 				<%-- 반복끝 --%>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -383,7 +271,7 @@
 					<td colspan="3" class="empty_td"></td>
 				</tr>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
