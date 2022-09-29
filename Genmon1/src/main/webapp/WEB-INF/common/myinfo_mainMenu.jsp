@@ -59,7 +59,7 @@
 
 <div id="frm_myinfoMainmenu">
 	<span id="main_menu">
-		<span><a href="my_myinfo.jsp">회원정보</a></span>
+		<span id="info_detail"><a href="javascript:location.href='<%=ctxPath %>/myinfo/infoUpdate.sun'">회원정보</a></span>
 		<span id="order_deli"><a href="javascript:location.href='<%=ctxPath %>/myinfo/orderList.sun'">주문/배송</a></span>
 		<span><a href="#">위시리스트</a></span>
 		<span><a href="#">상품문의</a></span>

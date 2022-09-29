@@ -205,7 +205,7 @@ public class MemberDAO implements InterMemberDAO {
 	
 	
 	
-	// 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자의 존재여부를 알려준다.) ============================================
+	// 유저 존재여부 확인(아이디, 이메일을 입력받아서 해당 사용자의 존재여부를 알려준다.) ============================================
 	@Override
 	public boolean isUserExists(Map<String, String> paraMap) throws SQLException {
 		
@@ -236,4 +236,43 @@ public class MemberDAO implements InterMemberDAO {
 		
 	} // end of public boolean isUserExists(Map<String, String> paraMap) throws SQLException {} ========
 
+
+	
+	
+	
+	
+	
+	
+	// 비밀번호 변경(update) --------------------------------------------------------------------------------
+	@Override
+	public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_member_test set pwd = ?, lastpwdchangedate = sysdate "
+					   + " where userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, Sha256.encrypt(paraMap.get("pwd")) ); // 암호를 단방향 암호화(SHA256) 하여 갱신한다.
+			pstmt.setString(2, paraMap.get("userid"));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of public int pwdUpdate(Map<String, String> paraMap) {} -----------------------------------
+
+	
+	
+	
+	
+	
 }

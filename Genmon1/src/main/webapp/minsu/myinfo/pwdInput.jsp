@@ -6,7 +6,7 @@
 
 <style type="text/css">
 
-	div#menu_myinfoupdate {
+	form#menu_myinfoupdate {
 		/* border: solid 1px orange; */
 		display: inline-block;
 		margin-left:30%;
@@ -16,7 +16,7 @@
 		position: relative;
 	}
 	
-	div > button#btn_pwdcheck {
+	form > button#btn_pwdcheck {
 		background-color: black;
 		color: white;
 		width: 69%;
@@ -33,13 +33,14 @@
 
 </style>
 
-	<div id="menu_myinfoupdate">
+	<form id="menu_myinfoupdate">
 		<ul>
-			<label for="passwd">비밀번호</label>
-			<div><input type="passwd" name="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required/></div>
+			<li>
+				<label for="passwd">비밀번호</label>
+				<div><input type="password" name="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required/></div>
+			<li>
 		</ul>
 		<button type="button" id="btn_pwdcheck"  >비밀번호 확인</button>
-	</div>
 </form>
 
 
