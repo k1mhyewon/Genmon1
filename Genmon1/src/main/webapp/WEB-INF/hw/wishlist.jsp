@@ -6,6 +6,11 @@
 <% String ctxPath = request.getContextPath(); %>
     
 <jsp:include page="../common/header.jsp" />
+<jsp:include page="../common/myinfo_mainMenu.jsp" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -33,7 +38,7 @@
     }
 
     button.btnWish{
-        width: 220px; 
+        width: 250px; 
         height: 30px;
         font-size: 9pt;
         margin-bottom: 5px;
@@ -44,12 +49,17 @@
     }
 
     img.product_img {
-        width: 220px;
+        width: 250px;
         height: auto;
         margin-bottom: 10px;
     }
 
-   
+   .wish_container {
+    	/* border: solid 1px green; */
+    	width: 1400px;
+    	margin: 0 auto;
+    	
+    }
 
     div.card_body {
         /* border: solid 1px pink; */
@@ -60,6 +70,41 @@
     /* 추가 */
 
 </style>
+<script>
+
+	$(document).ready(function(){ // ==========================================================
+		
+		
+		
+	}); // end of $(document).ready() =========================================================
+	
+		
+	// #### Function Declaration #### //
+	<%--
+	function showWishlist(){ // ------------------------
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/member/wishlist.sun",
+			type: "GET",
+			dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	console.log(json);
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+			
+		});
+	
+	} // end of function showWishlist() ----------------
+	--%>
+	
+	
+
+</script>
     <!-- 인덱스 시작 -->
  
     <!-- 위시리스트 목록 -->
@@ -69,83 +114,27 @@
         <div id="wishText">위시리스트(0)</div>
     </div>
 	<div class="album">
-		<div class="container">
+		<div class="box">
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
+			
+				<c:forEach var="wishvo" items="${requestScope.wishList}">
+					<div class="col">
+						<div class="card_body mx-1 my-3">
+							<img src="../images/${wishvo.pimage1}" class="product_img">
+							<div id="productDesc">
+								<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
+								<p class="productPrice">${wishvo.price}</p>
+							</div>
+							<div>
+								<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+							</div>
+							<div>
+								<button type="button" class="btnWish btn btn-light">삭제</button>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
+				</c:forEach>
+				
 			</div>
 		</div>
 	</div>

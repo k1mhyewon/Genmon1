@@ -8,7 +8,7 @@
 
 <style type="text/css">
 
-  	/* 내가 만든거 */
+  		/* 내가 만든거 */
   	form.frm_mypage {
   		/* border: solid 1px red; */
   		left:5%;
@@ -52,7 +52,7 @@
 	
 	section#main2 > div{
 		border-top: solid 1px #cccccc; 
-		padding: 20px;
+		padding: 30px;
 		
 	}
 	
@@ -96,9 +96,10 @@
 		background-color: #cccccc;
 		border: none;
 		width: 100px;
-		margin: 30px 80px;
-		font-size: 12px;
+		margin: 30px 130px;
+		font-size: 13px;
 		line-height: 25px;
+		
 	}
 	
 </style>
@@ -180,13 +181,13 @@
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="point" style="width: 300px; display: inline-block;" >
+	        	<div id="point" style="width: 350px; display: inline-block;" >
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
 	        		<div style="text-align: center;margin: 3%;font-size: 13px;">포인트</div>
 	        		<button type="button" id="btn_point" class="btn_money" onclick="">적립내역</button>
 	        	</div>
 	        	
-	        	<div id="coin" style="width: 300px;margin-left:50px;display: inline-block;">
+	        	<div id="coin" style="width: 350px;margin-left:50px;display: inline-block; ">
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">코인</span>
 	        		<div style="text-align: center;margin: 3%; font-size: 13px;">코인</div>
 	        		<button type="button" id="btn_coin" class="btn_money" onclick="">충전하기</button>

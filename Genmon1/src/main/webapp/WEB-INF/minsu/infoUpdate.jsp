@@ -6,22 +6,13 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
-<style type="text/css">
+<style>
 
-	button.btn {
-		background-color: black; 
-		color: white;
-		width: 70%;
-		display: block;
-		line-height: 200%;
-		margin: 10% 0 -3% 10%;
-	}
-	
-	form#menu_myinfoupdate {
+ div#menu_myinfoupdate {
 		/*border: solid 1px orange;*/
 		display: inline-block;
-		width: 400px;
-		height: 400px;
+		width: 380px;
+		height: 480px;
 		padding: 3%;
 	}
 	
@@ -30,27 +21,38 @@
 		line-height: 30px;
 		font-size: 13px;
 	}
+
+	button.btn {
+		background-color: black; 
+		color: white;
+		width: 300px;
+		display: block;
+		line-height: 100%;
+		margin: 10% 0 -5% 10%;
+	}
 	
 	 /* === 모달 CSS === */
     
     .modal-dialog.modals-fullsize_accountDropout {
-    width: 50%;
-    height: 80%;
+    width: 90%;
+    height: 50%;
     }
     
     .modal-dialog.modals-fullsize {
-    width: 50%;
-    height: 90%;
+    width: 90%;
+    height: 30%;
     }
     
     
     .modal-content.modals-fullsize {
 	    height: auto;
-	    min-height: 100%;
+	    min-height:50%;
 	    border-radius: 0;
     }
 	
+	
 </style>
+
 
 <script type="text/javascript">
 
@@ -76,8 +78,10 @@
 
 </script>
 
-	<form id="menu_myinfoupdate">
-		<ul>
+	
+<div id="container" align="center">
+	<div id="menu_myinfoupdate">
+		<ul  align="left">
 			<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
 			<li id="name" name="name">성명&nbsp;&nbsp;: </li>
 			<li id="birth" name="birth">생년월일&nbsp;&nbsp;: </li>
@@ -85,14 +89,14 @@
 		</ul>
 		<div>
 			<button type="button" id="btn_update" class="btn" >수정하기</button>
-			<button type="button" id="btn_update" class="btn"  data-toggle="modal" data-target="#accountDropout">회원 탈퇴하기</button>
+			<button type="button" id="btn_accountDrop" class="btn"  data-toggle="modal" data-target="#accountDropout">회원 탈퇴하기</button>
 		</div>
-	</form>
+	</div>
+</div>
 
 
 
-
-<%-- *** 회원탈퇴하기 찾기 Modal(부트스트랩기능) *** --%>
+<%--*** 회원탈퇴하기 찾기 Modal(부트스트랩기능) *** --%>
    <div class="modal fade" id="accountDropout">
        	<div class="modal-dialog modals-fullsize_accountDropout">
 
@@ -100,12 +104,12 @@
      
                <!-- Modal body -->
                 <div class="cancel_modal-body">
-                	<iframe id="iframe_emailFind" style="border: none; width: 800px; height: 350px;" src="http://localhost:9090/Genmon/minsu/myinfo/accountDropout.jsp">
+                	<iframe id="iframe_emailFind" style="border: none; width: 750px; height: 700px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
              		</iframe>
-             		
                 </div>
        		</div>
        	</div>
    </div>
+   
    
    <jsp:include page="/minsu/footer.jsp" />

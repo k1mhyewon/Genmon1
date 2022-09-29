@@ -115,7 +115,6 @@
 
 	    }
    
-   
    		#item-short {
 			background-color: white;
 			border: none;
@@ -359,7 +358,7 @@
     <%-- 상품목록 --%>
     <div class="grid-container">
     	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
+	 		<div class="grid-item-img"><a href="<%= ctxPath %>/product/productDetail.sun" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
 	  	</div>
 		
 		<div class="grid-info">

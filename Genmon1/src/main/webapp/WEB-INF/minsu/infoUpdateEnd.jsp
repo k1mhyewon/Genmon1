@@ -10,30 +10,32 @@
 
 <style type="text/css">
 
-	form#frm_infoupdate {
-		margin-bottom: 20%;
+	form#frm_update {
+		margin: 40px auto;
+		width: 400px;
+		height: 600px;
+		font-size: 12px;
+	}
+	
+	ul{
+		list-style: none;
 	}
 
-	div#updateFrm {
-       /* border: solid 1px blue; */
-        display: inline-block;
-       	font-size: 12px;
-    	margin : 10% 0; 
-    	width: 30%;
-    	left: 35%;
-    	position: absolute;
-    	
-    }
-    
      input {
     	margin:2% 0;
     	width: 79%;
     	text-align: left;
-    	line-height: 23px;
+    	line-height: 25px;
+    	display: block;
     }
     
-  	div#updateFrm > ul > label, 
-  	div#updateFrm > section > ul > label {
+    label {
+	    display: block;
+	    line-height: 25px;
+	}
+    
+  	div#updateFrm > ul > li > label, 
+  	div#updateFrm > section > ul > li > label {
   		display: block;
   	}
   
@@ -52,10 +54,10 @@
   	button.btn {
 		background-color: black; 
 		color: white;
-		width: 73%;
+		width: 72%;
 		display: block;
-		line-height: 250%;
-		margin: 7% 0 -2% 9%;
+		line-height: 150%;
+		margin: 7% 0 -2% 10%;
 	}
   	
 
@@ -66,8 +68,10 @@
        
     $(document).ready(function(){
     	
-    	// 클릭한 메인메뉴 글씨 굵게
-    	$("span#info_detail").css("font-weight","bold");
+    	 // === select box 연도 , 월 표시 === //
+		
+    	
+    
   		 
 		//=== 국가선택 시작 ===
 		$.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
@@ -80,7 +84,19 @@
 		                .text(value.name));
 		        });
 		    });
-		}); // end of $(document).ready(function() ------------------------------------
+    	 
+    	 
+ 	
+		// 수정하기 버튼을 누르면
+        $("button#btn_update").click(function(){
+        	location.href="<%= ctxPath%>/myinfo/infoUpdate.sun";
+			
+		}); // end of $("button#btn_pwdcheck").click(function() --------------
+			
+	
+				
+				
+	}); // end of $(document).ready(function() ------------------------------------
 				
 				
 		// >>> Function Declaration <<< //
@@ -152,7 +168,7 @@
 		
 </script>
 
-	<form id=updateFrm>
+	<form id="frm_update">
 	     <ul>
 		     <li>
 				<label for="email">이메일주소</label>
@@ -197,7 +213,7 @@
 	     <ul>
 	      <li>
 		      	<label>국가</label>
-		      	<select id="nation" class="form-control">
+		      	<select id="nation" >
 				    <option>대한민국</option>
 				    <option>미국</option>
 					<option>영국</option>
@@ -209,9 +225,9 @@
 			</li>
 		</ul>
 	      
-	      <button type="button" id="btn_update" class="btn" >수정하기</button>
-	      <%-- 이버튼을 클릭하면 infoUpdate1로 이동 --%>
+	      <button type="button" id="btn_update" class="btn" href="<%= ctxPath%>/member/infoUpdate.sun">수정하기</button>
+	      <%-- 이버튼을 클릭하면 infoUpdate로 이동 --%>
 
 </form>
 
-<jsp:include page="../common/footer.jsp" />
+<jsp:include page="/minsu/footer.jsp" />
