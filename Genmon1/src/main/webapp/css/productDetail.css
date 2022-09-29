@@ -39,7 +39,7 @@
 		float: right;
 		font-weight: bold;
 		text-align: center;
-		padding: 2% 0 0 0 ;
+		padding: 0;
 	}
 	
 	.item-info-color-box {
@@ -90,8 +90,9 @@
 		width: 85%;
 	}
 	
-	a, a:visited, a:hover, a:active {
+	a:link, a:visited, a:hover, a:active { /* 안 먹는 것 같은데요?? */
 	  	color: inherit;
+	  	text-decoration: none;
 	}
 	
 	input, button{
