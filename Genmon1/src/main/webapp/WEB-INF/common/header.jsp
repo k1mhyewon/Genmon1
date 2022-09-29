@@ -495,10 +495,10 @@
           <a class="nav-link" href="<%=ctxPath %>/product/productList.sun">선글라스</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%=ctxPath %>/customerCare/contact.sun">스타일</a>
+          <a class="nav-link" href="#">스타일</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">고객서비스</a>
+          <a class="nav-link" href="<%=ctxPath %>/customerCare/contact.sun">고객서비스</a>
         </li>
          <c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid == 'admin' }"> <%--관리자인 admin으로 로그인했으면 --%>
 	        <li class="nav-item">
