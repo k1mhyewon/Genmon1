@@ -6,6 +6,7 @@
 <% String ctxPath = request.getContextPath(); %>
     
 <jsp:include page="../common/header.jsp" />
+<jsp:include page="../common/myinfo_mainMenu.jsp" />
 
 <style>
 
@@ -60,6 +61,16 @@
     /* 추가 */
 
 </style>
+<script>
+
+	$(document).ready(function(){ // ==========================================================
+		
+		
+		
+	}); // end of $(document).ready() =========================================================
+	
+
+</script>
     <!-- 인덱스 시작 -->
  
     <!-- 위시리스트 목록 -->
