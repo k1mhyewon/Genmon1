@@ -72,7 +72,7 @@
     
     .btn_chkbox{
     	font-size: 10pt;
-    	width: 120px; 
+    	width: 150px; 
         height: 30px;
     }
     
@@ -90,6 +90,72 @@
 <script>
 
 	$(document).ready(function(){ // ==========================================================
+		
+		// ==== 체크박스 전체선택/전체해제 ==== //
+		$("input:checkbox[id='chkAll']").click( function(e) {
+
+			
+			//	alert("확인용 : " + $(e.target).val() );
+			//	alert("확인용 : " + $(this).val() );
+
+			//	const target = $(e.target);
+			//	alert("확인용 : " +target.val() );
+			//	alert(`확인용 : ${target.val()}` );
+			
+
+			const target = $(e.target);
+			
+			// selected checked disabled => prop
+			//                      나머지  => attr
+			const bool = target.prop("checked");
+
+			$("input:checkbox[name='chk_each_prod']").prop("checked", bool);
+			// "name 이 person 인 모든 체크박스" 의 체크유무를 "전체선택/전체해제 체크박스" 와 동일하게 한다.
+			
+		}); // end of $("input:checkbox[id='chkAll']").click() --------------------------------
+
+		
+		$("input:checkbox[name='chk_each_prod']").click( (e) => {
+
+			if( $(e.target).prop("checked") ) {
+				// 클릭한 체크박스가 체크된 상태라면
+
+				// name 이 person 인 모든 체크박스를 검사해서 모두 체크가 되어있는지 확인한다.
+				let flag = false;
+				$("input:checkbox[name='chk_each_prod']").each( function(index, item) {
+
+					const b_checked = $(item).prop("checked");
+					// 반복하면서 해당 체크박스가 체크되었는지 알아본다.
+
+					if(!b_checked) { // 체크가 한개라도 풀려있는 경우
+						flag = true;
+
+						return false; // each 를 break한다.
+					}
+
+				}); // end of $("input:checkbox[name='chk_each_prod']").each() --------------------------
+
+				if(!flag) {
+					// name 이 person 인 모든 체크박스의 체크유무 검사를 마쳤을 때
+					// 모든 체크박스가 체크가 된 상태라면  
+
+					$("input:checkbox[id='chkAll']").prop("checked", true);
+					// "전체선택/전체해제" 체크박스에 체크를 한다.
+
+				}
+
+			}
+			else {
+				// 클릭한 체크박스가 체크 해제된 상태라면
+
+				$("input:checkbox[id='chkAll']").prop("checked", false);
+				// "전체선택/전체해제" 체크박스에 체크를 해제한다.
+				
+			}
+
+
+		}); // $("input:checkbox[name='chk_each_prod']").click() ----------------
+			
 		
 		
 		
@@ -129,7 +195,7 @@
 
     <div id="wishText">위시리스트(0)</div>
     <div id="checkbox_choice">
-        <button type="button" class="btn btn-light btn_chkbox">전체선택/해제</button>
+        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
         <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
     </div>
 	<div class="album">
@@ -138,7 +204,7 @@
 			
 				<c:forEach var="wishvo" items="${requestScope.wishList}">
 					<div class="col">
-						<input type="checkbox" class="chk_wishprod" />
+						<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
 						<div class="card_body mx-1 my-3">
 							<img src="../images/${wishvo.pimage1}" class="product_img">
 							<div id="productDesc">
