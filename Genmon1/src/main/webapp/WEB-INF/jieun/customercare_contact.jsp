@@ -82,7 +82,17 @@
                <h2 class="title">일반문의<br></h2>
                	<div>
                    <span>주문, 배송, 제품, 결제 등 궁금한 사항이 있으시거나 도움이 필요하시면 아래 편하신 방법으로 연락주시기 바랍니다.</span>
-					<div><a href="#" class="btn margin_b50">문의하기</a></div>
+					<div><a href="#" class="btn margin_b50">회원 문의하기</a></div>
+					<div><a href="#" class="btn margin_b50">비회원 문의하기</a></div>
+					<div><a href="#" class="btn margin_b50">실시간 채팅하기</a></div>
+                </div>
+                
+                	<div class="divider margin_b50 margin_t50"></div>
+                	
+               <h2 class="title">문의조회<br></h2>
+               	<div>
+                   <span>주문, 배송, 제품, 결제 등 궁금한 사항에 대해 문의하신 내용을 확인해주세요.</span>
+					<div><a href="#" class="btn margin_b50">문의조회하기</a></div>
                 </div>
                 
                 	<div class="divider margin_b50 margin_t50"></div>
