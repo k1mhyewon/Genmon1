@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/modules/b4bca5d779777cff9d5c51553952a0a1.min.css" >
 <style>
 div#question{
-	margin-top: 15%;
+	margin-top: 15%;  
 	display: inline-block;
 }
 .contents{
