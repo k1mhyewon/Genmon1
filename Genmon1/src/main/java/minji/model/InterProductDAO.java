@@ -1,5 +1,5 @@
 package minji.model;
 
-public interface InterProductVO {
+public interface InterProductDAO {
 
 }

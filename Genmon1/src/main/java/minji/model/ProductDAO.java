@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class ProductDAO implements InterProductVO {
+public class ProductDAO implements InterProductDAO {
 
 	//field
 	private DataSource ds; // DataSource ds :  ds는데이타 소스 // 아파치 톰캣이 제공하는 DBCP(DB Connection Pool)이다. 풀장에 conn을 띄우기
@@ -24,7 +24,7 @@ public class ProductDAO implements InterProductVO {
 		try {
 		  Context initContext = new InitialContext();
 		  Context envContext  = (Context)initContext.lookup("java:/comp/env");
-		  ds = (DataSource)envContext.lookup("jdbc/myoracle");
+		  ds = (DataSource)envContext.lookup("jdbc/semi_oracle");
 
 		}catch(NamingException e) {
 			e.printStackTrace();
