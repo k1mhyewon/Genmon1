@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <% String ctxPath = request.getContextPath(); %>
+
 <jsp:include page="orderHeader.jsp" />
 <style>
     
@@ -33,11 +37,7 @@
 		margin-bottom: 6px;
 	} */
 	
-	a.link_tag{
-		font-size: 10pt;
-		color: black;
-		text-decoration: underline;
-	}
+	
 	
 	input.input_style{
 		margin-bottom: 20px;
@@ -137,10 +137,51 @@
 	
 	    // 다음 단계로 클릭이벤트
 	    $("button#next").click(function(){
+	    	
+	    	
+	    	
+	    	
+	    	
 	    	location.href = "<%=ctxPath%>/order/payInfo.sun";
 	    });
 	    
+	    // 이전단계로 클릭이벤트
+	    $("button#prev").click(function(){
+	    	history.back();
+	    });
+	    
+	    
 	    $("a#2_add").css('color','black');
+	    
+	    
+	    // 배송주소 사용 클릭 이벤트
+	    $("input#useAdd").click(function(){
+	    	console.log("${requestScope.email}");
+	    	
+	    	if($("input#useAdd").prop("checked")==true){  // 모두 값 넣어주기 
+	    		
+	    		$("input#email").val("${requestScope.email}");
+	    		$("input#name").val("${name}");
+	    		$("input#mobile").val("${mobile}");
+	    		$("input#postcode").val("${postcode}");
+	    		$("input#address").val("${address}");
+	    		$("input#detailAddress").val("${detailAddress}");
+	    		$("input#extraAddress").val("${extraAddress}");
+	    		
+	    	} else {// 이미 선택 상태라면 모두 지워주기
+	    		
+	    		$("input#email").val('');
+	    		$("input#name").val('');
+	    		$("input#mobile").val('');
+	    		$("input#postcode").val('');
+	    		$("input#address").val('');
+	    		$("input#detailAddress").val('');
+	    		$("input#extraAddress").val('');
+	    		
+	    								
+	    	}
+	    	
+	    }); // end of 배송주소 사용 클릭 이벤트
 	    
 	}); // end of ready 
 	
@@ -199,32 +240,29 @@
 	<div id="box1" >
 		<form name="frmDeliveryInfo">
 			<span class="boldtxt mb-4">배송지정보</span>
-			<span class="puretxt mb-4"> 현재 배송 지역은 South Korea 입니다. <a href="#" class="link_tag">다른 지역으로 배송하시겠습니까?</a> </span>
-			<span class="puretxt">이메일</span>
-			<input type="text" name="" class="input_style" autofocus placeholder="이메일"/>
+			<span class="puretxt mb-1"> 빈칸 없이 모두 입력해주십시오. </span>
+			<c:if test="${ not empty sessionScope.loginuser }">
+				<label class="link_tag"><input type="checkbox" id="useAdd" class="mr-2 "/>회원정보와 동일한 배송주소 사용하기</label>
+			</c:if>
+			<span class="puretxt mt-4">이메일</span>
+			<input type="text" name="email" id="email" class="input_style" autofocus placeholder="이메일"/>
 			<span></span>
 			
-			<%-- 
-			<span class="nm">성</span> <span class="nm" style="margin-left: 250px">이름</span><br>
-			<input type="text" name="" class="input_style" style="width: 245px;" placeholder="성"/>
-			<input type="text" name="" class="input_style" style="width: 245px; margin-left: 5px;" placeholder="이름"/>
-			--%>
-			
 			<span class="puretxt">이름</span>
-			<input type="text" name="" class="input_style" placeholder="이름"/>
+			<input type="text" name="name" id="name" class="input_style" placeholder="이름"/>
 			
 			<span class="puretxt">전화번호</span>
-			<input type="text" name="" class="input_style" placeholder="전화번호"/>
+			<input type="text" name="mobile" id="mobile" class="input_style" placeholder="전화번호"/>
 			
 			<%-- 배송지 시작 --%>
 			<span class="puretxt">배송지검색</span>
-			<input type="hidden" id="postcode" name=""/>
+			<input type="hidden" id="postcode" name="postcode"/>
 			
-			<input type="text" id="address" name="" class="input_style" placeholder="주소" style="display: inline-block; width: 380px;"/>
+			<input type="text" id="address" name="address" class="input_style" placeholder="주소" style="display: inline-block; width: 380px;"/>
 			<button type="button" class="button1" onclick="openDaumPOST();">검색</button>
 			<span class="puretxt">상세주소</span>
-			<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
-			<input type="hidden" id="extraAddress" name="" />
+			<input type="text" id="detailAddress" name="detailAddress" class="input_style"  placeholder="상세주소" />
+			<input type="hidden" id="extraAddress" name="extraAddress" />
 			<%-- 배송지 끝 --%>
 			<br><br>
 			<button type="button" id="prev" class="button2">이전 단계로</button>
