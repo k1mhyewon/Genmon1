@@ -299,23 +299,7 @@ b_flag_idDuplicate_click = false;
           }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
    			   
-   			   
-   	 // === 성별 === //
-   	   $("select#gender").blur((e) => {
    	
-   		const $target = $(e.target);
-        const gender = $("select#gender").val().trim;
-        
-        if($target.check) {
-        	// 아이디 입력칸이 공백인 경우
-        	 $target.parent().find("div.first_error").show();
-        	 $target.focus();
-        }
-        else {
-        	// 아이디를 입력한경우
-   			  $target.parent().find("div.error").hide();
-   		   }
-   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   
    			   
    			   
    	   // === 성명 === //
@@ -438,16 +422,6 @@ b_flag_idDuplicate_click = false;
     		
 	// >>> Function Declaration <<< //
 	
-
-	
-  /*   // >>> 성별 <<<
-    const select_checked_length = $("select[id='gender']:checked").length;
-    
-    if(select_checked_length == 0) {
-    	alert("성별을 선택하셔야 합니다.");
-    	return; // 종료	
-    } */
-    
     // >>> select box  생년월일 표시 <<<
 	  function setDateBox() {
 	    var dt = new Date();
@@ -503,9 +477,49 @@ b_flag_idDuplicate_click = false;
     }
    
    
-   // >>> 계정을 생성해주는 함수<<<
+   // >>> 회원가입하기 버튼 = 계정생성<<<
    function gojoin() {
 	   
+	   // *** 필수입력사항에 모두 입력이 되었는지 검사하기 ***//
+	   b_Flag_requiredInfo = false;
+	   
+	   // -- 인풋태그 --  
+	    const requiredInfo_list =  document.querySelectorAll("input.requiredInfo"); // 배열과 유사하게 나옴
+        for(let i=0; i<requiredInfo_list.length; i++) { // 일반 for문 사용.of는 끝까지간다. break를 못씀
+        	const val = requiredInfo_list[i].value.trim();
+        	if(val == "") { // 필수입력사항이 한개라도 비었을 경우
+        		alert(" 필수입력사항은 모두 입력하셔야 합니다.");
+    			b_Flag_requiredInfo = true;
+    			return false;//break
+        	}
+        }// end of for
+        
+        if(b_Flag_requiredInfo) {
+        		return; //종료
+        }
+        // -- 셀렉태그 --
+        const selectedInfo_list =  document.querySelectorAll("select.requiredInfo"); // 배열과 유사하게 나옴
+        for(let i=0; i<selectedInfo_list.length; i++) { // 일반 for문 사용.of는 끝까지간다. break를 못씀
+        	const val = selectedInfo_list[i].value.trim();
+        	if(val == "") { // 필수입력사항이 한개라도 비었을 경우
+        		alert(" 필수입력사항은 모두 입력하셔야 합니다.");
+    			b_Flag_requiredInfo = true;
+    			return false;//break
+        	}
+        }// end of for
+        
+        if(b_Flag_requiredInfo) {
+        		return; //종료
+        }
+        
+        // -- 동의합니다. 체크박스(동의유무) --
+	    const checkbox_length = $("input:checkbox[id='agree']:checked").length; 
+	    
+	    if(checkbox_length == 0) {
+	    	alert("이용약관에 동의하셔야 합니다.");
+	    	return; // 종료	
+	    }	
+	    
 		// >>>  "아이디중복확인" 을 클릭했는지 여부 알아오기 <<< 
 	    if(!b_flag_idDuplicate_click) { 
 	    	// "아이디중복확인" 을 클릭 안 했을 경우 
@@ -514,27 +528,14 @@ b_flag_idDuplicate_click = false;
 	    } 
 	   
 	   
-	   
-	   // === 동의합니다. 체크박스(동의유무) === 
-	    const checkbox_length = $("input:checkbox[id='agree']:checked").length; 
-	    
-	    if(checkbox_length == 0) {
-	    	alert("이용약관에 동의하셔야 합니다.");
-	    	return; // 종료	
-	    }	
-	    
-	   
 	   const frm = document.joinFrm;
-	    frm.action = "join.sun"; //URL view단을 관리하는 클래스는 MemberRegister클래스
+	    frm.action = "join.sun"; //URL view단을 관리하는 클래스는 join클래스
 	    frm.method = "post";
 	    frm.submit();
 	   
 	   
-	   
-	   
-	   
    }
-   
+  
    
    
     </script>
@@ -549,8 +550,9 @@ b_flag_idDuplicate_click = false;
         		<ul>
 	        		<li>
 						<label for="userid">아이디</label>
-						<input type="text" name="userid" id="userid" class="t_input" style="width:325px;" required autofocus/> 
+						<input type="text" name="userid" id="userid" class="t_input requiredInfo" style="width:325px;" required autofocus/> 
 						<button type="button" name ="btn_idcheck" id="btn_idcheck" style="display: inline-block;">아이디확인</button>
+						<span id="idcheckResult"></span>
 						<div class="first_error">필수 입력란입니다.</div>
 						<div class="error">아이디를 입력해 주십시오.</div>
 					</li>
@@ -559,7 +561,7 @@ b_flag_idDuplicate_click = false;
 	        	<ul>
 	        		<li>
 						<label for="email">이메일주소</label>
-						<input type="email" name="email" id="email" class="t_input" required autofocus/> 
+						<input type="email" name="email" id="email" class="t_input requiredInfo" required autofocus/> 
 						<div class="first_error">필수 입력란입니다.</div>
 						<div class="error">이메일 주소를 입력해 주십시오.</div>
 					</li>
@@ -569,7 +571,7 @@ b_flag_idDuplicate_click = false;
 			<ul>
 				<li>
 					<label for="emailcheck">이메일주소확인</label>
-					<input type="email" name="emailcheck" id="emailcheck" class="t_input" required/> 
+					<input type="email" name="emailcheck" id="emailcheck" class="t_input requiredInfo" required/> 
 					<div class="first_error">필수 입력란입니다.</div>
 					<div class="error">이메일 주소가 일치하지 않습니다.</div>
 				</li>
@@ -608,10 +610,9 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 	      	<li>
 	           <label >성별</label>
-	           <select type="text" id="gender" style="color: gray;" class="t_input" required > 
-	           		<option style="color: gray;">성별을 선택해주세요</option>
+	           <select type="text" id="gender" style="color: gray;" class="t_input requiredInfo" required > 
+	           		<option value="female" selected>여성</option>
 		         	<option value="male">남성</option>
-		         	<option value="female">여성</option>
 	           </select>
 	        	<div class="first_error">필수 입력란입니다.</div>
 	         </li>
@@ -620,7 +621,7 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 		      <li>
 		         <label >성명</label>
-		         <input type="text" id="name" class="requiredInfo t_input" required/>
+		         <input type="text" id="name" class="requiredInfo t_input requiredInfo" required/>
 		         <div class="first_error">필수 입력란입니다.</div>
 	       	  </li>
 	      </ul>
@@ -628,9 +629,9 @@ b_flag_idDuplicate_click = false;
 	      <ul style="list-style: none;">
 	         <li >연락처</li>
 	         <li style="width: 100%; text-align: left;" id="telNum">
-	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;-&nbsp;
-	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
-	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" />
+	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" class="requiredInfo" readonly />&nbsp;-&nbsp;
+	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" class="requiredInfo"/>&nbsp;-&nbsp;
+	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" class="requiredInfo"/>
 	             <div class="error">휴대폰 형식이 아닙니다.</div>
 	         </li>
 	      </ul>
@@ -639,9 +640,9 @@ b_flag_idDuplicate_click = false;
 	      	<li>
 		         <span>생년월일</span>
 		         <div style="text-align: left;" id="birth">
-				    	<select name="year" id="year" title="년도" class="custom-select" onclick="setDateBox()"></select>
-						<select name="month" id="month" title="월" class="custom-select" ></select>
-						<select name="day" id="day" title="일" class="custom-select" ></select>
+				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" onclick="setDateBox()"></select>
+						<select name="month" id="month" title="월" class="custom-select requiredInfo" ></select>
+						<select name="day" id="day" title="일" class="custom-select requiredInfo" ></select>
 						<div class="first_error">필수 입력란입니다.</div>
 				</div>
 			 </li>
@@ -650,8 +651,8 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 		      <li>
 			      	<label>국가</label>
-			      	<select id="nation">
-					    <option>대한민국</option>
+			      	<select id="nation" class="requiredInfo">
+					    <option selected>대한민국</option>
 					    <option>미국</option>
 					    <option>영국</option>
 						<option>중국</option>
@@ -671,7 +672,7 @@ b_flag_idDuplicate_click = false;
 					</div>	
 					
 					<div>
-						<iframe src="../../agree_Join.html" width="100%" height="150px" class="box" ></iframe>
+						<iframe src="../minsu/agree_Join.html" width="100%" height="150px" class="box" ></iframe>
 		      		</div>
 				</li>
 	     	 </ul>  	
