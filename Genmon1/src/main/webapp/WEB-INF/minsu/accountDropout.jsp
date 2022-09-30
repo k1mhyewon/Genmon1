@@ -41,11 +41,11 @@
 		  	<li>탈퇴 즉시 개인정보가 삭제되고 어떠한 방법으로도 복원할 수 없습니다.</li>
 		  	<li>교환/반품/환불 및 사후처리(A/S) 등을 위하여 전자상거래 등에서의 <br>소비자보호에 관한 법률에 의거해 일정 기간동안 보관 후 파기됩니다.</li>
 		</ul>
-		<input type="checkbox" name="agree" id="agree" style="margin-top: 2%;">위 유의사항을 모두 확인하였고, 회원탈퇴에 동의합니다.</input>
+		<input type="checkbox" name="agree" id="agree" style="margin-left: 5%; "><span style="font-size: 12px;">위 유의사항을 모두 확인하였고, 회원탈퇴에 동의합니다.<span></span></input>
 	</div>
 	
 	<span id="button">
-		<button id="btn_cancle" type="button" >취소</button>
+		<button id="btn_cancle" type="button" style="margin-left: 70px;">취소</button>
 		<button id="btn_submit" type="button" class="btn btn-dark ms">확인</button>
 	</span>
 </form>

@@ -75,7 +75,7 @@
 		margin-top: 3px;
 		width: 70px; 
 		display:block; 
-		font-size: 10px;
+		font-size: 12px;
 		background-color: #cccccc;
 		border: none;
 		line-height: 30px;
