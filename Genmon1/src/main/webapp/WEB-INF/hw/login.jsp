@@ -71,9 +71,18 @@
     	background-color: black; 
     	color: white; 
     	width: 74%;
-    	margin: 3% 0 3% 8%; 
+    	margin: 3% 0 1% 7%; 
     	line-height: 250%;
     	font-size: 10pt;
+    }
+    
+    #btn_goCart {
+    	background-color: white; 
+    	width: 74%;
+    	margin: 0% 0 3% 7%; 
+    	line-height: 250%;
+    	font-size: 10pt;
+    	border: solid 1px black;
     }
     
     .save_box {
@@ -132,6 +141,13 @@
 		}); // end of $("button#codeConfirm_btn").click() ------------------
 		
 		
+		// 로그인화면에서 비회원 주문조회 버튼을 누르면
+		$("button##btn_goCart").click(function(){
+			// 로그인 버튼을 클릭하면
+			 // 비회원 주문조회 모달 호출
+			
+		}); // end of $("button#btnSubmit").click() --------------
+		
 		
 		// 로그인화면에서 신규가입 버튼을 누르면
         $("button#btn_gojoin").click(function(){
@@ -139,6 +155,8 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
         
+        
+		
 		
 		
 	}); // end of $(document).ready() ----------------------------------------------------
@@ -216,6 +234,7 @@
            	</c:if>
            	
         	<button id="btn_goLogin" class="login_btn" type="button">로그인</button>
+        	<button id="btn_goCart" type="button">비회원 주문조회</button>
         	
         	<div> 
 	        	<span class="find_btn" id="find_userid" type="button" data-toggle="modal" data-target="#useridFindModal" style="margin-left: 37px;">아이디찾기</span>
