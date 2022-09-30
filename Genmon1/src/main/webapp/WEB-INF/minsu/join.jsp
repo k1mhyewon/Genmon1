@@ -331,7 +331,11 @@ b_flag_idDuplicate_click = false;
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
    			   
    			   
-   			   
+	   	const genderVal = $("select#gender").val();
+	 	
+	 	if(genderVal == null){
+	 		$target.parent().find("div.first_error").show();
+	 	}	   
    			   
    			   
    			   

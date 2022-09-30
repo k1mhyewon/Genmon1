@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -69,7 +70,7 @@ public class WishlistDAO implements InterWishlistDAO {
 		try {
 			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
 			
-			String sql = " select A.pimage1 as pimage1, P.pname as pname, P.price as price "+
+			String sql = " select W.fk_userid as fk_userid, W.fk_pnum as fk_pnum, A.pimage1 as pimage1, P.pname as pname, P.price as price "+
 						 " from tbl_wishlist_test W "+
 						 " JOIN tbl_all_product_test A "+
 						 " on W.fk_pnum = A.pnum "+
@@ -87,9 +88,11 @@ public class WishlistDAO implements InterWishlistDAO {
 				
 				WishlistVO wishvo = new WishlistVO();
 				
-				wishvo.setPimage1(rs.getString(1));
-				wishvo.setPname(rs.getString(2));
-				wishvo.setPrice(rs.getString(3));
+				wishvo.setFk_userid(rs.getString(1));
+				wishvo.setFk_pnum(rs.getString(2));
+				wishvo.setPimage1(rs.getString(3));
+				wishvo.setPname(rs.getString(4));
+				wishvo.setPrice(rs.getString(5));
 				
 				wishList.add(wishvo);
 			}
@@ -100,5 +103,39 @@ public class WishlistDAO implements InterWishlistDAO {
 		
 		return wishList;
 	} // end of public List<WishlistVO> selectWishlist(String userid) throws SQLException {} -----------
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 위시리스트 중 개별 상품에서 삭제 버튼을 눌렀을 때 그 상품만 delete 해오는 메소드 ------------------------------------------------
+	@Override
+	public int deleteWishlist(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
+			
+			String sql = "delete from TBL_WISHLIST_TEST where fk_userid = ? and fk_pnum = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pnum"));
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of public int deleteWishlist(Map<String, String> paraMap) throws SQLException {} -----------------------
 
 }
