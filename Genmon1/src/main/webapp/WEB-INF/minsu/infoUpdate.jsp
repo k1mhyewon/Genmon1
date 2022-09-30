@@ -39,7 +39,7 @@
     }
     
     .modals-fullsize {
-    	width: 800px;
+    	width: 700px;
     	height: 1000px;
     }
     
@@ -104,7 +104,7 @@
      
                <!-- Modal body -->
                 <div class="cancel_modal-body">
-                	<iframe id="iframe_emailFind" style="border: none; width: 750px; height: 700px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
+                	<iframe id="iframe_emailFind" style="border: none; width: 700px; height: 650px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
              		</iframe>
                 </div>
        		</div>
