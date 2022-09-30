@@ -72,6 +72,24 @@ public abstract class AbstractController implements InterCommand {
 	}
 	
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	// 로그인 유무를 검사해서 로그인 했으면 true를 리턴해주고 만약에 로그인을 안했으면 false를 리턴해주도록 하겠다
+	
+	public boolean checkAdmin( HttpServletRequest request) { // 세션영역을 조회해야하니까 파라미터로 HttpServletRequest request를 받아오도록 하자
+	
+		HttpSession sesssion = request.getSession();
+		MemberVO loginuser = (MemberVO)sesssion.getAttribute("loginuser");
+		
+		if( loginuser != null && "admin".equalsIgnoreCase(loginuser.getUserid()) ) { // 로그인 한경우
+			return true;
+		
+		} else { // 로그인 안한 경우
+			return false;
+		}
+		
+	}
+	
+	
 	
 	
 }
