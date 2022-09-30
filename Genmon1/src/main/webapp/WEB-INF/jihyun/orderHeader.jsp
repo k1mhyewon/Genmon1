@@ -365,6 +365,16 @@
 		opacity:0.7;
 		color: #656566;
 	}
+	
+	.link_tag{
+		font-size: 10pt;
+		color: black;
+		text-decoration: underline;
+	}
+	
+	.link_tag:hover{
+		cursor: pointer;
+	}
 
 </style>
 <!-- swiper jquery -->
