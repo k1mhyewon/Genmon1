@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <% String ctxPath=request.getContextPath();%>    
 <jsp:include page="../common/header.jsp" />
 
@@ -21,8 +22,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
      		
      		<div class="item-info-cotent-box">
 	      		<div class="item-info-cotent">
-	      			<div class="item-name">릴리트01(BR)</div>
-	    		    <div class="item-price">259,000원</div>
+	      			<div class="item-name">${pvo.parentProvo.pname } ${pvo.colorName }</div>
+	    		    <div class="item-price">${ pvo.parentProvo.price}원</div>
 			 	</div>
 		 	</div>
 		 	
@@ -30,22 +31,18 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		 	<div class="item-info-color-box">
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="<%= ctxPath %>/images/minji/릴리트01색1미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="<%= ctxPath %>/images/minji/릴리트미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="<%= ctxPath %>/images/minji/릴리트초록미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="<%= ctxPath %>/images/minji/릴리트01색상2미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="<%= ctxPath %>/images/minji/릴리트01색상3미니.jpg"></a></li>
-			 			<li class="color-img"><a href="#" class="color-link"><img class="color-real-img" alt="" src="<%= ctxPath %>/images/minji/릴리트01색상4미니.jpg"></a></li>
+			 			<c:if test="${not empty requestScope.proList}">
+			 				<c:forEach var="pvo" items="${requestScope.proList}">
+			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 				</c:forEach>
+			 			</c:if>
 			 		</ul>
 		 		</div>
 			</div>
 				
 				<div class="item-info-description-box">
-		   	 		<div class="item-info-description">
-		    	 	   "릴리트 01(BR)은 사각형태의 블랙 플랫바 선글라스입니다.<br>
-		    	 		라운딩 처리된 프런트가 부드러운 분위기를 연출하며<br>
-		    	 		템플의 유니크한 메탈 장식이 특징입니다.<br>
-		    	 		99.9% UV 차단이 되는 브라운 렌즈를 사용하였습니다."
+		   	 		<div class="item-info-description" style="width: 300px;">
+		    	 	   ${pvo.parentProvo.pcontent }
 		   	 		</div>
 	   	 		</div>
 	      	 	<br>
@@ -175,13 +172,13 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  <%-- 제품 상세 이미지 박스 --%>
 	  		<div class="img-row-box"> 
 		      <div class="img-row">
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트01정면.jpg" alt="" class="sunglasses-image"></div>
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트착샥02.jpg" alt="" class="sunglasses-image"></div>
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트01상세.jpg" alt="" class="sunglasses-image"></div>
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트01착샷.jpg" alt="" class="sunglasses-image"></div>
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트옆면.jpg" alt="" class="sunglasses-image" ></div>
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트01옆.jpg" alt="" class="sunglasses-image" ></div>
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/릴리트파우치.jpg" alt="" class="sunglasses-image" ></div>
+			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" class="sunglasses-image"></div>
+			        <c:if test="${not empty requestScope.imgList}">
+			        	<c:forEach var="ivo" items="${requestScope.imgList}">
+			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/${ivo.imgfilename}" class="sunglasses-image"></div>
+			        	</c:forEach>
+			        </c:if>
+			        
 			   </div> 
 	 		</div>
 	 
