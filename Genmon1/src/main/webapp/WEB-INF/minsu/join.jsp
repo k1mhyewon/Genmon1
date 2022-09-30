@@ -320,6 +320,13 @@ b_flag_idDuplicate_click = false;
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
    			   
    			   
+<<<<<<< HEAD
+	   	const genderVal = $("select#gender").val();
+	 	
+	 	if(genderVal == null){
+	 		$target.parent().find("div.first_error").show();
+	 	}	   
+=======
    			 
    			   
    		// === 전화번호2 === //
@@ -379,6 +386,7 @@ b_flag_idDuplicate_click = false;
 			
 		} ); // 전화번호 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 		
+>>>>>>> branch 'main' of https://github.com/k1mhyewon/Genmon1.git
    			   
 		  // === 생년 === //
 	   	   $("select#year").each((e) => {

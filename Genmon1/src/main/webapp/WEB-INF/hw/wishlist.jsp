@@ -28,7 +28,7 @@
 
     div#wishText{
         /* border: solid 1px green; */
-        padding: 6% 0 3% 10%;
+        padding: 6% 0 2% 10%;
         font-size: 14pt;
         font-weight: bold;
     }
@@ -83,6 +83,22 @@
         display: inline-block;
     }
 
+	#empty_wishlist {
+    	/* border: solid 1px pink; */
+    	width: 400px;
+    	height: 300px;
+    	padding-top: 80px;
+    	/* margin: auto; */
+    	margin-left: 300px;
+    	text-align: center;
+    }
+    
+    #go_shopping {
+		font-size: 10pt;
+		margin: 50px 0 0 0;
+		width: 300px;
+		height: 40px;
+	}
 
     /* 추가 */
 
@@ -186,41 +202,68 @@
 	--%>
 	
 	
+	function goDelete(fk_userid, fk_pnum){ // -----------------------------------
+		
+		const deleteConfirm = confirm('선택한 상품을 삭제하시겠습니까?');
+		
+			if (deleteConfirm) {
+			 	
+			    location.href="/Genmon1/member/wishlistDelete.sun?fk_userid="+fk_userid+"&fk_pnum="+fk_pnum; 
+				
+				alert('삭제되었습니다.ㅎㅎㅎㅎㅎ');
+			}
+			else {
+				alert('삭제가 취소되었습니다.');
+			}
+		
+		// 위시리스트의 상품을 삭제해주는 페이지로 이동
+		
+		
+	} // end of function goDelete() ---------------------------
+	
 
 </script>
     <!-- 인덱스 시작 -->
  
     <!-- 위시리스트 목록 -->
 
-
-    <div id="wishText">위시리스트(0)</div>
-    <div id="checkbox_choice">
-        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-        <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
-    </div>
-	<div class="album">
-		<div class="box">
-			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
-			
-				<c:forEach var="wishvo" items="${requestScope.wishList}">
-					<div class="col">
-						<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
-						<div class="card_body mx-1 my-3">
-							<img src="../images/${wishvo.pimage1}" class="product_img">
-							<div id="productDesc">
-								<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
-								<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+	<c:if test="${not empty requestScope.wishList }">
+    	<div id="wishText">위시리스트(0)</div>
+	    <div id="checkbox_choice">
+	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
+	        <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
+	    </div>
+		<div class="album">
+			<div class="box">
+				<div class="wish_container row row-cols-sm-1 row-cols-md-4">
+					<c:forEach var="wishvo" items="${requestScope.wishList}">
+						<div class="col">
+							<input type="hidden" name="fk_userid" value="${wishvo.fk_userid}" />
+							<input type="hidden" name="pnum" value="${wishvo.fk_pnum}" />
+							<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
+							<div class="card_body mx-1 my-3">
+								<img src="../images/${wishvo.pimage1}" class="product_img">
+								<div id="productDesc">
+									<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
+									<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+								</div>
+								<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>
 							</div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
 						</div>
-					</div>
-				</c:forEach>
-				
+					</c:forEach>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div style="height: 50px;"></div>
+	</c:if>
+	<c:if test="${empty requestScope.wishList }">
+		<div id="wishText">위시리스트(0)</div>
+		<div id="empty_wishlist">
+			<div>위시리스트에 담긴 상품이 없습니다.</div>
+			<button type="button" class="btn btn-dark" id="go_shopping">쇼핑하러가기</button>
+		</div>
+	</c:if>
+	<div style="height: 70px;"></div>
 <%-- 인덱스 끝 --%>
 
 <jsp:include page="../common/footer.jsp" />

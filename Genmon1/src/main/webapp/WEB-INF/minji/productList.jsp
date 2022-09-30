@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath=request.getContextPath();%>
 <jsp:include page="../common/header.jsp" />
 
@@ -296,6 +297,21 @@
 		/* 체크박스 : 라디오 동그라미
 </style>
 
+<script>
+	$(document).ready(function(){
+		
+		//let html = '';
+		
+		//const proList = "${requestScop.proList}";
+		
+		//proList.each
+		
+		//$("div#fuckyou").html(html);
+		
+		
+	}); // end of ready
+
+</script>
 
 <%-- 인덱스 시작 --%>
 
@@ -390,164 +406,26 @@
     
 
     <!-- 상품목록 -->
-    <div class="grid-container">
-    	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="<%= ctxPath %>/product/productDetail.sun" class="product" ><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="<%= ctxPath %>/product/productDetail.sun" class="product">
-		 		 		<span class="grid-item-name">릴리트 01(BR)</span>
-		 		 		<span class="grid-item-price">259,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" id="heart" onclick=""><i class="fa-regular fa-heart" ></i></button>
-				 <!-- 버튼 호버 색 변경 안 됨 + 이모티콘 배경색상 none 안 됨  -->
-			</div>	
-			
-		 <div class="grid-info">
-		 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/디디온GRC1.jpg" ></a></div>
-		  			<div class="grid-item-text" style="inline-block">
-		  				<a href="#" class="product">
-			 		 		<span class="grid-item-name">디디온 GRC1</span>
-			 		 		<span class="grid-item-price">270,000원</span>
-			 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
-		 		 		</a>
-					 </div>
-					 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-				</div>	
-	  	
-	 	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/디디온VC1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">디디온 VC1</span>
-		 		 		<span class="grid-item-price">270,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-			
-			
-	 <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/로지YC5.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">로지 YC5</span>
-		 		 		<span class="grid-item-price">269,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-			
-			
-	  	
-	 <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/론디01(V).jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">론디 01(V)</span>
-		 		 		<span class="grid-item-price">259,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-			
-	  	
-	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르IBG1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">르 IBG1</span>
-		 		 		<span class="grid-item-price">280,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn"><i class="fa-regular fa-heart" ></i></button>
-			</div>				
-			
-	  	
-	 <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Ic1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">르 Ic1</span>
-		 		 		<span class="grid-item-price">280,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-			
-	  	
-	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Iv1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">르 Iv1</span>
-		 		 		<span class="grid-item-price">280,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-	  	
-	  	
-	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르P1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">르 P1</span>
-		 		 		<span class="grid-item-price">280,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	 
-			
-	  	
-	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀IC1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">밀 IC1</span>
-		 		 		<span class="grid-item-price">249,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-	  	
-	  	
-	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀 Y2.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">밀 Y2</span>
-		 		 		<span class="grid-item-price">249,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-			
-			
-	  	
-	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/로티 IC1.jpg" ></a></div>
-	  			<div class="grid-item-text" style="inline-block">
-	  				<a href="#" class="product">
-		 		 		<span class="grid-item-name">로티 IC1</span>
-		 		 		<span class="grid-item-price">280,000원</span>
-		 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-	 		 		</a>
-				 </div>
-				 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
-			</div>	
-	</div>
-
+    
+    <div class="row">
+	   	<c:if test="${ not empty requestScope.proList}">
+	   		<c:forEach var="pvo" items="${requestScope.proList }">
+		   		<div class="col-md-3">
+		   			 <div>
+			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:200px;" src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1 }" ></a>
+			  				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product">
+				 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
+				 		 		<span class="grid-item-price">${pvo.parentProvo.price }</span>
+				 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
+			 		 		</a>
+						 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
+					 </div>	
+				</div>
+	   		</c:forEach>
+	   	</c:if>
+    </div>
+    
+    
 	
 	<%-- footer 하단bar 고정 --%>
 	
