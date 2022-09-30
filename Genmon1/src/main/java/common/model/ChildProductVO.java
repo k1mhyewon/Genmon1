@@ -1,20 +1,30 @@
-package minji.model;
+package common.model;
+
+import java.util.List;
 
 public class ChildProductVO {
 
-	private String pnum;				// 상품일련번호
-	private int fk_pid; 				// 상품id
+	private int pnum;				// 상품일련번호
+	private String fk_pid; 				// 상품id
 	private String pcolor;				// 상품색상
 	private String pimage1; 			// 대표상품이미지
 	private int salePcnt; 				// 할인율
 	private int pqty; 					// 재고
 	private String preleasedate;		// 출시일
+	////////////////////////////////
+	// private int colAmount;	            // 같은 컬러 갯수 구하기 
+	
 	
 	////////////////////////////
 	
+	private ParentProductVO parentProvo ;
+	
+	////////////////////////////
+	
+
 	public ChildProductVO() {}
 
-	public ChildProductVO(String pnum, int fk_pid, String pcolor, String pimage1, int salePcnt, int pqty,
+	public ChildProductVO(int pnum, String fk_pid, String pcolor, String pimage1, int salePcnt, int pqty,
 			String preleasedate) {
 		super();
 		this.pnum = pnum;
@@ -26,19 +36,19 @@ public class ChildProductVO {
 		this.preleasedate = preleasedate;
 	}
 
-	public String getPnum() {
+	public int getPnum() {
 		return pnum;
 	}
 
-	public void setPnum(String pnum) {
+	public void setPnum(int pnum) {
 		this.pnum = pnum;
 	}
 
-	public int getFk_pid() {
+	public String getFk_pid() {
 		return fk_pid;
 	}
 
-	public void setFk_pid(int fk_pid) {
+	public void setFk_pid(String fk_pid) {
 		this.fk_pid = fk_pid;
 	}
 
@@ -81,6 +91,27 @@ public class ChildProductVO {
 	public void setPreleasedate(String preleasedate) {
 		this.preleasedate = preleasedate;
 	}
+	
+	
+	////////////////////////////////////////////
+	
+	
+
+	public ParentProductVO getParentProvo() {
+		return parentProvo;
+	}
+
+	public void setParentProvo(ParentProductVO parentProvo) {
+		this.parentProvo = parentProvo;
+	}
+	
+	// 컬러 앞에 두글자만 따오는 메소드
+	public String getColorName() {
+		return pcolor.substring(0, 2).toUpperCase();
+		
+	}
+
+	
 	
 	
 }
