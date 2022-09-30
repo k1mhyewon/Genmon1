@@ -10,8 +10,7 @@ public class ProductList extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		InterProductDAO pdao = new ProductDAO();
-		List()
+	
 		
 		
 	//	super.setRedirect(false);
