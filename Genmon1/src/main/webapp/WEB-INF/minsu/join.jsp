@@ -75,7 +75,7 @@
 		margin-top: 3px;
 		width: 70px; 
 		display:block; 
-		font-size: 12px;
+		font-size: 11px;
 		background-color: #cccccc;
 		border: none;
 		line-height: 30px;
@@ -88,264 +88,355 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-       
-       $(document).ready(function(){
-    	 
-    	   
-    	   $("div.error").hide();
-    	   $("div.first_error").hide();
-    	   $("ul#pwderrormsg").hide();
-    	   
-    	   // === 아이디 === //
-       	   $("input#userid").blur((e) => {
-       	
-       		const $target = $(e.target);
-            const userid = $("input#userid").val().trim;
-            
-            if($target.val() == "") {
-            	// 아이디 입력칸이 공백인 경우
-            	 $target.parent().find("div.first_error").show();
-            	 $target.focus();
-            }
-            else {
-            	// 아이디를 입력한경우
-       			  $target.parent().find("div.error").hide();
-       		   }
-       	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
-       			   
-    	   
-       	   // === 이메일주소 === //
-       	   $("input#email").blur((e) => {
-       	
-       		const $target = $(e.target);
-    		const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
-                
-            const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
-            
-            if($target.val() == "") {
-            	// 이메일 입력칸이 공백인 경우
-            	 $target.parent().find("div.first_error").show();
-            }
-            else {
-            	// 입력칸에 글이 들어온경우
-            	 $target.parent().find("div.first_error").hide();
-            	
-            	if(!bool) {
-       				// 이메일이 정규표현식에 위배된 경우  
-       			    $target.parent().find("div.error").show();
-       				$target.focus();
-       			}
-       			else {
-       				// 이메일이 정규표현식에 맞는 경우 
-       			    $target.parent().find("div.error").hide();
-       			}
-              }
-       	   }); // end of  $("input#name").bulr((e) => {} --------------------------------
-       			   
-       			   
-     
-       	  // === 이메일주소 확인 === //
-       	   $("input#emailcheck").blur((e) => {
-       	
-       		const $target = $(e.target);
-            const email = $("input#email").val();
-            const emailcheck = $("input#emailcheck").val();
-            
-            if($target.val() == "") {
-            	// 이메일 입력칸이 공백인 경우
-            	 $target.parent().find("div.first_error").show();
-            }
-            else {
-            	// 입력칸에 글이 들어온경우
-            	 $target.parent().find("div.first_error").hide();
-            	
-            	if(email != emailcheck) {
-       				// 이메일과 이메일확인이 일치하지 않는 경우  
-       			    $target.parent().find("div.error").show();
-       				$target.focus();
-       			}
-       			else {
-       			// 이메일과 이메일확인이 일치하는 경우  
-       			    $target.parent().find("div.error").hide();
-       			}
-              }
-       	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
-       			   
-       			   
-       	  // === 비밀번호 === //
-       	   $("input#pwd").blur((e) => {
-       	
-       		const $target = $(e.target);
-    		const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;  //  비밀번호 정규표현식
-                
-            const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
-            
-            if($target.val() == "") {
-            	// 비밀번호 입력칸이 공백인 경우
-            	 $target.parent().find("div.first_error").show();
-            }
-            else {
-            	// 비밀번호 입력칸에 글자가 들어온경우
-            	 $target.parent().find("div.first_error").hide();
-            	
-            	if(!bool) {
-       				// 비밀번호가 정규표현식에 위배된 경우  
-       			    $target.parents().show("ul#pwderrormsg");
-       				$target.focus();
-       			}
-       			else {
-       				// 비밀번호가 정규표현식에 맞는 경우 
-       			    $target.parent().find("div.error").hide();
-       			}
-              }
-       	   }); // end of  $("input#name").bulr((e) => {} --------------------------------
-       			   
-       			   
-     
-       	  // === 비밀번호 확인 === //
-       	   $("input#pwdcheck").blur((e) => {
-       	
-       		const $target = $(e.target);
-            const pwe = $("input#pwd").val();
-            const pwdcheck = $("input#pwdcheck").val();
-            
-            if($target.val() == "") {
-            	// 이메일 입력칸이 공백인 경우
-            	 $target.parent().find("div.first_error").show();
-            	 $target.parent().find("ul#pwderrormsg").show();
-            }
-            else {
-            	// 입력칸에 글이 들어온경우
-            	 $target.parent().find("div.first_error").hide();
-            	
-            	if(pwd != pwdcheck) {
-       				// 비밀번호와 비밀번호확인이 일치하지 않는 경우  
-       			    $target.parent().find("ul#pwderrormsg").show();
-       				$target.focus();
-       			}
-       			else {
-       				// 비밀번호와 비밀번호확인이 일치하는 경우  
-       			    $target.parent().find("div.error").hide();
-       			}
-              }
-       	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
-       			   
-       			   
-       	 // === 성별 === //
-       	   $("select#gender").blur((e) => {
-       	
-       		const $target = $(e.target);
-            const userid = $("select#gender").val().trim;
-            
-            if($target.val() == "") {
-            	// 아이디 입력칸이 공백인 경우
-            	 $target.parent().find("div.first_error").show();
-            	 $target.focus();
-            }
-            else {
-            	// 아이디를 입력한경우
-       			  $target.parent().find("div.error").hide();
-       		   }
-       	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-       			   
-    	
-        //=== 국가선택 시작 ===
-        $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
 
-            //Loop through returned result and populate countries select
-            $.each(countries.data,function(key,value){
-                $('#country-select')
+b_flag_idDuplicate_click = false;
+// 아이디중복확인을 클릭했는지 알아오는 용도
+   
+   $(document).ready(function(){
+	 
+	   
+	   $("div.error").hide();
+	   $("div.first_error").hide();
+	   $("ul#pwderrormsg").hide();
+	   $("div.btn_Nocheck").hide();
+	   
+	   
+	   // === 아이디 === //
+   	   $("input#userid").blur((e) => {
+   	
+   		const $target = $(e.target);
+        const userid = $("input#userid").val().trim;
+        
+        if($target.val() == "") {
+        	// 아이디 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        	
+        }
+        else {
+        	// 아이디를 입력한경우
+   			  $target.parent().find("div.error").hide();
+   		   }
+   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
+   			
+   			   
+   	<%-- 	// === 아이디 중복확인 === //
+   		$("buttom#btn_idcheck").click(function(){
+   			
+   			b_flag_idDuplicate_click = true;
+   			
+   		    $.ajax({ // { }모양은 객체의미
+            	url:"<%= ctxPath%>/member/idDuplicateCheck.up", // url: 은 항상 정해져있다. 키:"값" ==> 알고자하는 입력한 아이디가 ""경로로 보내서 아이디가 중복됐는지 알아봐주겠다
+            	data:{"userid":$("input#userid").val()}, 
+			            	
+            	type:"post",  // object타입
+          //	dataType:"json", 
+          //  	async:true,		 // async:true 가 비동기 방식을 말한다. async을 생략하면 비동기방식인 기본값 async:true이다.		
+            					 //  --> 일을 idDuplicateCheck.up에 넘겨주고 다른 일을 하다가 기존일이 다끝나면 돌아와서 하던거 마저함.
+            					 // async:false 가 동기 방식이다.(지도를 사용할때는 반드시 동기방식인 async:false을 사용해야만 올바르게 사용가능하다.)
+            					 // --> 일처리가 끝날때까지 하염없이 기다림
+            					 
+            	success:function(text) { 
+					//dataType:"json" 을 생략하면 
+					// text는 자바스크립트가 아닌 문자열이다. text은 "{"isExists":false}" 또는 "{"isExists":true}" 되어지는 String타입이다.
+					
+					//dataType:"json" 을 생략하지 않고 넣어주면
+					// text는 자바스크립트가 아닌 문자열이다. text은 {"{"isExists":false}"} 또는 {"{"isExists":true}"} 되어지는 Object타입이다.
+					
+					
+					const json = JSON.parse(text);
+					// JSON.parse(text); 은 JSON.parse({"isExists":false}); 또는 JSON.parse({"isExists":true} ); 와 같은 것인데
+					// 그 결과물은 {"isExists":false}" 또는 {"isExists":true}와 같은 문자열을 자바스크립트 객체로 바꿔준것이다. 
+					// 조심할 것은 text는 반드시 JSON형식으로 된 문자열이어야 한다.
+					
+            		if(json.isExists) { // (점).isExists표기법이다.(대괄호)[isExists]표기법도 있다)
+            			// 입력한 userid가 이미 사용중이라면
+            			$("span#idcheckResult").html($("input#userid").val() + "은 중복된 ID이므로 사용불가합니다. ").css("color","red");
+            			$("input#userid").val(""); // 입력한 값 지우기
+              
+            		}
+            		else {
+            			// 입력한 userid가 존재하지 않는 경우라면 
+            			$("span#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","black");
+            			
+            		}
+            	},
+            	
+            	// 잘못되면 alert를 띄워라
+            	error: function(request, status, error){
+                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+                 }
+            	
+            });
+        }); // end of $("img#idcheck").click(function() ---------------------------
+        		
+		//  아이디값이 변경되면 가입하기 버튼을 클릭시 "아이디중복확인" 을 클릭했는지 클릭안했는지를 알아보기위한 용도 초기화 시키기 
+		$("input#userid").bind("change",()=> { // chage는 초기화 시킴.
+			let b_flag_idDuplicate_click = false;
+			// "아이디중복확인" 을 클릭했는지 클릭을 안했는지 여부를 알아오기 위한 용도.
+		});
+   			
+   			
+   		}); // end of $("buttom#btn_idcheck").click(function()-------------------------------------------- --%>
+	   
+   	   // === 이메일주소 === //
+   	   $("input#email").blur((e) => {
+   	
+   		const $target = $(e.target);
+		const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
+            
+        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
+        
+        if($target.val() == "") {
+        	// 이메일 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        }
+        else {
+        	// 입력칸에 글이 들어온경우
+        	 $target.parent().find("div.first_error").hide();
+        	
+        	if(!bool) {
+   				// 이메일이 정규표현식에 위배된 경우  
+   			    $target.parent().find("div.error").show();
+   				$target.focus();
+   			}
+   			else {
+   				// 이메일이 정규표현식에 맞는 경우 
+   			    $target.parent().find("div.error").hide();
+   			}
+          }
+   	   }); // end of  $("input#name").bulr((e) => {} --------------------------------
+   			   
+   			   
+ 
+   	  // === 이메일주소 확인 === //
+   	   $("input#emailcheck").blur((e) => {
+   	
+   		const $target = $(e.target);
+        const email = $("input#email").val();
+        const emailcheck = $("input#emailcheck").val();
+        
+        if($target.val() == "") {
+        	// 이메일 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        }
+        else {
+        	// 입력칸에 글이 들어온경우
+        	 $target.parent().find("div.first_error").hide();
+        	
+        	if(email != emailcheck) {
+   				// 이메일과 이메일확인이 일치하지 않는 경우  
+   			    $target.parent().find("div.error").show();
+   				$target.focus();
+   			}
+   			else {
+   			// 이메일과 이메일확인이 일치하는 경우  
+   			    $target.parent().find("div.error").hide();
+   			}
+          }
+   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
+   			   
+   			   
+   	  // === 비밀번호 === //
+   	   $("input#pwd").blur((e) => {
+   	
+   		const $target = $(e.target);
+		const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;  //  비밀번호 정규표현식
+            
+        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
+        
+        if($target.val() == "") {
+        	// 비밀번호 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        }
+        else {
+        	// 비밀번호 입력칸에 글자가 들어온경우
+        	 $target.parent().find("div.first_error").hide();
+        	
+        	if(!bool) {
+   				// 비밀번호가 정규표현식에 위배된 경우  
+   			    $("ul#pwderrormsg").show();
+   				$target.focus();
+   			}
+   			else {
+   				// 비밀번호가 정규표현식에 맞는 경우 
+   			    $target.parent().find("div.error").hide();
+   			}
+          }
+   	   }); // end of  $("input#name").bulr((e) => {} --------------------------------
+   			   
+   			   
+ 
+   	  // === 비밀번호 확인 === //
+   	   $("input#pwdcheck").blur((e) => {
+   	
+   		const $target = $(e.target);
+        const pwe = $("input#pwd").val();
+        const pwdcheck = $("input#pwdcheck").val();
+        
+        if($target.val() == "") {
+        	// 이메일 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        	 $target.parent().find("ul#pwderrormsg").show();
+        }
+        else {
+        	// 입력칸에 글이 들어온경우
+        	 $target.parent().find("div.first_error").hide();
+        	
+        	if(pwd != pwdcheck) {
+   				// 비밀번호와 비밀번호확인이 일치하지 않는 경우  
+   			    $("ul#pwderrormsg").show();
+   				$target.focus();
+   			}
+   			else {
+   				// 비밀번호와 비밀번호확인이 일치하는 경우  
+   			    $target.parent().find("div.error").hide();
+   			}
+          }
+   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
+   			   
+   			   
+   	 // === 성별 === //
+   	   $("select#gender").blur((e) => {
+   	
+   		const $target = $(e.target);
+        const gender = $("select#gender").val().trim;
+        
+        if($target.check) {
+        	// 아이디 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        	 $target.focus();
+        }
+        else {
+        	// 아이디를 입력한경우
+   			  $target.parent().find("div.error").hide();
+   		   }
+   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   
+   			   
+   			   
+   	   // === 성명 === //
+   	   $("input#name").blur((e) => {
+   	
+   		const $target = $(e.target);
+        const name = $("input#name").val().trim;
+        
+        if($target.check) {
+        	// 성명 입력칸이 공백인 경우
+        	 $target.parent().find("div.first_error").show();
+        	 $target.focus();
+        }
+        else {
+        	// 성명을 입력한경우
+   			  $target.parent().find("div.error").hide();
+   		   }
+   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
+   			   
+   			   
+   			   
+   			   
+   			   
+   			   
+   			   
+   			   
+   			   
+	
+    //=== 국가선택 시작 ===
+    $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
+
+        //Loop through returned result and populate countries select
+        $.each(countries.data,function(key,value){
+            $('#country-select')
+                .append($("<option></option>")
+                    .attr("value", value.name)
+                    .text(value.name));
+            });
+        }); // end of   $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries) --------------
+    
+    }); // end of  $(document).ready(function() --------------------------------------
+    	
+    		
+   
+    		
+	// >>> Function Declaration <<< //
+	
+/* 	// >>>  "아이디중복확인" 을 클릭했는지 여부 알아오기 <<< 
+    if(!b_flag_idDuplicate_click) { 
+    	// "아이디중복확인" 을 클릭 안 했을 경우 
+    	alert("아이디중복확인을 클릭하셔야 합니다.");
+    	return; // 종료
+    } */
+	
+  /*   // >>> 성별 <<<
+    const select_checked_length = $("select[id='gender']:checked").length;
+    
+    if(select_checked_length == 0) {
+    	alert("성별을 선택하셔야 합니다.");
+    	return; // 종료	
+    } */
+    
+    // >>> select box 연도 , 월 표시 <<<
+	  function setDateBox() {
+	    var dt = new Date();
+	    var year = "";
+	    var com_year = dt.getFullYear();
+
+	    // 발행 뿌려주기
+	    $("#year").append("<option value=''>년도</option>");
+
+	    // 올해 기준으로 -50년부터 +1년을 보여준다.
+	    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
+	      $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
+	    }
+
+	    // 월 뿌려주기(1월부터 12월)
+	    var month;
+	    $("#month").append("<option value=''>월</option>");
+	    for (var i = 1; i <= 12; i++) {
+	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
+	    }
+
+	    // 일 뿌려주기(1일부터 31일)
+	    var day;
+	    $("#day").append("<option value=''>일</option>");
+	    for (var i = 1; i <= 31; i++) {
+	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
+	    }
+
+	  }
+	  
+	/* let dd_html = "";
+	for(var i=1; i<=31; i++) {
+		if(i<10) {
+			dd_html += "<option>0"+i+"</option>";
+		}
+		else {
+			dd_html += "<option>"+i+"</option>";
+		}
+	}
+	$("select#birthdd").html(dd_html);
+	// === 생년월일 끝 === 
+		 */
+
+   // >>> 국가선택 함수 <<<//
+    function initStates(){
+        //Get selected country name
+        let country=$("#country-select").val();
+
+        //Remove previous loaded states
+        $('#state-select option:gt(0)').remove();
+        $('#district-select option:gt(0)').remove();
+
+        //Call restful countries states endpoint
+        $.get('https://restfulcountries.com/api/v1/countries/'+country+'/states?fetch_type=slim',function(states){
+
+            //Loop through returned result and populate states select
+            $.each(states.data,function(key,value){
+                $('#state-select')
                     .append($("<option></option>")
                         .attr("value", value.name)
                         .text(value.name));
-                });
-            }); // end of   $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries) --------------
-        
-        }); // end of  $(document).ready(function() --------------------------------------
-        	
-        		
-       
-        		
-    	// >>> Function Declaration <<< //
-    	
-    	
-	    
-        // select box 연도 , 월 표시
-		  function setDateBox() {
-		    var dt = new Date();
-		    var year = "";
-		    var com_year = dt.getFullYear();
-
-		    // 발행 뿌려주기
-		    $("#year").append("<option value=''>년도</option>");
-
-		    // 올해 기준으로 -50년부터 +1년을 보여준다.
-		    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
-		      $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
-		    }
-
-		    // 월 뿌려주기(1월부터 12월)
-		    var month;
-		    $("#month").append("<option value=''>월</option>");
-		    for (var i = 1; i <= 12; i++) {
-		      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
-		    }
-
-		    // 일 뿌려주기(1일부터 31일)
-		    var day;
-		    $("#day").append("<option value=''>일</option>");
-		    for (var i = 1; i <= 31; i++) {
-		      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
-		    }
-
-		  }
-		  
-		/* let dd_html = "";
-		for(var i=1; i<=31; i++) {
-			if(i<10) {
-				dd_html += "<option>0"+i+"</option>";
-			}
-			else {
-				dd_html += "<option>"+i+"</option>";
-			}
-		}
-		$("select#birthdd").html(dd_html);
-		// === 생년월일 끝 === 
-  		 */
-
-       // === 국가선택 함수 === //
-        function initStates(){
-            //Get selected country name
-            let country=$("#country-select").val();
-
-            //Remove previous loaded states
-            $('#state-select option:gt(0)').remove();
-            $('#district-select option:gt(0)').remove();
-
-            //Call restful countries states endpoint
-            $.get('https://restfulcountries.com/api/v1/countries/'+country+'/states?fetch_type=slim',function(states){
-
-                //Loop through returned result and populate states select
-                $.each(states.data,function(key,value){
-                    $('#state-select')
-                        .append($("<option></option>")
-                            .attr("value", value.name)
-                            .text(value.name));
-                });
             });
-        }
-        //=== 국가선택 끝 ===
+        });
+    }
     </script>
 
 
@@ -358,10 +449,10 @@
         		<ul>
 	        		<li>
 						<label for="userid">아이디</label>
-						<input type="text" name="userid" id="userid" class="t_input" style="width:330px;" required autofocus/> 
+						<input type="text" name="userid" id="userid" class="t_input" style="width:325px;" required autofocus/> 
 						<button type="button" name ="btn_idcheck" id="btn_idcheck" style="display: inline-block;">아이디확인</button>
 						<div class="first_error">필수 입력란입니다.</div>
-						<div class="error">이메일 주소를 입력해 주십시오.</div>
+						<div class="error">아이디를 입력해 주십시오.</div>
 					</li>
 				</ul>
 			
@@ -418,9 +509,9 @@
 	      	<li>
 	           <label >성별</label>
 	           <select type="text" id="gender" style="color: gray;" class="t_input" required > 
-		         	<option style="color: gray;">성별을 선택해주세요</option>
-		         	<option>남성</option>
-		         	<option>여성</option>
+	           		<option style="color: gray;">성별을 선택해주세요</option>
+		         	<option value="male">남성</option>
+		         	<option value="female">여성</option>
 	           </select>
 	        	<div class="first_error">필수 입력란입니다.</div>
 	         </li>
@@ -432,6 +523,16 @@
 		         <input type="text" id="name" class="requiredInfo t_input" required/>
 		         <div class="first_error">필수 입력란입니다.</div>
 	       	  </li>
+	      </ul>
+	      
+	      <ul style="list-style: none;">
+	         <li style="width: 20%; font-weight: bold;">연락처</li>
+	         <li style="width: 80%; text-align: left;">
+	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;-&nbsp;
+	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
+	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" />
+	             <span class="error">휴대폰 형식이 아닙니다.</span>
+	         </li>
 	      </ul>
 	      
 	      <ul>
@@ -468,30 +569,12 @@
 	      <ul>
 		      <li>
 					<div style="line-height: 30px; margin-top: 7%; font-size: 12px; width: 300px;">
-						<input type="checkbox" name="all_agree" id="all_agree" />
-						<span for="all_agree">전체동의</span>
-		      			<br>
-		      			
-						<input type="checkbox" name="agree" id="agree1" />
-						<span for="agree1">[필수] 만 14세 이상입니다</span>
-						<br>
-						
-						<input type="checkbox" name="agree" id="agree2"/>
-						<span for="agree2">[필수] 이용약관 동의</span>
-						<br>
-						
-						<input type="checkbox" name="agree" id="agree3"/>
-						<span for="agree3">[필수] 개인정보 수집 및 이용 동의</span>
-						<br>
-						
-						<input type="checkbox" name="agree" id="agree4"/>
-						<span for="agree4" >[선택] 마케팅 목적 개인정보 수집 및 이용 동의</span>
-						<br>
-						
-						<input type="checkbox" name="agree" id="agree5"/>
-						<span for="agree5">[선택] 마케팅 정보 수신 및 활용 동의</span>
-						<br>
-					</div>
+						<label for="agree">이용약관에 동의합니다</label>&nbsp;&nbsp;<input type="checkbox" id="agree" />
+					</div>	
+					
+					<div>
+						<iframe src="../../agree_Join.html" width="100%" height="150px" class="box" ></iframe>
+		      		</div>
 				</li>
 	     	 </ul>  	
 	     	 
