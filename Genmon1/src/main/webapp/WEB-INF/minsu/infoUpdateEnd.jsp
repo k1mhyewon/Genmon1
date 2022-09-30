@@ -28,6 +28,7 @@
     	line-height: 25px;
     	display: block;
     }
+    
     label {
 	    display: block;
 	    line-height: 25px;
@@ -55,7 +56,7 @@
 		color: white;
 		width: 72%;
 		display: block;
-		line-height: 250%;
+		line-height: 150%;
 		margin: 7% 0 -2% 10%;
 	}
   	
@@ -67,8 +68,10 @@
        
     $(document).ready(function(){
     	
-    	// 클릭한 메인메뉴 글씨 굵게
-    	$("span#info_detail").css("font-weight","bold");
+    	 // === select box 연도 , 월 표시 === //
+		
+    	
+    
   		 
 		//=== 국가선택 시작 ===
 		$.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
@@ -81,7 +84,19 @@
 		                .text(value.name));
 		        });
 		    });
-		}); // end of $(document).ready(function() ------------------------------------
+    	 
+    	 
+ 	
+		// 수정하기 버튼을 누르면
+        $("button#btn_update").click(function(){
+        	location.href="<%= ctxPath%>/myinfo/infoUpdate.sun";
+			
+		}); // end of $("button#btn_pwdcheck").click(function() --------------
+			
+	
+				
+				
+	}); // end of $(document).ready(function() ------------------------------------
 				
 				
 		// >>> Function Declaration <<< //
@@ -198,7 +213,7 @@
 	     <ul>
 	      <li>
 		      	<label>국가</label>
-		      	<select id="nation" class="form-control">
+		      	<select id="nation" >
 				    <option>대한민국</option>
 				    <option>미국</option>
 					<option>영국</option>
@@ -210,9 +225,9 @@
 			</li>
 		</ul>
 	      
-	      <button type="button" id="btn_update" class="btn" onclick="<%= ctxPath%>/member/infoUpdate.sun">수정하기</button>
+	      <button type="button" id="btn_update" class="btn" href="<%= ctxPath%>/member/infoUpdate.sun">수정하기</button>
 	      <%-- 이버튼을 클릭하면 infoUpdate로 이동 --%>
 
 </form>
 
-<jsp:include page="../common/footer.jsp" />
+<jsp:include page="/minsu/footer.jsp" />

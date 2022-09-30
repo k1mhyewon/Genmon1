@@ -78,6 +78,31 @@
 		
 	}); // end of $(document).ready() =========================================================
 	
+		
+	// #### Function Declaration #### //
+	<%--
+	function showWishlist(){ // ------------------------
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/member/wishlist.sun",
+			type: "GET",
+			dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	console.log(json);
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+			
+		});
+	
+	} // end of function showWishlist() ----------------
+	--%>
+	
+	
 
 </script>
     <!-- 인덱스 시작 -->
@@ -91,81 +116,25 @@
 	<div class="album">
 		<div class="box">
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName" style="font-weight: bold;">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
+			
+				<c:forEach var="wishvo" items="${requestScope.wishList}">
+					<div class="col">
+						<div class="card_body mx-1 my-3">
+							<img src="../images/${wishvo.pimage1}" class="product_img">
+							<div id="productDesc">
+								<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
+								<p class="productPrice">${wishvo.price}</p>
+							</div>
+							<div>
+								<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+							</div>
+							<div>
+								<button type="button" class="btnWish btn btn-light">삭제</button>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
-				<div class="col">
-					<div class="card_body mx-1 my-3">
-						<img src="../images/le_iv1_1.jpg" class="product_img">
-						<div id="productDesc">
-							<p class="productName">르1</p>
-							<p class="productPrice">280,000원</p>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
-						</div>
-						<div>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
-					</div>
-				</div>
+				</c:forEach>
+				
 			</div>
 		</div>
 	</div>
