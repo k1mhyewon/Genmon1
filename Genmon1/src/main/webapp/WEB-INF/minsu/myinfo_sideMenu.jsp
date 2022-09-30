@@ -56,7 +56,7 @@
 
 <form name="frm_setting" id="frm_setting">
 
-		<h4 style="margin-left:35px;">계정설정</h4>
+		<h4 style="margin-left:35px;font-size: 15px; font-weight: bold;">계정설정</h4>
 		<ul>
 			<li><a href="<%= ctxPath%>/myinfo/infoUpdate.sun">회원정보</a></li>
 			<li><a href="<%= ctxPath%>/myinfo/adrView.sun">주소록</a></li>

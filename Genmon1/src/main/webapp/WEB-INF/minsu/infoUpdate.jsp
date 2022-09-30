@@ -34,13 +34,13 @@
 	 /* === 모달 CSS === */
     
     .modal-dialog.modals-fullsize_accountDropout {
-    width: 90%;
+    width: 1000px;
     height: 50%;
     }
     
-    .modal-dialog.modals-fullsize {
-    width: 90%;
-    height: 30%;
+    .modals-fullsize {
+    	width: 800px;
+    	height: 1000px;
     }
     
     

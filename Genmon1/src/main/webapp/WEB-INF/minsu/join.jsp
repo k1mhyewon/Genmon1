@@ -67,7 +67,7 @@
 	
 	ul{
 		list-style: none;
-		padding: 10px;
+		
 	}
 	
 	
@@ -358,8 +358,8 @@
         		<ul>
 	        		<li>
 						<label for="userid">아이디</label>
-						<input type="text" name="userid" id="userid" class="t_input" required autofocus/> 
-						<button type="button" name ="btn_idcheck" id="btn_idcheck">아이디확인</button>
+						<input type="text" name="userid" id="userid" class="t_input" style="width:330px;" required autofocus/> 
+						<button type="button" name ="btn_idcheck" id="btn_idcheck" style="display: inline-block;">아이디확인</button>
 						<div class="first_error">필수 입력란입니다.</div>
 						<div class="error">이메일 주소를 입력해 주십시오.</div>
 					</li>
