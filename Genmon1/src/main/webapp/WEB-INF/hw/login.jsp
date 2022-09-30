@@ -142,7 +142,7 @@
 		
 		
 		// 로그인화면에서 비회원 주문조회 버튼을 누르면
-		$("button##btn_goCart").click(function(){
+		$("button#btn_goCart").click(function(){
 			// 로그인 버튼을 클릭하면
 			 // 비회원 주문조회 모달 호출
 			

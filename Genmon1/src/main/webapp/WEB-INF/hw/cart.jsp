@@ -76,10 +76,14 @@
         height: 30px;
     }
     
+    
+    
     .cntbox {
-    	border: solid 1px gray;
+    	/* border: solid 1px gray; */
     	width: 120px; 
         height: 40px;
+        margin-left: 60px;
+        margin-bottom: 10px;
         display: inline-block;
     }
 
@@ -127,7 +131,7 @@
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">위시리스트(0)</div>
+    <div id="wishText">장바구니(0)</div>
     <div id="checkbox_choice">
         <button type="button" class="btn btn-light btn_chkbox">전체선택/해제</button>
         <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
@@ -144,6 +148,9 @@
 							<div id="productDesc">
 								<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
 								<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+							</div>
+							<div class="cntbox">
+								<select style="height: 30px;" name="month" id="month" title="월" class="custom-select" ></select>
 							</div>
 							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
 							<button type="button" class="btnWish btn btn-light">삭제</button>
