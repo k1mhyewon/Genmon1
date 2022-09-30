@@ -522,7 +522,7 @@
 	  	
 	  	
 	  <div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀Y2.jpg" ></a></div>
+	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀 Y2.jpg" ></a></div>
 	  			<div class="grid-item-text" style="inline-block">
 	  				<a href="#" class="product">
 		 		 		<span class="grid-item-name">밀 Y2</span>
