@@ -1,4 +1,4 @@
-package minji.model;
+package common.model;
 
 public class ParentProductVO {
 

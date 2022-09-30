@@ -79,7 +79,12 @@
 		background-color: #cccccc;
 		border: none;
 		line-height: 30px;
-		
+	}
+	
+	li#telNum > input {
+		width: 120px;
+		line-height: 30px;
+		margin: 10px 0;
 	}
   	
 </style>
@@ -331,17 +336,96 @@ b_flag_idDuplicate_click = false;
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
    			   
    			   
+<<<<<<< HEAD
 	   	const genderVal = $("select#gender").val();
 	 	
 	 	if(genderVal == null){
 	 		$target.parent().find("div.first_error").show();
 	 	}	   
+=======
+   			 
    			   
+   		// === 전화번호2 === //
+		$("input#hp2").blur( (e)=>{
+			
+			const $target = $(e.target);
+			
+		//	const regExp = /^[1-9][0-9]{2,3}$/g;  
+		//  또는
+		    const regExp = new RegExp(/^[1-9][0-9]{2,3}$/g);  
+           //  숫자 3자리 또는 4자리만 들어오도록 검사해주는 정규표현식 객체 생성 
+           
+           const bool = regExp.test($target.val());
+			
+			if(!bool) {
+				// 국번이 정규표현식에 위배된 경우  
+			
+			//	$target.next().show();
+			//  또는
+			    $target.parent().find("div.error").show();
+				
+			}
+			else {
+				// 국번이 정규표현식에 맞는 경우 
+				
+           //	$target.next().hide();
+			//  또는
+			    $target.parent().find("div.error").hide();
+			}
+			
+		} ); // 전화번호 hp2 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+		
+		
+		// === 전화번호3 === //
+		$("input#hp3").blur( (e)=>{
+			
+			const $target = $(e.target);
+			
+		//	const regExp = /^\d{4}$/g;  
+		//  또는
+		    const regExp = new RegExp(/^\d{4}$/g);  
+           //  숫자 4자리만 들어오도록 검사해주는 정규표현식 객체 생성 
+           
+           const bool = regExp.test($target.val());
+			
+			if(!bool) {
+				// 마지막 전화번호 4자리가 정규표현식에 위배된 경우  
+				
+			    $target.parent().find("div.error").show();
+			
+			}
+			else {
+				// 마지막 전화번호 4자리가 정규표현식에 맞는 경우 
+			
+			    $target.parent().find("div.error").hide();
+			}
+			
+		} ); // 전화번호 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
+		
+>>>>>>> branch 'main' of https://github.com/k1mhyewon/Genmon1.git
    			   
-   			   
-   			   
-   			   
-   			   
+		  // === 생년 === //
+	   	   $("select#year").each((e) => {
+	   	
+	   		const $target = $(e.target);
+	        const name = $("select#year").val().trim;
+	        
+	        if($target.ischecked) {
+	        	// 성명을 입력한경우
+	   			  $target.parent().find("div.error").hide();
+	        
+	        	
+	        }
+	        else {
+	        	// 성명 입력칸이 공백인 경우
+	   			 $("div.first_error").show();
+	        	 $target.focus();
+	   		   }
+	   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	  
+	   			
+	 
+	   			   
+	   			   
 	
     //=== 국가선택 시작 ===
     $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
@@ -362,12 +446,7 @@ b_flag_idDuplicate_click = false;
     		
 	// >>> Function Declaration <<< //
 	
-/* 	// >>>  "아이디중복확인" 을 클릭했는지 여부 알아오기 <<< 
-    if(!b_flag_idDuplicate_click) { 
-    	// "아이디중복확인" 을 클릭 안 했을 경우 
-    	alert("아이디중복확인을 클릭하셔야 합니다.");
-    	return; // 종료
-    } */
+
 	
   /*   // >>> 성별 <<<
     const select_checked_length = $("select[id='gender']:checked").length;
@@ -377,7 +456,7 @@ b_flag_idDuplicate_click = false;
     	return; // 종료	
     } */
     
-    // >>> select box 연도 , 월 표시 <<<
+    // >>> select box  생년월일 표시 <<<
 	  function setDateBox() {
 	    var dt = new Date();
 	    var year = "";
@@ -406,19 +485,8 @@ b_flag_idDuplicate_click = false;
 	    }
 
 	  }
-	  
-	/* let dd_html = "";
-	for(var i=1; i<=31; i++) {
-		if(i<10) {
-			dd_html += "<option>0"+i+"</option>";
-		}
-		else {
-			dd_html += "<option>"+i+"</option>";
-		}
-	}
-	$("select#birthdd").html(dd_html);
 	// === 생년월일 끝 === 
-		 */
+	
 
    // >>> 국가선택 함수 <<<//
     function initStates(){
@@ -441,6 +509,42 @@ b_flag_idDuplicate_click = false;
             });
         });
     }
+   
+   
+   // >>> 계정을 생성해주는 함수<<<
+   function gojoin() {
+	   
+		// >>>  "아이디중복확인" 을 클릭했는지 여부 알아오기 <<< 
+	    if(!b_flag_idDuplicate_click) { 
+	    	// "아이디중복확인" 을 클릭 안 했을 경우 
+	    	alert("아이디중복확인을 클릭하셔야 합니다.");
+	    	return; // 종료
+	    } 
+	   
+	   
+	   
+	   // === 동의합니다. 체크박스(동의유무) === 
+	    const checkbox_length = $("input:checkbox[id='agree']:checked").length; 
+	    
+	    if(checkbox_length == 0) {
+	    	alert("이용약관에 동의하셔야 합니다.");
+	    	return; // 종료	
+	    }	
+	    
+	   
+	   const frm = document.joinFrm;
+	    frm.action = "join.sun"; //URL view단을 관리하는 클래스는 MemberRegister클래스
+	    frm.method = "post";
+	    frm.submit();
+	   
+	   
+	   
+	   
+	   
+   }
+   
+   
+   
     </script>
 
 
@@ -530,12 +634,12 @@ b_flag_idDuplicate_click = false;
 	      </ul>
 	      
 	      <ul style="list-style: none;">
-	         <li style="width: 20%; font-weight: bold;">연락처</li>
-	         <li style="width: 80%; text-align: left;">
+	         <li >연락처</li>
+	         <li style="width: 100%; text-align: left;" id="telNum">
 	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" readonly />&nbsp;-&nbsp;
 	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" />&nbsp;-&nbsp;
 	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" />
-	             <span class="error">휴대폰 형식이 아닙니다.</span>
+	             <div class="error">휴대폰 형식이 아닙니다.</div>
 	         </li>
 	      </ul>
 	      
@@ -544,10 +648,8 @@ b_flag_idDuplicate_click = false;
 		         <span>생년월일</span>
 		         <div style="text-align: left;" id="birth">
 				    	<select name="year" id="year" title="년도" class="custom-select" onclick="setDateBox()"></select>
-				    	<div class="first_error">필수 입력란입니다.</div>
 						<select name="month" id="month" title="월" class="custom-select" ></select>
-						<div class="first_error">필수 입력란입니다.</div>
-						<select name="day" id="day" title="일" class="custom-select"></select>
+						<select name="day" id="day" title="일" class="custom-select" ></select>
 						<div class="first_error">필수 입력란입니다.</div>
 				</div>
 			 </li>
@@ -586,7 +688,7 @@ b_flag_idDuplicate_click = false;
 		     	 <li>
 		     	 	<div id="btn">
 			     	 	<button type="button" id="btn_cancle" style="background-color: white; ">취소</button>
-			     	 	<button type="button" id="btn_cancle" style="background-color: black; color:white;">계정생성</button>
+			     	 	<button type="button" id="btn_cancle" style="background-color: black; color:white;" onclick="gojoin()">계정생성</button>
 		     	 	</div>
 	     	 	 </li>
 	     	 </ul>
