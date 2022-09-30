@@ -1,64 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% String ctxPath = request.getContextPath(); %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<title>GENTLE MONSTER Officail Site</title>
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-<!-- 폰트 -->
-<link href="//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica" rel="stylesheet" type="text/css"/>
-
-<style>
-	/* 폰트 적용(헬베티카) */
-    @import url(//db.onlinewebfonts.com/c/1ff95b1ff8fb906b63d36e68d0d07a07?family=Helvetica);
-    #logo, #footer_logo {font-family: "Helvetica"; src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot"); src: url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.woff") format("woff"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/1ff95b1ff8fb906b63d36e68d0d07a07.svg#Helvetica") format("svg"); }
     
-    div.toast { 
-        max-width: 100%; 
-        text-align: center;
-    }
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    nav.navbar{
-        height: 73px;
-        background-color: white;
-    }
+<% String ctxPath = request.getContextPath(); %>
 
-    #logo{
-        font-size: 19pt;
-        font-weight: bold;
-        color: black;
-    }
+<jsp:include page="orderHeader.jsp" />
+<style>
+    
 
-    /* 반응형 */
-    @media (max-width: 768px) {
-        nav.navbar { height: 60px; }
-        #logo{font-size: 14pt;}
-    }
-
-    a.nav-link, span.nav-link{
-        color: black;
-        font-size: 12pt;
-        font-weight: bold;
-        margin: auto 11px;
-    }
-
-    a.nav-link:hover{
-        color: rgb(63, 63, 63);
-    }
-
-    footer{
-        background-color: rgb(243, 243, 243);
-    }
 
     .small_font{
         font-size: 9pt;
@@ -87,11 +37,7 @@
 		margin-bottom: 6px;
 	} */
 	
-	a.link_tag{
-		font-size: 10pt;
-		color: black;
-		text-decoration: underline;
-	}
+	
 	
 	input.input_style{
 		margin-bottom: 20px;
@@ -184,35 +130,58 @@
 	
 </style>
 <!-- Optional JavaScript -->
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
 	$(document).ready(function(){
 	
-	    // toast(광고창)
-	    $('.toast.fade').toast('show');
-	    
-	    $('#liveToastBtn').click(function(){
-	        $('.toast.hide').toast('show');
-	    });
-	
-	    // 하단 토글
-	    $("div.hid").hide();
-	    $("span.span_click").click(function(){
-	        if($(this).text()=="법적고지+"){
-	            $("div#toggle_list").toggle();
-	        } else if($(this).text()=="소셜미디어+"){
-	            $("div#toggle_list2").toggle();
-	        }
-	    });
-	    
-	    
 	    // 다음 단계로 클릭이벤트
 	    $("button#next").click(function(){
+	    	
+	    	
+	    	
+	    	
+	    	
 	    	location.href = "<%=ctxPath%>/order/payInfo.sun";
 	    });
+	    
+	    // 이전단계로 클릭이벤트
+	    $("button#prev").click(function(){
+	    	history.back();
+	    });
+	    
+	    
+	    $("a#2_add").css('color','black');
+	    
+	    
+	    // 배송주소 사용 클릭 이벤트
+	    $("input#useAdd").click(function(){
+	    	console.log("${requestScope.email}");
+	    	
+	    	if($("input#useAdd").prop("checked")==true){  // 모두 값 넣어주기 
+	    		
+	    		$("input#email").val("${requestScope.email}");
+	    		$("input#name").val("${name}");
+	    		$("input#mobile").val("${mobile}");
+	    		$("input#postcode").val("${postcode}");
+	    		$("input#address").val("${address}");
+	    		$("input#detailAddress").val("${detailAddress}");
+	    		$("input#extraAddress").val("${extraAddress}");
+	    		
+	    	} else {// 이미 선택 상태라면 모두 지워주기
+	    		
+	    		$("input#email").val('');
+	    		$("input#name").val('');
+	    		$("input#mobile").val('');
+	    		$("input#postcode").val('');
+	    		$("input#address").val('');
+	    		$("input#detailAddress").val('');
+	    		$("input#extraAddress").val('');
+	    		
+	    								
+	    	}
+	    	
+	    }); // end of 배송주소 사용 클릭 이벤트
 	    
 	}); // end of ready 
 	
@@ -266,77 +235,34 @@
 	} // end of openDaumPOST()
 </script>
 
-</head>
-<body>
-	
-	<%-- 광고창 시작 --%>
-    <div>
-		<div class="toast fade" data-autohide="false" role="alert" aria-live="assertive" aria-atomic="true">
-		  <div class="toast-header">
-		    <div class="mx-auto" style="padding: 6px 0;"><span style="font-size: 9pt; font-weight: bold;">광고 할라는데 캐러셀 넣을 수 있나? 암튼 더 해봐야 할듯</span></div>
-		    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-		      <span aria-hidden="true">&times;</span>
-		    </button>
-		  </div>
-		</div>
-    </div>
-    <%-- 광고창 끝 --%>
-    
 
-
-    <%-- 상단바 시작 --%>
-    <nav class="navbar navbar-expand-md border-bottom" >
-        <a class="navbar-brand" href="#"><span id="logo">GENTLE MONSTER</span></a>
-        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-          <span style="font-weight: bold; font-size: 11pt;">결제</span>
-          <ul class="navbar-nav" style="margin: auto 0 auto 30%;">
-            <li class="nav-item">
-              <a class="nav-link" style="color: gray;">①로그인</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">②배송주소</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" style="color: gray;">③결제방법</a>
-            </li>
-          </ul>
-          <a class="link_tag ml-5" href="#">쇼핑계속하기</a>
-        </div>  
-        
-    </nav>
-    <%-- 상단바 끝 --%>
-    
-    
 	<div class="container-fluid" style="margin-top:120px; margin-bottom:120px;">
 	<div id="box1" >
 		<form name="frmDeliveryInfo">
 			<span class="boldtxt mb-4">배송지정보</span>
-			<span class="puretxt mb-4"> 현재 배송 지역은 South Korea 입니다. <a href="#" class="link_tag">다른 지역으로 배송하시겠습니까?</a> </span>
-			<span class="puretxt">이메일</span>
-			<input type="text" name="" class="input_style" autofocus placeholder="이메일"/>
+			<span class="puretxt mb-1"> 빈칸 없이 모두 입력해주십시오. </span>
+			<c:if test="${ not empty sessionScope.loginuser }">
+				<label class="link_tag"><input type="checkbox" id="useAdd" class="mr-2 "/>회원정보와 동일한 배송주소 사용하기</label>
+			</c:if>
+			<span class="puretxt mt-4">이메일</span>
+			<input type="text" name="email" id="email" class="input_style" autofocus placeholder="이메일"/>
 			<span></span>
 			
-			<%-- 
-			<span class="nm">성</span> <span class="nm" style="margin-left: 250px">이름</span><br>
-			<input type="text" name="" class="input_style" style="width: 245px;" placeholder="성"/>
-			<input type="text" name="" class="input_style" style="width: 245px; margin-left: 5px;" placeholder="이름"/>
-			--%>
-			
 			<span class="puretxt">이름</span>
-			<input type="text" name="" class="input_style" placeholder="이름"/>
+			<input type="text" name="name" id="name" class="input_style" placeholder="이름"/>
 			
 			<span class="puretxt">전화번호</span>
-			<input type="text" name="" class="input_style" placeholder="전화번호"/>
+			<input type="text" name="mobile" id="mobile" class="input_style" placeholder="전화번호"/>
 			
 			<%-- 배송지 시작 --%>
 			<span class="puretxt">배송지검색</span>
-			<input type="hidden" id="postcode" name=""/>
+			<input type="hidden" id="postcode" name="postcode"/>
 			
-			<input type="text" id="address" name="" class="input_style" placeholder="주소" style="display: inline-block; width: 380px;"/>
+			<input type="text" id="address" name="address" class="input_style" placeholder="주소" style="display: inline-block; width: 380px;"/>
 			<button type="button" class="button1" onclick="openDaumPOST();">검색</button>
 			<span class="puretxt">상세주소</span>
-			<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
-			<input type="hidden" id="extraAddress" name="" />
+			<input type="text" id="detailAddress" name="detailAddress" class="input_style"  placeholder="상세주소" />
+			<input type="hidden" id="extraAddress" name="extraAddress" />
 			<%-- 배송지 끝 --%>
 			<br><br>
 			<button type="button" id="prev" class="button2">이전 단계로</button>
@@ -358,7 +284,7 @@
 			<tbody>
 				<%-- 반복시작 --%>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -371,7 +297,7 @@
 				</tr>
 				<%-- 반복끝 --%>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>
@@ -383,7 +309,7 @@
 					<td colspan="3" class="empty_td"></td>
 				</tr>
 				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="sun_img.png"></td>
+					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
 					<td style="font-weight: bold;">상품명</td>
 					<td class="myright">상품가격</td>
 				</tr>

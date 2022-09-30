@@ -4,8 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <% String ctxPath = request.getContextPath(); %>
-    
-<jsp:include page="../common/header.jsp" />
+
+<jsp:include page="orderHeader.jsp" />
 
 <style type="text/css">
 	
@@ -71,18 +71,9 @@
     	background-color: black; 
     	color: white; 
     	width: 74%;
-    	margin: 3% 0 1% 7%; 
+    	margin: 3% 0 3% 8%; 
     	line-height: 250%;
     	font-size: 10pt;
-    }
-    
-    #btn_goCart {
-    	background-color: white; 
-    	width: 74%;
-    	margin: 0% 0 3% 7%; 
-    	line-height: 250%;
-    	font-size: 10pt;
-    	border: solid 1px black;
     }
     
     .save_box {
@@ -97,7 +88,9 @@
 <script>
 	$(document).ready(function(){ // --------------------------------------------------
 		
-		
+		$("a#1_login").css('color','black');
+	
+	
 		$("button#btn_goLogin").click(function(){
 			// 로그인 버튼을 클릭하면
 			goLogin(); // 로그인 시도 함수 호출
@@ -141,13 +134,6 @@
 		}); // end of $("button#codeConfirm_btn").click() ------------------
 		
 		
-		// 로그인화면에서 비회원 주문조회 버튼을 누르면
-		$("button##btn_goCart").click(function(){
-			// 로그인 버튼을 클릭하면
-			 // 비회원 주문조회 모달 호출
-			
-		}); // end of $("button#btnSubmit").click() --------------
-		
 		
 		// 로그인화면에서 신규가입 버튼을 누르면
         $("button#btn_gojoin").click(function(){
@@ -155,8 +141,6 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
         
-        
-		
 		
 		
 	}); // end of $(document).ready() ----------------------------------------------------
@@ -198,7 +182,7 @@
 	
 	
 	    const frm = document.loginFrm; 
-	    frm.action = "<%= ctxPath%>/login.sun";
+	    frm.action = "<%= ctxPath%>/order/deliveryInfo.sun";
 	    frm.method = "post";
 	    frm.submit();
 		
@@ -234,12 +218,17 @@
            	</c:if>
            	
         	<button id="btn_goLogin" class="login_btn" type="button">로그인</button>
-        	<button id="btn_goCart" type="button">비회원 주문조회</button>
         	
         	<div> 
 	        	<span class="find_btn" id="find_userid" type="button" data-toggle="modal" data-target="#useridFindModal" style="margin-left: 37px;">아이디찾기</span>
 	        	<span class="find_btn" type="button" data-toggle="modal" data-target="#pwdFindModal">비밀번호 찾기</span>
             </div> 
+            
+            
+        	<div class="titles" style="margin: 10% 0 3% 8%;">비회원 구매</div>
+        	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">비회원으로도 결제가 가능합니다. 아래 버튼을 눌러 결제를 진행해주세요.</div>
+        	<button class="login_btn" type="button" id="btn_notmember" style="margin-top: 15px;">구매진행</button>
+        	
         	
         	<div class="titles" style="margin: 10% 0 3% 8%;">회원가입</div>
         	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">회원가입을 하시면, 주문 조회와 개인정보 관리 및 위시리스트 확인 등 다양한 혜택을 누리실 수 있습니다.</div>

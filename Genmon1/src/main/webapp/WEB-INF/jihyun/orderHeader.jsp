@@ -215,10 +215,10 @@
     }
 
     a.nav-link{
-        color: black;
-        font-size: 10.5pt;
+        color: gray;
+        font-size: 12pt;
         font-weight: bold;
-        padding-right: 10px;
+        margin: auto 11px;
     }
 
     a.nav-link:hover{
@@ -239,10 +239,6 @@
     }
 	.nav-item{
 		text-align: center;
-	}
-	a.nav-link{
-		margin: 0 auto;
-		width: 100%;
 	}
 	
 	.divider {
@@ -369,6 +365,16 @@
 		opacity:0.7;
 		color: #656566;
 	}
+	
+	.link_tag{
+		font-size: 10pt;
+		color: black;
+		text-decoration: underline;
+	}
+	
+	.link_tag:hover{
+		cursor: pointer;
+	}
 
 </style>
 <!-- swiper jquery -->
@@ -380,9 +386,6 @@
 
     $(document).ready(function(){
 
-    	
-    	
-    	
     	/* 광고창시작 */
     	var swiper = new Swiper(".mySwiper", {
     	        navigation: {
@@ -434,7 +437,6 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
 		
-		
 		// 홈화면 헤더에서 마이페이지 버튼을 누르면
         $("button#btn_myPage").click(function(){
         	location.href="<%= ctxPath%>/myinfo/myinfoDetail.sun";
@@ -465,131 +467,27 @@
 	    </button>
     </div>
     <%-- 광고창 끝 --%>
-	
-	<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white" style="box-shadow: none;">
-    
-  <!-- Container wrapper -->
-  <div class="container-fluid">
-    <!-- Toggle button -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Collapsible wrapper -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Navbar brand -->
-        <a class="navbar-brand mt-2 mt-lg-0" href="<%= ctxPath%>"><img  height="15" src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px;"/></a>
-    </div>
-      <!-- Left links -->
-      <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="#">브랜드</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<%=ctxPath %>/product/productList.sun">선글라스</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">스타일</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<%=ctxPath %>/customerCare/contact.sun">고객서비스</a>
-        </li>
-         <c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid == 'admin' }"> <%--관리자인 admin으로 로그인했으면 --%>
-	        <li class="nav-item">
-	          <a class="nav-link" href="#">관리자메뉴</a>
-	        </li>
-        </c:if>
-      </ul>
-    </div>
-      <!-- Left links -->
-
-    <!-- Collapsible wrapper -->
-	
-    <!-- Right elements -->
-    <div class="d-flex align-items-center">
-    	<!-- Modal 검색 버튼 -->
-          <button id="search" type="button" class="form-control search" data-toggle="modal" data-target="#search_modal" style="border: 0px;"><span class="fa fa-search"></span></button>
-      <!-- Modal 검색 버튼 끝 -->  
-
-      <c:if test="${ empty sessionScope.loginuser }">
-			<button id="btn_login" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">login</button>
-		</c:if>
-		<c:if test="${ not empty sessionScope.loginuser }">
-			<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
-				<button id="btn_myPage" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">MyPage</button>
-			</c:if>
-			<button id="btn_logout" type="submit" class="form-control login" style="border: 0px;font-size: 10pt;">logout</button>
-			
-		</c:if>
-		<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
-			<a type="button" class="link-secondary me-3 " href="#">
-          		<i class="fas fa-shopping-cart"></i>
-          		<span class="badge rounded-pill badge-notification bg-danger">1</span>
-        	</a>
-        </c:if>
-		
-        
-			        
-			        
-        
-    </div>
-    <!-- Right elements -->
-  </div>
-  <!-- Container wrapper -->
-</nav>
-<!-- Navbar -->
-     <div class="divider "></div> 
 	</section>	
 	
 	
-	<%-- Modal --%>
-	<div class="modal fade" id="search_modal">
-		<div class="modal-dialog modal-fullsize">
-			<div class="modal-content modal-fullsize">
-				<div class="modal-body">
-					<input type="text" id="search_input" name="search_input" placeholder="검색어를 입력하세요."  />
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<div id="popular_box">
-						<ul class="navbar-popular" >
-							<div id="popular_title">인기검색어</div>
-							<li><a class="popular-link" href="#">릴리트 01</a></li>
-							<li><a class="popular-link" href="#">로지 01</a></li>
-							<li><a class="popular-link" href="#">르 01</a></li>
-							<li><a class="popular-link" href="#">로셀 01</a></li> 
-						</ul>
-					</div>
-					<div id="collection_box">
-						<div>다양한 컬렉션을 만나보세요</div>
-               			<div>
-                   			<div class="collections">
-                           		<a href="#">
-                           			<img src="<%=ctxPath %>/images/Gentle_monster_logo.png" style="width:70px; height:70px; border-radius: 50%;">
-                       			</a>
-                       			<div style="margin-top: 10px;">베스트셀러</div>
-                       		</div>
-                       		<div class="collections">
-                       			<a href="#">
-                           			<img src="<%=ctxPath %>/images/le_01.jpg" style="width:70px; height:70px; border-radius: 50%;">
-                       			</a>
-                         		<div style="margin-top: 10px;">캣아이프레임</div>
-                       		</div>
-                       		<div style="clear:both;"></div>
-                   		</div>
-               		</div>
-               		<div style="clear:both;"></div>
-           		</div>
-          	</div>
-		</div>
-	</div>
-<%-- Modal 끝 --%>
+	 <%-- 상단바 시작 --%>
+    <nav class="navbar navbar-expand-md border-bottom" >
+        <a class="navbar-brand" href="<%= ctxPath%>/index.sun"><img src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px; height:15px;"/></a>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <span style="font-weight: bold; font-size: 11pt;">결제</span>
+          <ul class="navbar-nav" style="margin: auto 0 auto 30%;">
+            <li class="nav-item">
+              <a class="nav-link" id="1_login" style="color: gray;">①로그인</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="2_add" style="color: gray;">②배송주소</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="3_pay" style="color: gray;">③결제방법</a>
+            </li>
+          </ul>
+          <a class="link_tag ml-5" href="#">쇼핑계속하기</a>
+        </div>  
+        
+    </nav>
     <%-- 상단바 끝 --%>
