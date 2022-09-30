@@ -72,14 +72,18 @@
     
     .btn_chkbox{
     	font-size: 10pt;
-    	width: 150px; 
+    	width: 120px; 
         height: 30px;
     }
     
+    
+    
     .cntbox {
-    	border: solid 1px gray;
+    	/* border: solid 1px gray; */
     	width: 120px; 
         height: 40px;
+        margin-left: 60px;
+        margin-bottom: 10px;
         display: inline-block;
     }
 
@@ -155,9 +159,6 @@
 
 
 		}); // $("input:checkbox[name='chk_each_prod']").click() ----------------
-			
-		
-		
 		
 	}); // end of $(document).ready() =========================================================
 	
@@ -193,7 +194,7 @@
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">위시리스트(0)</div>
+    <div id="wishText">장바구니(0)</div>
     <div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
         <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
@@ -204,12 +205,15 @@
 			
 				<c:forEach var="wishvo" items="${requestScope.wishList}">
 					<div class="col">
-						<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
+						<input type="checkbox" class="chk_wishprod" />
 						<div class="card_body mx-1 my-3">
 							<img src="../images/${wishvo.pimage1}" class="product_img">
 							<div id="productDesc">
 								<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
 								<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+							</div>
+							<div class="cntbox">
+								<select style="height: 30px;" name="month" id="month" title="월" class="custom-select" ></select>
 							</div>
 							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
 							<button type="button" class="btnWish btn btn-light">삭제</button>

@@ -42,12 +42,16 @@ public class WishlistVO {
 	public void setPname(String pname) {
 		this.pname = pname;
 	}
+	
+	
 	public String getPrice() {
 		return price;
 	}
 	public void setPrice(String price) {
 		this.price = price;
 	}
+	
+	
 	public String getPimage1() {
 		return pimage1;
 	}
