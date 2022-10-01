@@ -76,13 +76,6 @@
         height: 30px;
     }
     
-    .cntbox {
-    	border: solid 1px gray;
-    	width: 120px; 
-        height: 40px;
-        display: inline-block;
-    }
-
 	#empty_wishlist {
     	/* border: solid 1px pink; */
     	width: 400px;
@@ -99,6 +92,7 @@
 		width: 300px;
 		height: 40px;
 	}
+	
 
     /* 추가 */
 
