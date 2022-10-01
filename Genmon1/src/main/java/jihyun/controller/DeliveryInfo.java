@@ -37,10 +37,6 @@ public class DeliveryInfo extends AbstractController {
 				String userid = request.getParameter("userid");
 				String pwd = request.getParameter("pwd");
 				
-				
-				// System.out.println("확인용 userid : "+ userid);
-				// System.out.println("확인용 pwd : "+ pwd);
-				
 				// ===> 웹클라이언트의 IP 주소를 알아오는 것 <==== //
 				String clientip = request.getRemoteAddr();
 				// C:\NCS\workspace(jsp)\MyMVC\src\main\webapp\JSP 파일을 실행시켰을 때 IP 주소가 제대로 출력되기위한 방법.txt 참조할 것!! 
@@ -87,8 +83,6 @@ public class DeliveryInfo extends AbstractController {
 					request.setAttribute("detailAddress", loginuser.getDetailaddress());
 					request.setAttribute("extraAddress", loginuser.getExtraaddress());
 					  
-					super.setViewPage("/WEB-INF/jihyun/deliveryInfo.jsp");
-					
 					
 					if( loginuser.isRequirePwdChange() ) { // 리턴타입이 boolean 이면 set 이 아니고 is 로 불러온다.
 						  
@@ -106,21 +100,29 @@ public class DeliveryInfo extends AbstractController {
 						  return; // 메소드 종료
 						  
 					  }
-					else {
-						// 비밀번호를 변경한지 3개월 미만인 경우
-						// System.out.println("확인용 loginuser.userid : " + loginuser.getUserid());
-						// System.out.println("확인용 loginuser.pwd : " + loginuser.getPwd());
+					else { // 찐 로그인 성공이라면
 						
-						super.setRedirect(true); // setRedirect 방식으로 페이지를 이동시키는 것이다.
-						super.setViewPage(request.getContextPath()+"/index.sun"); // 시작홈페이지로 이동
+						super.setRedirect(false);
+						super.setViewPage("/WEB-INF/jihyun/deliveryInfo.jsp");
 					}
 					
 					
-				}
-				else {
+				} else {
 					// 로그인 실패
 					
 					request.setAttribute("isLogined", "false");
+					
+					super.setRedirect(false);
+					super.setViewPage("/WEB-INF/jihyun/checkLogin.jsp");
+					
+					return;
+					
+					
+					//String message = "로그인 실패";
+					//String loc = "javascript:history.back()";
+					
+					//super.setRedirect(false);
+					//super.setViewPage("/WEB-INF/common/msg.jsp");
 					
 					// System.out.println("로그인 실패");
 					
@@ -136,8 +138,10 @@ public class DeliveryInfo extends AbstractController {
 					*/
 				}
 				
-				
-			} else { // get 방식으로 넘어왔다면 // 로그인 했을때 , 또는 비회원구매
+		
+			} 
+			
+			else { // get 방식으로 넘어왔다면 아마 필요 없지 않을가...
 				
 				if(super.checkLogin(request)) { // 로그인을 했다면 // 나중에 아이디 비교도 해야대
 					
@@ -154,6 +158,7 @@ public class DeliveryInfo extends AbstractController {
 					
 				}
 				
+				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/jihyun/deliveryInfo.jsp");
 				
 			}

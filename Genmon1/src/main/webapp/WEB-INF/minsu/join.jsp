@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<% String ctxPath = request.getContextPath(); %>
+    
 <jsp:include page="../common/header.jsp" />
 
 <script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -122,9 +124,9 @@ b_flag_idDuplicate_click = false;
    			  $target.parent().find("div.error").hide();
    		   }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
-   			
+   		
    			   
-   	<%-- 	// === 아이디 중복확인 === //
+		// === 아이디 중복확인 === //
    		$("buttom#btn_idcheck").click(function(){
    			
    			b_flag_idDuplicate_click = true;
@@ -320,13 +322,11 @@ b_flag_idDuplicate_click = false;
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
    			   
    			   
-<<<<<<< HEAD
 	   	const genderVal = $("select#gender").val();
 	 	
 	 	if(genderVal == null){
 	 		$target.parent().find("div.first_error").show();
 	 	}	   
-=======
    			 
    			   
    		// === 전화번호2 === //
@@ -386,7 +386,6 @@ b_flag_idDuplicate_click = false;
 			
 		} ); // 전화번호 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 		
->>>>>>> branch 'main' of https://github.com/k1mhyewon/Genmon1.git
    			   
 		  // === 생년 === //
 	   	   $("select#year").each((e) => {
@@ -408,24 +407,7 @@ b_flag_idDuplicate_click = false;
 	   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	  
 	   			
 	 
-	   			   
-	   			   
 	
-    //=== 국가선택 시작 ===
-    $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries){
-
-        //Loop through returned result and populate countries select
-        $.each(countries.data,function(key,value){
-            $('#country-select')
-                .append($("<option></option>")
-                    .attr("value", value.name)
-                    .text(value.name));
-            });
-        }); // end of   $.get('https://restfulcountries.com/api/v1/countries?fetch_type=slim',function(countries) --------------
-    
-    }); // end of  $(document).ready(function() --------------------------------------
-    	
-    		
    
     		
 	// >>> Function Declaration <<< //
@@ -462,30 +444,8 @@ b_flag_idDuplicate_click = false;
 	// === 생년월일 끝 === 
 	
 
-   // >>> 국가선택 함수 <<<//
-    function initStates(){
-        //Get selected country name
-        let country=$("#country-select").val();
-
-        //Remove previous loaded states
-        $('#state-select option:gt(0)').remove();
-        $('#district-select option:gt(0)').remove();
-
-        //Call restful countries states endpoint
-        $.get('https://restfulcountries.com/api/v1/countries/'+country+'/states?fetch_type=slim',function(states){
-
-            //Loop through returned result and populate states select
-            $.each(states.data,function(key,value){
-                $('#state-select')
-                    .append($("<option></option>")
-                        .attr("value", value.name)
-                        .text(value.name));
-            });
-        });
-    }
-   
-   
    // >>> 회원가입하기 버튼 = 계정생성<<<
+   
    function gojoin() {
 	   
 	   // *** 필수입력사항에 모두 입력이 되었는지 검사하기 ***//
@@ -656,23 +616,6 @@ b_flag_idDuplicate_click = false;
 			 </li>
      	  </ul>
 	   
-	      <ul>
-		      <li>
-			      	<label>국가</label>
-			      	<select id="nation" class="requiredInfo">
-					    <option selected>대한민국</option>
-					    <option>미국</option>
-					    <option>영국</option>
-						<option>중국</option>
-						<option>일본</option>
-						<option>베트남</option>
-						<option>프랑스</option>
-					</select>
-					<div class="first_error">필수 입력란입니다.</div>
-				</li>
-	      </ul>
-	      
-	      
 	      <ul>
 		      <li>
 					<div style="line-height: 30px; margin-top: 7%; font-size: 12px; width: 300px;">

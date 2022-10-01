@@ -143,6 +143,14 @@
         
 		
 		
+		// 비회원 구매진행 버튼 클릭
+		$("button#btn_notmember").click(function(){
+			location.href="<%= ctxPath%>/order/deliveryInfo.sun";
+		});
+			
+		
+		
+		
 	}); // end of $(document).ready() ----------------------------------------------------
 	
 	
@@ -212,7 +220,7 @@
         		<input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
         	</div>
         	<c:if test="${ not empty requestScope.isLogined && isLogined == 'false' }">
-	           	<div id="loginFailed" style="font-size: 9pt; color: red; margin: 10px 0 0 80px;">
+	           	<div id="loginFailed" style="font-size: 9pt; color: red; margin: 10px 0 0 50px;">
 	           		잘못된 아이디 또는 비밀번호를 입력하셨습니다. 다시 입력해주세요.
 	           	</div>
            	</c:if>
@@ -227,7 +235,7 @@
             
         	<div class="titles" style="margin: 10% 0 3% 8%;">비회원 구매</div>
         	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">비회원으로도 결제가 가능합니다. 아래 버튼을 눌러 결제를 진행해주세요.</div>
-        	<button class="login_btn" type="button" id="btn_notmember" style="margin-top: 15px;">구매진행</button>
+        	<button class="login_btn" type="button" id="btn_notmember" style="margin-top: 15px;" >구매진행</button>
         	
         	
         	<div class="titles" style="margin: 10% 0 3% 8%;">회원가입</div>

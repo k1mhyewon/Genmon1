@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 
 <jsp:include page="orderHeader.jsp" />
@@ -18,6 +18,13 @@
 		display: block;
 		font-size: 10pt;
 		margin-bottom: 6px;
+	}
+	
+	span.error{
+		display: block;
+		font-size: 10pt;
+		margin-bottom: 15px;
+		color:red;
 	}
 	
 	
@@ -177,6 +184,36 @@
 	    }); // end of 결제방법 클릭 이벤트
 	    
 	    
+	    
+	    // 적립금 클릭이벤트 
+	    $("a#all_point").click(function(e){
+	    	$("span#error1").text('');
+	    	const all_point = $(e.target).html();
+	    	// console.log(all_point);
+	    	$("input[name='usePoint']").val(all_point);
+	    });//end of 적립금 클릭이벤트 
+	    
+	    
+	    // 적립금 입력 키업 이벤트
+	    $("input[name='usePoint']").keyup(function(){
+	    	
+	    	const this_point = $("input[name='usePoint']").val();
+	    	$("span#error1").text('');
+	    	
+	    	if (isNaN(this_point)) {
+	    	    //alert('숫자만 입력 가능합니다');
+	    	    $("span#error1").text('숫자만 입력 가능합니다');
+	    		$("input[name='usePoint']").val('');
+	    	} else if(Number(this_point)>$("a#all_point").html()) {
+	    		//alert("입력하신 금액이 사용 가능한 금액보다 큽니다@@@@");
+	    		$("span#error1").text('입력하신 금액이 사용 가능한 금액보다 큽니다');
+	    		$("input[name='usePoint']").val('');
+	    	}
+	    	
+	    });
+	    
+	    
+	    
 	    // 결제하기 버튼 클릭이벤트
 	    $("button#purchase").click(function(){
 	    	
@@ -236,10 +273,12 @@
 			<%-- 라디오 끝 --%>
 			
 			<%-- 적립금 사용 --%>
-			<span class="puretxt my-4">적립금 및 포인트 사용</span>
-			<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag"> 1000원</a></span>
-			<input type="text" name="" class="input_style" placeholder="사용하실 금액을 입력하세요"/>
-			
+			<c:if test="${not empty sessionScope.loginuser }">
+				<span class="puretxt my-4">적립금 및 포인트 사용</span>
+				<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag" id="all_point">${loginuser.coin + loginuser.point }</a></span>
+				<input type="text" name="usePoint" class="input_style" placeholder="사용하실 금액을 입력하세요"/>
+				<span class="error" id="error1"></span>
+			</c:if>
 			<%-- 무통장 입급 등장메뉴 --%>
 			<div id="account">
 				<br><div class="border-bottom my-3"></div><br>
@@ -273,7 +312,7 @@
 			<%-- 주문상세 시작 --%>
 			<span class="boldtxt mb-4">주문상세</span>
 			<span class="puretxt mb-3">이메일</span>
-			<span class="puretxt">kimgenmon@naver.com</span>
+			<span class="puretxt">${requestScope.ovo.email }</span>
 			
 			<table class="my-4" id="tbl_pay">
 				<thead>
@@ -288,17 +327,17 @@
 						<td>전화번호</td>
 					</tr>
 					<tr>
-						<td style="width: 250px;">김젠몬</td>
-						<td>01012345678</td>
+						<td style="width: 250px;">${requestScope.ovo.name }</td>
+						<td>${requestScope.ovo.mobile }</td>
 					</tr>
 					<tr>
-						<td colspan="2">서울특별시 관악구 청림3마길 28-8</td>
+						<td colspan="2">${requestScope.ovo.address }</td>
 					</tr>
 					<tr>
-						<td colspan="2">101동 101호</td>
+						<td colspan="2">${requestScope.ovo.detailaddress }</td>
 					</tr>
 					<tr>
-						<td colspan="2">08732</td>
+						<td colspan="2">${requestScope.ovo.postcode }</td>
 					</tr>
 					<tr>
 						<td colspan="2"> </td>
@@ -341,7 +380,7 @@
 			<thead>
 				<tr>
 					<td style="font-weight: bold; font-size: 11pt;">주문내역</td>
-					<td colspan="2" class="myright"><strong><a href="#" class="link_tag">수정</a></strong></td>
+					<td colspan="2" class="myright"><strong><a href="<%=ctxPath %>/order/cart.sun" class="link_tag">수정</a></strong></td>
 				</tr>
 				<tr style="height: 50px;">
 					<td> 상품</td>
@@ -396,7 +435,7 @@
 				</tr>
 				<tr class="height_tr">
 					<td>적립금 사용</td>
-					<td colspan="2" class="myright">-1000원</td>
+					<td colspan="2" class="myright" id="usePoint"></td>
 				</tr>
 				<tr class="height_tr">
 					<td>배송비</td>

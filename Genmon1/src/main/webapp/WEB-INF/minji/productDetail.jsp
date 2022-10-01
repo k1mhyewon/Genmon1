@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <% String ctxPath=request.getContextPath();%>    
 <jsp:include page="../common/header.jsp" />
 
@@ -12,7 +15,159 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<%-- 인덱스 시작 --%>
+<style>
+	span.boldtxt{
+		display: block;
+		font-weight: bold;
+		font-size: 11pt;
+	}
+	
+	span.puretxt{
+		display: block;
+		font-size: 10pt;
+		margin-bottom: 6px;
+	}
+	
+	input[type="number"] {
+	  -webkit-appearance: textfield;
+	  -moz-appearance: textfield;
+	  appearance: textfield;
+	}
+	
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+	  -webkit-appearance: none;
+	}
+	
+	.number-input {
+	  border: 1px solid #ddd;
+	  display: inline-flex;
+	}
+	
+	.number-input,
+	.number-input * {
+	  box-sizing: border-box;
+	}
+	
+	.number-input button {
+		
+	  padding-top:14px;
+	  outline:none;
+	  -webkit-appearance: none;
+	  background-color: transparent;
+	  border: none;
+	  align-items: center;
+	  justify-content: center;
+	  width: 1rem;
+	  height: 1rem;
+	  cursor: pointer;
+	  margin: 0;
+	  position: relative;
+	}
+	
+	.number-input button:before,
+	.number-input button:after {
+	  display: inline-block;
+	  position: absolute;
+	  content: '';
+	  width: 0.6rem;
+	  height: 2px;
+	  background-color: gray;
+	  transform: translate(-50%, -50%);
+	}
+	/*
+	.number-input button:before{
+		padding-left: 
+	}*/
+	.number-input button.plus:after {
+	  transform: translate(-50%, -50%) rotate(90deg);
+	}
+	
+	.number-input input[type=number] {
+	  max-width: 3.5rem;
+	  padding: .5rem;
+	  border-top: solid #ddd;
+	  border-bottom: solid #ddd;
+	  border-width: 0 2px;
+	  font-size: 0.9rem;
+	  height: 1.8rem;
+	  text-align: center;
+	  color: gray;
+	}
+	
+	#cart_added_comment {
+		font-size: 9pt;
+		color: red;
+		margin: 5px 0 0 40px;
+	}
+
+</style>
+
+<script>
+
+	$(document).ready(function(){ // =============================================================
+		
+		$("#cart_added_comment").hide(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 숨기기--%>
+		
+		
+		$("#addStayPage").click(function(){ // ------------------
+			
+			addStayPage(${pvo.pnum});
+			
+		}); // end of $("#addStayPage").click() -----------------
+		
+		
+		
+		$("#addGoCart").click(function(){ // ------------------
+			
+			addGoCart(${pvo.pnum});
+			
+		}); // end of $("#addGoCart").click() -----------------
+		
+		
+		
+	}); // end of $(document).ready() ==============================================================
+
+	
+	function addStayPage(pnum){
+		// ajax 사용 상품이름이랑 수량 같이 넘겨줘야함
+		
+		const qty = $("input[name='quantity']").val();
+		
+		$.ajax({
+			url:"<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
+		//	type: "GET",  
+		    dataType:"TEXT",
+		    success:function(json) {
+		    	
+		    	$("#cart_added_comment").show(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+		    	$('#addCart').modal('hide');      <%-- 장바구니 모달 숨기기 --%>
+				
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
+	}
+	
+	function addGoCart(pnum){
+		
+		const qty = $("input[name='quantity']").val();
+		
+		location.href="<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty;
+		
+	}
+	
+	// 관심상품 추가 이벤트
+	function addtoWish(){
+		
+		location.href="<%=ctxPath%>/member/wishlist.sun?pnum=${pvo.pnum}";
+	}
+
+
+</script>
 
 	<%-- 전체 박스 사이즈 --%>
 	<div class="whole-box">
@@ -23,7 +178,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
      		<div class="item-info-cotent-box">
 	      		<div class="item-info-cotent">
 	      			<div class="item-name">${pvo.parentProvo.pname } ${pvo.colorName }</div>
-	    		    <div class="item-price">${ pvo.parentProvo.price}원</div>
+	    		    <div class="item-price"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</div>
 			 	</div>
 		 	</div>
 		 	
@@ -46,12 +201,14 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		   	 		</div>
 	   	 		</div>
 	      	 	<br>
-      	 		
+	      	 	
 	 		<%-- 카트 및 관심 상품 버튼 --%>
 	 		<div class="add-option-btn">
 		 			<div class="cart-btn" >
-		 				<button type="button" class="btn btn-dark btn-block" id="add-cart-btn" onclick="addtoCart()" style="background-color: #000000;">쇼핑백에 추가</button>
+		 				<%-- onclick="addtoCart()" --%>
+		 				<button type="button" class="btn btn-dark btn-block" id="add-cart-btn" data-toggle="modal" data-target="#addCart" style="background-color: #000000;">쇼핑백에 추가</button>
 		 			</div>
+		 			<div id="cart_added_comment">해당 상품이 장바구니에 추가되었습니다.</div>
 		 			<br>
 		 			<div class="wish-btn" >
 		 				<button type="button" class="btn btn-dark btn-block"  id="wish-cart-btn" onclick="addtoWish()" style="background-color: #000000;">관심상품에 추가</button>
@@ -267,5 +424,40 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	</nav>
 	 
 <%-- 인덱스 끝 --%>
+
+
+<%-- 장바구니 모달 시작 --%>
+    <div class="modal fade" id="addCart">
+	  <div class="modal-dialog  modal-dialog-centered">
+	    <div class="modal-content">
+	      
+	      <div class="modal-body">
+	      	 <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      	 <br>
+	      	 <span class="boltxt ml-5">선택상품</span>
+	      	 <div class="row mt-4">
+	      	 	<div class="col-sm-4 offset-sm-1">
+	      	 		<img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" style="width: 150px; height: 150px; border-radius: 50%;" >
+	      	 	</div>
+	      	 	<div class="col-sm-4 offset-sm-1">
+	      	 		<span class="boltxt mt-5">${pvo.parentProvo.pname } ${pvo.colorName }</span>
+	      	 		<%-- +- 따라서 바뀌는거 만들어야함 --%>
+	      	 		<span class="puretxt mt-2"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</span>
+	      	 		<div class="number-input mt-3">
+					  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+					  <input  class="quantity" min="1" max="10"  name="quantity" value="1" type="number">
+					  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+					</div>
+	      	 		
+	      	 	</div>
+	      	 </div>
+	      	 <button id="addStayPage" style="border:1px solid black; background-color: white; font-size: 13px; width:70%; height: 40px;margin: 40px 15% 10px 15%; border-radius: 0.4rem;" >장바구니에 추가하고 쇼핑 계속하기</button>
+	       	 <button onclick="addGoCart()" id="addGoCart" style="background-color: black; color:white; font-size: 13px; width:70%; height: 40px;  margin: 0 15% 30px 15%; border-radius: 0.4rem;">장바구니에 추가하고 장바구니 가기</button><br>
+	      	 
+	      </div>
+	    </div>
+	  </div>
+	</div>
+ <%-- 장바구니 모달 끝 --%>
 
 <jsp:include page="../common/footer.jsp" />

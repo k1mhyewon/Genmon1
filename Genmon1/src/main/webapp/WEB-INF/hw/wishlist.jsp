@@ -76,13 +76,6 @@
         height: 30px;
     }
     
-    .cntbox {
-    	border: solid 1px gray;
-    	width: 120px; 
-        height: 40px;
-        display: inline-block;
-    }
-
 	#empty_wishlist {
     	/* border: solid 1px pink; */
     	width: 400px;
@@ -99,6 +92,7 @@
 		width: 300px;
 		height: 40px;
 	}
+	
 
     /* 추가 */
 
@@ -210,7 +204,7 @@
 			 	
 			    location.href="/Genmon1/member/wishlistDelete.sun?fk_userid="+fk_userid+"&fk_pnum="+fk_pnum; 
 				
-				alert('삭제되었습니다.ㅎㅎㅎㅎㅎ');
+				alert('삭제되었습니다.');
 			}
 			else {
 				alert('삭제가 취소되었습니다.');

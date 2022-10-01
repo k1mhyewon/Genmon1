@@ -36,6 +36,17 @@ public class MemberVO {
 	public MemberVO() {}
 	
 	
+	// 회원가입때 필요
+	public MemberVO(String userid, String pwd, String name, String email, String mobile, String gender,String birthday) {
+		this.userid = userid;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+		this.mobile = mobile;
+		this.gender = gender;
+		this.birthday = birthday;
+	}
+	
 	
 	
 	public String getUserid() {
@@ -190,3 +201,4 @@ public class MemberVO {
 
 
 }
+
