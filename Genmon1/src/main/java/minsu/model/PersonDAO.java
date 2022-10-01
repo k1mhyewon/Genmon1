@@ -92,10 +92,34 @@ public class PersonDAO implements InterPersonDAO {
 			return result;
 		}
 		
-		
-		
-		
-		
+
+		// === 아이디가 중복되었는지 알아오는 메소드 === 
+		@Override
+		public boolean idDuplicateCheck(String userid)  throws SQLException {
+			
+			boolean isExists = false;
+			
+			try {
+			 	conn = ds.getConnection();
+				
+				String sql = " select userid "
+							+" from tbl_member"
+							+" where userid = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, userid);
+				
+				rs = pstmt.executeQuery();
+				
+				isExists = rs.next(); // 결과물. 행이 있으면(중복된 userid) true, 행이 없으면 false(사용가능한 userid)가 나온다.
+				
+			} finally {
+				close();
+			}
+			
+			return isExists;
+		}
+
 		
 		
 		
