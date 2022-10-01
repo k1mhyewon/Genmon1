@@ -94,21 +94,60 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  text-align: center;
 	  color: gray;
 	}
+	
+	#cart_added_comment {
+		font-size: 9pt;
+		color: red;
+		margin: 5px 0 0 40px;
+	}
 
 </style>
 
 <script>
 
+	$(document).ready(function(){
+		
+		$("#cart_added_comment").hide();
+		
+		$("#addStayPage").click(function(){ // ------------------
+			
+			addStayPage(${pvo.pnum});
+			
+		}); // end of $("#addStayPage").click() -----------------
+		
+		
+		
+	}); // end of $(document).ready() -----------------------
+
 	
-	function addStayPage(){
+	function addStayPage(pnum){
 		// ajax로 select insert 해야한다
+		
+		
+		const qty = $("input[name='quantity']").val();
+		// 상품이릅이랑 수량 같이 넘겨줘야함
+		
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
+		//	type: "GET",  
+		    dataType:"TEXT",
+		    success:function(json) {
+		    	
+		    	$("#cart_added_comment").show();
+		    	$('#addCart').modal('hide');
+				
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
 	}
 	
 	function addGoCart(){
 		
-		const qty = $("input[name='quantity']").val();
-		// 상품이릅이랑 수량 같이 넘겨줘야함
-		location.href="<%=ctxPath%>/order/cart.sun?pnum=${pvo.pnum}&qty="+qty;
 	}
 	
 	// 관심상품 추가 이벤트
@@ -159,6 +198,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		 				<%-- onclick="addtoCart()" --%>
 		 				<button type="button" class="btn btn-dark btn-block" id="add-cart-btn" data-toggle="modal" data-target="#addCart" style="background-color: #000000;">쇼핑백에 추가</button>
 		 			</div>
+		 			<div id="cart_added_comment">해당 상품이 장바구니에 추가되었습니다.</div>
 		 			<br>
 		 			<div class="wish-btn" >
 		 				<button type="button" class="btn btn-dark btn-block"  id="wish-cart-btn" onclick="addtoWish()" style="background-color: #000000;">관심상품에 추가</button>
@@ -401,8 +441,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      	 		
 	      	 	</div>
 	      	 </div>
-	      	 <button onclick="addStayPage()" style="border:1px solid black; background-color: white; font-size: 13px; width:70%; height: 40px;margin: 40px 15% 10px 15%; border-radius: 0.4rem;" >장바구니에 추가하고 쇼핑 계속하기</button>
-	       	 <button onclick="addGoCart()" style="background-color: black; color:white; font-size: 13px; width:70%; height: 40px;  margin: 0 15% 30px 15%; border-radius: 0.4rem;">장바구니에 추가하고 장바구니 가기</button><br>
+	      	 <button id="addStayPage" style="border:1px solid black; background-color: white; font-size: 13px; width:70%; height: 40px;margin: 40px 15% 10px 15%; border-radius: 0.4rem;" >장바구니에 추가하고 쇼핑 계속하기</button>
+	       	 <button onclick="addGoCart()" id="addGoCart" style="background-color: black; color:white; font-size: 13px; width:70%; height: 40px;  margin: 0 15% 30px 15%; border-radius: 0.4rem;">장바구니에 추가하고 장바구니 가기</button><br>
 	      	 
 	      </div>
 	    </div>
