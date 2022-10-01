@@ -193,6 +193,24 @@ where S.sname = 'HIT'
 where V.RNO between 1 and 8;
 
 
+select*
+from tbl_product_imagefile_test;
+
+
+
+
+insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
+values(1, 3, '릴리트01정면.jpg' );
+
+
+insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
+values(2, 3, '릴리트착샥02.jpg' );
+
+
+insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
+values(3, 3, '릴리트01정면.jpg' );
+
+commit;
 
 탐부 YC6
 탐부 L2

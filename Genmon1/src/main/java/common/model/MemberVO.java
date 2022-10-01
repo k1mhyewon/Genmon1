@@ -47,6 +47,8 @@ public class MemberVO {
 		this.birthday = birthday;
 	}
 	
+	
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -199,3 +201,4 @@ public class MemberVO {
 
 
 }
+
