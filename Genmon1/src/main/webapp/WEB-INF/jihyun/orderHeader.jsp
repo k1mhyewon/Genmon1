@@ -486,7 +486,7 @@
               <a class="nav-link" id="3_pay" style="color: gray;">③결제방법</a>
             </li>
           </ul>
-          <a class="link_tag ml-5" href="#">쇼핑계속하기</a>
+          <a class="link_tag ml-5" href="<%= ctxPath%>/product/productList.sun">쇼핑계속하기</a>
         </div>  
         
     </nav>
