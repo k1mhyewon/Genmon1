@@ -162,8 +162,15 @@ b_flag_idDuplicate_click = false;
               
             		}
             		else {
-            			// 입력한 userid가 존재하지 않는 경우라면 
-            			$("span#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","black");
+            			// 입력한 userid가 존재하지 않는 경우라면
+					        const userid = $("input#userid").val().trim;
+            			
+					        if( userid != "") {
+					        	// 아이디 입력칸이 공백인 경우
+					        	$("span#idcheckResult").val("");
+					        	 $("span#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","black");
+					        }
+					      
             			
             		}
             	},
@@ -477,7 +484,7 @@ b_flag_idDuplicate_click = false;
 	   
 	   
 	   const frm = document.joinFrm;
-	    frm.action = "join.sun"; //URL view단을 관리하는 클래스는 join클래스
+	    frm.action = "join.sun"; // URL view단을 관리하는 클래스는 join클래스
 	    frm.method = "post";
 	    frm.submit();
 	   
