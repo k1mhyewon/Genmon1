@@ -22,9 +22,9 @@ public class IdDuplicateCheck extends AbstractController {
 			String userid = request.getParameter("userid");
 			
 			InterPersonDAO pdao = new PersonDAO();
-			boolean isExists = pdao.idDuplicateCheck(userid); //userid가 중복되었는지 아닌지 DB에 보내서 확인. interMemberDAO로 넘긴다
+			boolean isExists = pdao.idDuplicateCheck(userid); //userid가 중복되었는지 아닌지 DB에 보내서 확인. InterPersonDAO로 넘긴다
 			
-			// 결과물을 json(memberRegister.jsp)으로 넘긴다.
+			// 결과물을 json(join.jsp)으로 넘긴다.
 			
 			JSONObject jsonObj = new  JSONObject(); // jsonObj은 자바스크립트 객체{}를 하나 만들어준다.
 			jsonObj.put("isExists", isExists); // {"isExists":true} 또는 {"isExists":false}으로 만들어준다.

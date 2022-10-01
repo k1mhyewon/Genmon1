@@ -132,7 +132,7 @@ b_flag_idDuplicate_click = false;
    			b_flag_idDuplicate_click = true;
    			
    		    $.ajax({ // { }모양은 객체의미
-            	url:"<%= ctxPath%>/member/idDuplicateCheck.up", // url: 은 항상 정해져있다. 키:"값" ==> 알고자하는 입력한 아이디가 ""경로로 보내서 아이디가 중복됐는지 알아봐주겠다
+            	url:"<%= ctxPath%>/join/idDuplicateCheck.sun", // url: 은 항상 정해져있다. 키:"값" ==> 알고자하는 입력한 아이디가 ""경로로 보내서 아이디가 중복됐는지 알아봐주겠다
             	data:{"userid":$("input#userid").val()}, 
 			            	
             	type:"post",  // object타입
@@ -418,21 +418,21 @@ b_flag_idDuplicate_click = false;
 	    // 올해 기준으로 -50년부터 +1년을 보여준다.
 	    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
 	      $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
-	    }
+	    };
 
 	    // 월 뿌려주기(1월부터 12월)
 	    var month;
 	    $("#month").append("<option value=''>월</option>");
 	    for (var i = 1; i <= 12; i++) {
 	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
-	    }
+	    };
 
 	    // 일 뿌려주기(1일부터 31일)
 	    var day;
 	    $("#day").append("<option value=''>일</option>");
 	    for (var i = 1; i <= 31; i++) {
 	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
-	    }
+	    };
 
 	  }
 	// === 생년월일 끝 === 
@@ -459,22 +459,6 @@ b_flag_idDuplicate_click = false;
         if(b_Flag_requiredInfo) {
         		return; //종료
         }
-        
-        
-       /*  // -- 셀렉태그 --
-        const selectedInfo_list =  document.querySelectorAll("select.requiredInfo"); // 배열과 유사하게 나옴
-        for(let i=0; i<selectedInfo_list.length; i++) { // 일반 for문 사용.of는 끝까지간다. break를 못씀
-        	const val = selectedInfo_list[i].value.trim();
-        	if(val == "") { // 필수입력사항이 한개라도 비었을 경우
-        		alert(" 필수입력사항은 모두 입력하셔야 합니다.");
-    			b_Flag_requiredInfo = true;
-    			return false;//break
-        	}
-        }// end of for
-        
-        if(b_Flag_requiredInfo) {
-        		return; //종료
-        } */
         
         // -- 동의합니다. 체크박스(동의유무) --
 	    const checkbox_length = $("input:checkbox[id='agree']:checked").length; 

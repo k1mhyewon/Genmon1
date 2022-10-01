@@ -1,6 +1,8 @@
 package minsu.model;
 
 import java.sql.SQLException;
+import java.util.Map;
+
 import common.model.MemberVO;
 
 public interface InterPersonDAO {
@@ -10,6 +12,10 @@ public interface InterPersonDAO {
 
 	// 아이디가 중복되었는지 알아오는 메소드
 	boolean idDuplicateCheck(String userid)throws SQLException;
+
+	
+	
+	int coinUpdate(Map<String, String> paraMap)throws SQLException;
 	
 	
 	

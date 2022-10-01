@@ -99,7 +99,11 @@
 		margin: 30px 130px;
 		font-size: 13px;
 		line-height: 25px;
-		
+	}
+	
+	a {
+		cursor: pointer;
+		color:black;
 	}
 	
 </style>
@@ -184,13 +188,13 @@
 	        	<div id="point" style="width: 350px; display: inline-block;" >
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
 	        		<div style="text-align: center;margin: 3%;font-size: 13px;">포인트</div>
-	        		<button type="button" id="btn_point" class="btn_money" onclick="">적립내역</button>
+	        		<button type="button" id="btn_point" class="btn_money"><a href="javascript:goCoinPurchaseTypeChoice('${(sessionScope.loginuser).userid}');">적립내역</a></button>
 	        	</div>
 	        	
 	        	<div id="coin" style="width: 350px;margin-left:50px;display: inline-block; ">
 	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">코인</span>
 	        		<div style="text-align: center;margin: 3%; font-size: 13px;">코인</div>
-	        		<button type="button" id="btn_coin" class="btn_money" onclick="">충전하기</button>
+	        		<button type="button" id="btn_coin" class="btn_money"><a href="javascript:goCoinPurchaseTypeChoice('${(sessionScope.loginuser).userid}');"/>충전하기</button>
 	        	</div>
      		</section>
      		

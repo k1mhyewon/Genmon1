@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -68,7 +69,7 @@ public class PersonDAO implements InterPersonDAO {
 			try {
 				conn = ds.getConnection();
 				
-				String sql = " insert into tbl_member(userid, pwd, name, email, mobile, gender, birthday, nation) "+
+				String sql = " insert into tbl_member_test(userid, pwd, name, email, mobile, gender, birthday, nation) "+
 						 " values(?, ?, ?, ?, ?, ?, ?, ?) ";
 			
 				pstmt = conn.prepareStatement(sql);
@@ -103,7 +104,7 @@ public class PersonDAO implements InterPersonDAO {
 			 	conn = ds.getConnection();
 				
 				String sql = " select userid "
-							+" from tbl_member"
+							+" from tbl_member_test"
 							+" where userid = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
@@ -120,9 +121,36 @@ public class PersonDAO implements InterPersonDAO {
 			return isExists;
 		} // end of public boolean idDuplicateCheck(String userid) throws SQLException---------------------------------
 
-		
-		
-		
+	
+		// === 회원의 코인 및 포인트 변경하기 === 
+			@Override
+			
+		   public int coinUpdate(Map<String, String> paraMap) throws SQLException {
+
+		        int result = 0;
+		        
+		        try {
+		          conn = ds.getConnection();
+		          
+		          String sql = " update tbl_member_test set coin = coin + ? , point = point + ? "
+		                     + " where userid = ? ";
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          
+		          pstmt.setInt(1, Integer.parseInt(paraMap.get("coinmoney")) );
+		          pstmt.setInt(2, (int)(Integer.parseInt(paraMap.get("coinmoney")) * 0.01) );  // 포인트. 금액의 1%==> ___.0으로 나오는 double타입을 int로 바꿔 소수부를 절삭
+		          																			 // 예) 300000 *0.01 ==> (int)3000.0 ==> 3000
+		          pstmt.setString(3, paraMap.get("userid"));
+		          
+		          result = pstmt.executeUpdate();
+
+				} finally {
+					close();
+				}
+		        
+				return result;
+			}// end of public int coinUpdate(Map<String, String> paraMap) throws SQLException-------
+	
 		
 		
 		
