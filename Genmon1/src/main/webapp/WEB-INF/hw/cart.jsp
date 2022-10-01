@@ -72,7 +72,7 @@
     
     .btn_chkbox{
     	font-size: 10pt;
-    	width: 120px; 
+    	width: 160px; 
         height: 30px;
     }
     
@@ -94,6 +94,8 @@
 <script>
 
 	$(document).ready(function(){ // ==========================================================
+		
+		
 		
 		// ==== 체크박스 전체선택/전체해제 ==== //
 		$("input:checkbox[id='chkAll']").click( function(e) {
@@ -160,33 +162,22 @@
 
 		}); // $("input:checkbox[name='chk_each_prod']").click() ----------------
 		
+		
+		
+		
 	}); // end of $(document).ready() =========================================================
 	
 		
 	// #### Function Declaration #### //
-	<%--
-	function showWishlist(){ // ------------------------
+	
+	
+	function go_purchase(fk_pnum, qty){ // --------------------------------
 		
-		$.ajax({
-			url:"<%= request.getContextPath()%>/member/wishlist.sun",
-			type: "GET",
-			dataType:"JSON",
-		    success:function(json) {
-		    	
-		    	console.log(json);
-		    	
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-			
-			
-		});
-	
-	} // end of function showWishlist() ----------------
-	--%>
-	
-	
+		
+		
+		location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+		
+	} // end of go_purchase() ---------------------------------
 
 </script>
     <!-- 인덱스 시작 -->
@@ -197,25 +188,26 @@
     <div id="wishText">장바구니(0)</div>
     <div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-        <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
+        <button type="button" class="btn btn-dark btn_chkbox">전체상품결제</button>
+        <button type="button" class="btn btn-dark btn_chkbox">선택상품결제</button>
     </div>
 	<div class="album">
 		<div class="box">
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
 			
-				<c:forEach var="wishvo" items="${requestScope.wishList}">
+				<c:forEach var="cvo" items="${requestScope.cartList}">
 					<div class="col">
 						<input type="checkbox" class="chk_wishprod" />
 						<div class="card_body mx-1 my-3">
-							<img src="../images/${wishvo.pimage1}" class="product_img">
+							<img src="../images/${cvo.allProdvo.pimage1}" class="product_img">
 							<div id="productDesc">
-								<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
-								<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+								<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
+								<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
 							</div>
 							<div class="cntbox">
 								<select style="height: 30px;" name="month" id="month" title="월" class="custom-select" ></select>
 							</div>
-							<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+							<button onClick="go_purchase('${cvo.fk_pnum}','${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 							<button type="button" class="btnWish btn btn-light">삭제</button>
 						</div>
 					</div>

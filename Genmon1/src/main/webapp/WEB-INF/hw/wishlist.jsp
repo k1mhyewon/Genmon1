@@ -204,7 +204,7 @@
 			 	
 			    location.href="/Genmon1/member/wishlistDelete.sun?fk_userid="+fk_userid+"&fk_pnum="+fk_pnum; 
 				
-				alert('삭제되었습니다.ㅎㅎㅎㅎㅎ');
+				alert('삭제되었습니다.');
 			}
 			else {
 				alert('삭제가 취소되었습니다.');

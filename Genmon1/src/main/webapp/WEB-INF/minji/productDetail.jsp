@@ -105,9 +105,10 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 
 <script>
 
-	$(document).ready(function(){
+	$(document).ready(function(){ // =============================================================
 		
-		$("#cart_added_comment").hide();
+		$("#cart_added_comment").hide(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 숨기기--%>
+		
 		
 		$("#addStayPage").click(function(){ // ------------------
 			
@@ -117,25 +118,30 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		
 		
 		
-	}); // end of $(document).ready() -----------------------
+		$("#addGoCart").click(function(){ // ------------------
+			
+			addGoCart(${pvo.pnum});
+			
+		}); // end of $("#addGoCart").click() -----------------
+		
+		
+		
+	}); // end of $(document).ready() ==============================================================
 
 	
 	function addStayPage(pnum){
-		// ajax로 select insert 해야한다
-		
+		// ajax 사용 상품이름이랑 수량 같이 넘겨줘야함
 		
 		const qty = $("input[name='quantity']").val();
-		// 상품이릅이랑 수량 같이 넘겨줘야함
-		
 		
 		$.ajax({
-			url:"<%= request.getContextPath()%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
+			url:"<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
 		//	type: "GET",  
 		    dataType:"TEXT",
 		    success:function(json) {
 		    	
-		    	$("#cart_added_comment").show();
-		    	$('#addCart').modal('hide');
+		    	$("#cart_added_comment").show(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+		    	$('#addCart').modal('hide');      <%-- 장바구니 모달 숨기기 --%>
 				
 		    },
 		    error: function(request, status, error){
@@ -146,7 +152,11 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		
 	}
 	
-	function addGoCart(){
+	function addGoCart(pnum){
+		
+		const qty = $("input[name='quantity']").val();
+		
+		location.href="<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty;
 		
 	}
 	

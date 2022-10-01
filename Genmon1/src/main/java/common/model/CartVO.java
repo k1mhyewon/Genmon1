@@ -7,12 +7,18 @@ public class CartVO {
 	private int qty;
 	private String updateDate;
 	
-	
+	private ChildProductVO allProdvo;
+	private ParentProductVO prodvo;
 	
 	
 	// ===================================================================================== //
 	
-	// 장바구니 insert 때 필요
+
+
+
+
+
+		// 장바구니 insert 때 필요
 		public CartVO(String fk_userid, int fk_pnum, int qty) {
 			this.fk_userid = fk_userid;
 			this.fk_pnum = fk_pnum;
@@ -20,6 +26,17 @@ public class CartVO {
 		}
 	
 	
+	public CartVO() {
+			
+		}
+
+	// 로그인 안된 장바구니
+	public CartVO(int fk_pnum, int qty) {
+		this.fk_pnum = fk_pnum;
+		this.qty = qty;
+	}
+
+
 	public int getFk_pnum() {
 		return fk_pnum;
 	}
@@ -45,5 +62,28 @@ public class CartVO {
 		this.updateDate = updateDate;
 	}
 	
+	
+	
+	
+
+	public ChildProductVO getAllProdvo() {
+		return allProdvo;
+	}
+
+
+	public void setAllProdvo(ChildProductVO allProdvo) {
+		this.allProdvo = allProdvo;
+	}
+	
+	
+	
+	public ParentProductVO getProdvo() {
+	return prodvo;
+	}
+	
+	
+	public void setProdvo(ParentProductVO prodvo) {
+		this.prodvo = prodvo;
+	}
 
 }
