@@ -300,16 +300,16 @@
 <script>
 	$(document).ready(function(){
 		
-		//let html = '';
-		
-		//const proList = "${requestScop.proList}";
-		
-		//proList.each
-		
-		//$("div#fuckyou").html(html);
 		
 		
 	}); // end of ready
+	
+	
+	// 위시리스트 추가 메소드 (AJAX)추가 하고 버튼 안에 하트를 빈 하트로 바꾸면 대지 않을가???
+	function addWish(){
+		
+		// 그리고 다시 누르면 제거 하는 것도 있어야 할듯....
+	}
 
 </script>
 
@@ -418,7 +418,7 @@
 				 		 		<span class="grid-item-price">${pvo.parentProvo.price }</span>
 				 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
 			 		 		</a>
-						 <button class="item-wish-btn" style="border:none;"><i class="fa-regular fa-heart" ></i></button>
+						 <button class="item-wish-btn" style="border:none; background-color: white;" onclick="addWish()">	&#10084;</button>
 					 </div>	
 				</div>
 	   		</c:forEach>

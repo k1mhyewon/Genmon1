@@ -532,7 +532,7 @@
 			
 		</c:if>
 		<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
-			<a type="button" class="link-secondary me-3 " href="#">
+			<a type="button" class="link-secondary me-3 " href="<%=ctxPath %>/order/cart.sun">
           		<i class="fas fa-shopping-cart"></i>
           		<span class="badge rounded-pill badge-notification bg-danger">1</span>
         	</a>
