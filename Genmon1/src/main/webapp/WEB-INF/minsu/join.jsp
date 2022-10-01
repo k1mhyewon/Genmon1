@@ -104,7 +104,7 @@ b_flag_idDuplicate_click = false;
 	   
 	   $("div.error").hide();
 	   $("div.first_error").hide();
-	   $("ul#pwderrormsg").hide();
+	   $("div#pwderrormsg").hide();
 	   $("div.btn_Nocheck").hide();
 	   
 	   
@@ -127,7 +127,7 @@ b_flag_idDuplicate_click = false;
    		
    			   
 		// === 아이디 중복확인 === //
-   		$("buttom#btn_idcheck").click(function(){
+   		$("button#btn_idcheck").click(function(){
    			
    			b_flag_idDuplicate_click = true;
    			
@@ -321,14 +321,8 @@ b_flag_idDuplicate_click = false;
    		   }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
    			   
-   			   
-	   	const genderVal = $("select#gender").val();
-	 	
-	 	if(genderVal == null){
-	 		$target.parent().find("div.first_error").show();
-	 	}	   
-   			 
-   			   
+   		
+   	
    		// === 전화번호2 === //
 		$("input#hp2").blur( (e)=>{
 			
@@ -465,7 +459,9 @@ b_flag_idDuplicate_click = false;
         if(b_Flag_requiredInfo) {
         		return; //종료
         }
-        // -- 셀렉태그 --
+        
+        
+       /*  // -- 셀렉태그 --
         const selectedInfo_list =  document.querySelectorAll("select.requiredInfo"); // 배열과 유사하게 나옴
         for(let i=0; i<selectedInfo_list.length; i++) { // 일반 for문 사용.of는 끝까지간다. break를 못씀
         	const val = selectedInfo_list[i].value.trim();
@@ -478,7 +474,7 @@ b_flag_idDuplicate_click = false;
         
         if(b_Flag_requiredInfo) {
         		return; //종료
-        }
+        } */
         
         // -- 동의합니다. 체크박스(동의유무) --
 	    const checkbox_length = $("input:checkbox[id='agree']:checked").length; 
@@ -565,13 +561,14 @@ b_flag_idDuplicate_click = false;
 			     </li>
 		      </ul>
 		      
-		      <ul id="pwderrormsg">
-		      <div style="font-size: 10pt; margin: 3% 8%;">다음을 활용한 보안 비밀번호를 사용하시기 바랍니다.</div>
-			      	<li>최소 8자 이상</li>
-			      	<li>최소 1개의 대문자 사용</li>
-			      	<li>최소 1개의 소문자 사용</li>
-			      	<li>최소 1개의 특수문자 사용</li>
-		      </ul>
+		      <div style="font-size: 10pt; margin: 3% 8%;" id="pwderrormsg">다음을 활용한 보안 비밀번호를 사용하시기 바랍니다.
+			      <ul>
+				      	<li>최소 8자 이상</li>
+				      	<li>최소 1개의 대문자 사용</li>
+				      	<li>최소 1개의 소문자 사용</li>
+				      	<li>최소 1개의 특수문자 사용</li>
+			      </ul>
+		      </div>
 	      </section>
 	      
 	      

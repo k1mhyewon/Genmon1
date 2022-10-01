@@ -90,12 +90,12 @@ public class PersonDAO implements InterPersonDAO {
 			}
 			
 			return result;
-		}
+		} // end of public int registerMember(MemberVO member) throws SQLException
 		
 
 		// === 아이디가 중복되었는지 알아오는 메소드 === 
 		@Override
-		public boolean idDuplicateCheck(String userid)  throws SQLException {
+		public boolean idDuplicateCheck(String userid) throws SQLException {
 			
 			boolean isExists = false;
 			
@@ -118,7 +118,7 @@ public class PersonDAO implements InterPersonDAO {
 			}
 			
 			return isExists;
-		}
+		} // end of public boolean idDuplicateCheck(String userid) throws SQLException---------------------------------
 
 		
 		
