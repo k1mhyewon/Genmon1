@@ -140,7 +140,7 @@ public class DeliveryInfo extends AbstractController {
 				
 		
 			} 
-			/*
+			
 			else { // get 방식으로 넘어왔다면 아마 필요 없지 않을가...
 				
 				if(super.checkLogin(request)) { // 로그인을 했다면 // 나중에 아이디 비교도 해야대
@@ -161,7 +161,7 @@ public class DeliveryInfo extends AbstractController {
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/jihyun/deliveryInfo.jsp");
 				
-			}*/
+			}
 			
 			
 			} catch(Exception e) {

@@ -184,8 +184,8 @@
 	    
 	    // 이메일 블러 이벤트
 	    $("input#email").blur((e)=>{
-	    	
 			const $target = $(e.target);
+			
 			// 정규표현식으로 한번 걸러줄거임
 			// const reqExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 			// 또는
@@ -194,13 +194,11 @@
 			
 			const bool = regExp.test($target.val()); // 정규 표현식에 값을 집어넣음
 			
-			if(bool){ // 정규 표현식에 맞는 경우
-				$target.focus();
+			if(!bool){ // 이메일이 정규표현식에 위배된 경우 
 				$target.val('');
-				
 				$target.next().show();
 				
-			} else { // 정규 표현식에 틀린 경우
+			} else { // 이메일이 정규표현식에 맞는 한경우 
 				$target.next().hide();
 			}
 		}); // end of 이메일 blur 이벤트
@@ -212,9 +210,7 @@
 			const name = $target.val().trim();
 			
 			if(name == ""){ 
-				$target.focus();
 				$target.val('');
-				
 				$target.next().show();
 				
 			} else { // 글자를 입력은 한경우 
@@ -223,10 +219,50 @@
 		}); // end of 이름 blur 이벤트
 	    
 	    
-	    
+		
+		// 핸드폰번호 검사 (blur 이벤트)
+		$("input#mobile").blur((e)=>{
+			const $target = $(e.target);
+			
+			// 정규표현식으로 한번 걸러줄거임
+			// const reqExp = /^[1-9][0-9]{2,3}$/g;
+			// 또는
+			const regExp = new RegExp(/^[0-9]{10,11}$/g);
+			// 숫자 3자리 또는 4자리만 들어오도록 검사해주는 정규표현식
+			
+			const bool = regExp.test($target.val()); // 정규 표현식에 값을 집어넣음
+			
+			if(!bool){ // 전화번호가 정규표현식에 위배된 경우 나머지 블락은 전부 못쓰게 막을거임
+				// 이 테이블 태그에 있는 모든 input 태그
+				$target.val('');
+				$target.next().show();
+				
+			} else { // 전화번호가 정규표현식에 맞는 한경우 
+				$target.next().hide();
+			}
+		}); // end of 핸드폰번호 검사 blur 이벤트
+		
+		
+		
 	    // 배송 주소 검사 주소 입력 창클릭하면 검색이 눌리도록 하기
-	    // 우편번호 안들어와 있으면 누르게 시키기
-	    
+	    $("input#address").click(function(){
+	    	openDaumPOST();
+	    });
+		
+		
+	 	// 상세주소 인풋 블러이벤트 
+	    $("input#extraAddress").blur((e)=>{
+			const $target = $(e.target);
+			const name = $target.val().trim();
+			
+			if(name == ""){ 
+				$target.val('');
+				$target.next().show();
+				
+			} else { // 글자를 입력은 한경우 
+				$target.next().hide();
+			}
+		}); // end of 상세주소 blur 이벤트
 	    
 	 	// 다음 단계로 클릭이벤트
 	    $("button#next").click(function(){
@@ -261,8 +297,11 @@
 				return; // 이 함수를 끝낸다
 			}
 	    	
-	    	// 다음 페이지로~~~
-	    	location.href = "<%=ctxPath%>/order/payInfo.sun";
+			const frm = document.frmDeliveryInfo;
+			
+			frm.method = "POST";
+			frm.action = "<%=ctxPath%>/order/payInfo.sun";
+	    	frm.submit();
 	    	
 	    });// end of 다음단계로 클릭 이벤트
 	    
@@ -334,26 +373,26 @@
 				<label class="link_tag"><input type="checkbox" id="useAdd" class="mr-2 "/>회원정보와 동일한 배송주소 사용하기</label>
 			</c:if>
 			<span class="puretxt mt-4">이메일</span>
-			<input type="text" name="email" id="email" class="input_style requiredInfo" autofocus placeholder="이메일"/>
+			<input type="text" name="email" id="email" class="input_style requiredInfo" autocomplete='off' placeholder="이메일"/>
 			<span class="error">입력하신 이메일이 형식에 맞지 않습니다</span>
 			
 			<span class="puretxt">이름</span>
-			<input type="text" name="name" id="name" class="input_style requiredInfo" placeholder="이름"/>
+			<input type="text" name="name" id="name" class="input_style requiredInfo" autocomplete='off' placeholder="이름"/>
 			<span class="error">이름은 공백으로 입력 불가능 합니다</span>
 			
 			<span class="puretxt">전화번호</span>
-			<input type="text" name="mobile" id="mobile" class="input_style requiredInfo" placeholder="전화번호"/>
-			<span class="error">은 공백으로 입력 불가능 합니다</span>
+			<input type="text" name="mobile" id="mobile" class="input_style requiredInfo" autocomplete='off' placeholder="전화번호"/>
+			<span class="error">전화번호는 '-' 기호를 제외한 숫자 11자리를 입력해주세요</span>
 			
 			<%-- 배송지 시작 --%>
 			<span class="puretxt">배송지검색</span>
 			<input type="hidden" id="postcode" name="postcode" class="hiddenInfo"/>
 			
-			<input type="text" id="address" name="address" class="input_style requiredInfo" placeholder="주소" style="display: inline-block; width: 380px;"/>
+			<input type="text" id="address" name="address" class="input_style requiredInfo" autocomplete='off' placeholder="주소" style="display: inline-block; width: 380px;"/>
 			<button type="button" class="button1" onclick="openDaumPOST();">검색</button>
 			<span class="puretxt">상세주소</span>
-			<input type="text" id="detailAddress" name="detailAddress" class="input_style requiredInfo"  placeholder="상세주소" />
-			<span class="error">은 공백으로 입력 불가능 합니다</span>
+			<input type="text" id="detailAddress" name="detailAddress" class="input_style requiredInfo" autocomplete='off'  placeholder="상세주소" />
+			<span class="error">상세주소는 비워둘 수 없습니다</span>
 			<input type="hidden" id="extraAddress" name="extraAddress"  class="hiddenInfo"/>
 			<%-- 배송지 끝 --%>
 			<br><br>
