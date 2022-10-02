@@ -20,14 +20,13 @@
 	button#btn_pwdcheck {
 		background-color: black;
 		color: white;
-		width: 310px;
+		width: 300px;
 		display: block;
-		margin: 10% 0 0 10%;
+		margin: 10% 0 0 40px;
 		line-height:30px;
 	}
 	
 	input {
-		margin-top: 7%;
 		width: 300px;
 		height : 30px; 
 	}
@@ -71,7 +70,7 @@
 			<ul>
 				<li>
 					<label for="passwd" style="font-size: 16px; font-weight: bold;">비밀번호</label>
-					<input type="password" name="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required/>
+					<input type="password" name="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required style="display: block;"/>
 				<li>
 			</ul>
 		<button type="button" id="btn_pwdcheck"  >비밀번호 확인</button>

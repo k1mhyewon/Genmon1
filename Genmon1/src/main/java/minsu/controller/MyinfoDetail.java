@@ -2,8 +2,10 @@ package minsu.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import common.model.MemberVO;
 
 public class MyinfoDetail extends AbstractController {
 
@@ -11,6 +13,10 @@ public class MyinfoDetail extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String userid = request.getParameter("userid"); // login.jsp에서 userid를 받아온다
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		
 		try {
