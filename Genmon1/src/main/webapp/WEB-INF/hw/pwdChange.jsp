@@ -17,14 +17,14 @@
     	width: 35%;
     }
     
-    div#pwdChange_container > ul > label {
-    	display: block;
-    	font-size: 12px;
     
+    label {
+    	font-size: 10pt;
+    	display: block;
     }
     
     input {
-    	width: 80%;
+    	width: 75%;
     	text-align: left;
     	line-height: 200%;
     }
@@ -35,17 +35,21 @@
 		background-color: black;
 		color: white;
 		border: none;
-		width: 74%;
+		width: 70%;
 		height: 40px;
-		margin-left: 8%;
+		margin-left: 40px;
 		margin-top: 20px;
     }
     
     div > span {
-     font-size: 12px;
+     font-size: 12pt;
      text-decoration: underline;
+     font-weight:bold; 
+     display:inline-block; 
+     margin: 0 0 3% 3%;
     } 
     
+    li { list-style : none; }
     
 
 </style>
@@ -103,20 +107,19 @@
 <!-- 인덱스 시작 -->
     <form name="pwdChangeFrm">
         <div id="pwdChange_container">
-        	<span style="font-weight:bold; display:inline-block; margin: 0 0 3% 8%; ">비밀번호 변경</span>
+        	<span>비밀번호 변경</span>
         	
-        	<ul>
+        	<ul><li>
         		<label for="pwd1">비밀번호</label>
-        		<input type="pwd1" name="pwd1" id="pwd1" required/>
-        	</ul>
+        		<input type="password" name="pwd1" id="pwd1" required/>
+        	</li></ul>
         	
-        	<ul>
+        	<ul><li>
         		<label for="pwd2">비밀번호 확인</label>
-        		<input type="pwd2" name="pwd2" id="pwd2" required/>
-        	</ul>
+        		<input type="password" name="pwd2" id="pwd2" required/>
+        	</li></ul>
         	
-        		<button type="button" id="btn_pwdUpdate">비밀번호 변경</button>
-        	
+        	<button type="button" id="btn_pwdUpdate">비밀번호 변경</button>
         	
         	<c:if test="${requestScope.method == 'POST' && requestScope.n == 1 }">
 				<div id="div_updateResult" align="center">
