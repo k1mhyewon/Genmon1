@@ -43,7 +43,7 @@ public class Join extends AbstractController {
 
 			// 폼태그에서 전송되져 나온것을 MemberVO에서 담아온것이다
 			
-			  MemberVO member = new MemberVO(userid, pwd, name, email, mobile, gender,birthday);
+			MemberVO member = new MemberVO(userid, pwd, name, email, mobile, gender,birthday);
 			
 
 			InterPersonDAO pdao = new PersonDAO();
@@ -55,7 +55,7 @@ public class Join extends AbstractController {
 				if (n == 1) {
 	
 					String message = "회원가입 성공";
-					String loc = request.getContextPath() + "/index.up"; // 위치이동은 시작페이지로 이동한다.
+					String loc = request.getContextPath() + "/index.sun"; // 위치이동은 시작페이지로 이동한다.
 	
 					request.setAttribute("message", message);
 					request.setAttribute("loc", loc);
