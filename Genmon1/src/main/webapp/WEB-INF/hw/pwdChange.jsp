@@ -51,6 +51,16 @@
     
     li { list-style : none; }
     
+    .chk {
+    	display: inline-block;
+    	color: red;
+    }
+    
+    .error_msg {
+    	font-size: 10pt;
+    	margin-left: 40px;
+    	margin-bottom: 20px;
+    }
 
 </style>
 
@@ -59,25 +69,46 @@
 
 	$(document).ready(function(){ // --------------------------------------------------
 		
+		
+		$("#pwd1").on("propertychange change keyon paste input", function(){
+			
+			const pwd1 = $(this).val();
+			$(".chk").css({"color":"red"});
+			
+			const num = /[0-9]/g;  
+			const lower = /[a-z]/g;
+			const upper = /[A-Z]/g;
+			const spe = /[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi;
+			
+			if(pwd1.length > 7 && pwd1.length < 16){
+				$("div#size").css({"color":"green"});
+			}
+			if( num.test(pwd1) ){
+				$("div#num").css({"color":"green"});
+			}
+			if( lower.test(pwd1) ){
+				$("div#lower").css({"color":"green"});
+			}
+			if( upper.test(pwd1) ){
+				$("div#upper").css({"color":"green"});
+			}
+			if( spe.test(pwd1) ){
+				$("div#special").css({"color":"green"});
+			}
+			
+			
+		});
+	
+		
+		
+		
 		$("button#btn_pwdUpdate").click(function(){ // ----------------
 			
 
 			const pwd1 = $("input#pwd1").val();
 			const pwd2 = $("input#pwd2").val();
 			
-			// const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
-			// 또는
-			const regExp = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g);
-			// 숫자/문자/특수문자 포함 형태의 8-15자리 이내의 암호 정규표현식 객체 생성
-			const bool = regExp.test(pwd1);
-			
-			if(!bool){ // 암호가 정규식에 안맞는 경우
-				alert("암호는 8글자 이상 15글자 이하에 영문자,숫자,특수기호가 혼합되어야만 합니다.");
-				$("input#pwd1").val("");  // 입력받은 칸을 비워버림
-				$("input#pwd2").val(""); // 입력받은 칸을 비워버림
-				return; // 종료
-			}
-			else if(bool && pwd1 != pwd2){ // 암호와 암호확인 값이 서로 다른 경우
+			if(pwd1 != pwd2){ // 암호와 암호확인 값이 서로 다른 경우
 				alert("암호가 일치하지 않습니다.");
 				$("input#pwd1").val("");  // 입력받은 칸을 비워버림
 				$("input#pwd2").val(""); // 입력받은 칸을 비워버림
@@ -113,11 +144,19 @@
         		<label for="pwd1">비밀번호</label>
         		<input type="password" name="pwd1" id="pwd1" required/>
         	</li></ul>
-        	
+        	<div class="error_msg">비밀번호는 해당 조건을 모두 충족해야 합니다.<br>
+	        	<div class="chk" id="size">✔</div>&nbsp;최소 8자 이상 15글자 이하<br>
+	        	<div class="chk" id="upper">✔</div>&nbsp;최소 1개의 대문자 사용<br>
+	        	<div class="chk" id="lower">✔</div>&nbsp;최소 1개의 소문자 사용<br>
+	        	<div class="chk" id="num">✔</div>&nbsp;최소 1개의 숫자 사용<br>
+	        	<div class="chk" id="special">✔</div>&nbsp;최소 1개의 특수문자 사용
+	        </div>
         	<ul><li>
         		<label for="pwd2">비밀번호 확인</label>
         		<input type="password" name="pwd2" id="pwd2" required/>
         	</li></ul>
+        	<div class="error_msg" style="color: red;">비밀번호를 동일하게 입력해주세요.</div>
+        	
         	
         	<button type="button" id="btn_pwdUpdate">비밀번호 변경</button>
         	
