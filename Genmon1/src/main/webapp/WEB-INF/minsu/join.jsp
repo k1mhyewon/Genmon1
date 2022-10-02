@@ -386,8 +386,9 @@ b_flag_idDuplicate_click = false;
 					        	// 아이디 입력칸이 공백인 경우
 					        	$("div#idcheckResult").val("");
 					        	 $("div.first_error").hide();
+					        	 $("div#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","gray");
 					        } 
-	            		  $("div#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","gray");
+	            		 
 	            		}
 	            	}, // end of success
 	            	
@@ -476,7 +477,8 @@ b_flag_idDuplicate_click = false;
 	    	alert("아이디중복확인을 클릭하셔야 합니다.");
 	    	return; // 종료
 	    } 
-	   
+	   console.log($("input#pwd").val());
+		
 	   const frm = document.joinFrm;
 	    frm.action = "join.sun"; // URL view단을 관리하는 클래스는 join클래스
 	    frm.method = "post";
@@ -531,7 +533,7 @@ b_flag_idDuplicate_click = false;
 			  <ul>
 			  	<li>
 			         <label >비밀번호</label>
-			         <input type="password" id="pwd" class="requiredInfo t_input" required/>
+			         <input type="password" id="pwd" name="pwd" class="requiredInfo t_input" required/>
 			         <div class="first_error">필수 입력란입니다.</div>
 			         <div class="error">다음을 활용한 보안 비밀번호를 사용하시기 바랍니다.</div>
 		        </li>
@@ -561,7 +563,7 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 	      	<li>
 	           <label >성별</label>
-	           <select type="text" id="gender" style="color: gray;" class="t_input requiredInfo" required > 
+	           <select type="text" id="gender" name="gender" style="color: gray;" class="t_input requiredInfo" required > 
 	           		<option value="female" selected>여성</option>
 		         	<option value="male">남성</option>
 	           </select>
@@ -572,14 +574,14 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 		      <li>
 		         <label >성명</label>
-		         <input type="text" id="name" class="requiredInfo t_input requiredInfo" required/>
+		         <input type="text" id="name"name="name" class="requiredInfo t_input requiredInfo" required/>
 		         <div class="first_error">필수 입력란입니다.</div>
 	       	  </li>
 	      </ul>
 	      
 	      <ul style="list-style: none;">
 	         <li >연락처</li>
-	         <li style="width: 100%; text-align: left;" id="telNum">
+	         <li style="width: 100%; text-align: left;" id="telNum" name="mobile">
 	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" class="requiredInfo" readonly />&nbsp;-&nbsp;
 	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" class="requiredInfo"/>&nbsp;-&nbsp;
 	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" class="requiredInfo"/>
@@ -590,7 +592,7 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 	      	<li>
 		         <span>생년월일</span>
-		         <div style="text-align: left;" id="birth">
+		         <div style="text-align: left;" id="birth" name="birthday">
 				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" onclick="setDateBox()"></select>
 						<select name="month" id="month" title="월" class="custom-select requiredInfo" ></select>
 						<select name="day" id="day" title="일" class="custom-select requiredInfo" ></select>

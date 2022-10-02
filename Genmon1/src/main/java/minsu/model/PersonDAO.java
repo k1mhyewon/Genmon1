@@ -70,8 +70,8 @@ public class PersonDAO implements InterPersonDAO {
 			try {
 				conn = ds.getConnection();
 				
-				String sql = " insert into tbl_member_test(userid, pwd, name, email, mobile, gender, birthday, nation) "+
-						 " values(?, ?, ?, ?, ?, ?, ?, ?) ";
+				String sql = " insert into tbl_member_test(userid, pwd, name, email, mobile, gender, birthday) "+
+						 " values(?, ?, ?, ?, ?, ?, ?) ";
 			
 				pstmt = conn.prepareStatement(sql);
 				
