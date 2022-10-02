@@ -102,13 +102,11 @@ b_flag_idDuplicate_click = false;
    
    $(document).ready(function(){
 	 
-	   
 	   $("div.error").hide();
 	   $("div.first_error").hide();
 	   $("div#pwderrormsg").hide();
 	   $("div.btn_Nocheck").hide();
 	   $("div#diffrent").hide();
-	   
 	   
 	   // === 아이디 === //
    	   $("input#userid").blur((e) => {
@@ -152,10 +150,8 @@ b_flag_idDuplicate_click = false;
    			    $target.parent().find("div.error").show();
    				$target.focus();
    			}
-   			else {
-   				// 이메일이 정규표현식에 맞는 경우 
    			    $target.parent().find("div.error").hide();
-   			}
+   			
           }
    	   }); // end of  $("input#name").bulr((e) => {} --------------------------------
    			   
@@ -564,8 +560,8 @@ b_flag_idDuplicate_click = false;
 	      	<li>
 	           <label >성별</label>
 	           <select type="text" id="gender" name="gender" style="color: gray;" class="t_input requiredInfo" required > 
-	           		<option value="female" selected>여성</option>
-		         	<option value="male">남성</option>
+	           		<option value="1" selected>여성</option>
+		         	<option value="2">남성</option>
 	           </select>
 	        	<div class="first_error">필수 입력란입니다.</div>
 	         </li>
