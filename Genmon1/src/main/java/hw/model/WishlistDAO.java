@@ -13,6 +13,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import common.model.ChildProductVO;
+import common.model.ParentProductVO;
+
 
 
 public class WishlistDAO implements InterWishlistDAO {
@@ -70,7 +73,7 @@ public class WishlistDAO implements InterWishlistDAO {
 		try {
 			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
 			
-			String sql = " select W.fk_userid as fk_userid, W.fk_pnum as fk_pnum, A.pimage1 as pimage1, P.pname as pname, P.price as price "+
+			String sql = " select W.fk_userid, W.fk_pnum, A.pimage1, P.pname, P.price, A.pcolor "+
 						 " from tbl_wishlist_test W "+
 						 " JOIN tbl_all_product_test A "+
 						 " on W.fk_pnum = A.pnum "+
@@ -87,12 +90,19 @@ public class WishlistDAO implements InterWishlistDAO {
 			while( rs.next() ) {
 				
 				WishlistVO wishvo = new WishlistVO();
+				ChildProductVO cpvo = new ChildProductVO();
+				ParentProductVO ppvo = new ParentProductVO();
 				
 				wishvo.setFk_userid(rs.getString(1));
 				wishvo.setFk_pnum(rs.getString(2));
-				wishvo.setPimage1(rs.getString(3));
-				wishvo.setPname(rs.getString(4));
-				wishvo.setPrice(rs.getString(5));
+				
+				cpvo.setPimage1(rs.getString(3));
+				
+				ppvo.setPname(rs.getString(4)+"("+rs.getString(6).substring(0, 2).toUpperCase()+")");
+				ppvo.setPrice(rs.getInt(5));
+				
+				cpvo.setParentProvo(ppvo);
+				wishvo.setCpvo(cpvo);
 				
 				wishList.add(wishvo);
 			}

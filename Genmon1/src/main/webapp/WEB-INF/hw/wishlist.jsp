@@ -236,10 +236,10 @@
 							<input type="hidden" name="pnum" value="${wishvo.fk_pnum}" />
 							<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
 							<div class="card_body mx-1 my-3">
-								<img src="../images/${wishvo.pimage1}" class="product_img">
+								<img src="../images/${wishvo.cpvo.pimage1}" class="product_img">
 								<div id="productDesc">
-									<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
-									<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
+									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
 								<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
 								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>
