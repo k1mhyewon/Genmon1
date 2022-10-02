@@ -173,16 +173,22 @@
 	
 		
 	// #### Function Declaration #### //
-	<%--
-	function showWishlist(){ // ------------------------
+	
+	function refresh(){
+		location.reload();
+	}
+	
+	function goDelete(fk_userid, fk_pnum){ // ------------------------
 		
 		$.ajax({
-			url:"<%= request.getContextPath()%>/member/wishlist.sun",
+			url:"<%= request.getContextPath()%>/member/wishlistOneDelete.sun",
+			data:{ "fk_userid":fk_userid, "fk_pnum":fk_pnum },
 			type: "GET",
-			dataType:"JSON",
+			dataType:"text",
 		    success:function(json) {
 		    	
-		    	console.log(json);
+		    	alert('삭제되었습니다.');
+		    	refresh();
 		    	
 		    },
 		    error: function(request, status, error){
@@ -192,10 +198,45 @@
 			
 		});
 	
-	} // end of function showWishlist() ----------------
-	--%>
+	} // end of function goDelete() ----------------
 	
 	
+	function selectDelete(){ // ------------------------
+		
+		const chkBoxArr = [];
+		
+		$("input:checkbox[name='chk_each_prod']:checked").each(function() {
+			chkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+			console.log(chkBoxArr);
+		})
+		
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/member/wishlistSelectDel.sun",
+			data:{ "chkBoxArr":chkBoxArr },
+			type: "GET",
+			traditional: true,
+			dataType:"text",
+		    success:function(json) {
+		    	
+		    	alert('삭제되었습니다.');
+		    	refresh();
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+			
+		});
+	
+		
+	} // end of function goDelete() ----------------
+	
+	
+	
+	
+	/*
 	function goDelete(fk_userid, fk_pnum){ // -----------------------------------
 		
 		const deleteConfirm = confirm('선택한 상품을 삭제하시겠습니까?');
@@ -214,7 +255,7 @@
 		
 		
 	} // end of function goDelete() ---------------------------
-	
+	*/
 
 </script>
     <!-- 인덱스 시작 -->
@@ -225,7 +266,8 @@
     	<div id="wishText">위시리스트(0)</div>
 	    <div id="checkbox_choice">
 	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-	        <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
+	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()")>선택삭제</button>
+	        <button type="button" class="btn btn-dark btn_chkbox">전체삭제</button>
 	    </div>
 		<div class="album">
 			<div class="box">
@@ -234,12 +276,12 @@
 						<div class="col">
 							<input type="hidden" name="fk_userid" value="${wishvo.fk_userid}" />
 							<input type="hidden" name="pnum" value="${wishvo.fk_pnum}" />
-							<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
+							<input type="checkbox" name="chk_each_prod" value="${wishvo.fk_pnum}" class="chk_wishprod" />
 							<div class="card_body mx-1 my-3">
-								<img src="../images/${wishvo.pimage1}" class="product_img">
+								<img src="../images/${wishvo.cpvo.pimage1}" class="product_img">
 								<div id="productDesc">
-									<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
-									<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
+									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
 								<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
 								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>
