@@ -32,15 +32,19 @@ public class Cart extends AbstractController {
 			
 			InterCartDAO cdao = new CartDAO();
             List<CartVO> cartList = cdao.memberCartSelect(fk_userid);
+            int listSize = cartList.size();
             
             request.setAttribute("cartList", cartList);
+            request.setAttribute("listSize", listSize);
             
             super.setRedirect(false);
             super.setViewPage("/WEB-INF/hw/cart.jsp");
 			
 			
-		} else { // 비회원이라면
+		} else { // 비회원이라면]
 			
+			super.setRedirect(false);
+            super.setViewPage("/WEB-INF/hw/cart.jsp");
 		}
 		
 		

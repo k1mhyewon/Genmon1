@@ -22,7 +22,6 @@ public class AddCart extends AbstractController {
 		if( !super.checkLogin(request)) {
 			
 			// 로그인을 안 했으면
-			/*
 			int fk_pnum = Integer.parseInt( request.getParameter("pnum") );
 			int qty = Integer.parseInt( request.getParameter("qty") );
 			
@@ -41,7 +40,7 @@ public class AddCart extends AbstractController {
 			
 			super.setRedirect(false);
     		super.setViewPage("/WEB-INF/hw/cart.jsp");
-			*/
+			
 	         
 		}
 		else {

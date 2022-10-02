@@ -22,6 +22,9 @@ public interface InterCartDAO {
 
 	// 로그인 된 회원의 장바구니에서 상품 1나 삭제하기
 	int cartDeleteOne(Map<String, String> paraMap) throws SQLException ;
+
+	// 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
+	CartVO selectOneOrder(String pnum, String qty) throws SQLException ;
 	
 	
 

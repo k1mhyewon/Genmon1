@@ -8,15 +8,10 @@ public class CartVO {
 	private String updateDate;
 	
 	private ChildProductVO allProdvo;
-	private ParentProductVO prodvo;
 	
 	
 	// ===================================================================================== //
 	
-
-
-
-
 
 		// 장바구니 insert 때 필요
 		public CartVO(String fk_userid, int fk_pnum, int qty) {
@@ -77,13 +72,4 @@ public class CartVO {
 	
 	
 	
-	public ParentProductVO getProdvo() {
-	return prodvo;
-	}
-	
-	
-	public void setProdvo(ParentProductVO prodvo) {
-		this.prodvo = prodvo;
-	}
-
 }

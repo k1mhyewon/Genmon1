@@ -264,6 +264,49 @@ public class CartDAO implements InterCartDAO {
 		
 		return result;
 	} // end of  로그인 된 회원의 장바구니에서 상품 1나 삭제하기
+
+
+	
+	// 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
+	@Override
+	public CartVO selectOneOrder(String pnum, String qty) throws SQLException {
+		CartVO cvo = null;
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "select pnum, pcolor ,pimage1,salePcnt,pname,price \n"+
+					 "from tbl_product_test\n"+
+					 "JOIN tbl_all_product_test \n"+
+					 "ON pid = fk_pid\n"+
+					 "where pnum = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, pnum);
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 cvo = new CartVO();
+				 cvo.setFk_pnum(rs.getInt(1));
+				 cvo.setQty(Integer.parseInt(qty));
+				 
+				 ChildProductVO cpvo = new ChildProductVO();
+				 cpvo.setPcolor(rs.getString(2));
+				 cpvo.setPimage1(rs.getString(3));
+				 cpvo.setSalePcnt(rs.getInt(4));
+				 
+				 ParentProductVO ppvo = new ParentProductVO();
+				 ppvo.setPname(rs.getString(5));
+				 ppvo.setPrice(rs.getInt(6));
+				 cpvo.setParentProvo(ppvo);
+				 
+				 cvo.setAllProdvo(cpvo);
+			 }
+			 
+		} finally {
+			close();
+		}
+		return cvo;
+	} // 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
 	
 	
 

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <% String ctxPath = request.getContextPath(); %>
 
@@ -152,9 +153,40 @@
 	    $("a#2_add").css('color','black');
 	    
 	    
+	    
+	    // 장바구니 금액 계산
+	    const price = $("span.price").text();
+	    const arr_price = price.split(" ");
+	    // console.log(arr_price);
+	    let sum_price = 0;
+	    
+	    arr_price.forEach(element => {
+	    	if(element.trim() !=""){
+	    		sum_price += Number(element);
+	    	}
+	    });
+	    $("span#sum_price").text(sum_price.toLocaleString('en')+"원");
+	 	// end of 장바구니 금액 계산
+	 	
+	 	
+	 	// 총수량 구하기 qty_sum
+	 	const qty = $("span.qty").text();
+	    const arr_qty = qty.split(" ");
+	    // console.log(arr_price);
+	    let sum_qty = 0;
+	    
+	    arr_qty.forEach(element => {
+	    	if(element.trim() !=""){
+	    		sum_qty += Number(element);
+	    	}
+	    });
+	    $("span#qty_sum").text(sum_qty);
+	 	// end of 총수량 구하기 qty_sum
+	    
+	 	
 	    // 배송주소 사용 클릭 이벤트
 	    $("input#useAdd").click(function(){
-	    	console.log("${requestScope.email}");
+	    	// console.log("${requestScope.email}");
 	    	
 	    	if($("input#useAdd").prop("checked")==true){  // 모두 값 넣어주기 
 	    		
@@ -399,6 +431,8 @@
 			<button type="button" id="prev" class="button2">이전 단계로</button>
 			<button type="button" id="next" class="button1" style="width: 245px;">다음 단계로</button>
 		</form>
+		
+		
 	</div>
 	<div id="box2">
 		<table>
@@ -413,59 +447,43 @@
 				</tr>
 			</thead>
 			<tbody>
-				<%-- 반복시작 --%>
-				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath %>/images/sun_img.png"></td>
-					<td style="font-weight: bold;">상품명</td>
-					<td class="myright">상품가격</td>
-				</tr>
-				<tr>
-					<td>수량:1</td>
-					<td class="myright">37826원</td>
-				</tr>
-				<tr class="empty_tr">
-					<td colspan="3" class="empty_td"></td>
-				</tr>
+				<%-- 반복시작 --%> <%-- 할인율 들어오면 바꿔야해 --%>
+				<c:if test="${ not empty ordertList }">
+					<c:forEach items="${ordertList }" var="order">
+						<tr>
+							<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath %>/images/minji/전체보기/${order.allProdvo.pimage1}"></td>
+							<td style="font-weight: bold;">${order.allProdvo.parentProvo.pname} ${order.allProdvo.colorName}</td>
+							<td class="myright">상품가격</td>
+						</tr>
+						<tr>
+							<td>수량:<span class="qty"> ${order.qty}</span></td>
+							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price}</span>원</td>
+						</tr>
+						<tr class="empty_tr">
+							<td colspan="3" class="empty_td"></td>
+						</tr>
+					</c:forEach>
+				</c:if>
 				<%-- 반복끝 --%>
-				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
-					<td style="font-weight: bold;">상품명</td>
-					<td class="myright">상품가격</td>
-				</tr>
-				<tr>
-					<td>수량:1</td>
-					<td class="myright">37826원</td>
-				</tr>
-				<tr class="empty_tr">
-					<td colspan="3" class="empty_td"></td>
-				</tr>
-				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath%>/images/sun_img.png"></td>
-					<td style="font-weight: bold;">상품명</td>
-					<td class="myright">상품가격</td>
-				</tr>
-				<tr>
-					<td>수량:1</td>
-					<td class="myright">37826원</td>
-				</tr>
-				<tr class="empty_tr">
-					<td colspan="3"></td>
-				</tr>
-				<%-- 반복끝 --%>
+				
 			</tbody>
 			<tfoot>
 				<tr class="height_tr top_line">
 					<td>상품합계</td>
-					<td colspan="2" class="myright">37826원</td>
+					<td colspan="2" class="myright"><span id="sum_price"></span></td>
 				</tr>
 				<tr class="height_tr">
 					<td>배송비</td>
 					<td colspan="2" class="myright">0원</td>
 				</tr>
+				<tr class="height_tr">
+					<td>할인금액</td>
+					<td colspan="2" class="myright">0원</td>
+				</tr>
 				<tr style="height: 50px;" class="top_line">
 					<td>총합계</td>
-					<td>수량:10</td>
-					<td class="myright">37826원</td>
+					<td>수량: <span id="qty_sum"></span></td>
+					<td class="myright"><span>할인퍼센트 들어오면 고칠겨</span></td>
 				</tr>
 			</tfoot>
 		</table>

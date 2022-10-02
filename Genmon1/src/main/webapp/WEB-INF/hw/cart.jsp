@@ -9,15 +9,7 @@
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/myinfo_mainMenu.jsp" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-
 <style>
-
-/* 추가 */
-	* {font-family: 'Noto Sans KR', sans-serif; !important}
-
     div#myPageNav{
         
         /* border: solid 1px gray; */
@@ -172,10 +164,75 @@
 
 	$(document).ready(function(){ // ==========================================================
 		
+		// 비회원이라면???
+		const loginuser = '${sessionScope.loginuser.userid}' ;
+		let allkey = "";
+		let allqty = "";
 		
-		// 자동으로 장바구니 값이 +- 상자에 들어가게 하기
-		//let qty = ${cvo.qty};
-		//$("input[name='quantity']").val(qty);
+		if(loginuser == ''){ // 로그인 안 한 경우
+			let cnt1 = 0;
+			let cnt2 = 0;
+			for(let i=0; i<sessionStorage.length; i++) {
+				// 문자열.indexOf("찾고자하는문자열")
+				let key = sessionStorage.key(i);
+				if(key.indexOf('Key')!=-1){  // 키 값인 경우
+					let comma =  cnt1 ==0 ? "": ",";
+					allkey += comma + sessionStorage.getItem(key);
+					cnt1 +=1;
+				} else { // 수량 값일 경우
+					let comma =  cnt2 ==0 ? "": ",";
+					allqty+= comma + sessionStorage.getItem(key);
+					cnt2 += 1;
+				}
+			} // end of for
+			
+			//console.log("all_key"+all_key);
+			//console.log("all_qty"+all_qty);
+			
+			// ajax로 띄우기
+			
+			if(sessionStorage.length>1){ // 장바구니 내역이 있을때만 조회함
+				
+				$.ajax({
+					url:"<%= ctxPath%>/order/notMemberCartDisplayJASON.sun" ,
+					type: "post",  
+					data:{"sname":"HIT",
+					"allkey":allkey, // 시작점을 보겠다"1" "9" "17" "25" "33"
+					"allqty":allqty},
+				    dataType:"json",
+				    success:function(json) {
+				    	
+				    	let html="<div class='col'>";
+				    	
+				    	$.each(json, function(index, item){
+									html+= "<label><input type='checkbox' class='chk_wishpro' name='sun'/><div class='card_body mx-1 my-3'>"+
+														"<img src='../images/minji/전체보기/"+item.image+"' class='product_img'>"+
+													"<div id='productDesc'>"+
+														"<p class='productName' style='font-weight: bold;'>"+item.pname+" "+item.colname+"</p>"+
+														"<p class='productPrice'>"+item.price+" 원</p>"+
+													"</div>"+
+													"<div class='number-input' style='margin-left: 105px; margin-top: 0;'>"+
+													  "<button onclick='this.parentNode.querySelector('input[type=number]').stepDown()' ></button>"+
+													  "<input  class='quantity' min='1'  name='quantity' value='"+item.qty+"' type='number'>"+
+													  "<button onclick='this.parentNode.querySelector('input[type=number]').stepUp()' class='plus'></button>"+
+													"</div>"+
+													"<input type='hidden' class='pnum' value='"+item.pnum+"' />"+
+													"<button onClick='go_purchase('"+item.pnum+"')' type='button' class='btnWish btn btn-dark'>결제하기</button>"+
+													"<button onClick='deleteOne('"+item.pnum+"')' type='button' class='btnWish btn btn-light'>삭제</button>"+
+												"</div></label>";
+				    	}); // end of each
+				    	html+= "</div>";
+				    	
+				    	$("div#show").append(html);
+				    },
+				    error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				});
+			} // end of 장바구니 내역이 있을때만 조회함
+			
+			
+		}// end of 비회원이라면???
 		
 		
 		// ==== 체크박스 전체선택/전체해제 ==== //
@@ -267,15 +324,82 @@
 		//	type: "GET",  
 		    dataType:"TEXT",
 		    success:function(json) {
-
-				alert('성공');
-				// 새로고침 함번 해줘야 함
+		    	window.location.reload(true);
 		    },
 		    error: function(request, status, error){
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 		});
 	} // end of 한개 상품 장바구니  DB에서 삭제하는 함수
+	
+	
+	// 전체주문 하기 함수
+	function allThings(){
+		if($("input:checkbox[name='sun']").length >0){ // 장바구니가 1나라도 있을떄
+			
+			const arr_check = $("input:checkbox[name='sun']");
+			let all_qty ="";
+			let all_pnum = "";
+			
+			arr_check.each(function(index, item){
+				var comma = (index == 0) ? "" :",";
+				all_qty += comma + $(item).parent().find(".quantity").val();
+				all_pnum += comma + $(item).parent().find(".pnum").val() ;
+			});
+			
+			// console.log(all_qty);
+			// console.log(all_pnum);
+			
+			$("input[name='all_qty']").val(all_qty);
+			$("input[name='all_pnum']").val(all_pnum);
+			
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/cartToPurchase.sun";
+			frm.submit();
+			
+		} else {
+			alert("장바구니에 상품이 없습니다");
+		}
+	}// end of 전체주문 하기 함수
+	
+	
+	// 선택상품 주문 하기 함수
+	function chooseThings(){
+		
+		if($("input:checkbox[name='sun']:checked").length >0){ // 선택된 것이 하나라도 존재하면
+			
+			let arr_check = [];
+			arr_check = $("input:checkbox[name='sun']:checked");
+			let all_qty ="";
+			let all_pnum = "";
+			
+			arr_check.each(function(index, item){
+				var comma = (index == 0) ? "" :",";
+				all_qty += comma + $(item).parent().find(".quantity").val();
+				all_pnum += comma + $(item).parent().find(".pnum").val() ;
+			});
+			
+			// console.log(all_qty);
+			// console.log(all_pnum);
+			
+			$("input[name='all_qty']").val(all_qty);
+			$("input[name='all_pnum']").val(all_pnum);
+			
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/cartToPurchase.sun";
+			frm.submit();
+			
+		} else { // 선택된게 없을때
+			alert("선택된 상품이 없습니다");
+		}
+		
+		
+	}// end of 선택상품 주문 하기 함수
+	
 
 </script>
     <!-- 인덱스 시작 -->
@@ -283,43 +407,52 @@
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">장바구니(0)</div>
-    <div id="checkbox_choice">
+    <div id="wishText">장바구니(${listSize})</div>
+    <%-- <c:if test="${ not empty requestScope.cartList}"> --%>
+    	<div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-        <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings">전체상품결제</button>
-        <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings">선택상품결제</button>
-    </div>
-	<div class="album">
-		<div class="box">
-			<div class="wish_container row row-cols-sm-1 row-cols-md-4">
-			
-				<c:forEach var="cvo" items="${requestScope.cartList}">
-					<div class="col">
-					<label>
-						<input type="checkbox" class="chk_wishprod" />
-						<div class="card_body mx-1 my-3">
-							<img src="../images/minji/전체보기/${cvo.allProdvo.pimage1}" class="product_img">
-							<div id="productDesc">
-								<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
-								<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
-							</div>
-							<div class="number-input" style="margin-left: 105px; margin-top: 0;">
-							  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
-							  <input  class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
-							  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-							</div>
+        <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings()">전체상품결제</button>
+        <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings()">선택상품결제</button>
+	    </div>
+		<div class="album">
+			<div class="box">
+				<div class="wish_container row row-cols-sm-1 row-cols-md-4">
+					<div id="show" ></div>
+					<c:forEach var="cvo" items="${requestScope.cartList}">
+						<div class="col">
+						<label>
+							<input type="checkbox" class="chk_wishprod" name='sun'/>
+							<div class="card_body mx-1 my-3">
+								<img src="../images/minji/전체보기/${cvo.allProdvo.pimage1}" class="product_img">
+								<div id="productDesc">
+									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
+									<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
+								</div>
+								<div class="number-input" style="margin-left: 105px; margin-top: 0;">
+								  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+								  <input  class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
+								  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+								</div>
+								<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
 								<button onClick="go_purchase('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 								<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
-								<%--<a href='/MYNVC/shop/prodView.up?pnum=${pnum }' class='stretched-link btn btn-outline-dark btn-sm' role='button'>자세히보기</a> --%>
-							</div>
-						</label>
-					</div>
-				</c:forEach>
-				
+								</div>
+							</label>
+						</div>
+					</c:forEach>
+					
+				</div>
 			</div>
 		</div>
-	</div>
+    <%-- </c:if> --%>
+    <c:if test="${ empty requestScope.cartList}">
+    	장바구니가 비어있습니다.
+    </c:if>
 	<div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>
+	<form name="hiddenFrm">
+		<input type="hidden" name="all_qty" />
+		<input type="hidden" name="all_pnum" />
+	</form>
 
 <jsp:include page="../common/footer.jsp" />

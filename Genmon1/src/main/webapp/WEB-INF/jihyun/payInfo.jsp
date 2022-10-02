@@ -173,6 +173,40 @@
 	    });
 	    
 	    
+
+	    // 장바구니 금액 계산
+	    const price = $("span.price").text();
+	    const arr_price = price.split(" ");
+	    // console.log(arr_price);
+	    let sum_price = 0;
+	    
+	    arr_price.forEach(element => {
+	    	if(element.trim() !=""){
+	    		sum_price += Number(element);
+	    	}
+	    });
+	    $("span#sum_price").text(sum_price.toLocaleString('en')+"원");
+	    // 나중에 식계산 바꿔야해!!
+	    $("span#result").text(sum_price.toLocaleString('en')+"원");
+	 	// end of 장바구니 금액 계산
+	 	
+	 	
+	 	// 총수량 구하기 qty_sum
+	 	const qty = $("span.qty").text();
+	    const arr_qty = qty.split(" ");
+	    // console.log(arr_price);
+	    let sum_qty = 0;
+	    
+	    arr_qty.forEach(element => {
+	    	if(element.trim() !=""){
+	    		sum_qty += Number(element);
+	    	}
+	    });
+	    $("span#qty_sum").text(sum_qty);
+	 	// end of 총수량 구하기 qty_sum
+	 	
+	 	
+	    
 	    // 결제방법 클릭 이벤트
 	    $("input:radio[name='payment']").click(function(e){
 	    	$("div#account").hide();
@@ -191,7 +225,7 @@
 	    	const all_point = $(e.target).html();
 	    	// console.log(all_point);
 	    	$("input[name='usePoint']").val(all_point);
-	    	$("span#usePoint").text('-'+all_point);
+	    	$("span#usePoint").text('-'+all_point.toLocaleString('en')+"원");
 	    	
 	    });//end of 적립금 클릭이벤트 
 	    
@@ -218,7 +252,7 @@
 	    $("input[name='usePoint']").change(function(){
 	    	const val = $("input[name='usePoint']").val().trim();
 	    	if(val!=""){
-	    		$("span#usePoint").text('-'+val);
+	    		$("span#usePoint").text('-'+val.toLocaleString('en')+"원");
 	    	} else {
 	    		$("span#usePoint").text(0);
 	    	}
@@ -300,8 +334,6 @@
 		window.open(url, "Purchase",
 					"left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px");
 		
-		window.open(url, "Purchase",
-					"left=350px, top=100px, width=845px, height=625px");
 	}
 	
 	
@@ -325,7 +357,7 @@
 			<%-- 적립금 사용 --%>
 			<c:if test="${not empty sessionScope.loginuser }">
 				<span class="puretxt my-4">적립금 및 포인트 사용</span>
-				<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag" id="all_point">${loginuser.coin + loginuser.point }</a></span>
+				<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag" id="all_point">${loginuser.coin + loginuser.point }</a> 원</span>
 				<input type="text" name="usePoint" class="input_style" placeholder="사용하실 금액을 입력하세요"/>
 				<span class="error" id="error1"></span>
 			</c:if>
@@ -439,62 +471,46 @@
 			</thead>
 			<tbody>
 				<%-- 반복시작 --%>
-				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%=ctxPath %>/images/sun_img.png"></td>
-					<td style="font-weight: bold;">상품명</td>
-					<td class="myright">상품가격</td>
-				</tr>
-				<tr>
-					<td>수량:1</td>
-					<td class="myright">37826원</td>
-				</tr>
-				<tr class="empty_tr">
-					<td colspan="3" class="empty_td"></td>
-				</tr>
+				<c:if test="${ not empty ordertList }">
+					<c:forEach items="${ordertList }" var="order">
+						<tr>
+							<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath %>/images/minji/전체보기/${order.allProdvo.pimage1}"></td>
+							<td style="font-weight: bold;">${order.allProdvo.parentProvo.pname} ${order.allProdvo.colorName}</td>
+							<td class="myright">상품가격</td>
+						</tr>
+						<tr>
+							<td>수량:<span class="qty"> ${order.qty}</span></td>
+							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price}</span>원</td>
+						</tr>
+						<tr class="empty_tr">
+							<td colspan="3" class="empty_td"></td>
+						</tr>
+					</c:forEach>
+				</c:if>
 				<%-- 반복끝 --%>
-				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%=ctxPath %>/images/sun_img.png"></td>
-					<td style="font-weight: bold;">상품명</td>
-					<td class="myright">상품가격</td>
-				</tr>
-				<tr>
-					<td>수량:1</td>
-					<td class="myright">37826원</td>
-				</tr>
-				<tr class="empty_tr">
-					<td colspan="3" class="empty_td"></td>
-				</tr>
-				<tr>
-					<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%=ctxPath %>/images/sun_img.png"></td>
-					<td style="font-weight: bold;">상품명</td>
-					<td class="myright">상품가격</td>
-				</tr>
-				<tr>
-					<td>수량:1</td>
-					<td class="myright">37826원</td>
-				</tr>
-				<tr class="empty_tr">
-					<td colspan="3"></td>
-				</tr>
-				<%-- 반복끝 --%>
+				
 			</tbody>
 			<tfoot>
 				<tr class="height_tr top_line">
 					<td>상품합계</td>
-					<td colspan="2" class="myright">37826원</td>
+					<td colspan="2" class="myright"><span id="sum_price"></span></td>
 				</tr>
 				<tr class="height_tr">
 					<td>적립금 사용</td>
-					<td colspan="2" class="myright"><span id="usePoint">0</span></td>
+					<td colspan="2" class="myright"><span id="usePoint">0원</span></td>
+				</tr>
+				<tr class="height_tr">
+					<td>할인금액</td>
+					<td colspan="2" class="myright">0원</td>
 				</tr>
 				<tr class="height_tr">
 					<td>배송비</td>
 					<td colspan="2" class="myright">0원</td>
 				</tr>
 				<tr style="height: 50px;" class="top_line">
-					<td>총 결제금액</td>
-					<td>수량:10</td>
-					<td class="myright">37826원</td>
+					<td>총합계</td>
+					<td>수량: <span id="qty_sum"></span></td>
+					<td class="myright"><span id="result"></span></td>
 				</tr>
 			</tfoot>
 		</table>

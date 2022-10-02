@@ -135,22 +135,36 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		const pnum = '${pvo.pnum}';
 		const qty = $("input[name='quantity']").val();
 		
-		$.ajax({
-			url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty ,
-		//	type: "GET",  
-		    dataType:"TEXT",
-		    success:function(json) {
-		    	
-		    	$("#cart_added_comment").show(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
-		    	$('#addCart').modal('hide');      <%-- 장바구니 모달 숨기기 --%>
-				
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		const loginuser = '${sessionScope.loginuser.userid}' ;
+		
+		if(loginuser == ''){ // 로그인 안 한 경우
+			
+			if(sessionStorage.getItem("Key"+pnum)){ // 이미 장바구니에 있다면 개수 업데이트
+				var qty2 = sessionStorage.getItem('Qty'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
+				sessionStorage.setItem('Qty'+pnum,Number(qty)+Number(qty2));
+			} else {
+				sessionStorage.setItem("Key"+pnum,pnum);
+				sessionStorage.setItem('Qty'+pnum,qty);
 			}
-		});
 		
 		
+		} else { // 로그인 한 경우
+			$.ajax({
+				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
+				type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	
+			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+					
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
 	}
 	
 	function addGoCart(){
@@ -158,23 +172,37 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		const pnum = '${pvo.pnum}';
 		const qty = $("input[name='quantity']").val();
 		
-		$.ajax({
-			url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty ,
-			//	type: "GET",  
-			    dataType:"TEXT",
-		    success:function(json) {
-		    	
-		    	$("#cart_added_comment").show(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
-		    	$('#addCart').modal('hide');      <%-- 장바구니 모달 숨기기 --%>
-		    	
-		    	location.href="<%= ctxPath%>/order/cart.sun";
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		const loginuser = '${sessionScope.loginuser.userid}' ;
+		
+		if(loginuser == ''){ // 로그인 안 한 경우
+			
+			if(sessionStorage.getItem("Key"+pnum)){ // 이미 장바구니에 있다면 개수 업데이트
+				var qty2 = sessionStorage.getItem('Qty'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
+				sessionStorage.setItem('Qty'+pnum,Number(qty)+Number(qty2));
+			} else {
+				sessionStorage.setItem("Key"+pnum,pnum);
+				sessionStorage.setItem('Qty'+pnum,qty);
 			}
-		});
 		
-		
+			location.href="<%= ctxPath%>/order/cart.sun";
+			
+		} else { // 로그인 한 경우
+			$.ajax({
+				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
+				type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	
+			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+			    	location.href="<%= ctxPath%>/order/cart.sun";
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
 		
 	}
 	
