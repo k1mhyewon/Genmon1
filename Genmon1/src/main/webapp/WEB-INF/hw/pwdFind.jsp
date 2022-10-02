@@ -41,6 +41,20 @@
     }
     
     #find_pwd { margin-bottom: 25px; }
+    
+    #error_msg {
+    	font-size: 10pt;
+    	color: red;
+    	margin: 10px 0 0 60px;
+    }
+    
+    #find_msg {
+    	color: red; font-size: 11pt;
+    	text-align: center;
+    	margin-top: 10px;
+    }
+    
+    
 
 </style>
 
@@ -59,7 +73,79 @@
 <script>
 
 	$(document).ready(function(){
-		//찾기
+		
+		$("#error_msg").hide();
+		$("#find_msg").hide();
+		
+		let id_bool = false; 
+		let email_bool = false; 
+		
+		// === 아이디 유효성 검사 === //
+		$("input#userid").blur((e) => {
+	   	
+	   		const $target = $(e.target);
+	            
+	        if($target.val() == "") { // 아이디 입력칸이 공백인 경우
+	        	$("#error_msg").show();
+	        	$target.focus();
+	        	id_bool = false;
+	        }
+	        else if($target.val().length < 4){ // 입력칸에 네글자 이하로 들어온 경우
+	        	$("#error_msg").show();
+	        	$target.focus();
+	        	id_bool = false;
+	        }
+	        else { // 입력칸에 네글자 이상의 글자가 들어온경우
+	        	 $("#error_msg").hide();
+	        	 id_bool = true; 
+	          }
+	   	}); // end of  $("input#userid").blur((e) => {} --------------------------------
+		
+	   	
+
+		// === 이메일주소 유효성 검사 === //
+		$("input#email").blur((e) => {
+	   	
+	   		const $target = $(e.target);
+			const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
+	            
+	        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
+	        
+	        if($target.val() == "") {
+	        	// 이메일 입력칸이 공백인 경우
+	        	$("#error_msg").show();
+	        	email_bool = false;
+	        }
+	        else {
+	        	// 입력칸에 글이 들어온경우
+	        	$("#error_msg").hide();
+	        	
+	        	if(!bool) {
+	   				// 이메일이 정규표현식에 위배된 경우  
+	   			    $("#error_msg").show();
+	   			 	email_bool = false;
+	   				$target.focus();
+	   			}
+	   			else {
+	   				// 이메일이 정규표현식에 맞는 경우 
+	   				$("#error_msg").hide();
+	   				email_bool = true; 
+	   			}
+	          }
+		}); // end of  $("input#email").blur((e) => {} --------------------------------
+	   			
+		
+		$("input#email").change((e) => {
+	   		$("#error_msg").hide();
+	   	});
+	   	   
+	   	$("input#name").change((e) => {
+	   		$("#error_msg").hide();
+	   	});
+		
+		
+		
+		// 찾기 버튼 클릭
 		$("button#link_btn").click(function(){
 			
 			const useridVal = $("input#userid").val().trim();
@@ -68,32 +154,38 @@
 			
 			// 아이디 및 이메일에 대한 정규표현식을 사용한 유효성 검사는 생략한다.
 			
-			if( useridVal != "" && emailVal != "" ) {
+			if( id_bool == true && email_bool == true ) {
 				const frm = document.findPwdFrm;
 				frm.action = "<%= ctxPath%>/pwdFind.sun";
 				frm.method = "POST"; // 대소문자 구분 안함
 				frm.submit();
 			}
 			else{
-				alert("아이디와 이메일을 입력하세요 !!");
+				$("#error_msg").show();
 				return;
 			}
 			
 		}); // end of $("button#btnFind").click() ---------------------
 		
 		const method = "${requestScope.method}"; // requestScope. 은 생략 가능 / "" 넣어줘야 함
+		const isUserExists = "${requestScope.isUserExists}";
 		
-		if(method == "POST"){
-			$("div#pwdFind_result").show();
-			$("input#userid").val("${requestScope.userid}");
-			$("input#email").val("${requestScope.email}");
-			
-			if("${requestScope.sendMailSuccess}"){
+		if(method == "POST" ){
+			if(isUserExists == true && "${requestScope.sendMailSuccess}"){
+				$("div#pwdFind_result").show();
+				$("input#userid").val("${requestScope.userid}");
+				$("input#email").val("${requestScope.email}");
+				
 				$("div#div_btnFind").hide(); // 찾기버튼 감춤
 			}
+			else { // 유저가 존재하지 않는다면 결과물을 보여주면 안됨
+				$("div#pwdFind_result").hide();
+				$("#find_msg").show();
+			}
 		}
-		else { // get 방식이라면 결과물을 보여주면 안됨
+		else { // get 방식이면 결과물을 보여주면 안됨
 			$("div#pwdFind_result").hide();
+			$("#find_msg").hide();
 		}
 		
 		
@@ -121,17 +213,20 @@
 		<li style="margin: 25px 0">
 			<label for="email" style="display: inline-block; width: 90px">이메일</label>
 			<input type="text" name="email" id="email" size="25" placeholder="gentle@gentlemonster.com" autocomplete="off" required />
+			<div id="error_msg">아이디 또는 이메일을 올바르게 입력해주세요.</div>
 		</li>
 	</ul>
-	<div style="text-align: center; margin-top: 30px;">
+	<div style="text-align: center; margin-top: 15px;">
 		<button type="button" class="btn btn-dark" id="link_btn" style="font-size: 9pt;">비밀번호 변경 링크 전송</button>
 	</div>
+	<div id="find_msg">존재하지 않는 회원 입니다. <br>올바른 정보를 입력해주세요.</div>
 	
 	<div id="pwdFind_result" >
 		<div style="font-size: 9pt;">비밀번호 변경 링크가 회원님의 이메일</div>
 		<div style="font-size: 9pt; font-weight: bold;">"${requestScope.email}"</div>
 		<div style="font-size: 9pt;">로 발송되었습니다.</div>
 		<div style="font-size: 9pt;">이메일을 확인해주세요.</div>
+			
 		<button type="button" class="btn btn-light" id="btn_close" style="font-size: 9pt;">닫기</button>
 	</div>
 </form>

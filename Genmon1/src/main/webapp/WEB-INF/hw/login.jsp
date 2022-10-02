@@ -155,7 +155,11 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
         
-        
+		
+		// 모달창 닫으면 초기화
+        $('#pwdFindModal').on('hidden.bs.modal', function (e) {
+        	$(this).find('div#find_msg').hide();
+        });
 		
 		
 		
