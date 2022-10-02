@@ -135,7 +135,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		const qty = $("input[name='quantity']").val();
 		
 		$.ajax({
-			url:"<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
+			<%--url:"<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty, --%>
+			url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty ,
 		//	type: "GET",  
 		    dataType:"TEXT",
 		    success:function(json) {
@@ -156,7 +157,22 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		
 		const qty = $("input[name='quantity']").val();
 		
-		location.href="<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty;
+		$.ajax({
+			<%--url:"<%= ctxPath%>/order/cart.sun?pnum="+pnum+"&qty="+qty, --%>
+			url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty ,
+		//	type: "GET",  
+		    dataType:"TEXT",
+		    success:function(json) {
+		    	
+		    	location.href="<%= ctxPath%>/order/cart.sun";
+				
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
 		
 	}
 	

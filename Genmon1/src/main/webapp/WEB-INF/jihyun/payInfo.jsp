@@ -191,6 +191,8 @@
 	    	const all_point = $(e.target).html();
 	    	// console.log(all_point);
 	    	$("input[name='usePoint']").val(all_point);
+	    	$("span#usePoint").text('-'+all_point);
+	    	
 	    });//end of 적립금 클릭이벤트 
 	    
 	    
@@ -208,14 +210,56 @@
 	    		//alert("입력하신 금액이 사용 가능한 금액보다 큽니다@@@@");
 	    		$("span#error1").text('입력하신 금액이 사용 가능한 금액보다 큽니다');
 	    		$("input[name='usePoint']").val('');
+	    	} 
+	    }); // end of 적립금 입력 키업 이벤트
+	    
+	    
+	    // 적립금 변동 있을때마다 테이블쪽에 금액도 바꿔주기
+	    $("input[name='usePoint']").change(function(){
+	    	const val = $("input[name='usePoint']").val().trim();
+	    	if(val!=""){
+	    		$("span#usePoint").text('-'+val);
+	    	} else {
+	    		$("span#usePoint").text(0);
 	    	}
 	    	
-	    });
+	    });// end of 적립금 변동 있을때마다 테이블쪽에 금액도 바꿔주기
 	    
 	    
+	    // 체크박스 전체선택 이벤트
+	    $("input#agree_all").click(function(){
+	    	if($("input#agree_all").prop("checked")){ // 전체체크
+	    		$("input:checkbox").prop("checked",true);
+	    	} else { //전체 해제
+	    		$("input:checkbox").prop("checked",false);
+	    	}
+	    });// end of 체크박스 전체선택 이벤트
 	    
-	    // 결제하기 버튼 클릭이벤트
+	    
+	    // 체크 박스 1나 해제 하면 전체선택도 해제되는 이벤트
+	    $("input:checkbox").click(function(){
+	    	if($("input:checkbox:checked").length == 6){
+	    		$("input#agree_all").prop("checked",true);
+	    	} else {
+	    		$("input#agree_all").prop("checked",false);
+	    	}
+	    });// end of 체크 박스 1나 해제 하면 전체선택도 해제되는 이벤트
+	    
+	     
+	    // 결제하기 버튼 클릭이벤트 // 결제방법 선택 안했으면 안넘어가게 만들어야... // 체크박스 필수사항 조회하기
 	    $("button#purchase").click(function(){
+	    	
+	    	// 결제방법 선택 했는지
+	    	if($("input:radio:checked").length!=1){
+	    		alert("결제 방법을 선택하세요");
+	    		return;
+	    	}
+	    	
+	    	// 체크박스 필수 사항 체크했는지
+	    	if($("input:checkbox[class='reqired']:checked").length<3){
+	    		alert("필수동의 사항에 모두 체크하셔야 주문 가능합니다");
+	    		return;
+	    	}
 	    	
 	    	// 카드 결제일때
 	    	if($("input:radio[name='payment']:checked").val()=="card"){
@@ -232,8 +276,14 @@
 	
 	// 서비스 가입사실 클릭 이벤트 (나중에 모달로 바꾸장)
 	function click_service(){
+		
+		const pop_width = 1015;
+		const pop_height = 560;
+		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
+		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
+		
 		window.open("<%=ctxPath %>/images/money_service.png", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-                , "left=300px, top=100px, width=1015px, height=560px"); 
+                , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
 	} // end of 서비스 가입사실 클릭 이벤트
 	
 	
@@ -358,11 +408,11 @@
 			<%-- 체크박스 시작 --%>
 			<div class="my-3">
 				<input id="agree_all" type="checkbox" /><label for="agree_all" class="labelst">전체동의</label><br>
-				<input id="agree_1" type="checkbox" /><label for="agree_1" class="labelst">[필수]만14세이상입니다</label><br>
-				<input id="agree_2" type="checkbox" /><label><a href="#" class="link_tag labelst">[필수]이용약관동의</a></label><br>
-				<input id="agree_3" type="checkbox" /><label><a href="#" class="link_tag labelst">[필수]개인정보 수집 및 이용동의</a></label><br>
-				<input id="agree_4" type="checkbox" /><label><a href="#" class="link_tag labelst">[선택]마켓팅목적 개인정보 수집 및 이용동의</a></label><br>
-				<input id="agree_5" type="checkbox" /><label><a href="#" class="link_tag labelst">[선택]마켓팅정보수신 및 활용동의</a></label><br>
+				<input type="checkbox" class="reqired" /><label for="agree_1" class="labelst">[필수]만14세이상입니다</label><br>
+				<input type="checkbox" class="reqired" /><label><a href="https://www.gentlemonster.com/kr/legal/terms" class="link_tag labelst">[필수]이용약관동의</a></label><br>
+				<input type="checkbox" class="reqired" /><label><a href="https://www.gentlemonster.com/kr/legal/privacy_collect?case=shipping_address_nonmemeber" class="link_tag labelst">[필수]개인정보 수집 및 이용동의</a></label><br>
+				<input type="checkbox" /><label><a href="https://www.gentlemonster.com/kr/legal/privacy_collect_marketing?case=shipping_address_nonmemeber" class="link_tag labelst">[선택]마켓팅목적 개인정보 수집 및 이용동의</a></label><br>
+				<input type="checkbox" /><label><a href="https://www.gentlemonster.com/kr/legal/marketing_consent" class="link_tag labelst">[선택]마켓팅정보수신 및 활용동의</a></label><br>
 			</div>
 			<%-- 체크박스 끝 --%>
 			
@@ -435,7 +485,7 @@
 				</tr>
 				<tr class="height_tr">
 					<td>적립금 사용</td>
-					<td colspan="2" class="myright" id="usePoint"></td>
+					<td colspan="2" class="myright"><span id="usePoint">0</span></td>
 				</tr>
 				<tr class="height_tr">
 					<td>배송비</td>

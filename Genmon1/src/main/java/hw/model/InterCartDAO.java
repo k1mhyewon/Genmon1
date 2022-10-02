@@ -2,6 +2,7 @@ package hw.model;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import common.model.CartVO;
 
@@ -18,6 +19,9 @@ public interface InterCartDAO {
 
 	// 로그인된 회원의 장바구니 전체 조회
 	List<CartVO> memberCartSelect(String fk_userid) throws SQLException ;
+
+	// 로그인 된 회원의 장바구니에서 상품 1나 삭제하기
+	int cartDeleteOne(Map<String, String> paraMap) throws SQLException ;
 	
 	
 

@@ -77,7 +77,7 @@
     }
     
     
-    
+    /*
     .cntbox {
     	/* border: solid 1px gray; */
     	width: 120px; 
@@ -86,15 +86,96 @@
         margin-bottom: 10px;
         display: inline-block;
     }
+	*/
 
-
-    /* 추가 */
+    /* 갯수 상자 */
+    
+    input[type="number"] {
+	  -webkit-appearance: textfield;
+	  -moz-appearance: textfield;
+	  appearance: textfield;
+	}
+	
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+	  -webkit-appearance: none;
+	}
+	
+	.number-input {
+	  border: 1px solid #ddd;
+	  display: inline-flex;
+	}
+	
+	.number-input,
+	.number-input * {
+	  box-sizing: border-box;
+	}
+	
+	.number-input button {
+		
+	  padding-top:10px;
+	  outline:none;
+	  -webkit-appearance: none;
+	  background-color: transparent;
+	  border: none;
+	  align-items: center;
+	  justify-content: center;
+	  width: 1rem;
+	  height: 1rem;
+	  cursor: pointer;
+	  margin: 0;
+	  position: relative;
+	}
+	
+	.number-input button:before,
+	.number-input button:after {
+	  display: inline-block;
+	  position: absolute;
+	  content: '';
+	  width: 0.6rem;
+	  height: 2px;
+	  background-color: gray;
+	  transform: translate(-50%, -50%);
+	}
+	/*
+	.number-input button:before{
+		padding-left: 
+	}*/
+	.number-input button.plus:after {
+	  transform: translate(-50%, -50%) rotate(90deg);
+	}
+	
+	.number-input input[type=number] {
+	  max-width: 2.5rem;
+	  padding: .5rem;
+	  border-top: solid #ddd;
+	  border-bottom: solid #ddd;
+	  border-width: 0 0;
+	  font-size: 0.9rem;
+	  height: 25px;
+	  text-align: center;
+	  color: gray;
+	}
+	
+	#cart_added_comment {
+		font-size: 9pt;
+		color: red;
+		margin: 5px 0 0 40px; 
+	}
+	
+	label:hover {
+	 cursor: pointer;
+	}
 
 </style>
 <script>
 
 	$(document).ready(function(){ // ==========================================================
 		
+		
+		// 자동으로 장바구니 값이 +- 상자에 들어가게 하기
+		//let qty = ${cvo.qty};
+		//$("input[name='quantity']").val(qty);
 		
 		
 		// ==== 체크박스 전체선택/전체해제 ==== //
@@ -171,13 +252,30 @@
 	// #### Function Declaration #### //
 	
 	
-	function go_purchase(fk_pnum, qty){ // --------------------------------
+	function go_purchase(fk_pnum){ // --------------------------------
 		
-		
-		
+		let qty=$("input[name='quantity']").val();
 		location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
 		
 	} // end of go_purchase() ---------------------------------
+	
+	
+	// 한개 상품 장바구니 DB에서 삭제하는 함수
+	function deleteOne(pnum){
+		$.ajax({
+			url:"<%= ctxPath%>/order/cartDeleteOne.sun?pnum="+pnum ,
+		//	type: "GET",  
+		    dataType:"TEXT",
+		    success:function(json) {
+
+				alert('성공');
+				// 새로고침 함번 해줘야 함
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	} // end of 한개 상품 장바구니  DB에서 삭제하는 함수
 
 </script>
     <!-- 인덱스 시작 -->
@@ -188,8 +286,8 @@
     <div id="wishText">장바구니(0)</div>
     <div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-        <button type="button" class="btn btn-dark btn_chkbox">전체상품결제</button>
-        <button type="button" class="btn btn-dark btn_chkbox">선택상품결제</button>
+        <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings">전체상품결제</button>
+        <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings">선택상품결제</button>
     </div>
 	<div class="album">
 		<div class="box">
@@ -197,19 +295,24 @@
 			
 				<c:forEach var="cvo" items="${requestScope.cartList}">
 					<div class="col">
+					<label>
 						<input type="checkbox" class="chk_wishprod" />
 						<div class="card_body mx-1 my-3">
-							<img src="../images/${cvo.allProdvo.pimage1}" class="product_img">
+							<img src="../images/minji/전체보기/${cvo.allProdvo.pimage1}" class="product_img">
 							<div id="productDesc">
 								<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
 								<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
 							</div>
-							<div class="cntbox">
-								<select style="height: 30px;" name="month" id="month" title="월" class="custom-select" ></select>
+							<div class="number-input" style="margin-left: 105px; margin-top: 0;">
+							  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+							  <input  class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
+							  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
 							</div>
-							<button onClick="go_purchase('${cvo.fk_pnum}','${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
-							<button type="button" class="btnWish btn btn-light">삭제</button>
-						</div>
+								<button onClick="go_purchase('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-dark">결제하기</button>
+								<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
+								<%--<a href='/MYNVC/shop/prodView.up?pnum=${pnum }' class='stretched-link btn btn-outline-dark btn-sm' role='button'>자세히보기</a> --%>
+							</div>
+						</label>
 					</div>
 				</c:forEach>
 				
