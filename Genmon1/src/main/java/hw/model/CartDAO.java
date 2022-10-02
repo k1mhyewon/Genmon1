@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -191,14 +192,14 @@ public class CartDAO implements InterCartDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price\n"+
-						 "from tbl_basket_test B\n"+
-						 "JOIN tbl_all_product_test A\n"+
-						 "on B.fk_pnum = A.pnum\n"+
-						 "JOIN tbl_product_test P\n"+
-						 "on A.fk_pid = P.pid\n"+
-						 "where B.fk_userid = ?\n"+
-						 "order by updatedate desc";
+			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price ,qty\n"+
+					"						 from tbl_basket_test B \n"+
+					"						 JOIN tbl_all_product_test A \n"+
+					"						 on B.fk_pnum = A.pnum\n"+
+					"						 JOIN tbl_product_test P\n"+
+					"						 on A.fk_pid = P.pid\n"+
+					"						 where B.fk_userid = ? \n"+
+					"						 order by updatedate desc";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fk_userid);
@@ -212,8 +213,8 @@ public class CartDAO implements InterCartDAO {
 				ParentProductVO pvo = new ParentProductVO();
 				
 				cart.setFk_userid(rs.getString(1));
-				
-				apvo.setPnum(rs.getInt(2));
+				cart.setFk_pnum(rs.getInt(2));
+
 				apvo.setFk_pid(rs.getString(3));
 				apvo.setPimage1(rs.getString(4));
 				
@@ -222,6 +223,8 @@ public class CartDAO implements InterCartDAO {
 
 				apvo.setParentProvo(pvo);
 				cart.setAllProdvo(apvo);
+				
+				cart.setQty(rs.getInt(7));
 				
 				cartList.add(cart);
 			}
@@ -233,6 +236,34 @@ public class CartDAO implements InterCartDAO {
 		
 		return cartList;
 	} // end of public int memberCartSelect(String fk_userid) {} ------------------------------------------------
+
+
+	
+	// 로그인 된 회원의 장바구니에서 상품 1나 삭제하기
+	@Override
+	public int cartDeleteOne(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "delete from tbl_basket_test \n"+
+						"where FK_USERID = ? and  FK_PNUM = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, paraMap.get("loginUserid"));
+			 pstmt.setString(2, paraMap.get("pnum"));
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of  로그인 된 회원의 장바구니에서 상품 1나 삭제하기
 	
 	
 

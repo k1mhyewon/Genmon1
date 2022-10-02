@@ -13,6 +13,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import common.model.ChildProductVO;
+import common.model.ParentProductVO;
+
 
 
 public class WishlistDAO implements InterWishlistDAO {
@@ -70,7 +73,7 @@ public class WishlistDAO implements InterWishlistDAO {
 		try {
 			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
 			
-			String sql = " select W.fk_userid as fk_userid, W.fk_pnum as fk_pnum, A.pimage1 as pimage1, P.pname as pname, P.price as price "+
+			String sql = " select W.fk_userid, W.fk_pnum, A.pimage1, P.pname, P.price, A.pcolor "+
 						 " from tbl_wishlist_test W "+
 						 " JOIN tbl_all_product_test A "+
 						 " on W.fk_pnum = A.pnum "+
@@ -87,12 +90,19 @@ public class WishlistDAO implements InterWishlistDAO {
 			while( rs.next() ) {
 				
 				WishlistVO wishvo = new WishlistVO();
+				ChildProductVO cpvo = new ChildProductVO();
+				ParentProductVO ppvo = new ParentProductVO();
 				
 				wishvo.setFk_userid(rs.getString(1));
 				wishvo.setFk_pnum(rs.getString(2));
-				wishvo.setPimage1(rs.getString(3));
-				wishvo.setPname(rs.getString(4));
-				wishvo.setPrice(rs.getString(5));
+				
+				cpvo.setPimage1(rs.getString(3));
+				
+				ppvo.setPname(rs.getString(4)+"("+rs.getString(6).substring(0, 2).toUpperCase()+")");
+				ppvo.setPrice(rs.getInt(5));
+				
+				cpvo.setParentProvo(ppvo);
+				wishvo.setCpvo(cpvo);
 				
 				wishList.add(wishvo);
 			}
@@ -137,5 +147,70 @@ public class WishlistDAO implements InterWishlistDAO {
 		
 		return result;
 	} // end of public int deleteWishlist(Map<String, String> paraMap) throws SQLException {} -----------------------
+
+	
+	
+	
+	// 위시리스트에서 장바구니로 insert -------------------------------------------------------------------------------------
+	@Override
+	public int wishToCartInsert(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_basket_test(fk_userid, fk_pnum, qty) \n"+
+						 "values (?,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pnum"));
+			pstmt.setString(3, "1" );
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return result;
+	} // end of public int wishToCart(Map<String, String> paraMap) throws SQLException {} ----------------------------
+
+	
+	
+	
+	
+	
+	// 위시리스트에서 장바구니로 update (이미 장바구니에 해당 상품이 존재하는 경우) ----------------------------------------------------
+	@Override
+	public int wishToCartUpdate(Map<String, String> paraMap) {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "UPDATE tbl_basket_test SET qty = ? WHERE fk_userid = ? and fk_pnum = ?";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, paraMap.get("qty"));
+			 pstmt.setString(2, paraMap.get("userid")); 
+			 pstmt.setString(3, paraMap.get("pnum"));
+			  
+			 result = pstmt.executeUpdate();
+			 
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return result;
+		
+	} // end of public int wishToCartUpdate(Map<String, String> paraMap) {} ------------------------------------------
 
 }
