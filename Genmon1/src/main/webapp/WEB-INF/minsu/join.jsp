@@ -96,6 +96,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
+
 b_flag_idDuplicate_click = false;
 // 아이디중복확인을 클릭했는지 알아오는 용도
    
@@ -106,6 +107,7 @@ b_flag_idDuplicate_click = false;
 	   $("div.first_error").hide();
 	   $("div#pwderrormsg").hide();
 	   $("div.btn_Nocheck").hide();
+	   $("div#diffrent").hide();
 	   
 	   
 	   // === 아이디 === //
@@ -117,81 +119,17 @@ b_flag_idDuplicate_click = false;
         if($target.val() == "") {
         	// 아이디 입력칸이 공백인 경우
         	 $target.parent().find("div.first_error").show();
-        	
+        	 $target.parent().find("div.error").show();
         }
         else {
         	// 아이디를 입력한경우
-   			  $target.parent().find("div.error").hide();
-   			  $("div.first_error").hide();
+   			 $target.parent().find("div.error").hide();
+   			 $target.parent().find("div.first_error").hide();
    		   }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
    		
-   			   
-		// === 아이디 중복확인 === //
-   		$("button#btn_idcheck").click(function(){
+
    			
-   			b_flag_idDuplicate_click = true;
-   			
-   		    $.ajax({ // { }모양은 객체의미
-            	url:"<%= ctxPath%>/join/idDuplicateCheck.sun", // url: 은 항상 정해져있다. 키:"값" ==> 알고자하는 입력한 아이디가 ""경로로 보내서 아이디가 중복됐는지 알아봐주겠다
-            	data:{"userid":$("input#userid").val()}, 
-			            	
-            	type:"post",  // object타입
-          //	dataType:"json", 
-          //  	async:true,		 // async:true 가 비동기 방식을 말한다. async을 생략하면 비동기방식인 기본값 async:true이다.		
-            					 //  --> 일을 idDuplicateCheck.up에 넘겨주고 다른 일을 하다가 기존일이 다끝나면 돌아와서 하던거 마저함.
-            					 // async:false 가 동기 방식이다.(지도를 사용할때는 반드시 동기방식인 async:false을 사용해야만 올바르게 사용가능하다.)
-            					 // --> 일처리가 끝날때까지 하염없이 기다림
-            					 
-            	success:function(text) { 
-					//dataType:"json" 을 생략하면 
-					// text는 자바스크립트가 아닌 문자열이다. text은 "{"isExists":false}" 또는 "{"isExists":true}" 되어지는 String타입이다.
-					
-					//dataType:"json" 을 생략하지 않고 넣어주면
-					// text는 자바스크립트가 아닌 문자열이다. text은 {"{"isExists":false}"} 또는 {"{"isExists":true}"} 되어지는 Object타입이다.
-					
-					
-					const json = JSON.parse(text);
-					// JSON.parse(text); 은 JSON.parse({"isExists":false}); 또는 JSON.parse({"isExists":true} ); 와 같은 것인데
-					// 그 결과물은 {"isExists":false}" 또는 {"isExists":true}와 같은 문자열을 자바스크립트 객체로 바꿔준것이다. 
-					// 조심할 것은 text는 반드시 JSON형식으로 된 문자열이어야 한다.
-					
-            		if(json.isExists) { // (점).isExists표기법이다.(대괄호)[isExists]표기법도 있다)
-            			// 입력한 userid가 이미 사용중이라면
-            			$("div#idcheckResult").html($("input#userid").val() + "은 중복된 ID이므로 사용불가합니다. ").css("color","red");
-            			$("input#userid").val(""); // 입력한 값 지우기
-              
-            		}
-            		else {
-            			
-            		  const userid = $("input#userid").val().trim();
-          			
-				        if( userid != "") {
-				        	// 아이디 입력칸이 공백인 경우
-				        	$("div#idcheckResult").val("");
-				        	 $("div.first_error").hide();
-				        	
-				        } $("div#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","gray");
-				      
-            		}
-            	},
-            	
-            	// 잘못되면 alert를 띄워라
-            	error: function(request, status, error){
-                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-                 }
-            	
-            });
-        }); // end of $("img#idcheck").click(function() ---------------------------
-        		
-		//  아이디값이 변경되면 가입하기 버튼을 클릭시 "아이디중복확인" 을 클릭했는지 클릭안했는지를 알아보기위한 용도 초기화 시키기 
-		$("input#userid").bind("change",()=> { // chage는 초기화 시킴.
-			let b_flag_idDuplicate_click = false;
-			// "아이디중복확인" 을 클릭했는지 클릭을 안했는지 여부를 알아오기 위한 용도.
-		});
-   			
-   			
-   		}); // end of $("buttom#btn_idcheck").click(function()-------------------------------------------- --%>
 	   
    	   // === 이메일주소 === //
    	   $("input#email").blur((e) => {
@@ -252,65 +190,62 @@ b_flag_idDuplicate_click = false;
    			   
    			   
    	  // === 비밀번호 === //
-   	   $("input#pwd").blur((e) => {
-   	
-   		const $target = $(e.target);
-		const regExp = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;  //  비밀번호 정규표현식
-            
-        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
-        
-        if($target.val() == "") {
-        	// 비밀번호 입력칸이 공백인 경우
-        	 $target.parent().find("div.first_error").show();
-        }
-        else {
-        	// 비밀번호 입력칸에 글자가 들어온경우
-        	 $target.parent().find("div.first_error").hide();
-        	
-        	if(!bool) {
-   				// 비밀번호가 정규표현식에 위배된 경우  
-   			    $("ul#pwderrormsg").show();
-   				$target.focus();
-   			}
-   			else {
-   				// 비밀번호가 정규표현식에 맞는 경우 
-   			    $target.parent().find("div.error").hide();
-   			}
-          }
-   	   }); // end of  $("input#name").bulr((e) => {} --------------------------------
-   			   
+   	$("input#pwd").blur( (e)=>{
+		
+		const $target = $(e.target);
+	
+		const regExp = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g);
+		const bool = regExp.test( $target.val() );
+		
+		 if($target.val() == "") {
+	        	// 이메일 입력칸이 공백인 경우
+	        	 $target.parent().find("div.first_error").show();
+	        	 $("div#pwderrormsg").show();
+	    }
+		 else {
+			 
+				if(!bool) {
+					// 암호가 정규표현식에 위배된 경우
+					$target.parent().find("div.first_error").show();
+					$("div#pwderrormsg").show();
+				}
+				else {
+					// 비밀번호 입력칸에 글자가 들어온경우
+			       	$target.parent().find("div.first_error").hide();
+			       	 $("div.error").hide();
+				}
+		 }
+	
+	}); // end of $("input#pwd").blur() ----------------- // 아이디가 pwd 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
    			   
  
    	  // === 비밀번호 확인 === //
    	   $("input#pwdcheck").blur((e) => {
    	
    		const $target = $(e.target);
-        const pwe = $("input#pwd").val();
+        const pwd = $("input#pwd").val();
         const pwdcheck = $("input#pwdcheck").val();
         
         if($target.val() == "") {
         	// 이메일 입력칸이 공백인 경우
         	 $target.parent().find("div.first_error").show();
-        	 $target.parent().find("ul#pwderrormsg").show();
-        }
-        else {
-        	// 입력칸에 글이 들어온경우
-        	 $target.parent().find("div.first_error").hide();
-        	
-        	if(pwd != pwdcheck) {
-   				// 비밀번호와 비밀번호확인이 일치하지 않는 경우  
-   			    $("ul#pwderrormsg").show();
-   				$target.focus();
-   			}
-   			else {
-   				// 비밀번호와 비밀번호확인이 일치하는 경우  
-   			    $target.parent().find("div.error").hide();
-   			}
-          }
+        	 $("div#pwderrormsg").show();
+	    }
+		 else {
+			 $target.parent().find("div.first_error").hide();
+        	 $("div#pwderrormsg").hide();
+			 
+	       	if(pwd != pwdcheck) {
+	    		// 암호와 암호확인값이 다른 경우
+	    		$target.parent().find("div.error").show();
+	    		$("div#pwderrormsg").show();
+	    		$("div#diffrent").show();
+	    	}
+	       	
+		 }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
    			   
-   	
-   			   
+  
    			   
    	   // === 성명 === //
    	   $("input#name").blur((e) => {
@@ -393,13 +328,11 @@ b_flag_idDuplicate_click = false;
 	   	   $("select#year").each((e) => {
 	   	
 	   		const $target = $(e.target);
-	        const name = $("select#year").val().trim();
 	        
 	        if($target.ischecked) {
 	        	// 성명을 입력한경우
 	   			  $target.parent().find("div.error").hide();
 	        
-	        	
 	        }
 	        else {
 	        	// 성명 입력칸이 공백인 경우
@@ -407,6 +340,73 @@ b_flag_idDuplicate_click = false;
 	        	 $target.focus();
 	   		   }
 	   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	  
+	   			   
+	   			   
+			   
+			// === 아이디 중복확인 === //
+	   		$("button#btn_idcheck").click(function(){
+	   			
+	   			b_flag_idDuplicate_click = true;
+	   			
+	   		    $.ajax({ // { }모양은 객체의미
+	            	url:"<%= ctxPath%>/join/idDuplicateCheck.sun", // url: 은 항상 정해져있다. 키:"값" ==> 알고자하는 입력한 아이디가 ""경로로 보내서 아이디가 중복됐는지 알아봐주겠다
+	            	data:{"userid":$("input#userid").val()}, 
+				            	
+	            	type:"post",  // object타입
+	          //	dataType:"json", 
+	          //  	async:true,		 // async:true 가 비동기 방식을 말한다. async을 생략하면 비동기방식인 기본값 async:true이다.		
+	            					 //  --> 일을 idDuplicateCheck.up에 넘겨주고 다른 일을 하다가 기존일이 다끝나면 돌아와서 하던거 마저함.
+	            					 // async:false 가 동기 방식이다.(지도를 사용할때는 반드시 동기방식인 async:false을 사용해야만 올바르게 사용가능하다.)
+	            					 // --> 일처리가 끝날때까지 하염없이 기다림
+	            					 
+	            	success:function(text) { 
+						//dataType:"json" 을 생략하면 
+						// text는 자바스크립트가 아닌 문자열이다. text은 "{"isExists":false}" 또는 "{"isExists":true}" 되어지는 String타입이다.
+						
+						//dataType:"json" 을 생략하지 않고 넣어주면
+						// text는 자바스크립트가 아닌 문자열이다. text은 {"{"isExists":false}"} 또는 {"{"isExists":true}"} 되어지는 Object타입이다.
+						
+						
+						const json = JSON.parse(text);
+						// JSON.parse(text); 은 JSON.parse({"isExists":false}); 또는 JSON.parse({"isExists":true} ); 와 같은 것인데
+						// 그 결과물은 {"isExists":false}" 또는 {"isExists":true}와 같은 문자열을 자바스크립트 객체로 바꿔준것이다. 
+						// 조심할 것은 text는 반드시 JSON형식으로 된 문자열이어야 한다.
+						
+	            		if(json.isExists) { // (점).isExists표기법이다.(대괄호)[isExists]표기법도 있다)
+	            			// 입력한 userid가 이미 사용중이라면
+	            			$("div#idcheckResult").html($("input#userid").val() + "은 중복된 ID이므로 사용불가합니다. ").css("color","red");
+	            			$("input#userid").val(""); // 입력한 값 지우기
+	              
+	            		}
+	            		else {
+	            			
+	            		  const userid = $("input#userid").val().trim();
+	          			
+	            		  if( userid != "") {
+					        	// 아이디 입력칸이 공백인 경우
+					        	$("div#idcheckResult").val("");
+					        	 $("div.first_error").hide();
+					        } 
+	            		  $("div#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","gray");
+	            		}
+	            	}, // end of success
+	            	
+	            	// 잘못되면 alert를 띄워라
+	            	error: function(request, status, error){
+	                    alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	                 }
+	            	
+	            });
+	        }); //  end of $("button#btn_idcheck").click(function()----------------------------
+	        		
+			//  아이디값이 변경되면 가입하기 버튼을 클릭시 "아이디중복확인" 을 클릭했는지 클릭안했는지를 알아보기위한 용도 초기화 시키기 
+			$("input#userid").bind("change",()=> { // chage는 초기화 시킴.
+				let b_flag_idDuplicate_click = false;
+				// "아이디중복확인" 을 클릭했는지 클릭을 안했는지 여부를 알아오기 위한 용도.
+			});
+	        
+	        
+   }); // end of document ready----------------------------
 	   			
 	 
 	
@@ -419,33 +419,27 @@ b_flag_idDuplicate_click = false;
 	    var dt = new Date();
 	    var year = "";
 	    var com_year = dt.getFullYear();
-
 	    // 발행 뿌려주기
 	    $("#year").append("<option value=''>년도</option>");
-
 	    // 올해 기준으로 -50년부터 +1년을 보여준다.
 	    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
 	      $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
 	    };
-
 	    // 월 뿌려주기(1월부터 12월)
 	    var month;
 	    $("#month").append("<option value=''>월</option>");
 	    for (var i = 1; i <= 12; i++) {
 	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
 	    };
-
 	    // 일 뿌려주기(1일부터 31일)
 	    var day;
 	    $("#day").append("<option value=''>일</option>");
 	    for (var i = 1; i <= 31; i++) {
 	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
 	    };
-
 	  }
 	// === 생년월일 끝 === 
 	
-
    // >>> 회원가입하기 버튼 = 계정생성<<<
    
    function gojoin() {
@@ -490,6 +484,7 @@ b_flag_idDuplicate_click = false;
 	   
    }
   
+   
    
    
     </script>
@@ -559,6 +554,7 @@ b_flag_idDuplicate_click = false;
 				      	<li>최소 1개의 특수문자 사용</li>
 			      </ul>
 		      </div>
+		      <div id="diffrent">비밀번호가 일치하지 않습니다.</div>
 	      </section>
 	      
 	      

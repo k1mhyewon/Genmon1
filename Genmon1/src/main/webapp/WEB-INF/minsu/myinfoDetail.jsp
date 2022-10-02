@@ -138,7 +138,7 @@
 		       		<span id="btn_myinfoupdate" type="button" class="btn" style="text-decoration: underline; margin-left: 80%; font-size: 12px;" >수정</span>
 					<div style="padding: 5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
-							<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
+							<li id="gender" name="gender">성별&nbsp;&nbsp;: ${requestScope.loginuser.userid}</li>
 							<li id="name" name="name">이름&nbsp;&nbsp;: </li>
 							<li id="birth" name="birth">생년월일&nbsp;&nbsp;: </li>
 							<li id="email" name="email">이메일&nbsp;&nbsp;: </li>
