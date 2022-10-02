@@ -49,6 +49,7 @@ public class Join extends AbstractController {
 			InterPersonDAO pdao = new PersonDAO();
 
 			try {
+				
 				int n = pdao.registerMember(member); // 멤버를 넣는다. 리턴타입은 int가 나온다
 	
 				if (n == 1) {

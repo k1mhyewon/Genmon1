@@ -112,7 +112,7 @@ b_flag_idDuplicate_click = false;
    	   $("input#userid").blur((e) => {
    	
    		const $target = $(e.target);
-        const userid = $("input#userid").val().trim;
+        const userid = $("input#userid").val().trim();
         
         if($target.val() == "") {
         	// 아이디 입력칸이 공백인 경우
@@ -122,6 +122,7 @@ b_flag_idDuplicate_click = false;
         else {
         	// 아이디를 입력한경우
    			  $target.parent().find("div.error").hide();
+   			  $("div.first_error").hide();
    		   }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
    		
@@ -157,21 +158,21 @@ b_flag_idDuplicate_click = false;
 					
             		if(json.isExists) { // (점).isExists표기법이다.(대괄호)[isExists]표기법도 있다)
             			// 입력한 userid가 이미 사용중이라면
-            			$("span#idcheckResult").html($("input#userid").val() + "은 중복된 ID이므로 사용불가합니다. ").css("color","red");
+            			$("div#idcheckResult").html($("input#userid").val() + "은 중복된 ID이므로 사용불가합니다. ").css("color","red");
             			$("input#userid").val(""); // 입력한 값 지우기
               
             		}
             		else {
-            			// 입력한 userid가 존재하지 않는 경우라면
-					        const userid = $("input#userid").val().trim;
             			
-					        if( userid != "") {
-					        	// 아이디 입력칸이 공백인 경우
-					        	$("span#idcheckResult").val("");
-					        	 $("span#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","black");
-					        }
-					      
-            			
+            		  const userid = $("input#userid").val().trim();
+          			
+				        if( userid != "") {
+				        	// 아이디 입력칸이 공백인 경우
+				        	$("div#idcheckResult").val("");
+				        	 $("div.first_error").hide();
+				        	
+				        } $("div#idcheckResult").html($("input#userid").val() + "은 사용가능합니다.").css("color","gray");
+				      
             		}
             	},
             	
@@ -315,7 +316,7 @@ b_flag_idDuplicate_click = false;
    	   $("input#name").blur((e) => {
    	
    		const $target = $(e.target);
-        const name = $("input#name").val().trim;
+        const name = $("input#name").val().trim();
         
         if($target.check) {
         	// 성명 입력칸이 공백인 경우
@@ -392,7 +393,7 @@ b_flag_idDuplicate_click = false;
 	   	   $("select#year").each((e) => {
 	   	
 	   		const $target = $(e.target);
-	        const name = $("select#year").val().trim;
+	        const name = $("select#year").val().trim();
 	        
 	        if($target.ischecked) {
 	        	// 성명을 입력한경우
@@ -482,12 +483,10 @@ b_flag_idDuplicate_click = false;
 	    	return; // 종료
 	    } 
 	   
-	   
 	   const frm = document.joinFrm;
 	    frm.action = "join.sun"; // URL view단을 관리하는 클래스는 join클래스
 	    frm.method = "post";
 	    frm.submit();
-	   
 	   
    }
   
@@ -507,7 +506,7 @@ b_flag_idDuplicate_click = false;
 						<label for="userid">아이디</label>
 						<input type="text" name="userid" id="userid" class="t_input requiredInfo" style="width:325px;" required autofocus/> 
 						<button type="button" name ="btn_idcheck" id="btn_idcheck" style="display: inline-block;">아이디확인</button>
-						<span id="idcheckResult"></span>
+						<div id="idcheckResult"></div>
 						<div class="first_error">필수 입력란입니다.</div>
 						<div class="error">아이디를 입력해 주십시오.</div>
 					</li>
