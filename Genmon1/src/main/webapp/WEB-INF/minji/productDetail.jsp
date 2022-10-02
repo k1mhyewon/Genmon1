@@ -147,7 +147,9 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 				sessionStorage.setItem("Key"+pnum,pnum);
 				sessionStorage.setItem('Qty'+pnum,qty);
 			}
-		
+			
+			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
 		
 		} else { // 로그인 한 경우
 			$.ajax({
@@ -184,6 +186,9 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 				sessionStorage.setItem("Key"+pnum,pnum);
 				sessionStorage.setItem('Qty'+pnum,qty);
 			}
+		
+			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
 		
 			location.href="<%= ctxPath%>/order/cart.sun";
 			

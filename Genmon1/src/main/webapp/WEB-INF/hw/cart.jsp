@@ -223,7 +223,7 @@
 				    	}); // end of each
 				    	html+= "</div>";
 				    	
-				    	$("div#show").append(html);
+				    	$("div#show").html(html);
 				    },
 				    error: function(request, status, error){
 						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -416,8 +416,7 @@
 	    </div>
 		<div class="album">
 			<div class="box">
-				<div class="wish_container row row-cols-sm-1 row-cols-md-4">
-					<div id="show" ></div>
+				<div class="wish_container row row-cols-sm-1 row-cols-md-4" id="show">
 					<c:forEach var="cvo" items="${requestScope.cartList}">
 						<div class="col">
 						<label>
