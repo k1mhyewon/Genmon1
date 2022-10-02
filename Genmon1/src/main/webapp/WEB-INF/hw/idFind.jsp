@@ -5,11 +5,13 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
+
 
 
 <style type="text/css">
 
-
+	* {font-family: 'Pretendard', sans-serif; !important}
 	
 	li { list-style : none; }
     
@@ -38,11 +40,6 @@
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-
-<!-- 폰트 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 
 
 <!-- Optional JavaScript -->

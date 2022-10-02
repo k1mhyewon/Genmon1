@@ -19,7 +19,7 @@
     
     div#login_container > ul > li > label, p{
     	display: block;
-    	font-size: 9pt;
+    	font-size: 10pt;
     	
     }
     
@@ -37,7 +37,7 @@
     }
     
     .titles {
-     font-size: 10pt;
+     font-size: 11pt;
      text-decoration: underline;
      font-weight: bold;
     } 
@@ -59,7 +59,7 @@
     }
     
     .fontSize_small {
-    	font-size: 9pt;
+    	font-size: 10pt;
     }
     
     .find_result_content {
@@ -88,7 +88,7 @@
     .save_box {
     	/* border: solid 1px pink; */
     	width: 80%;
-    	font-size: 9pt;
+    	font-size: 10pt;
     	padding-left: 40px;
     }
     
@@ -228,7 +228,7 @@
         		<input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
         	</div>
         	<c:if test="${ not empty requestScope.isLogined && isLogined == 'false' }">
-	           	<div id="loginFailed" style="font-size: 9pt; color: red; margin: 10px 0 0 80px;">
+	           	<div id="loginFailed" style="font-size: 10pt; color: red; margin: 10px 0 0 80px;">
 	           		잘못된 아이디 또는 비밀번호를 입력하셨습니다. 다시 입력해주세요.
 	           	</div>
            	</c:if>
