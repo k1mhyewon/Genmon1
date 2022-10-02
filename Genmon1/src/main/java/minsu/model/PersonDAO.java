@@ -65,12 +65,13 @@ public class PersonDAO implements InterPersonDAO {
 		public int registerMember(MemberVO member) throws SQLException {
 			
 			int result = 0;
+			System.out.println("확인용 pwd3=> " + member.getPwd());
 			
 			try {
 				conn = ds.getConnection();
 				
-				String sql = " insert into tbl_member_test(userid, pwd, name, email, mobile, gender, birthday, nation) "+
-						 " values(?, ?, ?, ?, ?, ?, ?, ?) ";
+				String sql = " insert into tbl_member_test(userid, pwd, name, email, mobile, gender, birthday) "+
+						 " values(?, ?, ?, ?, ?, ?, ?) ";
 			
 				pstmt = conn.prepareStatement(sql);
 				

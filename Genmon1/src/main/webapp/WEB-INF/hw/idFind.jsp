@@ -5,11 +5,13 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
+
 
 
 <style type="text/css">
 
-
+	* {font-family: 'Pretendard', sans-serif; !important}
 	
 	li { list-style : none; }
     
@@ -29,6 +31,12 @@
     	/* border: solid 1px red; */
     	text-decoration: none;
     }
+    
+    #error_msg {
+    	font-size: 10pt;
+    	color: red;
+    	margin: 10px 0 0 60px;
+    }
 
 </style>
 
@@ -39,11 +47,6 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
-<!-- 폰트 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-
 
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
@@ -53,15 +56,81 @@
 
 	$(document).ready(function(){ // ==================================================
 		
+		$("#error_msg").hide();
 		
+		let name_bool = false; 
+		let email_bool = false; 
+		
+		// === 이름 유효성 검사 === //
+		$("input#name").blur((e) => {
+	   	
+	   		const $target = $(e.target);
+	            
+	        
+	        if($target.val() == "") { // 이름 입력칸이 공백인 경우
+	        	$("#error_msg").show();
+	        	$target.focus();
+	        	name_bool = false;
+	        }
+	        else if($target.val().length == 1){ // 입력칸에 한글자만 들어온 경우
+	        	$("#error_msg").show();
+	        	$target.focus();
+	        	name_bool = false;
+	        }
+	        else { // 입력칸에 두글자 이상의 글자가 들어온경우
+	        	 $("#error_msg").hide();
+	        	 name_bool = true; 
+	          }
+	   	   }); // end of  $("input#name").blur((e) => {} --------------------------------
+	
+		// === 이메일주소 유효성 검사 === //
+		$("input#email").blur((e) => {
+	   	
+	   		const $target = $(e.target);
+			const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
+	            
+	        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
+	        
+	        if($target.val() == "") {
+	        	// 이메일 입력칸이 공백인 경우
+	        	$("#error_msg").show();
+	        	email_bool = false;
+	        }
+	        else {
+	        	// 입력칸에 글이 들어온경우
+	        	$("#error_msg").hide();
+	        	
+	        	if(!bool) {
+	   				// 이메일이 정규표현식에 위배된 경우  
+	   			    $("#error_msg").show();
+	   			 	email_bool = false;
+	   				$target.focus();
+	   			}
+	   			else {
+	   				// 이메일이 정규표현식에 맞는 경우 
+	   				$("#error_msg").hide();
+	   				email_bool = true; 
+	   			}
+	          }
+	   	   }); // end of  $("input#name").blur((e) => {} --------------------------------
+	   			   
+	   	
 		$("button#btn_find").click(function(){
 			
-			// 성명 및 e메일에 대한 유효성 검사(정규표현식)는 생략하겠습니다.
-			const frm = document.useridFindFrm;
-			frm.action = "<%= ctxPath%>/idFind.sun";
-			frm.method = "post";
-			frm.submit();
+			if(name_bool == true && email_bool == true ){
+				const frm = document.useridFindFrm;
+				frm.action = "<%= ctxPath%>/idFind.sun";
+				frm.method = "post";
+				frm.submit();
+			}
+			else {
+				$("#error_msg").show();
+				return;
+			}
+			
 		}); // end of $("button#btnFind").click() ------------------
+		
+		
 		
 		const method = "${requestScope.method}";
 		
@@ -74,6 +143,16 @@
 	    	$("input#name").val("${requestScope.name}"); // 문자열 "" 로 넣어줘야 함
 	    	$("input#email").val("${requestScope.email}");
 	    }
+		
+		
+		$("input#email").change((e) => {
+	   		$(".find_msg").hide();
+	   	});
+	   	   
+	   	$("input#name").change((e) => {
+	   		$(".find_msg").hide();
+	   	});
+		
 		
 	}); // end of $(document).ready() ==================================================
 		
@@ -100,19 +179,20 @@
 		<li style="margin: 25px 0">
 			<label for="email" style="display: inline-block; width: 90px">이메일</label>
 			<input type="text" name="email" id="email" size="25" placeholder="gentle@gentlemonster.com" autocomplete="off" required />
+			<div id="error_msg">이름 또는 이메일을 올바르게 입력해주세요.</div>
 		</li>
 	</ul>
-	<div style="text-align: center; margin-top: 50px;">
+	<div style="text-align: center; margin-top: 20px;">
 		<button type="button" class="btn btn-dark fontSize_small" id="btn_find" style="margin-right: 20px;">찾기</button>
 	</div>
 	<div id="idFind_result" style="text-align: center; margin: 30px 20px 0 0;">
 		<c:if test="${ not empty requestScope.userid }">
-			<span class="fontSize_small find_result_content">회원님의 아이디는
-				<span style="color: gray; font-weight: bold; font-size: 16pt; ">${requestScope.userid}</span>&nbsp;입니다.
+			<span class="fontSize_small find_result_content find_msg">회원님의 아이디는
+				<span style="color: #ff8080; font-weight: bold; font-size: 15pt; ">${requestScope.userid}</span>&nbsp;입니다.
 			</span>
 		</c:if>
 		<c:if test="${ empty requestScope.userid }">
-			<span style="color: red; font-size: 10pt; ">존재하지 않는 회원정보 입니다. <br>다시 입력해주세요.</span>
+			<span class="find_msg" style="color: red; font-size: 10pt; ">존재하지 않는 회원정보 입니다. <br>다시 입력해주세요.</span>
 		</c:if>
 	</div>
 </form>

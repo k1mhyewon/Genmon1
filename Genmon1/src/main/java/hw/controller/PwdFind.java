@@ -17,11 +17,14 @@ public class PwdFind extends AbstractController {
 		
 		String method = request.getMethod();
 		
+		boolean isUserExists = false;
+		
+		String userid = request.getParameter("userid");
+		String email = request.getParameter("email");
+		
 		if("POST".equalsIgnoreCase(method)) { 
 			// 비밀번호 찾기 모달창에서 찾기 버튼을 클릭한 경우
 			// System.out.println("컨트롤러로 넘어옴");
-			String userid = request.getParameter("userid");
-			String email = request.getParameter("email");
 			
 			InterMemberDAO mdao = new MemberDAO();
 			
@@ -29,7 +32,8 @@ public class PwdFind extends AbstractController {
 			paraMap.put("userid", userid);
 			paraMap.put("email", email);
 			
-			boolean isUserExists = mdao.isUserExists(paraMap);
+			isUserExists = mdao.isUserExists(paraMap);
+			// System.out.println("isUserExists : "+isUserExists);
 			
 			boolean sendMailSuccess = false; // 메일이 정상적으로 전송되었는지 알아오기 위한 용도
 			
@@ -72,7 +76,7 @@ public class PwdFind extends AbstractController {
 				// 비밀번호 변경 페이지 링크
 				pwdChangeLink += "?userid="+userid+"&certificationCode="+certificationCode;
 				
-				System.out.println("pwdChangeLink: " + pwdChangeLink);
+				// System.out.println("pwdChangeLink: " + pwdChangeLink);
 
 				// 랜덤하게 생성한 인증코드(certificationCode) 를 비밀번호 찾기를 하고자 하는 사용자의 email 로 전송한다. khwclass@gmail.com qWer1234$
 				GoogleMail mail = new GoogleMail();
@@ -90,22 +94,23 @@ public class PwdFind extends AbstractController {
 					e.printStackTrace();
 					sendMailSuccess = false; // 메일 전송 실패 기록 / 디폴트가 false 이기 때문에 굳이 안해도 됨. 
 				}
+				
 			
 			} // end of if(isUserExists) ----------------------------
-		
+			
 
 			request.setAttribute("isUserExists", isUserExists);
 			request.setAttribute("userid", userid);
 			request.setAttribute("email", email);
 			request.setAttribute("sendMailSuccess", sendMailSuccess);
 			
-		
+			request.setAttribute("method", method);
+			
 		} // end of if("POST".equalsIgnoreCase(method)) -----------------------
-		
-		request.setAttribute("method", method);
-		
+
 		super.setRedirect(false);
 		super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
+	
 		
 	}
 

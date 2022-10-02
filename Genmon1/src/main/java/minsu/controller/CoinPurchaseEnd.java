@@ -1,10 +1,11 @@
 package minsu.controller;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import common.model.*;
+import common.model.MemberVO;
 
 public class CoinPurchaseEnd extends AbstractController {
 
@@ -37,7 +38,7 @@ public class CoinPurchaseEnd extends AbstractController {
 				
 				// 정보를 담아서 view단 페이지로 넘긴다.
 		  //   super.setRedirect(false);
-               super.setViewPage("/WEB-INF/member/paymentGateway.jsp"); //결제창으로 이동
+               super.setViewPage("/WEB-INF/minsu/paymentGateway.jsp"); //결제창으로 이동
 			
 			}
 			else {

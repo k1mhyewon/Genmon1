@@ -22,6 +22,7 @@ public class Join extends AbstractController {
 			super.setViewPage("/WEB-INF/minsu/join.jsp");
 
 		} else {
+
 			// "Post"방식(회원가입버튼을 클릭한 경우)
 			String name = request.getParameter("name");
 			String userid = request.getParameter("userid");
@@ -43,15 +44,17 @@ public class Join extends AbstractController {
 
 			// 폼태그에서 전송되져 나온것을 MemberVO에서 담아온것이다
 			
+
 			MemberVO member = new MemberVO(userid, pwd, name, email, mobile, gender,birthday);
 			
-
+			 System.out.println("확인용 pwd4=> " + member.getPwd());
+			 
 			InterPersonDAO pdao = new PersonDAO();
 
 			try {
 				
 				int n = pdao.registerMember(member); // 멤버를 넣는다. 리턴타입은 int가 나온다
-	
+			
 				if (n == 1) {
 	
 					String message = "회원가입 성공";
