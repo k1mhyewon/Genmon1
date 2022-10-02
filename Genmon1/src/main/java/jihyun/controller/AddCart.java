@@ -53,6 +53,7 @@ public class AddCart extends AbstractController {
 			
 			String fk_userid = loginuser.getUserid();
 			
+			
 			int fk_pnum = Integer.parseInt( request.getParameter("pnum") );
 			// int fk_pnum = Integer.valueOf(request.getParameter("pnum")) ;
 			// System.out.println("확인용 pnum : " + pnum);
@@ -92,8 +93,6 @@ public class AddCart extends AbstractController {
 					}
 					
 				}
-				
-				
 				
 	        } catch(SQLException e) {
 	        	
