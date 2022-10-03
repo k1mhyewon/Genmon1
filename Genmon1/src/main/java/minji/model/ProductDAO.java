@@ -75,12 +75,12 @@ public class ProductDAO implements InterProductDAO {
 				ParentProductVO ppvo = new ParentProductVO();
 				ppvo.setPname(rs.getString("pname"));
 				ppvo.setPrice(rs.getInt("price"));
-				cvo.setParentProvo(ppvo);
+				cvo.setParentProvo(ppvo); // JOIN
 				
-				cvo.setPcolor(rs.getString("pcolor"));
+				cvo.setPcolor(rs.getString("pcolor")); 
 				cvo.setPimage1(rs.getString("pimage1"));
 				
-				productList.add(cvo);
+				productList.add(cvo); 
 			}
 			
 		} finally {
@@ -176,6 +176,39 @@ public class ProductDAO implements InterProductDAO {
 		return productList;
 		
 	}// end of 색깔이 다른 동일 제품들 조회해오기 
+
+	
+	// 상품 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
+	@Override
+	public List<ChildProductVO> simpleAllProduct() throws SQLException{
+		
+		List<ChildProductVO> simpleList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select pnum, fk_pid, pimage1\n"+
+						 "from tbl_all_product_test";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ChildProductVO simpleCvo = new ChildProductVO();
+				
+				simpleCvo.setPnum(rs.getInt("pnum"));
+				simpleCvo.setFk_pid(rs.getString("fk_pid"));
+				simpleCvo.setPimage1(rs.getString("pimage1"));
+				
+				simpleList.add(simpleCvo); 
+			}
+			
+		} finally {
+			close();
+		}
+
+		return simpleList;
+	}
 
 	
 	

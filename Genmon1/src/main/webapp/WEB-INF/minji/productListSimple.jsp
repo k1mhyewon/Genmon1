@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<% String ctxPath=request.getContextPath();%>        
+<% String ctxPath=request.getContextPath();%>     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+
 <jsp:include page="../common/header.jsp" />
 
 <style type="text/css">
@@ -47,30 +49,7 @@
 	          font-size: 3pt;
        }
        
-        .grid-container {
-			  display: grid;
-			  grid-column-gap: 50px;
-			  grid-row-gap: 50px;
-			  background-color: none;
-			  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	 		  grid-template-rows: 1fr 1fr 1fr;
-	 		  margin: 0 auto;
-	 		  box-sizing : border-box;
-	 	      padding: 2rem 2rem;
-		}
-		
-		.grid-item-text {
-			float: left;
-			position: relative;
-		}
-        
-		.grid-item-img * {
-			  width: 100%;
-			  bottom: 0%;
-			  display: block;
-			  margin: 0;
-		}
-
+       
         .button {
             cursor: pointer;
         }
@@ -355,70 +334,19 @@
 
 
 
-    <%-- 상품목록 --%>
-    <div class="grid-container">
-    	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="<%= ctxPath %>/product/productDetail.sun" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
-	  	</div>
-		
-		<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/디디온GRC1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/디디온VC1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/로지YC5.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/론디01(V).jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르IBG1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Ic1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Iv1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르P1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀IC1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀Y2.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/크렐라01.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/크렐라S3.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/탐부W1.jpg" ></a></div>
-	  	</div>	
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/프리다BRC1.jpg" ></a></div>
-	  	</div>	
-	  	
+    <%-- 상품 리스트 이미지 나열 --%>
+    <div class="row justify-content-center m-1">
+ 		<c:if  test="${not empty requestScope.proSimple }">
+ 			<c:forEach var="simplevo" items="${requestScope.proSimple}">
+ 					<div class="col-md-8 col-lg-2"  >
+	 					<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${simplevo.pnum}">
+	 						<img style="width: 200px;" src="<%= ctxPath %>/images/minji/전체보기/${simplevo.pimage1}">
+	 					</a>
+ 					</div>
+ 			</c:forEach>
+ 		</c:if>
 	</div>
-	
+		
 	
 	<%-- footer 하단bar 고정 --%>
 	
