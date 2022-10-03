@@ -106,11 +106,18 @@ public class PwdFind extends AbstractController {
 			
 			request.setAttribute("method", method);
 			
+			// System.out.println("sendMailSuccess => " + sendMailSuccess);
+			// System.out.println("isUserExists => "+isUserExists);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
+			
 		} // end of if("POST".equalsIgnoreCase(method)) -----------------------
 
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
-	
+		else {
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
+		}
 		
 	}
 

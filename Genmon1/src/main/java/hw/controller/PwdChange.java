@@ -15,6 +15,7 @@ public class PwdChange extends AbstractController {
 			String userid = request.getParameter("userid"); 
 			// System.out.println("===userid :" + userid);
 			
+			
 			request.setAttribute("userid", userid);
 			
 			String userCertificationCode = request.getParameter("certificationCode"); 

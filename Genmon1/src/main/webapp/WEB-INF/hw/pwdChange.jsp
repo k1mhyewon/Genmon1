@@ -61,6 +61,18 @@
     	margin-left: 40px;
     	margin-bottom: 20px;
     }
+    
+    #notSame_msg {
+    	color: red;
+    	
+    }
+    
+    #existPwd_msg {
+    	color: red;
+    	margin: 20px 0 0 55px;
+    	font-size: 11pt;
+    	font-weight: bold;
+    }
 
 </style>
 
@@ -69,8 +81,14 @@
 
 	$(document).ready(function(){ // --------------------------------------------------
 		
+		$("#notSame_msg").hide();
+		$("#existPwd_msg").hide();
 		
-		$("#pwd1").on("propertychange change keyon paste input", function(){
+		let chk_bool = false;
+		// #pwd1 값이 변할때마다 체크
+		$("#pwd1").on("propertychange change keyon paste input", function(){ 
+			
+			$("#notSame_msg").hide();
 			
 			const pwd1 = $(this).val();
 			$(".chk").css({"color":"red"});
@@ -80,45 +98,106 @@
 			const upper = /[A-Z]/g;
 			const spe = /[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi;
 			
+			let size_bool = false;
+			let num_bool = false;
+			let lower_bool = false;
+			let upper_bool = false;
+			let spe_bool = false;
+			
 			if(pwd1.length > 7 && pwd1.length < 16){
 				$("div#size").css({"color":"green"});
+				size_bool = true;
 			}
 			if( num.test(pwd1) ){
 				$("div#num").css({"color":"green"});
+				num_bool = true;
 			}
 			if( lower.test(pwd1) ){
 				$("div#lower").css({"color":"green"});
+				lower_bool = true;
 			}
 			if( upper.test(pwd1) ){
 				$("div#upper").css({"color":"green"});
+				upper_bool = true;
 			}
 			if( spe.test(pwd1) ){
 				$("div#special").css({"color":"green"});
+				spe_bool = true;
+			}
+			if(size_bool && num_bool && lower_bool && upper_bool && spe_bool){
+				chk_bool = true;
 			}
 			
 			
 		});
 	
+		let same_bool = false; // #pwd1 과 #pwd2 값이 같은지 확인
 		
 		
 		
-		$("button#btn_pwdUpdate").click(function(){ // ----------------
+		// #pwd2 값이 변할때마다 체크
+		$("#pwd2").on("propertychange change keyon paste input", function(){
 			
-
 			const pwd1 = $("input#pwd1").val();
 			const pwd2 = $("input#pwd2").val();
 			
 			if(pwd1 != pwd2){ // 암호와 암호확인 값이 서로 다른 경우
-				alert("암호가 일치하지 않습니다.");
-				$("input#pwd1").val("");  // 입력받은 칸을 비워버림
-				$("input#pwd2").val(""); // 입력받은 칸을 비워버림
+				same_bool = false;
+				$("#notSame_msg").show();
 				return; // 종료
 			}
 			else {
-				const frm = document.pwdChangeFrm;
-				frm.action = "<%= ctxPath%>/login/pwdChangeEnd.sun";
-				frm.method = "POST"; // post 방식이어야 함
-				frm.submit();
+				same_bool = true;
+				$("#notSame_msg").hide();
+			}
+		});
+		
+		
+		$("button#btn_pwdUpdate").click(function(){ // ----------------
+			
+			const pwd1 = $("input#pwd1").val();
+			const pwd2 = $("input#pwd2").val();
+			
+			const userid = "${requestScope.userid}";
+			if(same_bool && chk_bool) {
+				
+				$.ajax({
+					url : "<%= ctxPath%>/login/pwdExist.sun", 
+					data: { "userid":userid, "pwd":pwd1 },
+					type: "POST",  
+				    dataType:"TEXT",
+				    success:function(json) {
+				    	
+				    	const result = "${requestScope.result}";
+				    	
+				    	console.log("result => "+ result);
+				    	
+				    	if(!result){ // 이미 사용중인 비밀번호가 아니라면(변경해줌)
+				    	
+				    		const frm = document.pwdChangeFrm;
+							frm.action = "<%= ctxPath%>/login/pwdChangeEnd.sun";
+							frm.method = "POST"; // post 방식이어야 함
+							frm.submit();
+							
+				    	}
+				    	else{
+				    		$("#existPwd_msg").show();
+				    	}
+				    },
+				    error: function(request, status, error){
+						//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				});
+				
+				
+			}
+			else if(!same_bool) {
+				$("#notSame_msg").show();
+				$("input#pwd1").val("");  // 입력받은 칸을 비워버림
+				$("input#pwd2").val(""); // 입력받은 칸을 비워버림
+			}
+			else if(!chk_bool) {
+				
 			}
 			
 			
@@ -155,10 +234,11 @@
         		<label for="pwd2">비밀번호 확인</label>
         		<input type="password" name="pwd2" id="pwd2" required/>
         	</li></ul>
-        	<div class="error_msg" style="color: red;">비밀번호를 동일하게 입력해주세요.</div>
+        	<div class="error_msg" id="notSame_msg">비밀번호를 동일하게 입력해주세요.</div>
         	
         	
         	<button type="button" id="btn_pwdUpdate">비밀번호 변경</button>
+        	<div class="error_msg" id="existPwd_msg">동일한 비밀번호로는 변경하실 수 없습니다. 다른 비밀번호를 입력해주세요.</div>
         	
         	<c:if test="${requestScope.method == 'POST' && requestScope.n == 1 }">
 				<div id="div_updateResult" align="center">

@@ -169,13 +169,16 @@
 		
 		const method = "${requestScope.method}"; // requestScope. 은 생략 가능 / "" 넣어줘야 함
 		const isUserExists = "${requestScope.isUserExists}";
+		const sendMailSuccess = "${requestScope.sendMailSuccess}";
 		
 		if(method == "POST" ){
-			if(isUserExists == true && "${requestScope.sendMailSuccess}"){
+			if(isUserExists && sendMailSuccess){
+				
 				$("div#pwdFind_result").show();
 				$("input#userid").val("${requestScope.userid}");
 				$("input#email").val("${requestScope.email}");
 				
+				$("#find_msg").hide();
 				$("div#div_btnFind").hide(); // 찾기버튼 감춤
 			}
 			else { // 유저가 존재하지 않는다면 결과물을 보여주면 안됨
