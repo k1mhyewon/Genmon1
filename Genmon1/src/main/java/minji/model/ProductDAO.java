@@ -194,6 +194,7 @@ public class ProductDAO implements InterProductDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				
 				ChildProductVO simpleCvo = new ChildProductVO();
 				
 				simpleCvo.setPnum(rs.getInt("pnum"));
@@ -210,9 +211,6 @@ public class ProductDAO implements InterProductDAO {
 		return simpleList;
 	}
 
-	
-	
-	
 	
 	
 	

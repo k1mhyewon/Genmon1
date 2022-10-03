@@ -22,4 +22,5 @@ public interface InterProductDAO {
 	// 상품 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
 	List<ChildProductVO> simpleAllProduct() throws SQLException;
 
+	
 }

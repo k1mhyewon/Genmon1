@@ -10,18 +10,16 @@
 
 		.item-category {
 	        text-align: center;
-		    margin-left: 10%;
+		    margin: 2% 0% 0% 10%;
 		    padding: 0;
 		}
-	
+		
    	   .item-category>li {
 	        display: inline-block;
 	        top: 10px;
 	        text-align: center;
 	        width: 10%;
-	        
         }
-
 
         .item-category>li>a {
 		     display: block;
@@ -33,11 +31,11 @@
         .item-category>li>a>img {
 	         position: relative;
 	         text-align: center;
-	         width: 70%;
+	         width: 60%;
 	         border-radius: 50%;
 	         padding: 70;
         }
-
+        
         .item-category>li>a>span {
 	          position: absolute;
 	          bottom: 0;
@@ -46,7 +44,9 @@
 	          line-height: 1.462em;
 	          white-space: nowrap;
 	          transform: translate(-50%, 0);
-	          font-size: 3pt;
+	          font-size: 9.5pt;
+	          font-weight: bold;
+	          margin-top: 7%;
        }
        
        
@@ -245,12 +245,11 @@
 <%-- 인덱스 시작 --%>
 
  <%-- 아이템 카테고리 --%>
- 
-    <div class="all-List-page">
+ <div class="all-List-page">
  
     <ul class="item-category">
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/셀리컬렉션.jpg"><span class="category-font">전체보기</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/셀리컬렉션.jpg"><span class="category-font">전체보기</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/minji/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
@@ -262,15 +261,15 @@
     <br><br>
 
     <%-- 상품 타이틀과 필터 --%>
-    <div class="title" style="padding: 0 2.5rem; margin-bottom:none; ">
+    <div class="title" style="padding:0.7%;	margin-bottom:none; ">
     	<div class="product-title">  		
 	        <span>선글라스/</span>  
 	        <span>전체보기</span>
 	        <span>(304)</span>
         </div>
         
-        <div class="product-filter">
-	       <a href="productFilter.jsp"><button type="button" id="item-short">사단보기</button></a>
+        <div class="product-filter"  style="padding: 0% 1%;">
+	       <a href="<%= ctxPath %>/product/productList.sun"><button type="button" id="item-short">사단보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
 		   <a href="#pop01"><button class="popup_btn">필터</button></a>
 		</div>
@@ -335,12 +334,12 @@
 
 
     <%-- 상품 리스트 이미지 나열 --%>
-    <div class="row justify-content-center m-1">
+    <div class="row" style="text-align: center; margin: 1% 1%;">
  		<c:if  test="${not empty requestScope.proSimple }">
  			<c:forEach var="simplevo" items="${requestScope.proSimple}">
- 					<div class="col-md-8 col-lg-2"  >
+ 					<div class="col-md-8 mt-3 p-0 col-lg-2"  >
 	 					<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${simplevo.pnum}">
-	 						<img style="width: 200px;" src="<%= ctxPath %>/images/minji/전체보기/${simplevo.pimage1}">
+	 						<img style="width: 200px; heigh: 70px;" src="<%= ctxPath %>/images/minji/전체보기/${simplevo.pimage1}">
 	 					</a>
  					</div>
  			</c:forEach>

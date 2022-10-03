@@ -213,10 +213,31 @@ values(3, 3, '릴리트01정면.jpg' );
 commit;
 
 
-select pnum, fk_pid, pimage1
+
+select pnum, pname, fk_pid, pcolor, pimage1, pmaterial
+from tbl_all_product_test 
+join tbl_product_test 
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_id != 3 ;
+
+
+
+select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
 from tbl_all_product_test
+join 
+tbl_product_test
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7';
+
+
+String sql = "select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\n"+
+"from tbl_all_product_test\n"+
+"join \n"+
+"tbl_product_test\n"+
+"on fk_pid = pid\n"+
+"where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7'";
 
 
 
-
-
+select*
+from tbl_all_product_test;
