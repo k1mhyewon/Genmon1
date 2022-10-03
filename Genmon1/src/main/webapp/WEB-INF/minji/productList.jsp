@@ -46,7 +46,7 @@
 	          font-weight: bold;
 	          margin-top: 7%;
        }
-       
+     /*   
         .grid-container {
 			  display: grid;
 			  grid-column-gap: 50px;
@@ -58,7 +58,7 @@
 	 		  box-sizing : border-box;
 	 	      padding: 2rem 2rem;
 		}
-		
+		 */
 		.grid-item-text {
 			float: left;
 			position: relative;
@@ -75,6 +75,7 @@
 		.grid-item-name {
 			font-size: 11pt;
 			font-weight: bold;
+			position: relative;
 		}
 		
 		.grid-item-price {
@@ -91,12 +92,6 @@
 			color: rgba(181, 41, 41, 0.78);
 		}
 		
-		.item-wish-btn {
-			border:none;
-			float: right;
-			margin-top: 4%;
-		}
-
         .button {
             cursor: pointer;
         }
@@ -334,14 +329,14 @@
 
 
     <%-- 상품 타이틀과 필터 --%>
-    <div class="title" style="padding: 0 2.5rem; margin-bottom:none; ">
+    <div class="title" style="padding:0.5%;	margin-bottom:none; ">
     	<div class="product-title">  		
 	        <span>선글라스/</span>  
 	        <span>전체보기</span>
 	        <span>(304)</span>
         </div>
         
-        <div class="product-filter">
+        <div class="product-filter" style="padding: 0% 1%;">
 	       <a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short">간략보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
 		   <a href="#pop01"><button type="button" class="popup_btn">필터</button></a>
@@ -407,18 +402,18 @@
 
     <!-- 상품목록 -->
     
-    <div class="row">
+    <div class="row ml-auto" style="text-align: justify; margin-bottom: 2%; ">
 	   	<c:if test="${ not empty requestScope.proList}">
 	   		<c:forEach var="pvo" items="${requestScope.proList }">
-		   		<div class="col-md-3">
-		   			 <div>
-			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:200px;" src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1 }" ></a>
+		   		<div class="col-md-3 mt-3">
+		   			 <div style="width:340px;">
+			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" ></a>
 			  				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product">
 				 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
 				 		 		<span class="grid-item-price">${pvo.parentProvo.price }</span>
-				 		 		<span class="grid-item-color"> +<span class="color-count">5</span>  Colors</span>
-			 		 		</a>
-						 <button class="item-wish-btn" style="border:none; background-color: white;" onclick="addWish()">	&#10084;</button>
+				 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
+			 		 	 	</a>
+							<button class="item-wish-btn" style="border:none; background-color: white; float: right; display: inline-block;" onclick="addWish()">	&#10084;</button>
 					 </div>	
 				</div>
 	   		</c:forEach>

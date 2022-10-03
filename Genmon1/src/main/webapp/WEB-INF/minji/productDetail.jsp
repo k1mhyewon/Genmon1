@@ -239,7 +239,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			 		<ul class="color-list">
 			 			<c:if test="${not empty requestScope.proList}">
 			 				<c:forEach var="pvo" items="${requestScope.proList}">
-			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
 			 				</c:forEach>
 			 			</c:if>
 			 		</ul>
@@ -394,11 +394,11 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
  
 	   <%-- 비슷한 상품 추천 --%>
        <div class="related-box">
-         <div class="related-title">릴리트01과 비슷한 추천제품을 만나보세요</div>
+         <div class="related-title">${pvo.parentProvo.pname }과 비슷한 추천제품을 만나보세요</div>
        		<ul class="related-item">
        			<li class="related-item-list">
        			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/디디온01(G)1.jpg"></a></div>
+  					<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}"><img src="<%= ctxPath %>/images/minji/related/디디온01(G)1.jpg"></a></div>
       				<div class="related-item-info-box">
    						<ul class="related-go">
       						<li class="sun-title"><a href="#" class="link">디디온01(G)</a></li>
