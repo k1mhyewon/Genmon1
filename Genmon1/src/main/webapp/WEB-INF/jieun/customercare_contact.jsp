@@ -84,8 +84,7 @@
 				location.href="<%= ctxPath%>/login.sun"; // 로그인 페이지 
 			}
 			else{// 로그인이 되어있으면 문의작성폼으로 
-				goMemberCotactFrm();
-				location.href="<%= ctxPath%>/jieun/memberContactForm.jsp"; // 문의작성 페이지 
+				location.href="<%= ctxPath%>/customerCare/contact/memberGoContact.sun"; // 문의작성 페이지 
 			}
 			
 		})
@@ -93,7 +92,7 @@
 		// 비회원 문의하기를 클릭했다면	
 		$("a#guestcontactFrm").click(function() {
 			 
-			goNonmemberCotactFrm();
+			// goGuestCotactFrm();
 		})
 		
 		// 문의조회를 클릭했다면	
@@ -101,9 +100,12 @@
 			// 회원인데 로그인상태라면 마이페이지 문의조회로
 			
 			// 회원 또는 비회원인데 비로그인상태라면 회원 비회원 선택 폼으로 => div.contents 내용물 바꾸기  
-			location.href="<%= ctxPath%>/customerCare/contact/memberGoContact.sun"; // 회원 비회원 선택하는 라디오 
-			// $("div.contents").html();
-			
+			if(${empty sessionScope.loginuser}){
+				location.href="<%= ctxPath%>/customerCare/contact/memberSearchContact.sun"; // 회원 비회원 선택하는 라디오 
+			}
+			else{
+				location.href="<%= ctxPath%>/myinfo/myinfoDetail.sun"; // 회원 비회원 선택하는 라디오 
+			}
 			
 		})
 		
