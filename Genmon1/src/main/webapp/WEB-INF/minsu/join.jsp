@@ -320,23 +320,22 @@ b_flag_idDuplicate_click = false;
 		} ); // 전화번호 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 		
    			   
-		  // === 생년 === //
-	   	   $("select#year").each((e) => {
+		  // === 생년월일 === //
+	   	   $("select#birthday").each((e) => {
 	   	
 	   		const $target = $(e.target);
 	        
 	        if($target.ischecked) {
-	        	// 성명을 입력한경우
+	        	// 생년월일을 입력한경우
 	   			  $target.parent().find("div.error").hide();
-	        
 	        }
 	        else {
-	        	// 성명 입력칸이 공백인 경우
+	        	// 생년월일 입력칸이 공백인 경우
 	   			 $("div.first_error").show();
 	        	 $target.focus();
 	   		   }
-	   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	  
-	   			   
+	   	   }); //  $("select#birthday").each((e)  --------------------------------	   	  
+	   			  
 	   			   
 			   
 			// === 아이디 중복확인 === //
@@ -414,28 +413,33 @@ b_flag_idDuplicate_click = false;
     // >>> select box  생년월일 표시 <<<
 	  function setDateBox() {
 	    var dt = new Date();
-	    var year = "";
 	    var com_year = dt.getFullYear();
-	    // 발행 뿌려주기
+	    var year = "";
+	    
+	    // 년도 뿌려주기
 	    $("#year").append("<option value=''>년도</option>");
 	    // 올해 기준으로 -50년부터 +1년을 보여준다.
-	    for (var y = (com_year - 50); y <= (com_year + 1); y++) {
-	      $("#year").append("<option value='" + y + "'>" + y + " 년" + "</option>");
-	    };
+	    for (var i = (com_year - 50); i <= (com_year + 1); i++) {
+	      $("#year").append("<option value='" + i+ "'>" + i + " 년" + "</option>");
+	    }
+	    $("select#year").text(year)
+	    
 	    // 월 뿌려주기(1월부터 12월)
 	    var month;
 	    $("#month").append("<option value=''>월</option>");
 	    for (var i = 1; i <= 12; i++) {
 	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
-	    };
+	    } $("select#month").text(month);
+	    
 	    // 일 뿌려주기(1일부터 31일)
 	    var day;
 	    $("#day").append("<option value=''>일</option>");
 	    for (var i = 1; i <= 31; i++) {
 	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
-	    };
+	    } $("select#day").text(day);
 	  }
 	// === 생년월일 끝 === 
+	
 	
    // >>> 회원가입하기 버튼 = 계정생성<<<
    
@@ -588,8 +592,8 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 	      	<li>
 		         <span>생년월일</span>
-		         <div style="text-align: left;" id="birth" name="birthday">
-				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" onclick="setDateBox()"></select>
+		         <div style="text-align: left;" id="birthday" name="birthday" onclick="setDateBox()">
+				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" ></select>
 						<select name="month" id="month" title="월" class="custom-select requiredInfo" ></select>
 						<select name="day" id="day" title="일" class="custom-select requiredInfo" ></select>
 						<div class="first_error">필수 입력란입니다.</div>
