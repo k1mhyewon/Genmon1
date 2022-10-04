@@ -74,6 +74,8 @@
 
 	$(document).ready(function(){
 		
+		$("div#pwdFind_result").hide();
+		
 		$("#error_msg").hide();
 		$("#find_msg").hide();
 		
@@ -147,6 +149,7 @@
 		
 		// 찾기 버튼 클릭
 		$("button#link_btn").click(function(){
+			$("#find_msg").hide();
 			
 			const useridVal = $("input#userid").val().trim();
 			const emailVal = $("input#email").val().trim();
@@ -154,7 +157,7 @@
 			
 			// 아이디 및 이메일에 대한 정규표현식을 사용한 유효성 검사는 생략한다.
 			
-			if( id_bool == true && email_bool == true ) {
+			if( id_bool && email_bool ) {
 				const frm = document.findPwdFrm;
 				frm.action = "<%= ctxPath%>/pwdFind.sun";
 				frm.method = "POST"; // 대소문자 구분 안함
@@ -168,20 +171,25 @@
 		}); // end of $("button#btnFind").click() ---------------------
 		
 		const method = "${requestScope.method}"; // requestScope. 은 생략 가능 / "" 넣어줘야 함
+		
 		const isUserExists = "${requestScope.isUserExists}";
 		const sendMailSuccess = "${requestScope.sendMailSuccess}";
 		
-		if(method == "POST" ){
-			if(isUserExists && sendMailSuccess){
-				
+		console.log("isUserExists : "+isUserExists);
+		console.log("sendMailSuccess : "+sendMailSuccess);
+		
+		if(method == "POST" ){ // 메일 전송 버튼을 클릭하여 컨트롤러에 갔다왔을 때  
+			if(isUserExists == "true" && sendMailSuccess == "true"){
+				// 유저가 존재하고, 메일전송이 성공했을 때
 				$("div#pwdFind_result").show();
 				$("input#userid").val("${requestScope.userid}");
 				$("input#email").val("${requestScope.email}");
 				
+				$("#link_btn").hide(); // 찾기버튼 감춤
 				$("#find_msg").hide();
-				$("div#div_btnFind").hide(); // 찾기버튼 감춤
 			}
-			else { // 유저가 존재하지 않는다면 결과물을 보여주면 안됨
+			else { 
+				// 유저가 존재하지 않는다면 결과물을 보여주면 안됨
 				$("div#pwdFind_result").hide();
 				$("#find_msg").show();
 			}

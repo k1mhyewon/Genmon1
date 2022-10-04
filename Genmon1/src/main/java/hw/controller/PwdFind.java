@@ -19,11 +19,15 @@ public class PwdFind extends AbstractController {
 		
 		boolean isUserExists = false;
 		
+		HttpSession session = request.getSession();
+		
 		String userid = request.getParameter("userid");
 		String email = request.getParameter("email");
 		
+		session.setAttribute("userid", userid);
+		
 		if("POST".equalsIgnoreCase(method)) { 
-			// 비밀번호 찾기 모달창에서 찾기 버튼을 클릭한 경우
+			// 비밀번호 찾기 모달창에서 메일전송 버튼을 클릭한 경우
 			// System.out.println("컨트롤러로 넘어옴");
 			
 			InterMemberDAO mdao = new MemberDAO();
@@ -86,7 +90,7 @@ public class PwdFind extends AbstractController {
 					sendMailSuccess = true; // 메일 전송 성공 기록
 	
 					// 세션(Session) 불러오기
-					HttpSession session = request.getSession();
+					
 					session.setAttribute("certificationCode", certificationCode);
 					// 발급한 인증코드를 세션에 저장함
 					
@@ -106,18 +110,33 @@ public class PwdFind extends AbstractController {
 			
 			request.setAttribute("method", method);
 			
+<<<<<<< HEAD
 			// System.out.println("sendMailSuccess => " + sendMailSuccess);
 			// System.out.println("isUserExists => "+isUserExists);
 			
+=======
+>>>>>>> refs/heads/main
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
 			
 		} // end of if("POST".equalsIgnoreCase(method)) -----------------------
 
 		else {
+<<<<<<< HEAD
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
 		}
+=======
+			// 기본 비밀번호 찾기 모달창
+			
+			request.setAttribute("method", method);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
+		}
+		
+	
+>>>>>>> refs/heads/main
 		
 	}
 

@@ -95,6 +95,14 @@
 		width: 180px; margin-top: 10px;
 	}
 	
+	.modals-fullsize {
+    	width: 500px;
+    	height: 300px;
+    }
+    
+    #modal_box {
+    	margin: 10% auto;
+    }
 
     /* 추가 */
 
@@ -180,6 +188,7 @@
 		location.reload();
 	}
 	
+	// 상품 개별 삭제
 	function goDelete(fk_userid, fk_pnum){ // ------------------------
 		
 		$.ajax({
@@ -202,7 +211,7 @@
 	
 	} // end of function goDelete() ----------------
 	
-	
+	// 선택상품 삭제
 	function selectDelete(){ // ------------------------
 		
 		const chkBoxArr = [];
@@ -214,7 +223,7 @@
 		
 		
 		$.ajax({
-			url:"<%= request.getContextPath()%>/wish/wishToCartSelect.sun",
+			url:"<%= request.getContextPath()%>/wish/wishlistSelectDel.sun",
 			data:{ "chkBoxArr":chkBoxArr },
 			type: "GET",
 			traditional: true,
@@ -256,6 +265,7 @@
 	} // end of function goDelete() ---------------------------
 	*/
 	
+	// 개별상품 장바구니 추가
 	function goCart(fk_userid, fk_pnum){ // ------------------------
 		
 		$.ajax({
@@ -279,6 +289,8 @@
 	} // end of function goDelete() ----------------
 	
 	
+	
+	// 선택상품 장바구니 추가
 	function selectAddCart(){ // ---------------------------------------------
 		
 		const chkBoxArr = [];
@@ -296,7 +308,7 @@
 			dataType:"text",
 		    success:function(json) {
 		    	
-		    	alert('장바구니에 추가되었습니다.');
+		    	$("#goCartModal").show();
 		    	refresh();
 		    	
 		    },
@@ -312,11 +324,9 @@
 	
 	
 	
-	// 이미 장바구니에 존재하는 상품인지 확인
-	function chk_isExist(){
-		
-		
-		
+	// 장바구니로 페이지 이동
+	function goSeeCart() {
+		location.href="<%= ctxPath%>/order/cart.sun"
 	}
 
 </script>
@@ -330,6 +340,7 @@
 	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
 	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()")>선택삭제</button><br>
 	        <button type="button" class="btn btn-dark btn_chkbox" id="addCart_btn" onClick="selectAddCart()">선택상품 장바구니 추가</button>
+	        <button type="button" class="btn btn-dark btn_chkbox" data-toggle="modal" data-target="#goCartModal">장바구니 모달</button>
 	    </div>
 		<div class="album">
 			<div class="box">
@@ -340,7 +351,7 @@
 							<input type="hidden" name="pnum" value="${wishvo.fk_pnum}" />
 							<input type="checkbox" name="chk_each_prod" value="${wishvo.fk_pnum}" class="chk_wishprod" />
 							<div class="card_body mx-1 my-3">
-								<img src="../images/${wishvo.cpvo.pimage1}" class="product_img">
+								<img src="../images/minji/전체보기/${wishvo.cpvo.pimage1}" class="product_img">
 								<div id="productDesc">
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
@@ -362,6 +373,23 @@
 		</div>
 	</c:if>
 	<div style="height: 70px;"></div>
+	
+	
+	
+	
+	
+	
+	<!--  장바구니 추가 누르면 나오는 Modal -->
+   <div class="modal fade" id="goCartModal">
+		<div class="modal-dialog">
+			<div class="modal-content modals-fullsize">
+				<div id="modal_box">
+					<div>해당 상품이 장바구니에 추가되었습니다.</div>
+					<button type="button" class="btnWish btn btn-dark" onClick="goSeeCart()">장바구니로 가기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 <%-- 인덱스 끝 --%>
 
 <jsp:include page="../common/footer.jsp" />

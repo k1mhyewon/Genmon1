@@ -274,8 +274,7 @@ public class MemberDAO implements InterMemberDAO {
 	
 	
 	
-	
-	// 비밀번호를 변경할 때 이미 사용중인 비밀번호인지 확인 ----------------------------------------------------------
+	// 비밀번호 변경하기 전에 이미 사용중인 비밀번호인지 확인하기 -------------------------------------------------------
 	@Override
 	public boolean isExistPwd(Map<String, String> paraMap) throws SQLException {
 		
@@ -289,6 +288,7 @@ public class MemberDAO implements InterMemberDAO {
 					   + " where status = 1 and userid = ? and pwd = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, paraMap.get("userid"));
 			pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
 			
@@ -300,8 +300,10 @@ public class MemberDAO implements InterMemberDAO {
 			close();
 		}
 		
+		
+		
 		return isExistPwd;
-	}
+	} // end of public boolean isExistPwd(Map<String, String> paraMap) throws SQLException {} ------------
 
 	
 	

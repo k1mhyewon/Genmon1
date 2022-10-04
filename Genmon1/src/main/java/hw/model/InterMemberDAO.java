@@ -20,7 +20,7 @@ public interface InterMemberDAO {
 	// 비밀번호 변경(update)
 	int pwdUpdate(Map<String, String> paraMap) throws SQLException;
 
-	// 비밀번호를 변경할 때 이미 사용중인 비밀번호인지 확인
+	// 비밀번호 변경하기 전에 이미 사용중인 비밀번호인지 확인하기
 	boolean isExistPwd(Map<String, String> paraMap) throws SQLException;
 
 }
