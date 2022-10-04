@@ -237,7 +237,15 @@ String sql = "select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmate
 "on fk_pid = pid\n"+
 "where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7'";
 
-
+-- 할인가
 
 select*
 from tbl_all_product_test;
+
+update tbl_product_test set pname = '론디'
+where pid = 'p_7';
+
+update tbl_all_product_test set pimage1 = 디디온
+where pnum = 7;
+
+commit;
