@@ -2,7 +2,7 @@ package common.model;
 
 public class OrderVO {
 	
-	private int pk_orderid;
+	private String pk_orderid;
 	private String fk_userid;
 	private String email;
 	private String name;
@@ -45,10 +45,10 @@ public class OrderVO {
 		this.mobile = mobile;
 	}
 	
-	public int getPk_orderid() {
+	public String getPk_orderid() {
 		return pk_orderid;
 	}
-	public void setPk_orderid(int pk_orderid) {
+	public void setPk_orderid(String pk_orderid) {
 		this.pk_orderid = pk_orderid;
 	}
 	public String getFk_userid() {

@@ -190,6 +190,8 @@
 	    	
 	    	if($("input#useAdd").prop("checked")==true){  // 모두 값 넣어주기 
 	    		
+	    		$("span.error").hide();
+	    	
 	    		$("input#email").val("${requestScope.email}");
 	    		$("input#name").val("${name}");
 	    		$("input#mobile").val("${mobile}");
@@ -425,7 +427,7 @@
 			<span class="puretxt">상세주소</span>
 			<input type="text" id="detailAddress" name="detailAddress" class="input_style requiredInfo" autocomplete='off'  placeholder="상세주소" />
 			<span class="error">상세주소는 비워둘 수 없습니다</span>
-			<input type="hidden" id="extraAddress" name="extraAddress"  class="hiddenInfo"/>
+			<input type="hidden" id="extraAddress" name="extraAddress"/>
 			<%-- 배송지 끝 --%>
 			<br><br>
 			<button type="button" id="prev" class="button2">이전 단계로</button>
@@ -457,7 +459,7 @@
 						</tr>
 						<tr>
 							<td>수량:<span class="qty"> ${order.qty}</span></td>
-							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price}</span>원</td>
+							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price * order.qty}</span>원</td>
 						</tr>
 						<tr class="empty_tr">
 							<td colspan="3" class="empty_td"></td>

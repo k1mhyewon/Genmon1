@@ -18,6 +18,7 @@ public class PayInfo extends AbstractController {
 		
 		if("POST".equalsIgnoreCase(method) ) {
 			
+			
 			String email = request.getParameter("email");
 			String name = request.getParameter("name");
 			String mobile = request.getParameter("mobile");
@@ -32,12 +33,13 @@ public class PayInfo extends AbstractController {
 				MemberVO loginuser = (MemberVO) sesssion.getAttribute("loginuser");
 				
 				OrderVO ovo = new OrderVO(loginuser.getUserid(), email, name, postcode, address,  detailAddress, extraAddress, mobile);
-				request.setAttribute("ovo", ovo);
+				sesssion.setAttribute("ovo", ovo);
 				super.setViewPage("/WEB-INF/jihyun/payInfo.jsp");
 				
 			} else { // 비회원주문
 				OrderVO ovo = new OrderVO(email, name, postcode, address,  detailAddress, extraAddress, mobile);
-				request.setAttribute("ovo", ovo);
+				HttpSession sesssion = request.getSession();
+				sesssion.setAttribute("ovo", ovo);
 				super.setViewPage("/WEB-INF/jihyun/payInfo.jsp");
 				
 			}// end of 
