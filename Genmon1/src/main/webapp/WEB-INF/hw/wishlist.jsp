@@ -101,8 +101,19 @@
     }
     
     #modal_box {
-    	margin: 10% auto;
+    	text-align: center;
+    	margin-top: 15%;
     }
+    
+    .modal_btn {
+    	
+    	font-size: 11pt;
+    	height: 40px;
+    }
+    
+    .modal { 
+ 		top : 30%; 
+	}
 
     /* 추가 */
 
@@ -176,8 +187,6 @@
 
 		}); // $("input:checkbox[name='chk_each_prod']").click() ----------------
 			
-		
-		
 		
 	}); // end of $(document).ready() =========================================================
 	
@@ -275,9 +284,8 @@
 			dataType:"text",
 		    success:function(json) {
 		    	
-		    	alert('장바구니에 추가되었습니다.');
-		    	refresh();
-		    	
+		    	// alert('장바구니에 추가되었습니다.');
+		    	$('#goCartModal').modal('show');
 		    },
 		    error: function(request, status, error){
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -309,7 +317,6 @@
 		    success:function(json) {
 		    	
 		    	$("#goCartModal").show();
-		    	refresh();
 		    	
 		    },
 		    error: function(request, status, error){
@@ -328,6 +335,13 @@
 	function goSeeCart() {
 		location.href="<%= ctxPath%>/order/cart.sun"
 	}
+	
+	
+	function closeModal() {
+		$('#goCartModal').modal('hide');
+	}
+	
+
 
 </script>
     <!-- 인덱스 시작 -->
@@ -356,7 +370,7 @@
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
-								<button type="button" class="btnWish btn btn-dark" onClick="goCart('${wishvo.fk_userid}','${wishvo.fk_pnum}')">장바구니에 추가</button>
+								<button type="button" class="btnWish btn btn-dark" onClick="goCart('${wishvo.fk_userid}','${wishvo.fk_pnum}')" >장바구니에 추가</button>
 								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>
 							</div>
 						</div>
@@ -385,7 +399,8 @@
 			<div class="modal-content modals-fullsize">
 				<div id="modal_box">
 					<div>해당 상품이 장바구니에 추가되었습니다.</div>
-					<button type="button" class="btnWish btn btn-dark" onClick="goSeeCart()">장바구니로 가기</button>
+					<button type="button" style="margin-top: 40px;" class="btnWish btn btn-dark modal_btn" onClick="goSeeCart()">장바구니로 가기</button>
+					<button type="button" style="margin-top: 5px;" class="btnWish btn btn-light modal_btn" onClick="closeModal()">닫기</button>
 				</div>
 			</div>
 		</div>

@@ -207,6 +207,11 @@
 		
 		
 		
+		$('#findPwdFrm').on('hidden.bs.modal', function (e) {
+			// 모달 종료 시,
+			document.forms['findPwdFrm'].reset(); // 폼의 전체 값 초기화 처리
+		})
+		
 	}); // end of $(document).ready() -------------------------------
 </script>
 

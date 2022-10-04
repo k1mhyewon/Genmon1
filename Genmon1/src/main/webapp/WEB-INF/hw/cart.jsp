@@ -438,7 +438,7 @@
 							<div class="card_body mx-1 my-3 ">
 								<img src="../images/minji/전체보기/${cvo.allProdvo.pimage1}" class="product_img">
 								<div class="productDesc">
-									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname} ${cvo.allProdvo.parentProvo.colname}</p>
+									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
 								<div class="number-input" style="margin-left: 105px; margin-top: 0;">

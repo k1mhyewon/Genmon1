@@ -66,53 +66,58 @@
 	   	
 	   		const $target = $(e.target);
 	            
+	        if($target.val().length > 1) { // 이름 입력칸이 두글자 이상인 경우
+	        	name_bool = true;
+	        }
+	        else { // 입력칸에 두글자 이하의 글자가 들어온경우
+	        	 name_bool = false; 
+	        }
 	        
-	        if($target.val() == "") { // 이름 입력칸이 공백인 경우
+	        if(name_bool) {
+	        	$("#error_msg").hide();
+	        }
+	        else{
 	        	$("#error_msg").show();
 	        	$target.focus();
-	        	name_bool = false;
 	        }
-	        else if($target.val().length == 1){ // 입력칸에 한글자만 들어온 경우
-	        	$("#error_msg").show();
-	        	$target.focus();
-	        	name_bool = false;
-	        }
-	        else { // 입력칸에 두글자 이상의 글자가 들어온경우
-	        	 $("#error_msg").hide();
-	        	 name_bool = true; 
-	          }
-	   	   }); // end of  $("input#name").blur((e) => {} --------------------------------
+	        
+	   	}); // end of  $("input#name").blur((e) => {} --------------------------------
 	
 		// === 이메일주소 유효성 검사 === //
 		$("input#email").blur((e) => {
 	   	
 	   		const $target = $(e.target);
+	   		
 			const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
 	            
 	        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
 	        
 	        if($target.val() == "") {
 	        	// 이메일 입력칸이 공백인 경우
-	        	$("#error_msg").show();
 	        	email_bool = false;
 	        }
 	        else {
 	        	// 입력칸에 글이 들어온경우
-	        	$("#error_msg").hide();
 	        	
 	        	if(!bool) {
 	   				// 이메일이 정규표현식에 위배된 경우  
-	   			    $("#error_msg").show();
 	   			 	email_bool = false;
-	   				$target.focus();
+	   				
 	   			}
 	   			else {
 	   				// 이메일이 정규표현식에 맞는 경우 
-	   				$("#error_msg").hide();
 	   				email_bool = true; 
 	   			}
-	          }
-	   	   }); // end of  $("input#name").blur((e) => {} --------------------------------
+	        }
+	        
+	        if(email_bool) {
+	        	$("#error_msg").hide();
+	        }
+	        else{
+	        	$("#error_msg").show();
+	        	
+	        }
+	    }); // end of  $("input#name").blur((e) => {} --------------------------------
 	   			   
 	   	
 		$("button#btn_find").click(function(){
