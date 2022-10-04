@@ -97,6 +97,32 @@
 <script>
 	$(document).ready(function(){ // --------------------------------------------------
 		
+		let allkey = "";
+		let allqty = "";
+		
+		let cnt1 = 0;
+		let cnt2 = 0;
+		
+		// console.log("sessionStorage.length: "+sessionStorage.length);
+		
+		for(let i=0; i<sessionStorage.length; i++) {
+			// 문자열.indexOf("찾고자하는문자열") 없으면 -1
+			let key = sessionStorage.key(i);
+			if(key.indexOf('Key')!=-1){  // 키 값이 있는 경우
+				let comma =  cnt1 == 0 ? "": ","; // 키값이 없으면 "", 있으면 "," 를 찍어줌
+				allkey += comma + sessionStorage.getItem(key);
+				cnt1 += 1;
+				$("input#pnum").val(allkey);
+			} else { // 수량 값일 경우
+				let comma =  cnt2 == 0 ? "": ",";
+				allqty+= comma + sessionStorage.getItem(key);
+				cnt2 += 1;
+				$("input#qty").val(allqty);
+			}
+		}
+
+		// console.log("allkey"+allkey);
+		// console.log("allqty"+allqty);
 		
 		$("button#btn_goLogin").click(function(){
 			// 로그인 버튼을 클릭하면
@@ -107,8 +133,14 @@
 		
 		$("#find_userid").click(function(){
 			// 아이디찾기를 클릭하면 모달창 초기화
-			const iframe_idFind = document.getElementById("iframe_idFind");  /* 대상 아이프레임을 선택한다. */
-			const iframe_window = iframe_idFind.contentWindow; /* contentWindow 는 iframe 의 window(전체)를 의미한다. */
+			document.getElementById(iframe_idFind).contentDocument.location.reload(true);
+			
+		});
+		
+		$("#find_userid").click(function(){
+			// 비밀번호찾기를 클릭하면 모달창 초기화
+			const iframe_pwdFind = document.getElementById("iframe_pwdFind");  /* 대상 아이프레임을 선택한다. */
+			const iframe_window = iframe_pwdFind.contentWindow; /* contentWindow 는 iframe 의 window(전체)를 의미한다. */
 			iframe_window.func_form_reset_empty();
 			
 		});
@@ -156,12 +188,9 @@
 		}); // end of $("button#btn_logout").click() --------------
         
 		
-		// 모달창 닫으면 초기화
-        $('#pwdFindModal').on('hidden.bs.modal', function (e) {
-        	$(this).find('div#find_msg').hide();
-        });
 		
-		
+
+	
 		
 	}); // end of $(document).ready() ----------------------------------------------------
 	
@@ -172,7 +201,8 @@
 	function goLogin(){
 	//	alert("로그인 시도함");
 	
-		
+			
+	
 		const loginUserid = $("input#loginUserid").val().trim();
 	    const loginPwd = $("input#loginPwd").val().trim();
 	    
@@ -199,8 +229,7 @@
 		else { // 아이디 저장 체크 안했다면
 	    	localStorage.removeItem('saveid');    // 삭제
 	    }
-	
-	
+	    
 	    const frm = document.loginFrm; 
 	    frm.action = "<%= ctxPath%>/login.sun";
 	    frm.method = "post";
@@ -249,6 +278,8 @@
         	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">회원가입을 하시면, 주문 조회와 개인정보 관리 및 위시리스트 확인 등 다양한 혜택을 누리실 수 있습니다.</div>
         	<button class="login_btn" type="button" id="btn_gojoin" style="margin-top: 15px;">신규가입</button>
         	
+        	<input type="text" id="pnum" name="pnum" value="" />
+        	<input type="text" id="qty" name="qty" value="" />
         </div>
     </form>    	
     

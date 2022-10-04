@@ -238,20 +238,27 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
 			 			<c:if test="${not empty requestScope.proList}">
-			 				<c:forEach var="pvo" items="${requestScope.proList}">
-			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
-			 				</c:forEach>
+			 				<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 				
+			 				<%-- <c:forEach var="pvo" items="${requestScope.proList}">
+			 					<c:if test="${pvo.fk_id eq pvo.parentProvo.pid}">
+			 						<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 					</c:if>
+			 					<c:if test="${pvo.fk_id != pvo.parentProvo.pid}">
+									<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 					</c:if>
+			 				</c:forEach> --%>
 			 			</c:if>
 			 		</ul>
 		 		</div>
 			</div>
 				
-				<div class="item-info-description-box">
-		   	 		<div class="item-info-description" style="width: 300px;">
-		    	 	   ${pvo.parentProvo.pcontent }
-		   	 		</div>
+			<div class="item-info-description-box">
+	   	 		<div class="item-info-description" style="width: 300px;">
+	    	 	   ${pvo.parentProvo.pcontent}
 	   	 		</div>
-	      	 	<br>
+   	 		</div>
+      	 	<br>
 	      	 	
 	 		<%-- 카트 및 관심 상품 버튼 --%>
 	 		<div class="add-option-btn">
@@ -383,10 +390,9 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" class="sunglasses-image"></div>
 			        <c:if test="${not empty requestScope.imgList}">
 			        	<c:forEach var="ivo" items="${requestScope.imgList}">
-			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/${ivo.imgfilename}" class="sunglasses-image"></div>
+			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${ivo.pimage1}" class="sunglasses-image"></div>		
 			        	</c:forEach>
 			        </c:if>
-			        
 			   </div> 
 	 		</div>
 	 
@@ -394,19 +400,26 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
  
 	   <%-- 비슷한 상품 추천 --%>
        <div class="related-box">
-         <div class="related-title">릴리트01과 비슷한 추천제품을 만나보세요</div>
+         <div class="related-title"><span style="color: gray;">${pvo.parentProvo.pname}</span>과 비슷한 추천제품을 만나보세요</div>
        		<ul class="related-item">
        			<li class="related-item-list">
-       			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/디디온01(G)1.jpg"></a></div>
-      				<div class="related-item-info-box">
-   						<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">디디온01(G)</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">270,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
+       				<div class="related-deep-box">
+       					<c:if test="${not empty requestScope.recommendList}">
+       						<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></div>
+       					
+       				<%-- 	gkgkgk <div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}"><img src="<%= ctxPath %>/images/minji/전체보기/${recomCvo.pimage1}"></a></div>
+       						<c:forEach var="recomvo" items="${requestScope.recomendList}">
+       						
+       						</c:forEach> --%>
+       					</c:if>
+	      				<div class="related-item-info-box">
+	   						<ul class="related-go">
+	      						<li class="sun-title"><a href="#" class="link">${pvo.pnum}</a></li>
+	      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">${pvo.parentProvo.price}</a></li>
+	      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
+	      					</ul>
+	   					</div>
    					</div>
-   				</div>
        			</li>
         		<li class="related-item-list">
         		<div class="related-deep-box">

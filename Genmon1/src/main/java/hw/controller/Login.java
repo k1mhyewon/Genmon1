@@ -37,9 +37,26 @@ public class Login extends AbstractController {
 				String userid = request.getParameter("userid");
 				String pwd = request.getParameter("pwd");
 				
-				
 				// System.out.println("확인용 userid : "+ userid);
 				// System.out.println("확인용 pwd : "+ pwd);
+				
+				
+				// ============================================================= //
+				// [비회원 장바구니 시작]
+				
+				String all_pnum = request.getParameter("pnum");
+				String all_qty = request.getParameter("qty");
+				
+				// System.out.println("확인용 all_pnum : "+ all_pnum);
+				// System.out.println("확인용 all_qty : "+ all_qty);
+				
+				
+				
+				
+				// [비회원 장바구니 끝]
+				// ============================================================= //
+				
+				
 				
 				// ===> 웹클라이언트의 IP 주소를 알아오는 것 <==== //
 				String clientip = request.getRemoteAddr();

@@ -192,7 +192,7 @@ public class CartDAO implements InterCartDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price ,qty\n"+
+			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price, A.pcolor, qty\n"+
 					"						 from tbl_basket_test B \n"+
 					"						 JOIN tbl_all_product_test A \n"+
 					"						 on B.fk_pnum = A.pnum\n"+
@@ -218,13 +218,13 @@ public class CartDAO implements InterCartDAO {
 				apvo.setFk_pid(rs.getString(3));
 				apvo.setPimage1(rs.getString(4));
 				
-				pvo.setPname(rs.getString(5));
+				pvo.setPname(rs.getString(5) + " " + rs.getString(7).substring(0, 2).toUpperCase());
 				pvo.setPrice(rs.getInt(6));
 
 				apvo.setParentProvo(pvo);
 				cart.setAllProdvo(apvo);
 				
-				cart.setQty(rs.getInt(7));
+				cart.setQty(rs.getInt(8));
 				
 				cartList.add(cart);
 			}

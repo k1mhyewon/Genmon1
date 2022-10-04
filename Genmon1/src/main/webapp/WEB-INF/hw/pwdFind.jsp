@@ -54,6 +54,12 @@
     	margin-top: 10px;
     }
     
+    #timer {
+    	color: red; font-size: 17pt;
+    	font-weight: bold;
+    	margin-top: 10px;
+    }
+    
     
 
 </style>
@@ -72,7 +78,15 @@
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 <script>
 
+	
+	
+	
+
 	$(document).ready(function(){
+		
+		$("#timer_end").hide();
+		
+		$("div#pwdFind_result").hide();
 		
 		$("#error_msg").hide();
 		$("#find_msg").hide();
@@ -147,6 +161,7 @@
 		
 		// 찾기 버튼 클릭
 		$("button#link_btn").click(function(){
+			$("#find_msg").hide();
 			
 			const useridVal = $("input#userid").val().trim();
 			const emailVal = $("input#email").val().trim();
@@ -154,7 +169,7 @@
 			
 			// 아이디 및 이메일에 대한 정규표현식을 사용한 유효성 검사는 생략한다.
 			
-			if( id_bool == true && email_bool == true ) {
+			if( id_bool && email_bool ) {
 				const frm = document.findPwdFrm;
 				frm.action = "<%= ctxPath%>/pwdFind.sun";
 				frm.method = "POST"; // 대소문자 구분 안함
@@ -168,17 +183,61 @@
 		}); // end of $("button#btnFind").click() ---------------------
 		
 		const method = "${requestScope.method}"; // requestScope. 은 생략 가능 / "" 넣어줘야 함
-		const isUserExists = "${requestScope.isUserExists}";
 		
-		if(method == "POST" ){
-			if(isUserExists == true && "${requestScope.sendMailSuccess}"){
+		const isUserExists = "${requestScope.isUserExists}";
+		const sendMailSuccess = "${requestScope.sendMailSuccess}";
+		
+		console.log("isUserExists : "+isUserExists);
+		console.log("sendMailSuccess : "+sendMailSuccess);
+		
+		if(method == "POST" ){ // 메일 전송 버튼을 클릭하여 컨트롤러에 갔다왔을 때  
+			if(isUserExists == "true" && sendMailSuccess == "true"){
+				// 유저가 존재하고, 메일전송이 성공했을 때
+				
+				// setInterval(function(){timer();}, 1000); // 1초마다 주기적으로 타이머 함수를 호출하도록 지정
+				// ============================================================================================ //
+				// [타이머 시작]
+				
+				let time = 60;// 타이머 시간을 10분으로 지정
+				
+				let minute = "";
+			    let second = "";
+				
+				// 타이머 함수 만들기    
+				const timer = setInterval(function(){
+					
+					minute = parseInt(time / 60); // 소수부는 없애버리고 정수만 가져오는 것이다. 
+			        if(minute < 10) {
+			            minute = "0" + minute;
+			        }
+			
+			        second = time % 60;
+			        if(second < 10) {
+			            second = "0" + second;
+			        }
+			
+			        document.getElementById("timer").innerHTML = minute + ":" + second;
+			        time --;
+			        
+			        if(time < 0){
+			        	clearInterval(timer);
+			        	$("#timer_end").show();
+			        }
+					
+				}, 1000);
+				
+				// [타이머 종료]
+				// ============================================================================================ //
+				
 				$("div#pwdFind_result").show();
 				$("input#userid").val("${requestScope.userid}");
 				$("input#email").val("${requestScope.email}");
 				
-				$("div#div_btnFind").hide(); // 찾기버튼 감춤
+				$("#link_btn").hide(); // 찾기버튼 감춤
+				$("#find_msg").hide();
 			}
-			else { // 유저가 존재하지 않는다면 결과물을 보여주면 안됨
+			else { 
+				// 유저가 존재하지 않는다면 결과물을 보여주면 안됨
 				$("div#pwdFind_result").hide();
 				$("#find_msg").show();
 			}
@@ -188,11 +247,6 @@
 			$("#find_msg").hide();
 		}
 		
-		
-		// 닫기버튼을 클릭하면 모달창 닫기
-		$("#btn_close").click(function(){ // -----------------------
-			self.close();
-		}); // end of $("#btn_close").click() ----------------------
 		
 		
 		
@@ -226,8 +280,8 @@
 		<div style="font-size: 9pt; font-weight: bold;">"${requestScope.email}"</div>
 		<div style="font-size: 9pt;">로 발송되었습니다.</div>
 		<div style="font-size: 9pt;">이메일을 확인해주세요.</div>
-			
-		<button type="button" class="btn btn-light" id="btn_close" style="font-size: 9pt;">닫기</button>
+		<div id="timer"></div>
+		<div id="timer_end" style="font-size: 9pt; color: red;">비밀번호 리셋시간이 종료되었습니다. 다시 시도해주세요.</div>
 	</div>
 </form>
 
