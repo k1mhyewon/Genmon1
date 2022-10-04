@@ -67,8 +67,17 @@
 		color: white; 
 		width: 40%;
 		line-height: 200%;
-		
 	}	
+	
+	button#btn_adradd {
+		border: none; 
+		width: 140px; 
+		margin: 10px auto; 
+		cursor: pointer; 
+		font-style: 13px;
+		 background-color: #666666; 
+		color: white;
+	}
 	
 	div#frm_my {
 		height: 
@@ -178,6 +187,13 @@
 	}// end of function goCoinPurchaseTypeChoice(userid) --------------------------
 	
 	
+	// >>> 새로운 주소추가 페이지로 이동하는 함수 <<<  //
+	function goAdrAdd(userid) {
+		
+		location.href="<%= request.getContextPath()%>/myinfo/adrAdd.sun?userid="+userid;
+		
+	}// end of function goCoinPurchaseTypeChoice(userid) --------------------------
+	
 	
 	// >>> 코인충전 보여주는 함수 <<<  //
 	function goCoinPurchaseTypeChoice(userid) {
@@ -223,13 +239,16 @@
 							
 							<c:if test="${not empty sessionScope.loginuser.address} ">
 								<div style="margin: 20px 0;">
-									<li id="address" name="address">주소&nbsp;&nbsp;: <span>${sessionScope.loginuser.address}</span></li>
+									<ul style="list-style: none;">
+										<li id="address" name="address">주소&nbsp;&nbsp;: <span>${sessionScope.loginuser.address}</span></li>
+									</ul>
 								</div>
 							</c:if>
+							
 							<c:if test="${empty sessionScope.loginuser.address}">
 								<div style="display: felx; margin: 80px auto; width: 200px;">
 			    					<div style="font-size: 15px; font-weight: bold;">저장된 주소가 없습니다.</div>
-			    					<button id="btn_adradd" onclick="btn_addAdr()" style="border: none; width: 140px; margin: 10px auto; cursor: pointer; font-style: 13px; background-color: #666666; color: white;">새로운 주소 추가</button>
+			    					<button id="btn_adradd"><a  href="javascript:goAdrAdd('${(sessionScope.loginuser).userid}');" >새로운 주소 추가</a></button>
 			    				</div>
 					   		</c:if>
 							
