@@ -402,6 +402,36 @@ b_flag_idDuplicate_click = false;
 			});
 	        
 	        
+	        
+	        
+	    // === 생년월일 === //
+	        
+	    var dt = new Date();
+	    var com_year = dt.getFullYear();
+	    var year = "";
+	    
+	    // 년도 뿌려주기
+	    $("#year").append("<option value=''>년도</option>");
+	    // 올해 기준으로 -50년부터 +1년을 보여준다.
+	    for (var i = (com_year - 50); i <= (com_year); i++) {
+	      $("#year").append("<option value='" + i+ "'>" + i + " 년" + "</option>");
+	    }
+	    
+	    // 월 뿌려주기(1월부터 12월)
+	    var month;
+	    $("#month").append("<option value=''>월</option>");
+	    for (var i = 1; i <= 12; i++) {
+	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
+	    } 
+	    
+	    // 일 뿌려주기(1일부터 31일)
+	    var day;
+	    $("#day").append("<option value=''>일</option>");
+	    for (var i = 1; i <= 31; i++) {
+	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
+	    }
+	    
+	    
    }); // end of document ready----------------------------
 	   			
 	 
@@ -412,31 +442,7 @@ b_flag_idDuplicate_click = false;
 	
     // >>> select box  생년월일 표시 <<<
 	  function setDateBox() {
-	    var dt = new Date();
-	    var com_year = dt.getFullYear();
-	    var year = "";
 	    
-	    // 년도 뿌려주기
-	    $("#year").append("<option value=''>년도</option>");
-	    // 올해 기준으로 -50년부터 +1년을 보여준다.
-	    for (var i = (com_year - 50); i <= (com_year + 1); i++) {
-	      $("#year").append("<option value='" + i+ "'>" + i + " 년" + "</option>");
-	    }
-	    $("select#year").text(year)
-	    
-	    // 월 뿌려주기(1월부터 12월)
-	    var month;
-	    $("#month").append("<option value=''>월</option>");
-	    for (var i = 1; i <= 12; i++) {
-	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
-	    } $("select#month").text(month);
-	    
-	    // 일 뿌려주기(1일부터 31일)
-	    var day;
-	    $("#day").append("<option value=''>일</option>");
-	    for (var i = 1; i <= 31; i++) {
-	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
-	    } $("select#day").text(day);
 	  }
 	// === 생년월일 끝 === 
 	
@@ -592,7 +598,7 @@ b_flag_idDuplicate_click = false;
 	      <ul>
 	      	<li>
 		         <span>생년월일</span>
-		         <div style="text-align: left;" id="birthday" name="birthday" onclick="setDateBox()">
+		         <div style="text-align: left;" id="birthday" name="birthday">
 				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" ></select>
 						<select name="month" id="month" title="월" class="custom-select requiredInfo" ></select>
 						<select name="day" id="day" title="일" class="custom-select requiredInfo" ></select>
@@ -616,7 +622,7 @@ b_flag_idDuplicate_click = false;
 	     	 <ul>
 		     	 <li>
 		     	 	<div id="btn">
-			     	 	<button type="button" id="btn_cancle" style="background-color: white; ">취소</button>
+			     	 	<button type="reset" style="background-color: white; ">취소</button>
 			     	 	<button type="button" id="btn_cancle" style="background-color: black; color:white;" onclick="gojoin()">계정생성</button>
 		     	 	</div>
 	     	 	 </li>
