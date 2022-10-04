@@ -110,23 +110,12 @@ public class PwdFind extends AbstractController {
 			
 			request.setAttribute("method", method);
 			
-<<<<<<< HEAD
-			// System.out.println("sendMailSuccess => " + sendMailSuccess);
-			// System.out.println("isUserExists => "+isUserExists);
-			
-=======
->>>>>>> refs/heads/main
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
 			
 		} // end of if("POST".equalsIgnoreCase(method)) -----------------------
 
 		else {
-<<<<<<< HEAD
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/hw/pwdFind.jsp"); // 뷰단으로 보내버림
-		}
-=======
 			// 기본 비밀번호 찾기 모달창
 			
 			request.setAttribute("method", method);
@@ -136,7 +125,6 @@ public class PwdFind extends AbstractController {
 		}
 		
 	
->>>>>>> refs/heads/main
 		
 	}
 

@@ -162,6 +162,8 @@
         });
 		
 		
+
+	
 		
 	}); // end of $(document).ready() ----------------------------------------------------
 	
@@ -172,7 +174,8 @@
 	function goLogin(){
 	//	alert("로그인 시도함");
 	
-		
+			
+	
 		const loginUserid = $("input#loginUserid").val().trim();
 	    const loginPwd = $("input#loginPwd").val().trim();
 	    
@@ -199,8 +202,7 @@
 		else { // 아이디 저장 체크 안했다면
 	    	localStorage.removeItem('saveid');    // 삭제
 	    }
-	
-	
+	    
 	    const frm = document.loginFrm; 
 	    frm.action = "<%= ctxPath%>/login.sun";
 	    frm.method = "post";

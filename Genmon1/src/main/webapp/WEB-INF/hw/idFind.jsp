@@ -117,6 +117,11 @@
 	   	
 		$("button#btn_find").click(function(){
 			
+			const name = $("input#name").val();
+			if(name.length > 1 ){
+				name_bool == true;
+			}
+			
 			if(name_bool == true && email_bool == true ){
 				const frm = document.useridFindFrm;
 				frm.action = "<%= ctxPath%>/idFind.sun";
