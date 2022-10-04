@@ -176,7 +176,7 @@
 		}
 		
 		const frm = document.frm_adrupdateMenu;
-		frm.action = "/myinfo/adrView.sun";
+		frm.action = "/myinfo/adrUpdate.sun";
 		frm.method = "post";
 		frm.submit();
 	}
