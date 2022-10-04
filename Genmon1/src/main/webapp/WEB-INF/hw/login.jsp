@@ -107,8 +107,14 @@
 		
 		$("#find_userid").click(function(){
 			// 아이디찾기를 클릭하면 모달창 초기화
-			const iframe_idFind = document.getElementById("iframe_idFind");  /* 대상 아이프레임을 선택한다. */
-			const iframe_window = iframe_idFind.contentWindow; /* contentWindow 는 iframe 의 window(전체)를 의미한다. */
+			document.getElementById(iframe_idFind).contentDocument.location.reload(true);
+			
+		});
+		
+		$("#find_userid").click(function(){
+			// 비밀번호찾기를 클릭하면 모달창 초기화
+			const iframe_pwdFind = document.getElementById("iframe_pwdFind");  /* 대상 아이프레임을 선택한다. */
+			const iframe_window = iframe_pwdFind.contentWindow; /* contentWindow 는 iframe 의 window(전체)를 의미한다. */
 			iframe_window.func_form_reset_empty();
 			
 		});
@@ -155,11 +161,6 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
         
-		
-		// 모달창 닫으면 초기화
-        $('#pwdFindModal').on('hidden.bs.modal', function (e) {
-        	$(this).find('div#find_msg').hide();
-        });
 		
 		
 
