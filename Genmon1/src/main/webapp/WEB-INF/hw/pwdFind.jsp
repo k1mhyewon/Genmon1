@@ -78,48 +78,15 @@
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 <script>
 
-	// ============================================================================================ //
-	// [타이머 시작]
 	
-	$("#timer_end").hide();
-	
-	const timer_div = document.querySelector("div#timer"); // 타이머를 보여줄 장소
-	
-	let time = 30;// 타이머 시간을 10분으로 지정
-	
-	// 타이머 함수 만들기
-	function timer() {
-	
-	        let minute = "";
-	        let second = "";
-	
-	        minute = parseInt(time / 60); // 소수부는 없애버리고 정수만 가져오는 것이다. 
-	        if(minute < 10) {
-	            minute = "0" + minute;
-	        }
-	
-	        second = time % 60;
-	        if(second < 10) {
-	            second = "0" + second;
-	        }
-	
-	        timer_div.innerHTML = `${minute}:${second}`
-	
-	        time --;
-	    
-	
-	}
-	
-	
-
-	// [타이머 종료]
-	// ============================================================================================ //
 	
 	
 
 	$(document).ready(function(){
 		
-		$("div#pwdFind_result").show();
+		$("#timer_end").hide();
+		
+		$("div#pwdFind_result").hide();
 		
 		$("#error_msg").hide();
 		$("#find_msg").hide();
@@ -227,12 +194,41 @@
 			if(isUserExists == "true" && sendMailSuccess == "true"){
 				// 유저가 존재하고, 메일전송이 성공했을 때
 				
-				timer(); // 타이머 함수 호출
-	
 				// setInterval(function(){timer();}, 1000); // 1초마다 주기적으로 타이머 함수를 호출하도록 지정
-				// 또는
-				const setTimer = setInterval(timer, 1000); // 1초마다 주기적으로 타이머 함수를 호출하도록 지정
-	
+				// ============================================================================================ //
+				// [타이머 시작]
+				
+				let time = 60;// 타이머 시간을 10분으로 지정
+				
+				let minute = "";
+			    let second = "";
+				
+				// 타이머 함수 만들기    
+				const timer = setInterval(function(){
+					
+					minute = parseInt(time / 60); // 소수부는 없애버리고 정수만 가져오는 것이다. 
+			        if(minute < 10) {
+			            minute = "0" + minute;
+			        }
+			
+			        second = time % 60;
+			        if(second < 10) {
+			            second = "0" + second;
+			        }
+			
+			        document.getElementById("timer").innerHTML = minute + ":" + second;
+			        time --;
+			        
+			        if(time < 0){
+			        	clearInterval(timer);
+			        	$("#timer_end").show();
+			        }
+					
+				}, 1000);
+				
+				// [타이머 종료]
+				// ============================================================================================ //
+				
 				$("div#pwdFind_result").show();
 				$("input#userid").val("${requestScope.userid}");
 				$("input#email").val("${requestScope.email}");
@@ -242,12 +238,12 @@
 			}
 			else { 
 				// 유저가 존재하지 않는다면 결과물을 보여주면 안됨
-				$("div#pwdFind_result").show();
+				$("div#pwdFind_result").hide();
 				$("#find_msg").show();
 			}
 		}
 		else { // get 방식이면 결과물을 보여주면 안됨
-			$("div#pwdFind_result").show();
+			$("div#pwdFind_result").hide();
 			$("#find_msg").hide();
 		}
 		
@@ -284,7 +280,7 @@
 		<div style="font-size: 9pt; font-weight: bold;">"${requestScope.email}"</div>
 		<div style="font-size: 9pt;">로 발송되었습니다.</div>
 		<div style="font-size: 9pt;">이메일을 확인해주세요.</div>
-		<div id="timer">09:00</div>
+		<div id="timer"></div>
 		<div id="timer_end" style="font-size: 9pt; color: red;">비밀번호 리셋시간이 종료되었습니다. 다시 시도해주세요.</div>
 	</div>
 </form>
