@@ -25,6 +25,16 @@
         font-weight: bold;
     }
     
+    #empty_wishlist {
+    	/* border: solid 1px pink; */
+    	width: 400px;
+    	height: 300px;
+    	padding-top: 80px;
+    	/* margin: auto; */
+    	margin-left: 300px;
+    	text-align: center;
+    }
+    
     #checkbox_choice {
      	/* border: solid 1px gray; */
      	padding: 0 20% 3% 0;
@@ -39,7 +49,8 @@
         margin-bottom: 5px;
     }
 
-    div#productDesc {
+    div.productDesc {
+    	/* border: solid 1px green; */
         font-size: 10pt;
         display: inline-block;
     }
@@ -69,7 +80,7 @@
     }
     
     
-    /*
+    <%--
     .cntbox {
     	/* border: solid 1px gray; */
     	width: 120px; 
@@ -78,7 +89,7 @@
         margin-bottom: 10px;
         display: inline-block;
     }
-	*/
+	--%>
 
     /* 갯수 상자 */
     
@@ -94,8 +105,10 @@
 	}
 	
 	.number-input {
-	  border: 1px solid #ddd;
-	  display: inline-flex;
+        border: 1px solid #ddd;
+	  	display: inline-flex;
+	  	margin-left: 105px; 
+	  	margin-top: 0;
 	}
 	
 	.number-input,
@@ -158,6 +171,8 @@
 	label:hover {
 	 cursor: pointer;
 	}
+	
+	
 
 </style>
 <script>
@@ -202,26 +217,25 @@
 				    dataType:"json",
 				    success:function(json) {
 				    	
-				    	let html="<div class='col'>";
+				    	let html="";
 				    	
 				    	$.each(json, function(index, item){
-									html+= "<label><input type='checkbox' class='chk_wishpro' name='sun'/><div class='card_body mx-1 my-3'>"+
-														"<img src='../images/minji/전체보기/"+item.image+"' class='product_img'>"+
-													"<div id='productDesc'>"+
+									html+= "<div class='col'><label><input type='checkbox' class='chk_wishprod' name='sun'/><div class='card_body mx-1 my-3'>"+
+														"<img src='../images/minji/전체보기/"+item.image+"' class='product_img' /><br>"+
+													"<div class='productDesc'>"+
 														"<p class='productName' style='font-weight: bold;'>"+item.pname+" "+item.colname+"</p>"+
-														"<p class='productPrice'>"+item.price+" 원</p>"+
+														"<p class='productPrice'>"+item.price.toLocaleString("ko-KR")+" 원</p>"+
 													"</div>"+
 													"<div class='number-input' style='margin-left: 105px; margin-top: 0;'>"+
-													  "<button onclick='this.parentNode.querySelector('input[type=number]').stepDown()' ></button>"+
+													  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepDown()\" ></button>"+
 													  "<input  class='quantity' min='1'  name='quantity' value='"+item.qty+"' type='number'>"+
-													  "<button onclick='this.parentNode.querySelector('input[type=number]').stepUp()' class='plus'></button>"+
+													  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepUp()\" class='plus'></button>"+
 													"</div>"+
 													"<input type='hidden' class='pnum' value='"+item.pnum+"' />"+
-													"<button onClick='go_purchase('"+item.pnum+"')' type='button' class='btnWish btn btn-dark'>결제하기</button>"+
-													"<button onClick='deleteOne('"+item.pnum+"')' type='button' class='btnWish btn btn-light'>삭제</button>"+
-												"</div></label>";
+													"<button onClick=\"go_purchase('"+item.pnum+"')\" type='button' class='btnWish btn btn-dark'>결제하기</button>"+
+													"<button onClick=\"deleteOne('"+item.pnum+"')\" type='button' class='btnWish btn btn-light'>삭제</button>"+
+												"</div></label></div>";
 				    	}); // end of each
-				    	html+= "</div>";
 				    	
 				    	$("div#show").html(html);
 				    },
@@ -407,7 +421,7 @@
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">장바구니(${listSize})</div>
+    <div id="wishText">장바구니()</div>
     <%-- <c:if test="${ not empty requestScope.cartList}"> --%>
     	<div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
@@ -421,9 +435,9 @@
 						<div class="col">
 						<label>
 							<input type="checkbox" class="chk_wishprod" name='sun'/>
-							<div class="card_body mx-1 my-3">
+							<div class="card_body mx-1 my-3 ">
 								<img src="../images/minji/전체보기/${cvo.allProdvo.pimage1}" class="product_img">
-								<div id="productDesc">
+								<div class="productDesc">
 									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
@@ -432,20 +446,25 @@
 								  <input  class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
 								  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
 								</div>
+								
 								<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
 								<button onClick="go_purchase('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 								<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
-								</div>
-							</label>
+							</div>
+						</label>
 						</div>
 					</c:forEach>
 					
 				</div>
 			</div>
 		</div>
-    <%-- </c:if> --%>
-    <c:if test="${ empty requestScope.cartList}">
-    	장바구니가 비어있습니다.
+	
+    <c:if test="${ empty requestScope.cartList && not empty sessionScope.loginuser}">
+    	<div id="wishText">장바구니(0)</div>
+		<div id="empty_wishlist">
+			<div>장바구니에 담긴 상품이 없습니다.</div>
+			<button type="button" class="btn btn-dark" id="go_shopping">쇼핑하러가기</button>
+		</div>
     </c:if>
 	<div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>

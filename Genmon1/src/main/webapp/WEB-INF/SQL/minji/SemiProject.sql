@@ -212,48 +212,32 @@ values(3, 3, '릴리트01정면.jpg' );
 
 commit;
 
-탐부 YC6
-탐부 L2
-탐부 01
-탐부 Y4
-탐부 W1 
 
-르 KC1 280000
-르 L2
-르 01
-르 IC1
-르 IBG1
-르 IV1 
-르 P1 
 
-릴리트 01  259000
-릴리트 01(Y)
-릴리트 01(K)
-릴리트 01(BR)
-
-로지 YC5  269000
-로지 01
-로지 01(BRG)
-
-크렐라 S3  280000
-크렐라 01
-
-밀 01  249000
-밀 Y2
-밀 01(K)
-밀 IC1
-
-디디온 VC1  279000
-디디온 01  
-디디온 GRC1
-
-로티 01  280000
-로티 IC1
-로티 Y1
-
-론디 01  259000
-론디 01(V) 
-론디 01(BR)
+select pnum, pname, fk_pid, pcolor, pimage1, pmaterial
+from tbl_all_product_test 
+join tbl_product_test 
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_id != 3 ;
 
 
 
+select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from tbl_all_product_test
+join 
+tbl_product_test
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7';
+
+
+String sql = "select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\n"+
+"from tbl_all_product_test\n"+
+"join \n"+
+"tbl_product_test\n"+
+"on fk_pid = pid\n"+
+"where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7'";
+
+
+
+select*
+from tbl_all_product_test;

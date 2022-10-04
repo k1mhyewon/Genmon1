@@ -144,6 +144,8 @@
 				chk_bool = false;
 			}
 			
+			$("#notPassed").css({"color": "", "font-weight": ""});
+			
 		}); // end of $("#pwd1").on() ----------------------------------------
 	
 		
@@ -161,6 +163,8 @@
 				same_bool = true;
 			}
 			
+			$("#notPassed").css({"color": "", "font-weight": ""});
+			
 		}); // end of $("#pwd2").on() ----------------------------------------
 		
 		
@@ -174,6 +178,9 @@
 				frm.method = "POST"; // post 방식이어야 함
 				frm.submit();
 				
+			}
+			else{
+				$("#notPassed").css({"color": "red", "font-weight": "bold"});
 			}
 			
 			
@@ -198,7 +205,7 @@
         		<label for="pwd1">비밀번호</label>
         		<input type="password" name="pwd1" id="pwd1" required/>
         	</li></ul>
-        	<div class="error_msg">비밀번호는 해당 조건을 모두 충족해야 합니다.<br>
+        	<div class="error_msg"><div id="notPassed">비밀번호는 해당 조건을 모두 충족해야 합니다.</div>
 	        	<div class="chk" id="size">✔</div>&nbsp;최소 8자 이상 15글자 이하<br>
 	        	<div class="chk" id="upper">✔</div>&nbsp;최소 1개의 대문자 사용<br>
 	        	<div class="chk" id="lower">✔</div>&nbsp;최소 1개의 소문자 사용<br>
