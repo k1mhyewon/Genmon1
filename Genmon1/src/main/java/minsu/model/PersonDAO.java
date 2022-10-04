@@ -132,9 +132,10 @@ public class PersonDAO implements InterPersonDAO {
 		 try {
 	          conn = ds.getConnection();
 	          
-	          String sql = "  update tbl_member_test set postcode=? "
-	          			+ "							   , address=? "
-	          			+ " , detailaddress =?, extraaddress=? "
+	          String sql = "  update tbl_member_test set postcode = ? "
+	          			+ "							   , address = ? "
+	          			+ " 						   , detailaddress = ? "
+	          			+ "							   , extraaddress = ? "
 	        		  	+ " where userid = ? ";
 	          
 	          pstmt = conn.prepareStatement(sql);

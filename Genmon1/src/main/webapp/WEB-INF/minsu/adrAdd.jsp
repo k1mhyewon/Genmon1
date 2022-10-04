@@ -68,11 +68,7 @@
   		line-height: 25px;
   	}
   	
-  	li#mobile > input {
-  		display: inline-block;
-  		width: 122px;
-  	}
-
+  
 </style>
 
 
@@ -103,52 +99,7 @@
 			}
 		}); // end of $("input#name").blur() ----------------- 
 		
-		
-		// === 전화번호2 === //
-		$("input#hp2").blur( (e)=>{
-			
-			const $target = $(e.target);
-		    const regExp = new RegExp(/^[1-9][0-9]{2,3}$/g);  
-           //  숫자 3자리 또는 4자리만 들어오도록 검사해주는 정규표현식 객체 생성 
-           
-           const bool = regExp.test($target.val());
-			
-			if(!bool) {
-				// 국번이 정규표현식에 위배된 경우  
-				$target.next("div.first_error").show();
-				
-			}
-			else {
-				// 국번이 정규표현식에 맞는 경우 
-				$target.next("div.first_error").hide();
-			}
-		} ); // 전화번호 hp2 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
-		
-		
-		// === 전화번호3 === //
-		$("input#hp3").blur( (e)=>{
-			
-			const $target = $(e.target);
-		    const regExp = new RegExp(/^\d{4}$/g);  
-           //  숫자 4자리만 들어오도록 검사해주는 정규표현식 객체 생성 
-           
-           const bool = regExp.test($target.val());
-			
-			if(!bool) {
-				// 마지막 전화번호 4자리가 정규표현식에 위배된 경우  
-				$target.next("div.first_error").show();
-			}
-			else {
-				// 마지막 전화번호 4자리가 정규표현식에 맞는 경우 
-				$target.next("div.first_error").hide();
-			}
-			
-		} ); // 전화번호 hp3 인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
-		
-		
-		
-		
-		
+	
 		
 		// === 우편번호 찾기를 클릭했을 때 이벤트 처리하기 === //
         $("button.btn_adrsearch").click(function() {
@@ -259,8 +210,14 @@
 			return; // 종료
 		}
 		
+		console.log("확인용 : " + $("input#name").val());
+		console.log("확인용 : " + $("input#postcode").val());
+		console.log("확인용 : " + $("input#address").val());
+		console.log("확인용 : " + $("input#detailAddress").val());
+		console.log("확인용 : " + $("input#extraAddress").val());
+		
 		const frm = document.frm_adrupdateMenu;
-		frm.action = "/myinfo/adrView.sun";
+		frm.action = "adrView.sun";
 		frm.method = "post";
 		frm.submit();
 	}
@@ -282,18 +239,7 @@
 		       	 <div class="first_error">필수 입력란입니다.</div>
 	       	</li>
 	      </ul>
-	      
-	       <ul>
-	         <li >연락처</li>
-	         <li style="width: 100%; text-align: left; margin-top: -20px;" id="mobile" name="mobile">
-	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" class="requiredInfo" readonly />&nbsp;-&nbsp;
-	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" class="requiredInfo"/>&nbsp;-&nbsp;
-	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" class="requiredInfo"/>
-	             <div class="first_error">필수 입력란입니다.</div>
-	         </li>
-	      </ul>
-	      
-	      
+	    
 	      <ul>
 		      <li>
 				<div class="puretxt">우편번호</div>

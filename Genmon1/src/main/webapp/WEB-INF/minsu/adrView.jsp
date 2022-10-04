@@ -3,6 +3,8 @@
     
  <% String ctxPath = request.getContextPath(); %>
  
+ <%@  taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ 
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="myinfo_sideMenu.jsp" />
 
@@ -22,7 +24,7 @@
 
 <style>
 	
-	div#frm_address {
+	form#frm_address {
 		/* border: solid 1px orange; */
 		margin: 40px auto;
 		width: 380px;
@@ -30,7 +32,7 @@
 		font-size: 12px;
 	}
 	
-	div#frm_address > div {
+	form#frm_address > div {
 		display: inline-block;
 		width:400px;
 	}
@@ -61,8 +63,6 @@
 
 	$(document).ready(function(){
 
-
-		
 		// 주소 수정버튼을 누르면  
 	    $("button#btn_update").click(function(){
 	    	location.href="<%= ctxPath%>/myinfo/adrUpdate.sun";
@@ -79,6 +79,8 @@
 		// 주소 추가버튼을 누르면  
 	    $("button#btn_adrAdd").click(function(){
 	    	location.href="<%= ctxPath%>/myinfo/adrAdd.sun";
+	    	
+	    	
 			
 		}); // end of $("button#btn_logout").click() --------------
 		
@@ -94,30 +96,30 @@
 
 
 	
-	<div id="frm_address" >
+	<form id="frm_address" >
 		<div>
 	
 		<span style="font-size: 16px; font-weight: bold; margin-bottom: 30px; margin-left: 30px;">기본배송지</span>
 				<%-- 자동으로 들어오게 나중에 requestScope로 바꾸기 --%>
-				<ul >
-					<li id="name" name="name">이름 :&nbsp;</li>
-					<li id="birth" name="birth">생년월일 :&nbsp;</li>
-					<li id="email" name="email">이메일 :&nbsp;</li>
-					<li id="gender" name="gender">주소 :&nbsp;</li>
-					<li id="nation" name="nation">국가 :&nbsp;</li>
-				</ul>
+				<c:if test="${not empty requestScope.address }">
+					<ul >
+						<li id="name" name="name">${requestScope.name} :&nbsp;</li>
+						<li id="address" name="address">${requestScope.address} :&nbsp;</li>
+					</ul>
+					
+					<button type="button" id="btn_update" style="background-color: black; color: white; margin-left: 10%;">수정</button>
+					<button type="button" id="btn_delete" style="background-color: white;">삭제</button>
+				</c:if>
 				
-				<button type="button" id="btn_update" style="background-color: black; color: white; margin-left: 10%;">수정</button>
-				<button type="button" id="btn_delete" style="background-color: white;">삭제</button>
-				<button type="button" id="btn_adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%;">주소추가하기</button>
-				<%-- <c:if test="">
+				<c:if test="${empty requestScope.address }">
 	    				<div>등록된 배송지가 없습니다.</div>
 	    				<button type="button" id="adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%; line-height: 200%;">주소추가하기</button>
 	    				addrAdd파일을 넣어야한다.
-	   				</c:if>
-		   		--%>	
+	   			</c:if>
+		   			
+		   		<button type="button" id="btn_adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%;">주소추가하기</button>
 		   	</div>
-	</div>
+	</form>
 	
 
 <%-- *** 주소삭제하기 Modal(부트스트랩기능) *** --%>

@@ -218,4 +218,5 @@ create table tbl_admin_guestContact_reply_test
 );
 
 
-
+update tbl_member_test set postcode, address, etailaddress, extraaddress
+value()
