@@ -37,7 +37,14 @@ public class ProductDetail extends AbstractController {
 		List<AddImgVO> imgList = idao.selectAllImages(pnum);
 		request.setAttribute("imgList", imgList);
 	
-		
+		// color와 material이 동일한 추천제품 가져오기 
+		Map<String,String> map = new HashMap<>();                                                                                                                                                                    
+		map.put("fk_pid", pvo.getFk_pid());
+		map.put("pnum", pnum);
+		  
+		List<ChildProductVO> recomendList = pdao.recommendProduct(map);
+		request.setAttribute("recomendList", recomendList);
+
 		
 		 
 		// super.setRedirect(false);          

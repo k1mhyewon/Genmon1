@@ -59,7 +59,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pname, pnum, price, pcolor, pimage1\n"+
+			String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt\n"+
 					"from tbl_product_test\n"+
 					"JOIN tbl_all_product_test \n"+
 					"ON pid = fk_pid";
@@ -71,6 +71,7 @@ public class ProductDAO implements InterProductDAO {
 				ChildProductVO cvo =new ChildProductVO();
 				
 				cvo.setPnum(rs.getInt("pnum"));
+				cvo.setSalePcnt(rs.getInt("salePcnt"));
 				
 				ParentProductVO ppvo = new ParentProductVO();
 				ppvo.setPname(rs.getString("pname"));
@@ -152,11 +153,10 @@ public class ProductDAO implements InterProductDAO {
 			
 			String sql = "select pimage1, pnum \n"+
 						"from tbl_all_product_test\n"+
-						"where FK_PID = ? and pnum !=  ? ";
+						"where FK_PID = ?  ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("fk_pid"));
-			pstmt.setString(2, paraMap.get("pnum"));
 			
 			rs = pstmt.executeQuery();
 			
@@ -212,6 +212,57 @@ public class ProductDAO implements InterProductDAO {
 	}
 
 	
-	
+	// color와 material이 동일한 추천제품 가져오기 
+	@Override
+	public List<ChildProductVO> recommendProduct(Map<String, String> map) throws SQLException {
+		
+		List<ChildProductVO> recommendList = new ArrayList<>();
+		 
+		try { 
+			
+			conn = ds.getConnection();
+		 
+			String sql = " select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\n "+
+						" from tbl_all_product_test\n"+ "join \n"+ "tbl_product_test\n "+
+						" on fk_pid = pid\n "+ 
+						" where pcolor=? and pmaterial=? and fk_pid != ? ";
+		
+			pstmt = conn.prepareStatement(sql); 
+			
+			pstmt.setString(1, map.get("pcolor"));
+			pstmt.setString(2, map.get("pmaterial")); 
+			pstmt.setString(3, map.get("fk_pid"));
+			
+			rs = pstmt.executeQuery();
+			 
+			while(rs.next()) { 
+				
+			ChildProductVO recomCvo = new ChildProductVO();
+			 
+			recomCvo.setPnum(rs.getInt("pnum"));
+			recomCvo.setFk_pid(rs.getString("fk_pid"));
+			recomCvo.setPcolor(rs.getString("pcolor"));
+			recomCvo.setPimage1(rs.getString("pimage1"));
+		
+			ParentProductVO ppvo = new ParentProductVO();
+			ppvo.setPname(rs.getString("pname")); 
+			ppvo.setPrice(rs.getInt("price"));
+			ppvo.setPmaterial(rs.getString("pmaterial"));
+		
+			recomCvo.setParentProvo(ppvo);
+			recommendList.add(recomCvo); 
+		
+			/* recommendList.add(recomCvo); */
+			
+			}
+			 
+		} finally { 
+			
+			close(); 
+		
+		}
+		
+		return recommendList; 
+		}
 	
 }

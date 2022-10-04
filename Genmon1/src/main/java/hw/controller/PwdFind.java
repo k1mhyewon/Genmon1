@@ -118,6 +118,8 @@ public class PwdFind extends AbstractController {
 		else {
 			// 기본 비밀번호 찾기 모달창
 			
+			session.removeAttribute("certificationCode");
+			
 			request.setAttribute("method", method);
 			
 			super.setRedirect(false);

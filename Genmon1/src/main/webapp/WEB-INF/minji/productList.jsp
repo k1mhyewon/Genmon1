@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath=request.getContextPath();%>
 <jsp:include page="../common/header.jsp" />
 
@@ -410,7 +411,26 @@
 			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" ></a>
 			  				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product">
 				 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
-				 		 		<span class="grid-item-price">${pvo.parentProvo.price }</span>
+				 		 		<c:choose>
+				 		 			<c:when test="${pvo.salePcnt > 0}">
+				 		 			<span style="text-decoration:line-through; color:gray;" class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
+				 		 			</c:when>
+				 		 			
+			 		 				<c:when test="${pvo.salePcnt <= 0}">
+			 		 					<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
+			 		 				</c:when>
+				 		 		</c:choose>
+				 		 		
+				 		 		<c:choose>
+					 		 		<c:when test="${pvo.salePcnt > 0}">
+					 		 				<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price - (((pvo.parentProvo.price) * pvo.salePcnt)/100) }" pattern="#,###" /></span>
+					 		 		</c:when>
+					 		 		
+					 		 		<c:otherwise> <%-- 할인 없는 곳 공백 넣을까 말까???  --%>
+					 		 				<span class="grid-item-price"> &nbsp; </span>
+					 		 		</c:otherwise>
+				 		 		</c:choose>
+				 		 			
 				 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
 			 		 	 	</a>
 							<button class="item-wish-btn" style="border:none; background-color: white; float: right; display: inline-block;" onclick="addWish()">	&#10084;</button>

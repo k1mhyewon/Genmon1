@@ -97,6 +97,32 @@
 <script>
 	$(document).ready(function(){ // --------------------------------------------------
 		
+		let allkey = "";
+		let allqty = "";
+		
+		let cnt1 = 0;
+		let cnt2 = 0;
+		
+		// console.log("sessionStorage.length: "+sessionStorage.length);
+		
+		for(let i=0; i<sessionStorage.length; i++) {
+			// 문자열.indexOf("찾고자하는문자열") 없으면 -1
+			let key = sessionStorage.key(i);
+			if(key.indexOf('Key')!=-1){  // 키 값이 있는 경우
+				let comma =  cnt1 == 0 ? "": ","; // 키값이 없으면 "", 있으면 "," 를 찍어줌
+				allkey += comma + sessionStorage.getItem(key);
+				cnt1 += 1;
+				$("input#pnum").val(allkey);
+			} else { // 수량 값일 경우
+				let comma =  cnt2 == 0 ? "": ",";
+				allqty+= comma + sessionStorage.getItem(key);
+				cnt2 += 1;
+				$("input#qty").val(allqty);
+			}
+		}
+
+		// console.log("allkey"+allkey);
+		// console.log("allqty"+allqty);
 		
 		$("button#btn_goLogin").click(function(){
 			// 로그인 버튼을 클릭하면
@@ -252,6 +278,8 @@
         	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">회원가입을 하시면, 주문 조회와 개인정보 관리 및 위시리스트 확인 등 다양한 혜택을 누리실 수 있습니다.</div>
         	<button class="login_btn" type="button" id="btn_gojoin" style="margin-top: 15px;">신규가입</button>
         	
+        	<input type="text" id="pnum" name="pnum" value="" />
+        	<input type="text" id="qty" name="qty" value="" />
         </div>
     </form>    	
     
