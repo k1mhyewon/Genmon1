@@ -4,15 +4,15 @@ import java.util.List;
 
 public class ChildProductVO {
 
-   private int pnum;            // 상품일련번호
+   private int pnum;          		  // 상품일련번호
    private String fk_pid;             // 상품id
-   private String pcolor;            // 상품색상
-   private String pimage1;          // 대표상품이미지
-   private int salePcnt;             // 할인율
-   private int pqty;                // 재고
-   private String preleasedate;      // 출시일
+   private String pcolor;             // 상품색상
+   private String pimage1;            // 대표상품이미지
+   private int salePcnt;              // 할인율
+   private int pqty;                  // 재고
+   private String preleasedate;       // 출시일
    ////////////////////////////////
-   // private int colAmount;               // 같은 컬러 갯수 구하기 
+   // private int colAmount;          // 같은 컬러 갯수 구하기 
    
    
    ////////////////////////////
@@ -111,7 +111,6 @@ public class ChildProductVO {
       
    }
 
-   
    
    
 }

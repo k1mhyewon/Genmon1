@@ -32,9 +32,9 @@ public class Join extends AbstractController {
 			String hp2 = request.getParameter("hp2");
 			String hp3 = request.getParameter("hp3");
 			String gender = request.getParameter("gender");
-			String birthyyyy = request.getParameter("birthyyyy");
-			String birthmm = request.getParameter("birthmm");
-			String birthdd = request.getParameter("birthdd");
+			String birthyyyy = request.getParameter("year");
+			String birthmm = request.getParameter("month");
+			String birthdd = request.getParameter("day");
 
 			// VO(==DTO)에서 받아온 휴대폰 3개를 DB컬럼과 같은 이름으로 하나의 휴대전화번호로 합친다
 			String mobile = hp1 + hp2 + hp3; // "01081092728"
@@ -64,7 +64,7 @@ public class Join extends AbstractController {
 					request.setAttribute("loc", loc);
 	
 					// super.setRedirect(false);
-					super.setViewPage("/WEB-INF/msg.jsp"); // 성공메세지창을 띄워주는 파일(view단)
+					super.setViewPage("/WEB-INF/common/msg.jsp"); // 성공메세지창을 띄워주는 파일(view단)
 				}
 	
 			} catch (SQLException e) {
