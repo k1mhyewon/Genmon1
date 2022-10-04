@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 import common.model.AddImgVO;
 import common.model.ChildProductVO;
 import common.model.ContactVO;
+import common.model.MemberVO;
 import common.model.ParentProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
@@ -71,7 +72,7 @@ public class ContactDAO implements InterContactDAO {
 		
 		List<ContactVO> contactList = new ArrayList<>();
 		String ctype = paraMap.get("ctype");
-		String sql1 ="";
+//		String sql1 ="";
 		try {
 			conn = ds.getConnection();
 			
@@ -120,7 +121,6 @@ public class ContactDAO implements InterContactDAO {
 				pstmt.setString(2, ctype);
 			}
 			
-			System.out.println(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -142,6 +142,56 @@ public class ContactDAO implements InterContactDAO {
 		}
 		
 		return contactList;
+	}
+
+	
+	// 클릭한 한 문의글 정보 가져오기   
+	@Override
+	public ContactVO contactOneDetail(String contactid) throws SQLException {
+		ContactVO cvo = new ContactVO();
+		String mg = contactid.substring(0,1);
+		boolean mgflag = "M".equalsIgnoreCase(mg)?  false : true; //  멤버문의글일경우 false 인 깃발   
+		String sql="";
+		try {
+			conn = ds.getConnection();
+			
+			if(!mgflag) {// 회원글이라면 
+				sql=" select  contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email, fk_userid, name "
+					+ " from tbl_member_contact_test c left join tbl_member_test m "
+					+ " on c.fk_userid = m.userid "
+					+ " where contactid = ? ";
+			}
+			else { // 비회원글이라면  
+				sql=" select contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email "
+					+ " from tbl_guest_contact_test "
+					+ " where contactid = ? ";
+			} 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactid);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			cvo.setContactid(rs.getString(1));
+			cvo.setCtype(rs.getString(2));
+			cvo.setContents(rs.getString(3));
+			cvo.setCregisterday(rs.getString(4));
+// 첨부파일 
+			cvo.setEmail(aes.decrypt(rs.getString(5)));
+			
+			if(!mgflag) {// 회원글이라면
+				cvo.setFk_userid(rs.getString(6));
+				
+				MemberVO mvo = new MemberVO();
+				mvo.setName(rs.getString(7));
+				cvo.setMvo(mvo);
+			}
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return cvo;
 	}
 
 	

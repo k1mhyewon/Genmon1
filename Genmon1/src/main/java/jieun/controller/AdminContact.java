@@ -9,7 +9,6 @@ public class AdminContact extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("dsds");
 //		super.setRedirect(false); 
 		super.setViewPage("/WEB-INF/jieun/admin_contactTable.jsp"); // 
 		// 문서가 로딩되자마자 전체 목록이 보여져야 하므로  

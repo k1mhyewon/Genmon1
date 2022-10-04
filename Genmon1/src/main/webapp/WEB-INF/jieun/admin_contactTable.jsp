@@ -94,7 +94,7 @@ border-bottom: none!important;
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
 }
-.custom-table tbody tr th, .custom-table tbody tr td {
+.custom-table tbody tr td , .custom-table tbody tr th {
     background-color: #fff;
     border: none;
 }
@@ -174,14 +174,13 @@ p{
 th{
 	font-weight: 300;
 }
-thover{
-    background-color: #f4f4f4;
-    border: none;
-    cursor: pointer;
-}
 .table td > p {
     padding-top: 0;
     margin: auto;
+}
+.under:hover{
+	text-decoration:underline;
+	cursor: pointer;
 }
 </style>
 <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
@@ -190,33 +189,39 @@ thover{
 <script  type="text/javascript">
 $(document).ready(function () {
 	
-	/* 행호버효과 */
-	$("tr[scope='row']>td").hover(function() {
-		/* $(this).addclass('thover'); */
-		$(this).css('background-color','transparent');
-		$(this).siblings().css('background-color','transparent');
-	},function(){
-		$(this).css('background-color','#fff');
-		$(this).siblings().css('background-color','#fff');
-	});
-	
- 	$("tr[scope='row']").click(function() {
- 		goAnswerForm();
-	});
- 	/* 행호버효과 */
  	
+ 	/* 행호버효과 */
+ 	$(document).on("mouseover", "tr.tr_data", function(){
+ 		//$(this).children().addClass('MYhover');
+    	//$(this).children().siblings().addClass('MYhover');
+    	// alert($(this).html());
+    	// $(this).css({'color':'blue', 'background-color':'red'});
+ 		$(this).children('td').css({'background-color':'#f4f4f4'});
+    });  
+    $(document).on("mouseout", "tr.tr_data", function(){
+    	// $(this).children().removeClass('MYhover');
+    	// $(this).children().siblings().removeClass('MYhover');
+    	$(this).children('td').css({'background-color':'#fff'});
+    });   
+	/* 행호버효과 */
+
+    
  	
  	
  	
  	// 문서가 로딩되자마자 전체 목록이 보여져야 하므로 
+ 	$("a#all").addClass("active");
  	displayTypeTab("전체");
  	
  	
  	// ----탭분류를 클릭했을때----- 
  	$("a.nav-link").click(function(){
+ 		$("a").removeClass("active");
+ 		$(this).addClass("active");
  		$("tbody#contactList").html("");
  		const ctype = $(this).text();
- 		alert(ctype);
+ 		// alert(ctype);
+ 		
  		// 목록불러오는 함수 
  		displayTypeTab(ctype);
  	});
@@ -224,16 +229,18 @@ $(document).ready(function () {
  	
  	
  	
+ 	$(document).on("click", ".under", function(e){
+ 		const contactid = $(this).parent().children(".contactid").text();
+		goAnswerForm(contactid);
+ 	});
 	
 });
-
-
-
+		 
+	
 	// === 답변폼창 나오기 === //
-	function goAnswerForm(){
-		
-		// 나의 정ㅂ 수정하기 팝업창 띄우기
-		const url = "<%= request.getContextPath()%>/jieun/manager_answerFrm.jsp";
+	function goAnswerForm(contactid){
+		// alert(contactid);
+		const url = "<%= request.getContextPath()%>/admin/adminAnswer.sun?contactid"+contactid;
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
 		const pop_width = 800;
@@ -245,7 +252,9 @@ $(document).ready(function () {
 		window.open(url, "goAnswerForm",
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 						
-	}// end of function goEditPersonal(){}
+	}// end of function goAnswerForm(ctid){}----
+	
+
 	
 	
 	
@@ -268,25 +277,24 @@ $(document).ready(function () {
 				
 					// $("div#displayHIT").html(html);
 				}
-				else if( json.length > 0 ){ // 데이터가 존재하는 경우  
+				else if( json.length > 0 ){ // 데이터가 존재하는 경우   
 					
 					$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
-						
-						html += '<tr scope="row" class="hover">'+
-									'<th scope="row">'+
+						html += '<tr scope="row" class="tr_data" >'+
+									'<td scope="row" >'+
 										'<label class="control control--checkbox">'+
 											'<input type="checkbox">'+
 											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
 										'</label>'+
-									'</th>'+
-									'<td>'+item.contactid+'</td>'+
+									'</td>'+
+									'<td class="under contactid">'+item.contactid+'</td>'+
 									'<td>'+
 										'<p class="fw-bold mb-1">'+item.fk_userid+'</p>'+
 										'<p class="text-muted mb-0">'+item.email+'</p>'+
 									'</td>'+
-									'<td>'+
+									'<td class="under" >'+
 										'<p class="fw-normal mb-1">'+item.ctype+'문의</p>'+
-										'<p class="text-muted mb-0">'+item.contents+'</p>'+
+										'<p class=" text-muted mb-0">'+item.contents+'</p>'+
 									'</td>'+
 									'<td>'+item.cregisterday+'</td>'+
 									'<td>&nbsp;<p href="#" style="display: inline-block"><i class="fas fa-envelope-square"></i></p>&nbsp;&nbsp;'+
@@ -295,13 +303,8 @@ $(document).ready(function () {
 								'<tr class="spacer"><td colspan="100"></td></tr>';
 								
 					});// end of $.each -------------------------
-				
 					$("tbody#contactList").html(html); 
-					
-					
 				}				
-				
-				
 				
 			},
 			error: function(request, status, error){
@@ -311,9 +314,8 @@ $(document).ready(function () {
 			
 		});
 		
-	} 
-	
-	
+	}
+
 	
 </script>
 <%-- 인덱스 시작 --%>
@@ -327,63 +329,21 @@ $(document).ready(function () {
 <!-- Tabs navs -->
 <ul class="nav nav-tabs mb-5" id="ex1" role="tablist" style="margin:auto;">
   <li class="nav-item" role="presentation">
-    <a
-      class="nav-link active"
-      id="ex1-tab-1"
-      data-mdb-toggle="tab"
-      href="#ex1-tabs-1"
-      role="tab"
-      aria-controls="ex1-tabs-1"
-      aria-selected="true"
-      >전체</a>
+    <a class="nav-link active" id="all tab-1" aria-controls="tabs-1" href="#tabs-1" role="tab">전체</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a
-      class="nav-link"
-      id="ex1-tab-2"
-      data-mdb-toggle="tab"
-      href="#ex1-tabs-2"
-      role="tab"
-      aria-controls="ex1-tabs-2"
-      aria-selected="false"
-      >상품</a
+    <a class="nav-link" id="product tab-2" aria-controls="tabs-2" href="#tabs-2" role="tab">상품</a
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a
-      class="nav-link"
-      id="ex1-tab-3"
-      data-mdb-toggle="tab"
-      href="#ex1-tabs-3"
-      role="tab"
-      aria-controls ="ex1-tabs-3"
-      aria-selected="false"
-      >배송</a
+    <a class="nav-link" id="delivery tab-3" aria-controls="tabs-3" href="#tabs-3" role="tab" >배송</a
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a
-      class="nav-link"
-      id="ex1-tab-4"
-      data-mdb-toggle="tab"
-      href="#ex1-tabs-4"
-      role="tab"
-      aria-controls="ex1-tabs-4"
-      aria-selected="false"
-      >교환/반품</a
-    >
+    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">교환/반품</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a
-      class="nav-link"
-      id="ex1-tab-5"
-      data-mdb-toggle="tab"
-      href="#ex1-tabs-5"
-      role="tab"
-      aria-controls="ex1-tabs-5"
-      aria-selected="false"
-      >기타</a
-    >
+    <a class="nav-link" id="etc tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >기타</a>
   </li>
 </ul>
 <!-- Tabs navs -->
@@ -392,22 +352,22 @@ $(document).ready(function () {
 <div class="tab-content" id="ex1-content">
   <div
     class="tab-pane fade show active"
-    id="ex1-tabs-1"
+    id="tabs-1"
     role="tabpanel"
-    aria-labelledby="ex1-tab-1"
+    aria-labelledby="tab-1"
   >
     <!-- 전체문의 -->
   </div>
-  <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+  <div class="tab-pane fade" id="tabs-2" role="tabpanel" aria-labelledby="tab-2">
     <!-- 상품문의 -->
   </div>
-  <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+  <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-3">
     <!-- 배송문의 -->
   </div>
-  <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-4">
+  <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-4">
     <!-- 교환/환불문의 -->
   </div>
-  <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-5">
+  <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-5">
     <!-- 기타문의 -->
   </div>
 </div> 
@@ -444,33 +404,7 @@ $(document).ready(function () {
 				<th scope="col"></th>
 			</tr>
 		</thead>
-		<tbody id="contactList">
-		
-		
-		<tr scope="row" class="hover">
-			<th scope="row">
-			<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>
-			</label>
-			</th>
-			<td>1392</td>
-			<td>
-			 <p class="fw-bold mb-1">John Doe</p>
-             <p class="text-muted mb-0">john.doe@gmail.com</p>
-			</td>
-			<td>
-				<p class="fw-normal mb-1">배송문의</p>
-        		<p class="text-muted mb-0">배송 언제시작할까요?</p>
-			</td>
-			<td>2022.09.20 18:09:34</td>
-			<td>&nbsp;<p href="#" style="display: inline-block"><i class="fas fa-envelope-square"></i></p>&nbsp;&nbsp;<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		
-		<tr class="spacer"><td colspan="100"></td></tr>
-		
-		
-		</tbody>
+		<tbody id="contactList"></tbody>
 		</table>
 </div>
 </section>
@@ -479,6 +413,9 @@ $(document).ready(function () {
 
   
 </body>
+<script>
+
+</script>
 
 <%-- 인덱스 끝 --%>
 

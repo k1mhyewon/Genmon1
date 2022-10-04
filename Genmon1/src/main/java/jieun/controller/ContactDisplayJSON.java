@@ -50,7 +50,7 @@ public class ContactDisplayJSON extends AbstractController {
 			}// end of for -----------------
 			
 			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
-			System.out.println("~~~ 확인용 json =>"+json);
+//			System.out.println("~~~ 확인용 json =>"+json);
 			request.setAttribute("json", json);
 			
 //			super.setRedirect(false);

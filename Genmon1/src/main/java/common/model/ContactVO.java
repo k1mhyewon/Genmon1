@@ -10,12 +10,23 @@ public class ContactVO {
 	private String contents; //문의 내용
 	private String filename; // 첨부파일 
 	private String cregisterday; // 문의글등록일(sysdate)
-
-
+	
 	// 비회원 guest
 	private String email; // 이메일 (AES-256 암호화/복호화 대상)
 	
+	//////////멤버테이블 join
+	private MemberVO mvo;
 	
+	
+	
+	public MemberVO getMvo() {
+		return mvo;
+	}
+
+	public void setMvo(MemberVO mvo) {
+		this.mvo = mvo;
+	}
+
 	public String getContactid() {
 		return contactid;
 	}
