@@ -22,6 +22,10 @@ public class AdrAddEnd extends AbstractController {
 		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
+		System.out.println("~~~ 확인용2 : " + request.getParameter("address"));
+		System.out.println("~~~ 확인용2 : " + request.getParameter("detailAddress"));
+		System.out.println("~~~ 확인용2 : " + request.getParameter("extraAddress"));
+	
 		
 		if(!super.checkLogin(request)) {
 				// 로그인 안했으면 
@@ -69,19 +73,20 @@ public class AdrAddEnd extends AbstractController {
 					
 					// DB에 주소를 추가하기
 					InterPersonDAO pdao =  new PersonDAO();
-					int n = pdao.updateAdreess(paraMap);
-					
-					String message = "";
-					String loc = "";
+					int n = pdao.addAdreess(paraMap);
+				
 			         if(n == 1) {
 			        	 
-			        	 message = "주소등록 성공!!";
-			        	 loc = "/WEB-INF/minsu/adrView.jsp"; 
+			        	 String message = "주소등록 성공!!";
+			        	 String loc = "/WEB-INF/minsu/adrView.jsp"; 
+			        	 
+			        	request.setAttribute("message", message);
+						request.setAttribute("loc", loc);
 			        	 
 			         }
 			         else {
-			        	 message = "주소등록 실패!!";
-			        	 loc = "javascript:history.back()"; // 이전페이지로 이동
+			        	 String  message = "주소등록 실패!!";
+			        	 String loc = "javascript:history.back()"; // 이전페이지로 이동
 				         
 				        request.setAttribute("message", message);
 						request.setAttribute("loc", loc);

@@ -253,8 +253,8 @@
 			<li>
 				<span class="puretxt">상세주소</span>
 				<input type="text" id="address" name="address" class="input_style" placeholder="예)00동, 00로" />
-				<input type="text" id="detailAddress" name="detailAddress" class="input_style"  placeholder="상세주소" style="display: inline-block;  width: 190px;" />
-				<input type="text" id="extraAddress" name="extraAddress" placeholder="참고항목" style="display: inline-block;  width: 190px;  margin: 10px 0 10px 8px;"/>
+				<input type="text" id="detailaddress" name="detailaddress" class="input_style"  placeholder="상세주소" style="display: inline-block;  width: 190px;" />
+				<input type="text" id="extraaddress" name="extraaddress" placeholder="참고항목" style="display: inline-block;  width: 190px;  margin: 10px 0 10px 8px;"/>
 				<div class="first_error">필수 입력란입니다.</div>
 			</li>
 		</ul>

@@ -39,8 +39,9 @@ public class MyinfoDetail extends AbstractController {
 					super.setViewPage(request.getContextPath()+"/error.sun");
 				}
 			
-		
-		
+		System.out.println("~~~ 확인용1 : " + request.getParameter("address"));
+		System.out.println("~~~ 확인용1 : " + request.getParameter("detailAddress"));
+		System.out.println("~~~ 확인용1 : " + request.getParameter("extraAddress"));
 	
 		}
 	}

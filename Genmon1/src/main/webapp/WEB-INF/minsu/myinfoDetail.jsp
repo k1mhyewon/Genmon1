@@ -227,7 +227,7 @@
 	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 10% 0 10% 10%;">
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
 		       		<a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" id="update">수정</a>
-					<div style="padding: 5%; font-size: 13px;">
+					<div style="margin: 3% 0 0 -5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
 							<li id="gender" name="gender">성별&nbsp;&nbsp;: <span>${sessionScope.loginuser.userid}</span></li> 
 							<li id="name" name="name">이름&nbsp;&nbsp;: <span>${sessionScope.loginuser.name}</span></li>
