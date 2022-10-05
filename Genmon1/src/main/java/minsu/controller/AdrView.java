@@ -5,8 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import common.model.MemberVO;
 import minsu.model.InterPersonDAO;
 import minsu.model.PersonDAO;
 
@@ -16,11 +18,10 @@ public class AdrView extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println("~~~ 확인용0 " + request.getParameter("name"));
-		System.out.println("~~~ 확인용0 " + request.getParameter("postcode"));
-		System.out.println("~~~ 확인용0 " + request.getParameter("address"));
-		System.out.println("~~~ 확인용0 " + request.getParameter("detailAddress"));
-		System.out.println("~~~ 확인용0 " + request.getParameter("userid"));
+		HttpSession session = request.getSession();
+		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
 		
 		if(!super.checkLogin(request)) {
 				// 로그인 안했으면 
@@ -51,19 +52,12 @@ public class AdrView extends AbstractController {
 				}
 				else {
 					
-					System.out.println("~~~ 확인용1 " + request.getParameter("name"));
-					System.out.println("~~~ 확인용1 " + request.getParameter("postcode"));
-					System.out.println("~~~ 확인용1 " + request.getParameter("address"));
-					System.out.println("~~~ 확인용1 " + request.getParameter("detailAddress"));
-					System.out.println("~~~ 확인용1 " + request.getParameter("userid"));
-					
 					String name = request.getParameter("name");
 					String postcode = request.getParameter("postcode");
 					String address = request.getParameter("address");
 					String detailAddress = request.getParameter("detailAddress");
 					String extraAddress = request.getParameter("extraAddress");
 					
-					String userid = request.getParameter("userid"); // login.jsp에서 userid를 받아온다
 					
 					 Map<String,String> paraMap = new HashMap<>();
 					 paraMap.put("name",name);
@@ -78,11 +72,6 @@ public class AdrView extends AbstractController {
 					int n = pdao.addAdreess(paraMap);
 					
 					String message = "";
-					System.out.println("~~~ 확인용2 " + request.getParameter("name"));
-					System.out.println("~~~ 확인용2 " + request.getParameter("postcode"));
-					System.out.println("~~~ 확인용2 " + request.getParameter("address"));
-					System.out.println("~~~ 확인용2 " + request.getParameter("detailAddress"));
-					System.out.println("~~~ 확인용2 " + request.getParameter("userid"));
 			         if(n == 1) {
 			        	 
 			        	 message = "주소등록 성공!!";

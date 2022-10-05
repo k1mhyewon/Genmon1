@@ -6,8 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import common.model.MemberVO;
-import minsu.model.InterPersonDAO;
-import minsu.model.PersonDAO;
 
 public class MyinfoDetail extends AbstractController {
 
@@ -15,12 +13,10 @@ public class MyinfoDetail extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		
-		String userid = request.getParameter("userid"); // login.jsp에서 userid를 받아온다
-		
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
+		String userid = request.getParameter("loginuser"); // login.jsp에서 userid를 받아온다
 		
 		try {
 			// super.setRedirect(false);

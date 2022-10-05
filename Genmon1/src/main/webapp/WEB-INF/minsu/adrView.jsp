@@ -88,7 +88,7 @@
 
 	}); // end of $(document).ready(function() ------------------------------------------
 
-
+	
 
 </script>
 
@@ -101,17 +101,20 @@
 	
 		<span style="font-size: 16px; font-weight: bold; margin-bottom: 30px; margin-left: 30px;">기본배송지</span>
 				<%-- 자동으로 들어오게 나중에 requestScope로 바꾸기 --%>
-				<c:if test="${not empty requestScope.address }">
+				<c:if test="${not empty requestScope.address}">
 					<ul >
-						<li id="name" name="name">${requestScope.name} :&nbsp;</li>
-						<li id="address" name="address">${requestScope.address} :&nbsp;</li>
+						<li id="name" name="name">${loginuser.name}&nbsp;</li>
+						<li id="postcode" name="postcode">${loginuser.postcode} </li>
+						<li id="address" name="address">${loginuser.address}</li>
+						<li id="detailaddress" name="detailaddress">${loginuser.detailaddress}</li>
+						<li id="extraaddress" name="extraaddress">${loginuser.extraaddress}</li>
 					</ul>
 					
 					<button type="button" id="btn_update" style="background-color: black; color: white; margin-left: 10%;">수정</button>
 					<button type="button" id="btn_delete" style="background-color: white;">삭제</button>
 				</c:if>
 				
-				<c:if test="${empty requestScope.address }">
+				<c:if test="${empty loginuser.address}">
 	    				<div>등록된 배송지가 없습니다.</div>
 	    				<button type="button" id="adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%; line-height: 200%;">주소추가하기</button>
 	    				addrAdd파일을 넣어야한다.

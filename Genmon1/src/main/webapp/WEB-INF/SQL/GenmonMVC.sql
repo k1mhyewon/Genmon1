@@ -217,6 +217,10 @@ create table tbl_admin_guestContact_reply_test
 ,constraint  FK_tbl_admin_nomemberContact_reply_test_fk_ctid foreign key(fk_ctid) references tbl_nomember_contact_test(ctid) on delete cascade
 );
 
-
-update tbl_member_test set postcode, address, etailaddress, extraaddress
-value()
+select *
+from tbl_member_test
+update tbl_member_test set postcode = 14547, 
+                           address = 제주특별자치도제주시첨단로 242, 
+                           detailaddress = 1동, 
+                           extraaddress = 영평동
+where userid = 'leess';

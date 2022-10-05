@@ -113,6 +113,10 @@
         });
         
      
+        
+        
+        
+        
 	}); // end of $(document).ready(function(){}-----------------------------------------
 
 
@@ -173,6 +177,7 @@
 			// / "우편번호 찾기" 를 클릭하지 않은 경우
 			alert("우편번호 찾기 버튼을 이용하여 주소를 입력하세요.");
 			return; // 종료
+			
 		}
 		else {
 			// "우편번호 찾기" 를 클릭한 경우
@@ -209,13 +214,7 @@
 		if(b_Flag_requiredInfo) {
 			return; // 종료
 		}
-		
-		console.log("확인용 : " + $("input#name").val());
-		console.log("확인용 : " + $("input#postcode").val());
-		console.log("확인용 : " + $("input#address").val());
-		console.log("확인용 : " + $("input#detailAddress").val());
-		console.log("확인용 : " + $("input#extraAddress").val());
-		
+	
 		const frm = document.frm_adrupdateMenu;
 		frm.action = "adrView.sun";
 		frm.method = "post";
@@ -243,7 +242,7 @@
 	      <ul>
 		      <li>
 				<div class="puretxt">우편번호</div>
-				<input type="text" id="postcode" name="postcode " placeholder="우편번호" style="display: inline-block; width: 40%;"/>
+				<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: inline-block; width: 40%;"/>
 				<button type="button" class="btn_adrsearch" onclick="openDaumPOST();">검색</button>
 				<div class="error">검색을 통하여 배송지를 입력해주세요.</div>
 				<div class="first_error">필수 입력란입니다.</div>

@@ -222,7 +222,7 @@
 
 </script>
 
-<c:if test="${not empty sessionScope.loginuser}">
+<%-- <c:if test="${not empty sessionScope.loginuser}"> --%>
    <form name="frm_mypage" id="frm_mypage">
         <div>
         	<div id="frm_my">
@@ -237,18 +237,22 @@
 							<li id="birth" name="birth">생년월일&nbsp;&nbsp;: <span>${sessionScope.loginuser.birthday}</span></li>
 							<li id="email" name="email">이메일&nbsp;&nbsp;: <span>${sessionScope.loginuser.email}</span></li>
 							
-							<c:if test="${not empty sessionScope.loginuser.address} ">
+							<c:if test="${not empty loginuser.address}">
 								<div style="margin: 20px 0;">
 									<ul style="list-style: none;">
-										<li id="address" name="address">주소&nbsp;&nbsp;: <span>${sessionScope.loginuser.address}</span></li>
+										<li>주소</li>
+										<li id="address" name="address">${loginuser.postcode}</li>
+										<li id="address" name="address">${loginuser.address}</li>
+										<li id="detailaddress" name="detailaddress">${loginuser.detailaddress}</li>
+										<li id="extraaddress" name="extraaddress">${loginuser.extraaddress}</li>
 									</ul>
 								</div>
 							</c:if>
 							
-							<c:if test="${empty sessionScope.loginuser.address}">
+							<c:if test="${empty loginuser.address}">
 								<div style="display: felx; margin: 80px auto; width: 200px;">
 			    					<div style="font-size: 15px; font-weight: bold;">저장된 주소가 없습니다.</div>
-			    					<button id="btn_adradd"><a  href="javascript:goAdrAdd('${(sessionScope.loginuser).userid}');" >새로운 주소 추가</a></button>
+			    					<button id="btn_adradd"><a href="javascript:goAdrAdd('${(sessionScope.loginuser).userid}');" >새로운 주소 추가</a></button>
 			    				</div>
 					   		</c:if>
 							
@@ -305,8 +309,8 @@
      		</div>
        </div>
    </form>
-</c:if>   
-       
+<%-- </c:if>   
+        --%>
     <%-- form을 만든후 post방식으로 넘긴다 --%>
    <%-- PG(Payment Gateway 결제대행)에 코인금액을 카드(카카오페이 등)로 결제후 DB상에 사용자의 코인액을 update 를 해주는 폼이다. --%>
     <form name="coinUpdateFrm">
