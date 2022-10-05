@@ -12,7 +12,7 @@ import common.model.MemberVO;
 import minsu.model.InterPersonDAO;
 import minsu.model.PersonDAO;
 
-public class AdrView extends AbstractController {
+public class AdrAddEnd extends AbstractController {
 
 	// 주소추가 및 기본 배송지를 보여주는 곳 
 	@Override
@@ -52,17 +52,46 @@ public class AdrView extends AbstractController {
 				}
 				else {
 					
-					try {
-						// super.setRedirect(false);
-						super.setViewPage("/WEB-INF/minsu/adrView.jsp");
-						} catch(Exception e) {
-							e.printStackTrace();
-							super.setRedirect(true);
-							super.setViewPage(request.getContextPath()+"/error.sun");
-						}
+					String name = request.getParameter("name");
+					String postcode = request.getParameter("postcode");
+					String address = request.getParameter("address");
+					String detailAddress = request.getParameter("detailAddress");
+					String extraAddress = request.getParameter("extraAddress");
 					
 					
-				}	
-		}			
+					 Map<String,String> paraMap = new HashMap<>();
+					 paraMap.put("name",name);
+		        	 paraMap.put("postcode",postcode);
+		        	 paraMap.put("address",address);
+		        	 paraMap.put("detailAddress",detailAddress);
+		        	 paraMap.put("extraAddress",extraAddress);
+		        	 paraMap.put("userid",userid);
+					
+					// DB에 주소를 추가하기
+					InterPersonDAO pdao =  new PersonDAO();
+					int n = pdao.updateAdreess(paraMap);
+					
+					String message = "";
+					String loc = "";
+			         if(n == 1) {
+			        	 
+			        	 message = "주소등록 성공!!";
+			        	 loc = "/WEB-INF/minsu/adrView.jsp"; 
+			        	 
+			         }
+			         else {
+			        	 message = "주소등록 실패!!";
+			        	 loc = "javascript:history.back()"; // 이전페이지로 이동
+				         
+				        request.setAttribute("message", message);
+						request.setAttribute("loc", loc);
+							
+						//	super.setRedirect(false);
+							super.setViewPage("/WEB-INF/common/msg.jsp");
+			         }
+				
+					
+				}
+			}
 	}
 }

@@ -57,7 +57,6 @@
 		border-top: solid 1px #cccccc; 
 		padding: 30px;
 		margin-left: 20px;
-		
 	}
 	
 	span#money > div > button{
@@ -126,9 +125,7 @@
 		color: gray;
 	}
 	
-	li > span {
-		margin-left: 10px;
-	} 
+
 	
 </style>
 
@@ -227,7 +224,7 @@
         <div>
         	<div id="frm_my">
         	<section id="main1">
-	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 20px;">
+	        	<div id="memberInfo" style="border-top: solid 1px #cccccc; padding: 10% 0 10% 10%;">
 		       		<span style="font-size: 16px; font-weight: bold;">회원정보</span>
 		       		<a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" id="update">수정</a>
 					<div style="padding: 5%; font-size: 13px;">
@@ -238,10 +235,10 @@
 							<li id="email" name="email">이메일&nbsp;&nbsp;: <span>${sessionScope.loginuser.email}</span></li>
 							
 							<c:if test="${not empty loginuser.address}">
-								<div style="margin: 20px 0;">
+								<div style="margin: 20px 0 0 -40px;" align="left">
 									<ul style="list-style: none;">
 										<li>주소</li>
-										<li id="address" name="address">${loginuser.postcode}</li>
+										<li id="postcode" name="postcode">${loginuser.postcode}</li>
 										<li id="address" name="address">${loginuser.address}</li>
 										<li id="detailaddress" name="detailaddress">${loginuser.detailaddress}</li>
 										<li id="extraaddress" name="extraaddress">${loginuser.extraaddress}</li>

@@ -19,6 +19,9 @@ public interface InterPersonDAO {
 	//  회원의 코인 및 포인트 변경하기
 	int coinUpdate(Map<String, String> paraMap)throws SQLException;
 
+	// DB에 주소를 추가하기
+	int updateAdreess(Map<String, String> paraMap)throws SQLException;
+
 
 	
 	

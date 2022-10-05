@@ -189,6 +189,38 @@ public class PersonDAO implements InterPersonDAO {
 		}// end of public int coinUpdate(Map<String, String> paraMap) throws SQLException-------
 
 		
+		// === DB에 주소 변경하기 === // 
+		@Override
+		public int updateAdreess(Map<String, String> paraMap) throws SQLException {
+			int result = 0;
+			
+			 try {
+		          conn = ds.getConnection();
+		          
+		          String sql = "  update tbl_member_test set postcode = ? "
+		          			+ "							   , address = ? "
+		          			+ " 						   , detailaddress = ? "
+		          			+ "							   , extraaddress = ? "
+		        		  	+ " where userid = ? ";
+		          
+		          pstmt = conn.prepareStatement(sql);
+		          
+				  pstmt.setString(1, paraMap.get("postcode"));
+				  pstmt.setString(2, paraMap.get("address"));
+				  pstmt.setString(3, paraMap.get("detailaddress"));
+				  pstmt.setString(4, paraMap.get("extraaddress"));
+				  pstmt.setString(5, paraMap.get("userid"));
+		          
+				  result = pstmt.executeUpdate();
+		          
+			} finally {
+				close();
+			}
+	        
+			return result;
+		}
+
+		
 	
 		
 		

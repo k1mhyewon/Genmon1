@@ -216,7 +216,7 @@
 		}
 	
 		const frm = document.frm_adrupdateMenu;
-		frm.action = "adrView.sun";
+		frm.action = "<%= ctxPath%>/myinfo/adrAddEnd.sun";
 		frm.method = "post";
 		frm.submit();
 	}
