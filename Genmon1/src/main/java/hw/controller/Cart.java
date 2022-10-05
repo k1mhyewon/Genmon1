@@ -23,6 +23,7 @@ public class Cart extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		// System.out.println("컨트롤러 입성");
+		
 		if(super.checkLogin(request)) { // 회원 이라면
 			
 			HttpSession session =  request.getSession(); 
