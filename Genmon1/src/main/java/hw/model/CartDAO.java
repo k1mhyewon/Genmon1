@@ -307,6 +307,36 @@ public class CartDAO implements InterCartDAO {
 		}
 		return cvo;
 	} // 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
+
+
+	
+	
+	// 주문 완료 후 회원 장바구니 비워주깅
+	@Override
+	public int deleteOrderedList(List<CartVO> ordertList, String fk_userid) throws SQLException {
+		int result = 0;
+		
+		try {
+			 
+			 for( CartVO cvo: ordertList) {
+				 conn = ds.getConnection();
+				 
+				 String sql = "delete from tbl_basket_test\n"+
+						 "where FK_USERID = ? and  FK_PNUM = ?";
+				 
+				 pstmt = conn.prepareStatement(sql);
+				 pstmt.setString(1, fk_userid);
+				 pstmt.setInt(2, cvo.getFk_pnum());
+				 
+				 result  += pstmt.executeUpdate();
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of 주문 완료 후 회원 장바구니 비워주깅
 	
 	
 
