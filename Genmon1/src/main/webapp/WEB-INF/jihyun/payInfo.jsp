@@ -185,6 +185,10 @@
 	    		sum_price += Number(element);
 	    	}
 	    });
+	    
+	    if($("input[name='usePoint']").val().trim() != null){
+	    	sum_price -= Number($("input[name='usePoint']").val());
+	    }
 	    $("span#sum_price").text(sum_price.toLocaleString('en')+"원");
 	    // 나중에 식계산 바꿔야해!!
 	    $("span#result").text(sum_price.toLocaleString('en')+"원");
@@ -218,6 +222,10 @@
 	    }); // end of 결제방법 클릭 이벤트
 	    
 	    
+	    // 비회원 주문이라면!
+	    if("${empty loginuser}"){
+	    	$("div#guestHidden").hide();
+	    }
 	    
 	    // 적립금 클릭이벤트 
 	    $("a#all_point").click(function(e){
@@ -226,6 +234,15 @@
 	    	// console.log(all_point);
 	    	$("input[name='usePoint']").val(all_point);
 	    	$("span#usePoint").text('-'+all_point.toLocaleString('en')+"원");
+	    	
+	    	let n = 0;
+	    	
+	    	// 전체금액 구하기
+	    	if($("input[name='usePoint']").val().trim() != null){
+	    		n  =Number($("span#sum_price").text().slice(0,-1).split(",").join(""))- Number($("input[name='usePoint']").val());
+		    }
+		    // 나중에 식계산 바꿔야해!!
+		    $("span#result").text(n.toLocaleString('en')+"원");                   // 할인 넣어줘야해
 	    	
 	    });//end of 적립금 클릭이벤트 
 	    
@@ -256,6 +273,13 @@
 	    	} else {
 	    		$("span#usePoint").text(0);
 	    	}
+	    	let n = 0;
+	    	// 전체금액 구하기
+	    	if($("input[name='usePoint']").val().trim() != null){
+	    		n =Number($("span#sum_price").text().slice(0,-1).split(",").join(""))- Number($("input[name='usePoint']").val());
+		    }
+		    // 나중에 식계산 바꿔야해!!
+		    $("span#result").text(n.toLocaleString('en')+"원");                     // 할인 넣어줘야해
 	    	
 	    });// end of 적립금 변동 있을때마다 테이블쪽에 금액도 바꿔주기
 	    
@@ -279,6 +303,8 @@
 	    	}
 	    });// end of 체크 박스 1나 해제 하면 전체선택도 해제되는 이벤트
 	    
+	    
+	    
 	     
 	    // 결제하기 버튼 클릭이벤트 // 결제방법 선택 안했으면 안넘어가게 만들어야... // 체크박스 필수사항 조회하기
 	    $("button#purchase").click(function(){
@@ -297,12 +323,27 @@
 	    	
 	    	// 카드 결제일때
 	    	if($("input:radio[name='payment']:checked").val()=="card"){
+	    		
 	    		goPurchase();
+	    		
 	    	} else if ($("input:radio[name='payment']:checked").val()=="account"){ // 무통장일때
 	    		
+	    		// 환불 입력했는지 확인해줘야함
+	    		
+	    		
+	    		// 총결제 금액 넘겨줘여함
+	    		// 총결제 금액 넘겨줘여함
+				let result = $("span#result").text().slice(0,-1).split(",").join("");
+				result = Number(result);
+				$("input[name='result']").val(result);
+	    		
+	    		const frm = document.frmPayInfo;
+	    	
+	    		frm.method = "POST";
+	    		frm.action ="<%=ctxPath %>/order/CashpurchaseEnd.sun";
+	    		frm.submit();
+	    		
 	    	}
-	    	
-	    	
 	    });// end of 결제하기 버튼 클릭이벤트
 	    
 	}); // end of ready
@@ -323,7 +364,14 @@
 	
 	// 카드 결제 함수
 	function goPurchase(){
-		const url = "<%=request.getContextPath()%>/order/purchase.sun";
+		
+		// 총결제 금액 넘겨줘여함
+		let result = $("span#result").text().slice(0,-1).split(",").join("");
+		result = Number(result);
+		$("input[name='result']").val(result);
+		
+		
+		const frm = document.frmPayInfo;
 		
 		//너비 800, 높이 600인 팝업창을 화면 가운데 위치시키기
 		const pop_width = 845;
@@ -331,9 +379,33 @@
 		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
 		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
 		
-		window.open(url, "Purchase",
-					"left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px");
+		//window.open(url, "Purchase",
+		//			"left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px");
 		
+		var pop = window.open;
+		pop("", "Purchase","left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px");
+		
+		frm.action = "<%=ctxPath %>/order/purchase.sun";
+		frm.target = "Purchase";
+		frm.method = "post";
+		frm.submit();
+	}
+	
+	
+	// 카드결제 완료시 페이지 이동함수
+	function goPurchaseEnd(){
+		
+		// alert('성공'); 얘는 뜨는데 왜......ㅇㅁㅇ
+		let usePoint = $("input[name='usePoint']").val();
+		
+		location.href="<%=ctxPath %>/order/CardpurchaseEnd.sun?usePoint="+usePoint;
+		/*
+		const frm = document.frmPayInfo;
+    	
+		frm.method = "POST";
+		frm.action =
+		frm.submit();
+		*/
 	}
 	
 	
@@ -355,34 +427,40 @@
 			<%-- 라디오 끝 --%>
 			
 			<%-- 적립금 사용 --%>
-			<c:if test="${not empty sessionScope.loginuser }">
+			<%-- <c:if test="${not empty sessionScope.loginuser }"> --%>
+			<div id ='guestHidden'>
 				<span class="puretxt my-4">적립금 및 포인트 사용</span>
 				<span class="puretxt my-2">사용 가능한 적립금 + 포인트 : <a class="link_tag" id="all_point">${loginuser.coin + loginuser.point }</a> 원</span>
 				<input type="text" name="usePoint" class="input_style" placeholder="사용하실 금액을 입력하세요"/>
 				<span class="error" id="error1"></span>
-			</c:if>
+			</div>
+			<%--</c:if> --%>
 			<%-- 무통장 입급 등장메뉴 --%>
 			<div id="account">
 				<br><div class="border-bottom my-3"></div><br>
 				
 				<span class="puretxt mb-3">잔액환불 원하는 계좌 정보를 입력해주세요</span>
 				<span class="puretxt">환불 계좌 은행명</span>
-				<select  class="myselect">
+				<select  class="myselect" name="refundbank" >
 					<option value="0" selected>은행명선택</option> 
-                    <option value="kakao">카카오뱅크</option>
-                    <option value="nong">농협</option>
-                    <option value="woori">우리</option>
-                    <option value="shinhan">신한</option>
-                    <option value="hana">하나</option>
+                    <option>카카오뱅크</option>
+                    <option>농협</option>
+                    <option>우리</option>
+                    <option>신한</option>
+                    <option>하나</option>
 	            </select>
+				<span></span>
 				
 				<span class="puretxt">환불 계좌번호</span>
-				<input type="text" name="" class="input_style" placeholder="환불 계좌번호"/>
+				<input type="text" name="refundacc" class="input_style" placeholder="환불 계좌번호"/>
 				<span></span>
 				
 				<span class="puretxt">계좌주명</span>
-				<input type="text" name="" class="input_style" placeholder="계좌주명"/>
+				<input type="text" name="accname" class="input_style" placeholder="계좌주명"/>
 				<span></span>
+				
+				<input type="hidden" name="result" />
+				
 			</div>
 			<%-- 무통장 입금 등장메뉴 끝 --%>
 			
@@ -394,7 +472,7 @@
 			<%-- 주문상세 시작 --%>
 			<span class="boldtxt mb-4">주문상세</span>
 			<span class="puretxt mb-3">이메일</span>
-			<span class="puretxt">${requestScope.ovo.email }</span>
+			<span class="puretxt">${sessionScope.ovo.email }</span>
 			
 			<table class="my-4" id="tbl_pay">
 				<thead>
@@ -409,17 +487,17 @@
 						<td>전화번호</td>
 					</tr>
 					<tr>
-						<td style="width: 250px;">${requestScope.ovo.name }</td>
-						<td>${requestScope.ovo.mobile }</td>
+						<td style="width: 250px;">${sessionScope.ovo.name }</td>
+						<td>${sessionScope.ovo.mobile }</td>
 					</tr>
 					<tr>
-						<td colspan="2">${requestScope.ovo.address }</td>
+						<td colspan="2">${sessionScope.ovo.address }</td>
 					</tr>
 					<tr>
-						<td colspan="2">${requestScope.ovo.detailaddress }</td>
+						<td colspan="2">${sessionScope.ovo.detailaddress }</td>
 					</tr>
 					<tr>
-						<td colspan="2">${requestScope.ovo.postcode }</td>
+						<td colspan="2">${sessionScope.ovo.postcode }</td>
 					</tr>
 					<tr>
 						<td colspan="2"> </td>
@@ -480,7 +558,7 @@
 						</tr>
 						<tr>
 							<td>수량:<span class="qty"> ${order.qty}</span></td>
-							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price}</span>원</td>
+							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price * order.qty}</span>원</td>
 						</tr>
 						<tr class="empty_tr">
 							<td colspan="3" class="empty_td"></td>
@@ -495,7 +573,7 @@
 					<td>상품합계</td>
 					<td colspan="2" class="myright"><span id="sum_price"></span></td>
 				</tr>
-				<tr class="height_tr">
+				<tr class="height_tr"  id="guestHidden">
 					<td>적립금 사용</td>
 					<td colspan="2" class="myright"><span id="usePoint">0원</span></td>
 				</tr>
