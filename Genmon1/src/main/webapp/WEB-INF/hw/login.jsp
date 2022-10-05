@@ -278,8 +278,8 @@
         	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">회원가입을 하시면, 주문 조회와 개인정보 관리 및 위시리스트 확인 등 다양한 혜택을 누리실 수 있습니다.</div>
         	<button class="login_btn" type="button" id="btn_gojoin" style="margin-top: 15px;">신규가입</button>
         	
-        	<input type="text" id="pnum" name="pnum" value="" />
-        	<input type="text" id="qty" name="qty" value="" />
+        	<input type="hidden" id="pnum" name="pnum" value="" />
+        	<input type="hidden" id="qty" name="qty" value="" />
         </div>
     </form>    	
     
