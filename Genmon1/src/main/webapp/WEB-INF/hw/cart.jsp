@@ -325,8 +325,17 @@
 	
 	function go_purchase(fk_pnum){ // --------------------------------
 		
-		let qty=$("input[name='quantity']").val();
-		location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+		const userid = '${sessionScope.loginuser.userid}';
+		
+		if(!userid){
+			location.href="<%= ctxPath%>/order/checkLogin.sun";
+		}
+		else{
+			let qty=$("input[name='quantity']").val();
+			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+		}
+		
+		
 		
 	} // end of go_purchase() ---------------------------------
 	
