@@ -91,13 +91,13 @@ public class PurchaseDAO implements InterPurchaseDAO {
 		// 결제 테이블에 insert 하기(카드)
 		@Override
 		public int insertCardPurchase(PurchaseVO purvo) throws SQLException {
-int result = 0;
+			int result = 0;
 			
 			try {
 				conn = ds.getConnection();
 				
-				String sql = "insert into tbl_purchase_test(pk_purchaseid, fk_orderid, status, paymentAmount, method, usedCoin, usedPoint)\n"+
-						"values(seq_tbl_purchase.nextval, ? , 1, ?, 1, ?, ?)";
+				String sql = "insert into tbl_purchase_test(pk_purchaseid, fk_orderid, status, paymentAmount, method, usedCoin, usedPoint, purchaseDate)\n"+
+						"values(seq_tbl_purchase.nextval, ? , 1, ?, 1, ?, ?, sysdate)";
 				
 				pstmt = conn.prepareStatement(sql);
 				
