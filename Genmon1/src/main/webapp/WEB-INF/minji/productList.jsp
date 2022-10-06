@@ -301,10 +301,10 @@
 	}); // end of ready
 	
 	
-	// 위시리스트 추가 메소드 (AJAX)추가 하고 버튼 안에 하트를 빈 하트로 바꾸면 대지 않을가???
+	// 위시리스트 추가 메소드 (AJAX)추가 하고 버튼 안에 하트를 빈 하트로 바꾸면 대지 않을가???  ~~~ KHW 화이팅팅팅탱탱탱 룰루랄라~~~~ 
 	function addWish(){
 		
-		// 그리고 다시 누르면 제거 하는 것도 있어야 할듯....
+		// 그리고 다시 누르면 제거 하는 것도 있어야 할듯.... ~~~ 넌 할 수 있어!!! ~~~
 	}
 
 </script>
@@ -413,7 +413,7 @@
 				 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
 				 		 		<c:choose>
 				 		 			<c:when test="${pvo.salePcnt > 0}">
-				 		 			<span style="text-decoration:line-through; color:gray;" class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
+				 		 				<span style="text-decoration:line-through; color:gray;" class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
 				 		 			</c:when>
 				 		 			
 			 		 				<c:when test="${pvo.salePcnt <= 0}">
@@ -423,11 +423,11 @@
 				 		 		
 				 		 		<c:choose>
 					 		 		<c:when test="${pvo.salePcnt > 0}">
-					 		 				<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price - (((pvo.parentProvo.price) * pvo.salePcnt)/100) }" pattern="#,###" /></span>
+					 		 			<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price - (((pvo.parentProvo.price) * pvo.salePcnt)/100) }" pattern="#,###" /></span>
 					 		 		</c:when>
 					 		 		
 					 		 		<c:otherwise> <%-- 할인 없는 곳 공백 넣을까 말까???  --%>
-					 		 				<span class="grid-item-price"> &nbsp; </span>
+					 		 			<span class="grid-item-price"> &nbsp; </span>
 					 		 		</c:otherwise>
 				 		 		</c:choose>
 				 		 			

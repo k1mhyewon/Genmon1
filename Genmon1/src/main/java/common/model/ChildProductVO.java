@@ -110,7 +110,11 @@ public class ChildProductVO {
       return pcolor.substring(0, 2).toUpperCase();
       
    }
+   
+	/*
+	 * public int pctPreleasedate() { return }
+	 */
+   
+   
 
-   
-   
 }

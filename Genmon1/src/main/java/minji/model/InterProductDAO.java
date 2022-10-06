@@ -1,10 +1,10 @@
 package minji.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.model.AddImgVO;
 import common.model.ChildProductVO;
 
 public interface InterProductDAO {
@@ -22,8 +22,10 @@ public interface InterProductDAO {
 	// 상품 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
 	List<ChildProductVO> simpleAllProduct() throws SQLException;
 
-	// color와 material이 동일한 추천제품 가져오는 메소드
+	// color와 material이 동일한 추천제품 가져오기 
 	List<ChildProductVO> recommendProduct(Map<String, String> map) throws SQLException;
+
+	
 
 	
 }
