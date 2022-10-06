@@ -65,25 +65,30 @@ public class Login extends AbstractController {
 					for(int i=0;i<arr_pnum.length;i++) {
 						// System.out.println(arr_pnum[i]);
 						
-						CartVO cart = new CartVO(userid, Integer.parseInt(arr_pnum[i]), Integer.parseInt(arr_qty[i]));
+						try {
 						
-						int isCartExist = cdao.isCartExist(userid, Integer.parseInt(arr_pnum[i]));
-						
-						if(isCartExist == 0) { // 해당 상품이 장바구니에 없다면
+							CartVO cart = new CartVO(userid, Integer.parseInt(arr_pnum[i]), Integer.parseInt(arr_qty[i]));
 							
-				        	cdao.cartInsert(cart); // insert 하기
-				        	
-						
-						}
-						else { // 해당 상품이 장바구니에 있다면
+							int isCartExist = cdao.isCartExist(userid, Integer.parseInt(arr_pnum[i]));
 							
-							int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist;
+							if(isCartExist == 0) { // 해당 상품이 장바구니에 없다면
+								
+					        	cdao.cartInsert(cart); // insert 하기
+					        	
 							
-							cdao.cartUpdate(userid, Integer.parseInt(arr_pnum[i]), updateQty); // update 하기
-							
-							
-						}
+							}
+							else { // 해당 상품이 장바구니에 있다면
+								
+								int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist;
+								
+								cdao.cartUpdate(userid, Integer.parseInt(arr_pnum[i]), updateQty); // update 하기
+								
+								
+							}
 					
+						} catch(NumberFormatException e) {
+							
+						}
 					}
 					
 					
