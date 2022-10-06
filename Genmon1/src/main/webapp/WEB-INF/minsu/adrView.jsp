@@ -56,6 +56,25 @@
 	button {
 		line-height:30px;
 	}
+	
+	 /* === 모달 CSS === */
+    
+    .modal-dialog.modals-fullsize_accountDropout {
+    width: 350px;
+    height: 50%;
+    }
+    
+    .modals-fullsize {
+    	width: 300px;
+    	height: 1000px;
+    }
+    
+    
+    .modal-content.modals-fullsize {
+	    height: auto;
+	    min-height:50%;
+	    border-radius: 0;
+    }
 
 </style>
 
@@ -69,13 +88,12 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
 		
-		// 주소 삭제버튼을 누르면  
+		// 주소 추가버튼을 누르면  
 	    $("button#btn_delete").click(function(){
 	    	location.href="<%= ctxPath%>/myinfo/adrDelete.sun";
-			
 		}); // end of $("button#btn_logout").click() --------------
 		
-		
+	
 		// 주소 추가버튼을 누르면  
 	    $("button#adrAdd").click(function(){
 	    	location.href="<%= ctxPath%>/myinfo/adrAdd.sun";
@@ -109,49 +127,36 @@
 						</ul>
 						
 						<button type="button" id="btn_update" style="background-color: black; color: white; margin-left: 10%;">수정</button>
-						<button type="button" id="btn_delete" style="background-color: white;">삭제</button>
+						<button type="button" style="background-color: white;" id="btn_delete" data-toggle="modal" data-target="#addDelete">삭제</button>
 					</c:if>
 				</c:forEach>
 				<c:if test="${empty loginuser.address}">
-	    				<div>등록된 배송지가 없습니다.</div>
+					<div align="center" >
+	    				<div style="margin: 10% 0 10% 0;">등록된 배송지가 없습니다.</div>
 	    				<button type="button" id="adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%; line-height: 200%;">주소추가하기</button>
-	    				addrAdd파일을 넣어야한다.
+	    			</div>
 	   			</c:if>
 		   			
 		   	</div>
 	</form>
 	
 
-<%-- *** 주소삭제하기 Modal(부트스트랩기능) *** --%>
+<%--*** 주소 삭제하기 Modal(부트스트랩기능) *** --%>
 <%-- 
-<div class="modal fade" id="adr_delete">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        Modal header
-        <div class="modal-header">
-          <h4 class="modal-title" ></h4>
-        </div>
-        
-        Modal body
-        <div class="modal-body">
-          <div id="adrdelete_check">
-          	<iframe id="adr" style="border: none; width: 100%; height: 350px;" >
-             </iframe>
-             
-          </div>
-        </div>
-        
-        Modal footer
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger adrdeleteClose" data-dismiss="modal">취소</button>
-           <button type="button" class="btn btn-danger adrdeleteOk" data-dismiss="modal">확인</button>
-        </div>
-      </div>
-      
-    </div>
- </div> --%>
+   <div class="modal fade" id="addDelete">
+       	<div class="modal-dialog modals-fullsize_accountDropout">
 
+       		<div class="modal-content modals-fullsize">
+     
+               <!-- Modal body -->
+                <div class="cancel_modal-body">
+                	<iframe id="iframe_addDelete" style="border: none; width: 300px; height: 300px;" src="<%= ctxPath%>/myinfo/adrDelete.sun">
+             		</iframe>
+                </div>
+       		</div>
+       	</div>
+   </div>
+ --%>
 
 
 <jsp:include page="/minsu/footer.jsp" />

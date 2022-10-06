@@ -255,5 +255,15 @@ values("상문동")
 update tbl_member_test  set detailaddress = '상암동'
 where userid = 'kimms'
 
+delete from tbl_member_test address, detailaddress, extraaddress
+where userid = ( select address, detailaddress, extraaddress from tbl_member_test where userid)
+
+
+select postcode, address, detailaddress, extraaddress
+from tbl_member_test
+
+update tbl_member_test set postcode = null, address = null, detailaddress=null, extraaddress = null
+from tbl_member_test
+where userid = 'kimms'
 
 

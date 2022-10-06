@@ -17,12 +17,12 @@ public class AdrView extends AbstractController {
 	// 주소추가 및 기본 배송지를 보여주는 곳 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+	/*	
 		HttpSession session = request.getSession();
 		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
-		
+	*/
 		if(!super.checkLogin(request)) {
 				// 로그인 안했으면 
 			    String message = "회원정보를 수정하려면 먼저 로그인을 하세요.!!";

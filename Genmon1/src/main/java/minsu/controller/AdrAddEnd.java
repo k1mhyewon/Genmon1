@@ -23,12 +23,6 @@ public class AdrAddEnd extends AbstractController {
 		
 		String userid = loginuser.getUserid();
 		
-		System.out.println("userid : " + userid);
-		System.out.println("~~~ 확인용2 : " + request.getParameter("address"));
-		System.out.println("~~~ 확인용2 : " + request.getParameter("detailaddress"));
-		System.out.println("~~~ 확인용2 : " + request.getParameter("extraaddress"));
-	
-		
 		if(!super.checkLogin(request)) {
 				// 로그인 안했으면 
 			    String message = "회원정보를 수정하려면 먼저 로그인을 하세요.!!";
@@ -58,14 +52,12 @@ public class AdrAddEnd extends AbstractController {
 				}
 				else {
 					
-					String name = request.getParameter("name");
 					String postcode = request.getParameter("postcode");
 					String address = request.getParameter("address");
 					String detailaddress = request.getParameter("detailaddress");
 					String extraaddress = request.getParameter("extraaddress");
 					
 					 Map<String,String> paraMap = new HashMap<>();
-					 paraMap.put("name",name);
 		        	 paraMap.put("postcode",postcode);
 		        	 paraMap.put("address",address);
 		        	 paraMap.put("detailaddress",detailaddress);

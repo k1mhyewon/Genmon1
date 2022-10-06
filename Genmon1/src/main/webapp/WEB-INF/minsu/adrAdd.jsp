@@ -83,35 +83,17 @@ $(document).ready(function(){
 	$("div.first_error").hide();
 	$("div.error").hide();
 	
-	// === 성명포커스를 잃어버렸을 경우(blur) 이벤트를  처리해주는 것이다. === //
-	$("input#name").blur( (e)=>{ 
-		
-		const $target = $(e.target);
-		
-		const name = $target.val().trim();
-		if(name == "") {
-			// 입력하지 않거나 공백만 입력한 경우
-			$target.next("div.first_error").show();
-		}
-		else {
-			// 공백이 아닌 경우
-			$target.next("div.first_error").hide();
-		}
-	}); // end of $("input#name").blur() ----------------- 
-	
-
-	
 	// === 우편번호 찾기를 클릭했을 때 이벤트 처리하기 === //
- $("button#btn_adrsearch").click(function() {
- 	b_flag_btn_adrsearch_click = true;
- });
- 
- // === 우편번호 입력란에 키보드로 입력할 경우 이벤트 처리하기 === //
- $("input:text[id='postcode']").keyup( function() {
- 	alert("우편번호 입력은 \"우편번호찾기\"를 클릭하여 입력해야 합니다. ");
- 	$(this).val("");
- });
- 
+	 $("button#btn_adrsearch").click(function() {
+	 	b_flag_btn_adrsearch_click = true;
+	 });
+	 
+	 // === 우편번호 입력란에 키보드로 입력할 경우 이벤트 처리하기 === //
+	 $("input:text[id='postcode']").keyup( function() {
+	 	alert("우편번호 입력은 \"우편번호찾기\"를 클릭하여 입력해야 합니다. ");
+	 	$(this).val("");
+	 });
+	 
 
  
  
@@ -230,14 +212,6 @@ $(document).ready(function(){
 	
 <%-- 배송지 시작(만들어놓은 입력값 자동으로 들어가게하기) --%>
 
-		  <ul>
-			 <li>
-		         <label >성명</label>
-		       	 <input type="text" id="name" name="name" class="requiredInfo" value="${sessionScope.loginuser.name }" required />
-		       	 <div class="first_error">필수 입력란입니다.</div>
-	       	</li>
-	      </ul>
-	    
 	      <ul>
 		      <li>
 				<div class="puretxt">우편번호</div>
