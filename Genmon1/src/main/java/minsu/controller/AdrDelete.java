@@ -64,15 +64,34 @@ public class AdrDelete extends AbstractController {
 					paraMap.put("address", address);
 					paraMap.put("detailaddress", detailaddress);
 					paraMap.put("extraaddress", extraaddress);
+					paraMap.put("userid", userid);
 					
 					// === 주소를 삭제하는 메소드 생성하기 === //
 					InterPersonDAO pdao = new PersonDAO();
 					int n = pdao.adrDelete(paraMap);
 					
-			
-				// super.setRedirect(false);
-				// super.setViewPage("/WEB-INF/minsu/adrDelete.jsp");
+					System.err.println("~~~ 확인용 userid: " + userid);
+					if(n == 1) {
+						// 주소를 null로 변경한경우 
+						String message = "주소를 삭제하였습니다.";
+				        String loc = "adrView.sun";
+				            
+			            request.setAttribute("message", message);
+			            request.setAttribute("loc", loc);
+				            
+			       //   super.setRedirect(false);
+			            super.setViewPage("/WEB-INF/common/msg.jsp");
+					}
+					 else {
+			        		String message = "주소삭제를 실패하였습니다.";
+					        String loc = "adrView.sun";
+					            
+				            request.setAttribute("message", message);
+				            request.setAttribute("loc", loc);
 				
+						//	super.setRedirect(false);
+							super.setViewPage("/WEB-INF/common/msg.jsp");
+			         }
 			
 			}
 		}
