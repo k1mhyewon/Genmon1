@@ -12,6 +12,12 @@ public class MemberReview extends AbstractController {
 		
 		
 		try {
+			
+			String pnum = request.getParameter("pnum");
+			
+			request.setAttribute("pnum", pnum);
+			
+			
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/memberReview.jsp");
 			} catch(Exception e) {

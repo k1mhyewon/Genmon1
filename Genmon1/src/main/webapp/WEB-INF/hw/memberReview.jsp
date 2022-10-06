@@ -201,7 +201,7 @@
 	            <img src="../images/le_iv1_1.jpg" style="width:230px; height:auto;">
 	        </div>
 	        <div id="prod_info">
-	        	<div style="font-size: 11pt;">르</div>
+	        	<div style="font-size: 11pt;">르 (확인용)상품번호: ${requestScope.pnum}</div>
 	            <div style="font-size: 10pt;">189,000원</div>
 	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</span>&nbsp;
 	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(2)</span>
