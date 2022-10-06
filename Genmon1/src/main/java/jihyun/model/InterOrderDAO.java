@@ -1,8 +1,11 @@
 package jihyun.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 
 import common.model.CartVO;
+import common.model.OrderDetailVO;
 import common.model.OrderVO;
 
 public interface InterOrderDAO {
@@ -18,5 +21,8 @@ public interface InterOrderDAO {
 
 	// 회원/비회원 주문하기 상세 insert (자식)
 	int isertOrderDetail(CartVO cvo, String orderid) throws SQLException;
+
+	// 회원 아이디 가지고 주문내역 리스트로 보여주기
+	List<HashMap<String,String>> selectOrderList(String userid) throws SQLException;
 
 }

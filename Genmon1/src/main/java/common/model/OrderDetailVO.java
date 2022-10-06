@@ -8,6 +8,18 @@ public class OrderDetailVO {
 	private int order_status;       //주문 상태 1주문 2취소(반품) 3교환
 	private int order_price;
 	
+	/////////////////////////////////////////
+	
+	private int total_qty ; // 총주문개수 알아오기
+	
+	public int getTotal_qty() {
+		return total_qty;
+	}
+
+	public void setTotal_qty(int total_qty) {
+		this.total_qty = total_qty;
+	}
+
 	////////////////////////////
 	private OrderVO ovo;
 	////////////////////////////

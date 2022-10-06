@@ -27,8 +27,6 @@
 		
 		if(lguser==""){
 			
-			alert("헤헤헤");
-			
 			<c:forEach var="cvo" items="${requestScope.ordertList}">
 			   	var pnum = ${cvo.fk_pnum};
 				if(sessionStorage.getItem("Key"+pnum)){
@@ -38,7 +36,6 @@
 			</c:forEach>			
 			
 		}// end of 비회원 장바구니 비우기
-
 
 	});// end of reday
 	

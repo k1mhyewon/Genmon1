@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+
 <% String ctxPath = request.getContextPath(); %>
     
 
@@ -82,80 +85,37 @@
 <div class="container my-5">
 	<span class="boldtxt mb-3">주문내역</span>
 	<%-- 주문내역 있을때 시작 --%>
-	<div class="row">
-		<div class="col-sm-6">
-			<table>
-				<tr>
-					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
-					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
-				</tr>
-				<tr>
-					<td>주문수량 : 3<br>2022/09/21</td>
-				</tr>
-				<tr>
-					<td  style="vertical-align: bottom;"><button type="button">주문 상세보기</button></td>
-				</tr>
-			</table>	
-		</div>
-		<div class="col-sm-6">
-			<table>
-				<tr>
-					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
-					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
-				</tr>
-				<tr>
-					<td>주문수량 : 3<br>2022/09/21</td>
-				</tr>
-				<tr>
-					<td  style="vertical-align: bottom;"><button type="button">주문 상세보기</button></td>
-				</tr>
-			</table>	
-		</div>
-		<div class="col-sm-6">
-			<table>
-				<tr>
-					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
-					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
-				</tr>
-				<tr>
-					<td>주문수량 : 3<br>2022/09/21</td>
-				</tr>
-				<tr>
-					<td  style="vertical-align: bottom;"><button type="button">주문 상세보기</button></td>
-				</tr>
-			</table>	
-		</div>
-		<div class="col-sm-6">
-			<table>
-				<tr>
-					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
-					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
-				</tr>
-				<tr>
-					<td>주문수량 : 3<br>2022/09/21</td>
-				</tr>
-				<tr>
-					<td  style="vertical-align: bottom;"><button type="button">주문 상세보기</button></td>
-				</tr>
-			</table>	
-		</div>
-		<div class="col-sm-6">
-			<table>
-				<tr>
-					<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
-					<td style="vertical-align: middle;"><span class="boldtxt2">Order#000001010</span><br>입금대기중</td>
-				</tr>
-				<tr>
-					<td>주문수량 : 3<br>2022/09/21</td>
-				</tr>
-				<tr>
-					<td  style="vertical-align: bottom;"><button type="button">주문 상세보기</button></td>
-				</tr>
-			</table>	
-		</div>
+	<c:if test="${not empty requestScope.mapList }">
+		<div class="row">
+		
+		<c:forEach var="map" items="${requestScope.mapList }">
+			<div class="col-sm-6 my-4">
+				<table>
+					<tr>
+						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/minji/전체보기${map.image }"  class="image"></td>
+						<td style="vertical-align: middle;"><span class="boldtxt2">${map.orderid }</span><br>
+							<c:if test="${map.status eq '1'}">결제완료</c:if>
+							<c:if test="${map.status eq '0'}">입금대기중</c:if>
+						</td>
+					</tr>
+					<tr>
+						<td>주문수량 : ${map.totalqty }<br>${map.orderdate }</td>
+					</tr>
+					<tr>
+						<td  style="vertical-align: bottom;"><button type="button" onclick="javascript:location.href='<%=ctxPath %>/myinfo/orderDetail.sun?orderid=${map.orderid }'">주문 상세보기</button></td>
+					</tr>
+				</table>	
+			</div>
+		</c:forEach>
 		
 	</div>
+	</c:if>
 	<%-- 주문내역 있을때 끝 --%>
+	
+	
+	<c:if test="${ empty empty requestScope.mapList }">
+		주문내역이 없습니다
+	</c:if>
 </div>
 
 <jsp:include page="../common/footer.jsp" />
