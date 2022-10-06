@@ -25,8 +25,8 @@ public class AdrAddEnd extends AbstractController {
 		
 		System.out.println("userid : " + userid);
 		System.out.println("~~~ 확인용2 : " + request.getParameter("address"));
-		System.out.println("~~~ 확인용2 : " + request.getParameter("detailAddress"));
-		System.out.println("~~~ 확인용2 : " + request.getParameter("extraAddress"));
+		System.out.println("~~~ 확인용2 : " + request.getParameter("detailaddress"));
+		System.out.println("~~~ 확인용2 : " + request.getParameter("extraaddress"));
 	
 		
 		if(!super.checkLogin(request)) {
@@ -61,42 +61,45 @@ public class AdrAddEnd extends AbstractController {
 					String name = request.getParameter("name");
 					String postcode = request.getParameter("postcode");
 					String address = request.getParameter("address");
-					String detailAddress = request.getParameter("detailAddress");
-					String extraAddress = request.getParameter("extraAddress");
+					String detailaddress = request.getParameter("detailaddress");
+					String extraaddress = request.getParameter("extraaddress");
 					
 					 Map<String,String> paraMap = new HashMap<>();
 					 paraMap.put("name",name);
 		        	 paraMap.put("postcode",postcode);
 		        	 paraMap.put("address",address);
-		        	 paraMap.put("detailAddress",detailAddress);
-		        	 paraMap.put("extraAddress",extraAddress);
+		        	 paraMap.put("detailaddress",detailaddress);
+		        	 paraMap.put("extraaddress",extraaddress);
 		        	 paraMap.put("userid",userid);
 					
-					// DB에 주소를 추가하기
-					InterPersonDAO pdao =  new PersonDAO();
+		        	 InterPersonDAO pdao =  new PersonDAO();
 					 int n = pdao.addAdreess(paraMap);
 				
 			         if(n == 1) {
 			        	 
-			        	 String message = "주소등록 성공!!";
-			        	 String loc = "/WEB-INF/minsu/adrView.jsp"; 
-			        	 
-			        	request.setAttribute("message", message);
-						request.setAttribute("loc", loc);
+			        		String message = "주소등록 성공!!";
+					        String loc = "adrView.sun";
+					            
+				            request.setAttribute("message", message);
+				            request.setAttribute("loc", loc);
+					            
+				       //   super.setRedirect(false);
+				            super.setViewPage("/WEB-INF/common/msg.jsp");
 			        	 
 			         }
 			         else {
-			        	 String  message = "주소등록 실패!!";
-			        	 String loc = "javascript:history.back()"; // 이전페이지로 이동
-				         
-				        request.setAttribute("message", message);
-						request.setAttribute("loc", loc);
-							
+			        	 
+
+			        		String message = "주소등록 성공!!";
+					        String loc = "javascript:history.back()";
+					            
+				            request.setAttribute("message", message);
+				            request.setAttribute("loc", loc);
+				
 						//	super.setRedirect(false);
 							super.setViewPage("/WEB-INF/common/msg.jsp");
 			         }
-				
-					
+			   
 				}
 			}
 	}

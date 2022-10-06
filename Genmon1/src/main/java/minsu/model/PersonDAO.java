@@ -227,27 +227,31 @@ public class PersonDAO implements InterPersonDAO {
 			int result = 0;
 			
 			try {
+				
 				conn = ds.getConnection();
 				
-				String sql = "select name, address, detailaddress, extraaddress\n"+
-						"from tbl_member_test\n"+
-						"where userid = ? ";
+		        String sql = " update  tbl_member_test set name = ?,  address = ?, detailaddress = ? , extraaddress = ? "+
+		        			 " where userid = ?";
+
+			         pstmt = conn.prepareStatement(sql);
+			         pstmt.setString(1, paraMap.get("name"));
+			         pstmt.setString(2, paraMap.get("address"));
+			         pstmt.setString(3, paraMap.get("detailaddress"));
+			         pstmt.setString(4, paraMap.get("extraaddress"));
+			         pstmt.setString(5, paraMap.get("userid"));
+			         
+			         result = pstmt.executeUpdate();
+		         
+		      } finally {
+		         close();
+		      }
+		      
+		      return result;   
 			
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, paraMap.getUserid() );
-				
-				result = pstmt.executeUpdate();
-					
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) { // |는 OR(또는)
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return result;
-			
-		}
+		} // end of public int addAdreess(Map<String, String> paraMap) throws SQLException
+
+		
+
 	
 	
 
