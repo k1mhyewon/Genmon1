@@ -160,6 +160,7 @@
 		
 		// 무통장 감추기
 		$("div#account").hide();
+		$("span.error").hide();
 	
 		$("a#3_pay").css('color','black');
 	    
@@ -309,6 +310,60 @@
 	    
 	    
 	    
+	    // 은행선택 체인지 이벤트
+	    $("select[name='refundbank']").change(function(e){
+	    	$("span.error").hide();
+	    	
+	    	if($("select[name='refundbank']").val() == 0){
+	    		$(e.target).next().show();
+    			return;
+    		}
+	    }); // end of 은행선택
+	    
+	    
+	    
+	 // 계좌번호 작성 이벤트
+		$("input[name='refundacc']").blur((e)=>{
+			const $target = $(e.target);
+			
+			// 정규표현식으로 한번 걸러줄거임
+			// const reqExp = /^[1-9][0-9]{2,3}$/g;
+			// 또는
+			const regExp = new RegExp(/^[0-9]{10,18}$/g);
+			// 숫자 10~18자리만 들어오도록 검사해주는 정규표현식
+			
+			const bool = regExp.test($target.val()); // 정규 표현식에 값을 집어넣음
+			
+			if(!bool){ // 전화번호가 정규표현식에 위배된 경우 나머지 블락은 전부 못쓰게 막을거임
+				// 이 테이블 태그에 있는 모든 input 태그
+				$target.val('');
+				$target.next().show();
+				return;
+				
+			} else { // 계좌번호가 정규표현식에 맞는 한경우 
+				$target.next().hide();
+			}
+		}); // end of 계좌번호 작성 blur 이벤트
+		
+		
+		// 계좌주명 작성이벤트
+		$("input[name='accname']").blur((e)=>{
+			const $target = $(e.target);
+			
+			if($target.val().trim() ==""){ // 비어있다면
+				$target.val('');
+				$target.next().show();
+				return;
+				
+			} else { 
+				$target.next().hide();
+			}
+		}); // end of 계좌주명 작성이벤트
+	    
+	    
+		
+		
+	    
 	     
 	    // 결제하기 버튼 클릭이벤트 // 결제방법 선택 안했으면 안넘어가게 만들어야... // 체크박스 필수사항 조회하기
 	    $("button#purchase").click(function(){
@@ -330,10 +385,32 @@
 	    		
 	    		goPurchase();
 	    		
-	    	} else if ($("input:radio[name='payment']:checked").val()=="account"){ // 무통장일때
+	    		
+	    	// 무통장일때	
+	    	} else if ($("input:radio[name='payment']:checked").val()=="account"){ 
+	    		
 	    		
 	    		// 환불 입력했는지 확인해줘야함
+	    		if($("select[name='refundbank']").val() == 0){
+	    			$("select[name='refundbank']").next().show();
+	    			$("select[name='refundbank']").focus();
+	    			return;
+	    		}
 	    		
+	    		// 계좌번호 입력했는지
+	    		if($("input[name='refundacc']").val().trim() == ""){
+	    			$("input[name='refundacc']").next().show();
+	    			$("input[name='refundacc']").focus();
+	    			return;
+				}
+	    		
+	    		
+	    		// 계좌주명 입력했는지
+	    		if($("input[name='accname']").val().trim() == ""){
+	    			$("input[name='accname']").next().show();
+	    			$("input[name='accname']").focus();
+	    			return;
+				}
 	    		
 	    		// 총결제 금액 넘겨줘여함
 	    		// 총결제 금액 넘겨줘여함
@@ -399,17 +476,16 @@
 	// 카드결제 완료시 페이지 이동함수
 	function goPurchaseEnd(){
 		
-		// alert('성공'); 얘는 뜨는데 왜......ㅇㅁㅇ
-		let usePoint = $("input[name='usePoint']").val();
+		const usePoint = $("input[name='usePoint']").val();
 		
-		location.href="<%=ctxPath %>/order/CardpurchaseEnd.sun?usePoint="+usePoint;
-		/*
-		const frm = document.frmPayInfo;
+		const frm = document.frm_usePoint;
     	
+		frm_usePoint.usePoint.value = usePoint;
+		
 		frm.method = "POST";
-		frm.action =
+		frm.action = "<%=ctxPath %>/order/CardpurchaseEnd.sun";
 		frm.submit();
-		*/
+		
 	}
 	
 	
@@ -426,7 +502,6 @@
 			
 			<%-- 라디오 시작 --%>
 			<input type="radio" name="payment" id="card" value="card"><label class="labelst" for="card">신용카드</label><br>
-			<input type="radio" name="payment" id="kakao" value="kakao"><label class="labelst" for="kakao">카카오페이</label><br>
 			<input type="radio" name="payment" id="account" value="account"><label class="labelst" for="account">무통장 입금</label><br>
 			<%-- 라디오 끝 --%>
 			
@@ -453,15 +528,15 @@
                     <option>신한</option>
                     <option>하나</option>
 	            </select>
-				<span></span>
+				<span class="error">환불계좌 은행을 선택해주세요</span>
 				
 				<span class="puretxt">환불 계좌번호</span>
 				<input type="text" name="refundacc" class="input_style" placeholder="환불 계좌번호"/>
-				<span></span>
+				<span class="error">환불 계좌번호는 '-' 없이 숫자로만 입력해주세요</span>
 				
 				<span class="puretxt">계좌주명</span>
 				<input type="text" name="accname" class="input_style" placeholder="계좌주명"/>
-				<span></span>
+				<span class="error">계좌주명을 입력하세요</span>
 				
 				<input type="hidden" name="result" />
 				
@@ -599,5 +674,11 @@
 	</div>
 	<%-- 장바구니 끝 --%>
 </div>
+
+<%-- ================== --%>
+<form name="frm_usePoint">
+   <input type="text" name="usePoint" value="" style="display: none;" />
+   <input type="text" style="display: none;" />
+</form>
 	
 <jsp:include page="../common/footer.jsp" />

@@ -203,11 +203,11 @@ public class CashPurchaseEnd extends AbstractController {
 			
 			// 상품 수량 만큼 테이블에 추가해주기
 			for(CartVO cvo : ordertList) {
-				//<img src="<%= ctxPath %>/images/minji/전체보기/${order.allProdvo.pimage1}">
-				content+= "<tr><td><img src='" +request.getContextPath()+"/images/minji/전체보기/"+ cvo.getAllProdvo().getPimage1()+"'></td></tr>";
+				content+= "<tr><td><img src='http://127.0.0.1:9090/Genmon1/images/didion_01_1.jpg' style='width:100px;'/></td></tr>";	
+				//content+= "<tr><td><img src='http://192.168.10.106:9090/Genmon1/images/minji/전체보기/"+ cvo.getAllProdvo().getPimage1()+"'></td></tr>";
 				content+= "<tr><td> 수량: "+cvo.getQty()+" 제품명: "+cvo.getAllProdvo().getParentProvo().getPname()+" "+cvo.getAllProdvo().getColorName()+"</td></tr>";
 			} // end of for
-			System.out.println(content);
+			// System.out.println(content);
 			try {
 				mail.sendmail(ovo.getEmail(), content, title, subject); // 구글메일 클래스 안의 메일 보내기 메소드 사용
 				sendMailSuccess =  true; // 메일전송이 성공했음을 기록함

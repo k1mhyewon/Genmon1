@@ -39,8 +39,8 @@ public class Login extends AbstractController {
 			String all_pnum = request.getParameter("all_pnum");
 			String all_qty = request.getParameter("all_qty");
 			
-			System.out.println("확인용 all_pnum : "+ all_pnum);
-			System.out.println("확인용 all_qty : "+ all_qty);
+			// System.out.println("확인용 all_pnum : "+ all_pnum);
+			// System.out.println("확인용 all_qty : "+ all_qty);
 			
 			if(all_pnum != null && all_qty != null) {
 				
@@ -51,10 +51,9 @@ public class Login extends AbstractController {
 				InterCartDAO cdao = new CartDAO();
 				
 				for(int i=0;i<arr_pnum.length;i++) {
-					// System.out.println(arr_pnum[i]);
 					
-					System.out.println("for 문 확인용 all_pnum"+i+" : "+ arr_pnum[i]);
-					System.out.println("for 문 확인용 all_qty"+i+" : "+ arr_qty[i]);
+					// System.out.println("for 문 확인용 all_pnum"+i+" : "+ arr_pnum[i]);
+					// System.out.println("for 문 확인용 all_qty"+i+" : "+ arr_qty[i]);
 					
 					try {
 					
@@ -63,14 +62,11 @@ public class Login extends AbstractController {
 						int isCartExist = cdao.isCartExist(userid, Integer.parseInt(arr_pnum[i]));
 						
 						if(isCartExist == 0) { // 해당 상품이 장바구니에 없다면
-							
 				        	int n = cdao.cartInsert(cart); // insert 하기
-				        	
 						}
 						else { // 해당 상품이 장바구니에 있다면
 							
-							int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist;
-							
+							int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist; // 업데이트할 개수
 							int n2 = cdao.cartUpdate(userid, Integer.parseInt(arr_pnum[i]), updateQty); // update 하기
 							
 						}
@@ -103,11 +99,6 @@ public class Login extends AbstractController {
 				
 				
 
-				
-				
-				
-				
-				
 				
 				
 				// ===> 웹클라이언트의 IP 주소를 알아오는 것 <==== //

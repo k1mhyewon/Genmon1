@@ -1,45 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+    
 <% String ctxPath = request.getContextPath(); %>
 
+<jsp:include page="../common/header.jsp" />
 
 <script>
 
 	window.onload=function(){
 		
-	  	$("#startButton").trigger("click");
+		// 꽃가루 이벤트
+		$("#startButton").trigger("click");
 	  	setTimeout(function(){
 	  		$("#stopButton").trigger("click");
 	  	}, 6000);
 		
 	}
 
+	
 	$(document).ready(function(){
 		
 		//비회원 주문이라면! 장바구니 비워주기
 		const lguser ="${sessionScope.loginuser.userid}";
+		
 		if(lguser==""){
 			
-			<%--
-			const orderList = ${requestScope.ordertList.fk_pnum};
-			orderList.each((index, item)=>{
-				console.log(item);
-			});
-			--%>
-		}
+			alert("헤헤헤");
+			
+			<c:forEach var="cvo" items="${requestScope.ordertList}">
+			   	var pnum = ${cvo.fk_pnum};
+				if(sessionStorage.getItem("Key"+pnum)){
+					sessionStorage.removeItem('Key'+pnum);
+					sessionStorage.removeItem('Qty'+pnum);
+				}
+			</c:forEach>			
+			
+		}// end of 비회원 장바구니 비우기
 
 
-		// 꽃가루 이벤트
-		<%--
-		function reAction(){
-		  	$("#startButton").trigger("click");
-		  	setTimeout(function(){
-		  		$("#stopButton").trigger("click");
-		  	}, 6000);
-		}
-		
-		reAction();
-		--%>
 	});// end of reday
 	
 	
@@ -49,13 +49,12 @@
 </script>
 
 
-<jsp:include page="../common/header.jsp" />
-
 <script src="https://tistory4.daumcdn.net/tistory/3134841/skin/images/confetti_v2.js"></script>
 
 <style>
 	canvas{z-index:10;pointer-events: none;position: fixed;top: 0;transform: scale(1.1);}
 </style>
+
 
 
 
@@ -78,9 +77,9 @@
 
 <jsp:include page="../common/footer.jsp" />
 
-<div class="buttonContainer">
-	<button class="canvasBtn" id="stopButton">Stop Confetti</button>
-	<button class="canvasBtn" id="startButton">Drop Confetti</button>	
+<div class="buttonContainer" style="display:hidden;">
+	<button class="canvasBtn" id="stopButton" style="display:none;">Stop Confetti</button>
+	<button class="canvasBtn" id="startButton" style="display:none;" >Drop Confetti</button>	
 </div>
 
 <canvas id="canvas"></canvas>
