@@ -29,7 +29,7 @@ public class OrderList extends AbstractController {
 			
 			request.setAttribute("mapList", mapList);
 			
-			System.out.println(mapList.size());
+			// System.out.println(mapList.size());
 			
 			super.setViewPage("/WEB-INF/jihyun/myinfo_orderList.jsp");
 			
