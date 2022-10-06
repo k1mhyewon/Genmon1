@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
-<jsp:include page="<%= ctxPath%>/common/adminSidebar.jsp" />
+<jsp:include page="../common/adminSidebar.jsp" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -226,10 +227,10 @@ $(document).ready(function () {
  	const searchButton = document.getElementById('search-button');
  	const searchInput = document.getElementById('search-input');
  	
- 	searchButton.addEventListener('click', () => {
+ 	/* searchButton.addEventListener('click', () => {
  	  const inputValue = searchInput.value;
  	  alert(inputValue);
- 	});
+ 	}); */
  	
 });// end of $(document).ready(function () {}--------------------------
 		
@@ -249,14 +250,16 @@ $(document).ready(function () {
 						
 	}// end of function function goAnswerForm(){}
 	
+	
+	
 	// === 제품 추가하기 === //
 	function goAddProduct(){
 
-		const url = "<%= request.getContextPath()%>/jieun/manager_addProduct.jsp";
+		const url = "<%=request.getContextPath()%>/admin/adminAddProduct.sun";
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
-		const pop_width = 800;
-		const pop_height = 600;
+		const pop_width = 500;
+		const pop_height = 650;
 		const pop_left = Math.ceil((window.screen.width - pop_width)/2); /* 정수로만듦 */
 		const pop_top = Math.ceil((window.screen.height - pop_height)/2);/* 정수로만듦 */
 		
@@ -275,377 +278,110 @@ $(document).ready(function () {
 <section class="py-4 px-2 " style="width:95%; margin:0 auto; ">
  
  &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 5% 10%;">Product</h3> 
-
-
+	
+	
     <div class="table-responsive custom-table-responsive" style="width:80%; margin:auto;">
+      
+      <!-- <button type="button" class="btn btn-secondary" onclick="goSearch();" style="margin-right: 30px;">검색</button> -->
+      
+    	<div class="input-group mb-4">
+			  <input type="text" name="searchWord" class="form-control" id="searchWord" placeholder="검색하고 싶은 회원의 전화번호,이메일,이름을 입력해주세요." />
+			  <%-- form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
+               유효성 검사를 거치지 않고 막바로 submit()을 하는 경우가 발생한다.
+               이것을 막아주는 방법은 input 태그를 하나 더 만들어 주면 된다. 
+               그래서 아래와 같이 style="display: none;" 해서 1개 더 만든 것이다. 
+       			--%>
+		      <input type="text" style="display: none;" /> <%-- 조심할 것은 type="hidden" 이 아니다. --%> 
+			  <button class="btn" id="advanced-search-button" onclick="goSearch();" type="button" style="border:none; ">
+			    <i class="fa fa-search"></i>
+			  </button>
+			  
+      
+		</div>
+			    
+    
 		<table class="table custom-table datatable ">
 		<thead>
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
-				<th scope="col">
-				<label class="control control--checkbox">
-					<input type="checkbox" class="js-check-all">
-					<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
+				<th scope="col" >
+					<label class="control control--checkbox">
+						<input type="checkbox">
+						<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
+					</label>
 				</th>
-				<th scope="col" style="margin-left: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image</th>
-				<th scope="col">Name</th>
-				<th scope="col">Product Code</th>
-				<th scope="col">Quantity</th>
-				<th scope="col">Price(₩)</th>
-				<th scope="col">Total Sales</th>
-				<th scope="col">Status</th>
+				<th scope="col" name="pimage1" style="margin-left: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image</th>
+				<th scope="col" name="pname">Name</th>
+				<th scope="col" name="pnum">Product Code</th>
+				<th scope="col" name="pqty">Quantity</th>
+				<th scope="col" name="price">Price(₩)</th>
+				<th scope="col" name="psales">Total Sales</th>
+				<th scope="col" name="pstatus">Status</th>
 				<th scope="col"></th>
 			</tr>
 		</thead>
 		<tbody>
+		
+		<!-- 상품추가행-->
 		<tr scope="row" class="hover addPrd">
-			<td colspan="100"><p href="#" style="display:inline-block; margin: 0 auto; padding-left: 50%;">
-								<i class="fas icon-plus" style="margin: auto;"></i></p></td>
+			<td id="btn-modal" colspan="100"><p style="display:inline-block; margin: 0 auto; padding-left: 50%;">
+			<i class="fas icon-plus" style="margin: auto;"></i></p></td>
 		</tr>
+		<!-- 상품추가행-->
+		
+		
 		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td >
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px; border-radius: 2;"
-              class="rounded-circle"
-              />
-				</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">Yel</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-warning rounded-pill d-inline">Disenable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-success rounded-pill d-inline">Waiting</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-success rounded-pill d-inline">Waiting</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-success rounded-pill d-inline">Waiting</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-warning rounded-pill d-inline">Disenable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
-		<tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td>
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px;"
-              class="rounded-circle"
-              />
-			</td>
-			<td>
-			 <p class="fw-bold mb-1">릴리트 01</p>
-             <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<!-- <p class="text-muted mb-0">배송 언제시작할까요?</p> -->
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-success rounded-pill d-inline">Waiting</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e;"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr>
-		<tr class="spacer"><td colspan="100"></td></tr>
+		
+ 		<c:forEach var="cpvo" items="${requestScope.productList}">
+			
+			<tr class="spacer"><td colspan="100"></td></tr>
+			
+			<tr scope="row" class="hover">
+				<th scope="row">
+					<label class="control control--checkbox">
+						<input type="checkbox">
+						<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
+					</label>
+				</th>
+    			<td>
+    				<img
+		              src="${cpvo.pimage1}"
+		              style="width: 60px; height: 60px; margin-left: 20px; border-radius: 2;"
+		              class="rounded-circle"
+		              />
+    			</td>
+    			
+    			<td><p class="fw-bold mb-1">${cpvo.parentProvo.pname}</p></td>
+    			<td><p class="fw-bold mb-1">${cpvo.pnum}</p></td>
+    			<td>${cpvo.pqty}</td>
+    			<td>${cpvo.parentProvo.price}</td>
+    			<td><%-- ${cpvo.psales} --%></td>
+    			<td><%-- ${cpvo.pstatus} --%></td> <%-- 재고량(주문수)이 없다면 판매중단, 재고량이 있다면 판매중, 출시일이 오늘 날짜보다 늦다면 웨이팅. --%>
+				<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
+				<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
+    		</tr>
+    	</c:forEach> 
+    	
+    			<%-- <td>
+    				<c:choose>
+    					<c:when test="${mvo.gender eq '1'}">남</c:when>
+    					<c:otherwise>여</c:otherwise>
+    				</c:choose>
+    			</td> --%>
+		
 		</tbody>
 		</table>
+			 <nav class="my-5">
+			 	<div style="display:flex; ">
+			 		<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
+					
+					<select id="sizePerPage" name="sizePerPage">
+				       <option value="10">10</option>
+				       <option value="5">5</option>
+				       <option value="3">3</option>
+				    </select>
+			 	</div>
+	 		</nav> 
+ 
 </div>
 </section>
 

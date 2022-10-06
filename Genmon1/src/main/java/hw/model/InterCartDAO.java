@@ -25,6 +25,9 @@ public interface InterCartDAO {
 
 	// 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
 	CartVO selectOneOrder(String pnum, String qty) throws SQLException ;
+
+	// 주문 완료 후 회원 장바구니 비워주깅
+	int deleteOrderedList(List<CartVO> ordertList, String fk_userid) throws SQLException ;
 	
 	
 

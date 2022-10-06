@@ -18,6 +18,7 @@
 <style>
 
  .sidebar {
+ margin-left: 5%;
  margin-bottom: 22px;
    display: inline-block;
   z-index: 1;
@@ -31,7 +32,7 @@
 /* Style sidebar links */
 .sidebar a {
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   color: #1c1c1c;
   display: inline-block;
   width:auto;
@@ -60,7 +61,8 @@ li.menu {
     color: #343434;
     border: 0;
     background: transparent;
-    max-width: 1116px;  
+    max-width: 5000px;
+    margin: auto;
 }
 .pagelink{
 	display: flex;
@@ -83,11 +85,10 @@ menu-nav{
 	text-align: left;
 }
 h2.nav_title{
-	font-size: 12pt; font-weight:550;line-height: 3.2;display: inline-block;
+	font-size: 15pt; font-weight:550;line-height: 3.2;display: inline-block;
 }
 .container-wrap {
-    max-width: 1416px;
-    margin: 0 auto;
+    
 }
 
 /* 작아질때 */

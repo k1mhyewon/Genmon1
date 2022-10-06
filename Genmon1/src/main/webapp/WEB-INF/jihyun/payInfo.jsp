@@ -222,9 +222,13 @@
 	    }); // end of 결제방법 클릭 이벤트
 	    
 	    
-	    // 비회원 주문이라면!
-	    if("${empty loginuser}"){
+	    
+	    // 비회원 주문이라면! 적립금 결제 숨겨주기
+	    const lguser ="${sessionScope.loginuser.userid}";
+	    if(lguser==""){
 	    	$("div#guestHidden").hide();
+	    } else {
+	    	$("div#guestHidden").show();
 	    }
 	    
 	    // 적립금 클릭이벤트 

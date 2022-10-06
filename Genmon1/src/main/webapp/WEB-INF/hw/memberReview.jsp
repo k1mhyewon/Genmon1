@@ -203,7 +203,8 @@
 	        <div id="prod_info">
 	        	<div style="font-size: 11pt;">르</div>
 	            <div style="font-size: 10pt;">189,000원</div>
-	            <div style="font-size: 10pt; color: #666666; margin-top: 5px;">리뷰(2)</div>
+	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</span>&nbsp;
+	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(2)</span>
 	        </div>
 		</div>
         
@@ -228,7 +229,7 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
+	                
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="../images/le_iv1_1.jpg" style="width: 80px;">
@@ -247,7 +248,6 @@
 	                <div style="font-size: 9pt;">2022-09-13</div>
 	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
 	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                <div style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</div>
 	            </div>
 	            <div class="rate_content_2">
 	                <img src="../images/le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">

@@ -55,7 +55,7 @@ div#reviewTbl {
         box-sizing: border-box;
         border: solid 1.5px #D3D3D3;
         border-radius: 5px;
-        font-size: 14px;
+        font-size: 12pt;
         resize: none;
         margin-bottom: 40px;
     }
@@ -127,7 +127,7 @@ div#reviewTbl {
 	$(document).ready(function(){
 		
 		// 리뷰내용 글자수 200자 제한 -------------------------------------------------
-		$('#rev_content').keyup(function (e) {
+		$('#rev_content').keydown(function (e) {
 			let rev_content = $(this).val();
 		    
 		    // 글자수 세기
@@ -138,9 +138,9 @@ div#reviewTbl {
 		    }
 		    
 		    // 글자수 제한
-		    if (rev_content.length > 200) {
-		    	// 200자 부터는 타이핑이 안되게
-		        $(this).val($(this).val().substring(0, 200));
+		    if (rev_content.length > 99) {
+		    	// 100자 부터는 타이핑이 안되게
+		        $(this).val($(this).val().substring(0, 99));
 		    };
 		}); // end of $('#rev_content').keyup() ---------------------------------
 		
@@ -191,7 +191,7 @@ div#reviewTbl {
             <div style="clear: both;"></div>
             <div id="text_cntBox">
                 <span id="text_cnt">0자</span>
-                <span>/200자</span>
+                <span>/100자</span>
             </div>
             <p>파일첨부</p>
             <input type="file" name="photo" id="photo" />
