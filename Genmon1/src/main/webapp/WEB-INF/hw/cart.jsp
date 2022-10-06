@@ -328,21 +328,16 @@
 	// #### Function Declaration #### //
 	
 	
-	function go_purchase(fk_pnum){ // --------------------------------
+	function go_purchase(fk_pnum, qty){ // --------------------------------
 		
 		const userid = '${sessionScope.loginuser.userid}';
 		
 		if(!userid){
 			
-			const frm = document.hiddenFrm;
-			
-			frm.method = "post";
-			frm.action ="<%= ctxPath%>/order/checkLogin.sun";
-			frm.submit();
+			ocation.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
 			
 		}
 		else{
-			let qty=$("input[name='quantity']").val();
 			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
 		}
 		
@@ -467,8 +462,7 @@
 								  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
 								</div>
 								
-								<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
-								<button onClick="go_purchase('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-dark">결제하기</button>
+								<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 								<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
 							</div>
 						</label>

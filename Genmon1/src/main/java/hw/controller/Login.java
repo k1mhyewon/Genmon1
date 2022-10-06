@@ -51,10 +51,14 @@ public class Login extends AbstractController {
 				String[] arr_pnum = all_pnum.split(",");
 				String[] arr_qty = all_qty.split(",");
 				
+				
 				InterCartDAO cdao = new CartDAO();
 				
 				for(int i=0;i<arr_pnum.length;i++) {
 					// System.out.println(arr_pnum[i]);
+					
+					System.out.println("확인용 all_pnum : "+ arr_pnum[i]);
+					System.out.println("확인용 all_qty : "+ arr_qty[i]);
 					
 					try {
 					

@@ -96,7 +96,7 @@
 
 <script>
 	$(document).ready(function(){ // --------------------------------------------------
-		
+		<%--
 		const all_pnum = '${requestScope.all_pnum}';
 		const all_qty = '${requestScope.all_qty}';
 		
@@ -105,6 +105,71 @@
 		
 		$("#all_pnum").val(all_key);
 		$("#all_qty").val(all_qty);
+		--%>
+		
+		if(sessionStorage.length>1){ // 장바구니 내역이 있을때만 조회함
+			
+			let allkey = "";
+			let allqty = "";
+			
+			let cnt1 = 0;
+			let cnt2 = 0;
+			for(let i=0; i<sessionStorage.length; i++) {
+				// 문자열.indexOf("찾고자하는문자열")
+				let key = sessionStorage.key(i);
+				if(key.indexOf('Key')!=-1){ // 키 값인 경우
+					let comma =  cnt1 ==0 ? "": ",";
+					allkey += comma + sessionStorage.getItem(key);
+					cnt1 +=1;
+				} else { // 수량 값일 경우
+					let comma =  cnt2 ==0 ? "": ",";
+					allqty+= comma + sessionStorage.getItem(key);
+					cnt2 += 1;
+				}
+			} // end of for
+			
+			console.log("allkey"+allkey);
+			console.log("allqty"+allqty);
+			
+			$("#all_pnum").val(allkey);
+			$("#all_qty").val(allqty);
+			
+			$.ajax({
+				url:"<%= ctxPath%>/order/notMemberCartDisplayJASON.sun" ,
+				type: "post",  
+				data:{"sname":"HIT",
+				"allkey":allkey, // 시작점을 보겠다"1" "9" "17" "25" "33"
+				"allqty":allqty},
+			    dataType:"json",
+			    success:function(json) {
+			    	
+			    	let html="";
+			    	
+			    	$.each(json, function(index, item){
+								html+= "<div class='col'><label><input type='checkbox' class='chk_wishprod' name='sun'/><div class='card_body mx-1 my-3'>"+
+													"<img src='../images/minji/전체보기/"+item.image+"' class='product_img' /><br>"+
+												"<div class='productDesc'>"+
+													"<p class='productName' style='font-weight: bold;'>"+item.pname+" "+item.colname+"</p>"+
+													"<p class='productPrice'>"+item.price.toLocaleString("ko-KR")+" 원</p>"+
+												"</div>"+
+												"<div class='number-input' style='margin-left: 105px; margin-top: 0;'>"+
+												  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepDown()\" ></button>"+
+												  "<input  class='quantity' min='1'  name='quantity' value='"+item.qty+"' type='number'>"+
+												  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepUp()\" class='plus'></button>"+
+												"</div>"+
+												"<input type='hidden' class='pnum' value='"+item.pnum+"' />"+
+												"<button onClick=\"go_purchase('"+item.pnum+"')\" type='button' class='btnWish btn btn-dark'>결제하기</button>"+
+												"<button onClick=\"deleteOne('"+item.pnum+"')\" type='button' class='btnWish btn btn-light'>삭제</button>"+
+											"</div></label></div>";
+			    	}); // end of each
+			    	
+			    	$("div#show").html(html);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		} // end of 장바구니 내역이 있을때만 조회함
 		
 		$("button#btn_goLogin").click(function(){
 			// 로그인 버튼을 클릭하면
