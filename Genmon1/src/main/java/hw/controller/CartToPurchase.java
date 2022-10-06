@@ -24,27 +24,10 @@ public class CartToPurchase extends AbstractController {
 		String method = request.getMethod();
 		// post 방식으로 넘어오긴 했는데 나눠줘야 하나??
 		if("post".equalsIgnoreCase(method)) {
-			String all_qty = request.getParameter("all_qty");
-			String all_pnum = request.getParameter("all_pnum");
 			
-			String[] arr_qty = all_qty.split(",");
-			String[] arr_pnum = all_pnum.split(",");
-			
-			List<CartVO> ordertList = new ArrayList<>();
-			
-			InterCartDAO cdao = new CartDAO();
-			
-			for(int i =0; i<arr_qty.length; i++) {
-				
-				CartVO cvo = cdao.selectOneOrder(arr_pnum[i], arr_qty[i]);
-				//cvo.setFk_pnum( Integer.parseInt(arr_pnum[i]) );
-				//cvo.setQty(Integer.parseInt(arr_qty[i]));
-				ordertList.add(cvo);
-			}
 			
 			HttpSession session =  request.getSession(); 
-			session.setAttribute("ordertList", ordertList);
-			// request.setAttribute("ordertList", ordertList);
+			
 			
 			
 			if(super.checkLogin(request)) { // 로그인 한 상태라면 바로 주문으로 가면 안대고 ㅎㅎ
@@ -72,6 +55,26 @@ public class CartToPurchase extends AbstractController {
 		         
 		      } else { // 로그인 안 한 상태라면 로그인 체크로
 		    	  
+		    	  String all_qty = request.getParameter("all_qty");
+					String all_pnum = request.getParameter("all_pnum");
+					
+					String[] arr_qty = all_qty.split(",");
+					String[] arr_pnum = all_pnum.split(",");
+					
+					List<CartVO> ordertList = new ArrayList<>();
+					
+					InterCartDAO cdao = new CartDAO();
+					
+					for(int i =0; i<arr_qty.length; i++) {
+						
+						CartVO cvo = cdao.selectOneOrder(arr_pnum[i], arr_qty[i]);
+						//cvo.setFk_pnum( Integer.parseInt(arr_pnum[i]) );
+						//cvo.setQty(Integer.parseInt(arr_qty[i]));
+						ordertList.add(cvo);
+					}
+					
+					session.setAttribute("ordertList", ordertList);
+					// request.setAttribute("ordertList", ordertList);
 		    	  
 		         super.setRedirect(false);
 		         super.setViewPage("/WEB-INF/jihyun/checkLogin.jsp");

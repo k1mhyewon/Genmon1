@@ -25,8 +25,68 @@ public class Login extends AbstractController {
 		
 		try {
 			String method = request.getMethod(); // "GET" or "POST"
-			
 			// System.out.println("method => " + method);
+			
+			String userid = request.getParameter("userid");
+			String pwd = request.getParameter("pwd");
+			
+			// System.out.println("확인용 userid : "+ userid);
+			// System.out.println("확인용 pwd : "+ pwd);
+			
+			// ============================================================= //
+			// [비회원 장바구니 시작]
+			
+			String all_pnum = request.getParameter("all_pnum");
+			String all_qty = request.getParameter("all_qty");
+			
+			// System.out.println("확인용 all_pnum : "+ all_pnum);
+			// System.out.println("확인용 all_qty : "+ all_qty);
+			
+			if(all_pnum != null && all_qty != null) {
+				
+				String[] arr_pnum = all_pnum.split(",");
+				String[] arr_qty = all_qty.split(",");
+				
+				
+				InterCartDAO cdao = new CartDAO();
+				
+				for(int i=0;i<arr_pnum.length;i++) {
+					
+					// System.out.println("for 문 확인용 all_pnum"+i+" : "+ arr_pnum[i]);
+					// System.out.println("for 문 확인용 all_qty"+i+" : "+ arr_qty[i]);
+					
+					try {
+					
+						CartVO cart = new CartVO(userid, Integer.parseInt(arr_pnum[i]), Integer.parseInt(arr_qty[i]));
+						
+						int isCartExist = cdao.isCartExist(userid, Integer.parseInt(arr_pnum[i]));
+						
+						if(isCartExist == 0) { // 해당 상품이 장바구니에 없다면
+				        	int n = cdao.cartInsert(cart); // insert 하기
+						}
+						else { // 해당 상품이 장바구니에 있다면
+							
+							int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist; // 업데이트할 개수
+							int n2 = cdao.cartUpdate(userid, Integer.parseInt(arr_pnum[i]), updateQty); // update 하기
+							
+						}
+				
+					} catch(NumberFormatException e) {
+						e.printStackTrace();
+					}
+					
+				} // end of for(int i=0;i<arr_pnum.length;i++) --------------------------------------
+				
+				
+			} // end of if(all_pnum != null && all_qty != null) ---------------------------------------------------
+			
+			
+			// [비회원 장바구니 끝]
+			// ============================================================= //
+			
+			
+			
+			
 			
 			if(!"POST".equalsIgnoreCase(method)) {
 				 // GET 방식으로 넘어온 것이라면 
@@ -37,62 +97,8 @@ public class Login extends AbstractController {
 			else {
 				 // POST 방식으로 넘어온 것이라면 
 				
-				String userid = request.getParameter("userid");
-				String pwd = request.getParameter("pwd");
 				
-				// System.out.println("확인용 userid : "+ userid);
-				// System.out.println("확인용 pwd : "+ pwd);
-				
-				
-				// ============================================================= //
-				// [비회원 장바구니 시작]
-				
-				String all_pnum = request.getParameter("pnum");
-				String all_qty = request.getParameter("qty");
-				
-				// System.out.println("확인용 all_pnum : "+ all_pnum);
-				// System.out.println("확인용 all_qty : "+ all_qty);
-				
-				if(all_pnum != null && all_qty != null) {
-					
-					String[] arr_pnum = all_pnum.split(",");
-					String[] arr_qty = all_qty.split(",");
-					
-					InterCartDAO cdao = new CartDAO();
-					
-					
-					
-					for(int i=0;i<arr_pnum.length;i++) {
-						// System.out.println(arr_pnum[i]);
-						
-						CartVO cart = new CartVO(userid, Integer.parseInt(arr_pnum[i]), Integer.parseInt(arr_qty[i]));
-						
-						int isCartExist = cdao.isCartExist(userid, Integer.parseInt(arr_pnum[i]));
-						
-						if(isCartExist == 0) { // 해당 상품이 장바구니에 없다면
-							
-				        	cdao.cartInsert(cart); // insert 하기
-				        	
-						
-						}
-						else { // 해당 상품이 장바구니에 있다면
-							
-							int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist;
-							
-							cdao.cartUpdate(userid, Integer.parseInt(arr_pnum[i]), updateQty); // update 하기
-							
-							
-						}
-					
-					}
-					
-					
-				}
-				
-				
-				// [비회원 장바구니 끝]
-				// ============================================================= //
-				
+
 				
 				
 				// ===> 웹클라이언트의 IP 주소를 알아오는 것 <==== //

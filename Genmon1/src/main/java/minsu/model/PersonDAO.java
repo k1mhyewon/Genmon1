@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -123,42 +124,10 @@ public class PersonDAO implements InterPersonDAO {
 	} // end of public boolean idDuplicateCheck(String userid) throws SQLException---------------------------------
 	
 	
-	// === DB에 주소 추가 및 변경하는 메소드 === // 
-	@Override
-	public int addAdreess(Map<String, String> paraMap) throws SQLException {
-		
-		int result = 0;
-		
-		 try {
-	          conn = ds.getConnection();
-	          
-	          String sql = "  update tbl_member_test set postcode = ? "
-	          			+ "							   , address = ? "
-	          			+ " 						   , detailaddress = ? "
-	          			+ "							   , extraaddress = ? "
-	        		  	+ " where userid = ? ";
-	          
-	          pstmt = conn.prepareStatement(sql);
-	          
-			  pstmt.setString(1, paraMap.get("postcode"));
-			  pstmt.setString(2, paraMap.get("address"));
-			  pstmt.setString(3, paraMap.get("detailaddress"));
-			  pstmt.setString(4, paraMap.get("extraaddress"));
-			  pstmt.setString(5, paraMap.get("userid"));
-	          
-			  result = pstmt.executeUpdate();
-	          
-		} finally {
-			close();
-		}
-        
-		return result;
-	} // end of public int updateMember(MemberVO member) throws SQLException-----------------
-		
 	
-
-
-
+	
+	
+	
 	// === 회원의 코인 및 포인트 변경하기 === 
 		@Override
 		
@@ -228,7 +197,7 @@ public class PersonDAO implements InterPersonDAO {
 				
 				String sql = " select userid "+
 							 " from tbl_member_test "+
-							  "where userid = ? and pwd = ? ";
+							 " where userid = ? and pwd = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, "userid");
@@ -243,6 +212,42 @@ public class PersonDAO implements InterPersonDAO {
 			}
 			return ispwdCheck;
 		} // end of public boolean pwdCheck(Map<String, String> paraMap)throws SQLException  -----------------------------------------
+
+		// === 주소를 삭제하는 메소드 생성하기 === //
+		@Override
+		public int adrDelete(Map<String, String> paraMap)throws SQLException {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		// === DB에 주소 추가 및 변경하는 메소드 === // 
+		@Override
+		public int addAdreess(Map<String, String> paraMap) throws SQLException {
+			
+			int result = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = "select name, address, detailaddress, extraaddress\n"+
+						"from tbl_member_test\n"+
+						"where userid = ? ";
+			
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, paraMap.getUserid() );
+				
+				result = pstmt.executeUpdate();
+					
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) { // |는 OR(또는)
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			return result;
+			
+		}
 	
 	
 

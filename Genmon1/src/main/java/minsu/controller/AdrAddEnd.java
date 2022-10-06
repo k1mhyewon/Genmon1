@@ -19,9 +19,11 @@ public class AdrAddEnd extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		HttpSession session = request.getSession();
-		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
+		
+		System.out.println("userid : " + userid);
 		System.out.println("~~~ 확인용2 : " + request.getParameter("address"));
 		System.out.println("~~~ 확인용2 : " + request.getParameter("detailAddress"));
 		System.out.println("~~~ 확인용2 : " + request.getParameter("extraAddress"));
@@ -62,7 +64,6 @@ public class AdrAddEnd extends AbstractController {
 					String detailAddress = request.getParameter("detailAddress");
 					String extraAddress = request.getParameter("extraAddress");
 					
-					
 					 Map<String,String> paraMap = new HashMap<>();
 					 paraMap.put("name",name);
 		        	 paraMap.put("postcode",postcode);
@@ -73,7 +74,7 @@ public class AdrAddEnd extends AbstractController {
 					
 					// DB에 주소를 추가하기
 					InterPersonDAO pdao =  new PersonDAO();
-					int n = pdao.addAdreess(paraMap);
+					 int n = pdao.addAdreess(paraMap);
 				
 			         if(n == 1) {
 			        	 
