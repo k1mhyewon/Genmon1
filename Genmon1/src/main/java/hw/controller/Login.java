@@ -27,7 +27,6 @@ public class Login extends AbstractController {
 			String method = request.getMethod(); // "GET" or "POST"
 			// System.out.println("method => " + method);
 			
-			
 			String userid = request.getParameter("userid");
 			String pwd = request.getParameter("pwd");
 			
@@ -39,9 +38,6 @@ public class Login extends AbstractController {
 			
 			String all_pnum = request.getParameter("all_pnum");
 			String all_qty = request.getParameter("all_qty");
-			
-			request.setAttribute("all_pnum", all_pnum);
-			request.setAttribute("all_qty", all_qty);
 			
 			System.out.println("확인용 all_pnum : "+ all_pnum);
 			System.out.println("확인용 all_qty : "+ all_qty);
@@ -57,8 +53,8 @@ public class Login extends AbstractController {
 				for(int i=0;i<arr_pnum.length;i++) {
 					// System.out.println(arr_pnum[i]);
 					
-					System.out.println("확인용 all_pnum : "+ arr_pnum[i]);
-					System.out.println("확인용 all_qty : "+ arr_qty[i]);
+					System.out.println("for 문 확인용 all_pnum"+i+" : "+ arr_pnum[i]);
+					System.out.println("for 문 확인용 all_qty"+i+" : "+ arr_qty[i]);
 					
 					try {
 					
@@ -82,14 +78,18 @@ public class Login extends AbstractController {
 					} catch(NumberFormatException e) {
 						e.printStackTrace();
 					}
-				}
+					
+				} // end of for(int i=0;i<arr_pnum.length;i++) --------------------------------------
 				
 				
-			}
+			} // end of if(all_pnum != null && all_qty != null) ---------------------------------------------------
 			
 			
 			// [비회원 장바구니 끝]
 			// ============================================================= //
+			
+			
+			
 			
 			
 			if(!"POST".equalsIgnoreCase(method)) {
@@ -102,7 +102,7 @@ public class Login extends AbstractController {
 				 // POST 방식으로 넘어온 것이라면 
 				
 				
-				
+
 				
 				
 				

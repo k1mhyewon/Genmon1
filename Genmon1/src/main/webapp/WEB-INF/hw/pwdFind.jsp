@@ -187,8 +187,8 @@
 		const isUserExists = "${requestScope.isUserExists}";
 		const sendMailSuccess = "${requestScope.sendMailSuccess}";
 		
-		console.log("isUserExists : "+isUserExists);
-		console.log("sendMailSuccess : "+sendMailSuccess);
+		// console.log("isUserExists : "+isUserExists);
+		// console.log("sendMailSuccess : "+sendMailSuccess);
 		
 		if(method == "POST" ){ // 메일 전송 버튼을 클릭하여 컨트롤러에 갔다왔을 때  
 			if(isUserExists == "true" && sendMailSuccess == "true"){

@@ -107,7 +107,7 @@
 		$("#all_qty").val(all_qty);
 		--%>
 		
-		if(sessionStorage.length>1){ // 장바구니 내역이 있을때만 조회함
+		if(sessionStorage.length > 1){ // 장바구니 내역이 있을때만 조회함
 			
 			let allkey = "";
 			let allqty = "";
@@ -129,46 +129,13 @@
 			} // end of for
 			
 			console.log("allkey"+allkey);
-			console.log("allqty"+allqty);
+			console.log("allqty"+allqty); // 나옴
 			
 			$("#all_pnum").val(allkey);
 			$("#all_qty").val(allqty);
 			
-			$.ajax({
-				url:"<%= ctxPath%>/order/notMemberCartDisplayJASON.sun" ,
-				type: "post",  
-				data:{"sname":"HIT",
-				"allkey":allkey, // 시작점을 보겠다"1" "9" "17" "25" "33"
-				"allqty":allqty},
-			    dataType:"json",
-			    success:function(json) {
-			    	
-			    	let html="";
-			    	
-			    	$.each(json, function(index, item){
-								html+= "<div class='col'><label><input type='checkbox' class='chk_wishprod' name='sun'/><div class='card_body mx-1 my-3'>"+
-													"<img src='../images/minji/전체보기/"+item.image+"' class='product_img' /><br>"+
-												"<div class='productDesc'>"+
-													"<p class='productName' style='font-weight: bold;'>"+item.pname+" "+item.colname+"</p>"+
-													"<p class='productPrice'>"+item.price.toLocaleString("ko-KR")+" 원</p>"+
-												"</div>"+
-												"<div class='number-input' style='margin-left: 105px; margin-top: 0;'>"+
-												  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepDown()\" ></button>"+
-												  "<input  class='quantity' min='1'  name='quantity' value='"+item.qty+"' type='number'>"+
-												  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepUp()\" class='plus'></button>"+
-												"</div>"+
-												"<input type='hidden' class='pnum' value='"+item.pnum+"' />"+
-												"<button onClick=\"go_purchase('"+item.pnum+"')\" type='button' class='btnWish btn btn-dark'>결제하기</button>"+
-												"<button onClick=\"deleteOne('"+item.pnum+"')\" type='button' class='btnWish btn btn-light'>삭제</button>"+
-											"</div></label></div>";
-			    	}); // end of each
-			    	
-			    	$("div#show").html(html);
-			    },
-			    error: function(request, status, error){
-					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				}
-			});
+			
+	
 		} // end of 장바구니 내역이 있을때만 조회함
 		
 		$("button#btn_goLogin").click(function(){
@@ -324,8 +291,8 @@
         	<button class="login_btn" type="button" id="btn_gojoin" style="margin-top: 15px;">신규가입</button>
         	
         	
-        	<input type="text" name="all_qty" id="all_qty" />
-			<input type="text" name="all_pnum" id="all_pnum"/>
+        	<input type="hidden" name="all_qty" id="all_qty" />
+			<input type="hidden" name="all_pnum" id="all_pnum"/>
         </div>
     </form>    	
     

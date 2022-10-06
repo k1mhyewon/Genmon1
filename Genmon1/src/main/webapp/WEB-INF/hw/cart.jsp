@@ -483,8 +483,8 @@
 	<div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>
 	<form name="hiddenFrm">
-		<input type="text" name="all_qty" id="all_qty" />
-		<input type="text" name="all_pnum" id="all_pnum" />
+		<input type="hidden" name="all_qty" id="all_qty" />
+		<input type="hidden" name="all_pnum" id="all_pnum" />
 	</form>
 
 <jsp:include page="../common/footer.jsp" />
