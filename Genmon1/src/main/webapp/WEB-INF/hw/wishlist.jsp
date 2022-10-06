@@ -9,14 +9,12 @@
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/myinfo_mainMenu.jsp" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
 
 <style>
 
 /* 추가 */
-	* {font-family: 'Noto Sans KR', sans-serif; !important}
+	* {font-family: 'Pretendard', sans-serif; !important}
 
     div#myPageNav{
         
@@ -93,6 +91,29 @@
 		height: 40px;
 	}
 	
+	#addCart_btn {
+		width: 180px; margin-top: 10px;
+	}
+	
+	.modals-fullsize {
+    	width: 500px;
+    	height: 300px;
+    }
+    
+    #modal_box {
+    	text-align: center;
+    	margin-top: 15%;
+    }
+    
+    .modal_btn {
+    	
+    	font-size: 11pt;
+    	height: 40px;
+    }
+    
+    .modal { 
+ 		top : 30%; 
+	}
 
     /* 추가 */
 
@@ -167,22 +188,27 @@
 		}); // $("input:checkbox[name='chk_each_prod']").click() ----------------
 			
 		
-		
-		
 	}); // end of $(document).ready() =========================================================
 	
 		
 	// #### Function Declaration #### //
-	<%--
-	function showWishlist(){ // ------------------------
+	
+	function refresh(){
+		location.reload();
+	}
+	
+	// 상품 개별 삭제
+	function goDelete(fk_userid, fk_pnum){ // ------------------------
 		
 		$.ajax({
-			url:"<%= request.getContextPath()%>/member/wishlist.sun",
+			url:"<%= request.getContextPath()%>/member/wishlistOneDelete.sun",
+			data:{ "fk_userid":fk_userid, "fk_pnum":fk_pnum },
 			type: "GET",
-			dataType:"JSON",
+			dataType:"text",
 		    success:function(json) {
 		    	
-		    	console.log(json);
+		    	alert('삭제되었습니다.');
+		    	refresh();
 		    	
 		    },
 		    error: function(request, status, error){
@@ -192,10 +218,42 @@
 			
 		});
 	
-	} // end of function showWishlist() ----------------
-	--%>
+	} // end of function goDelete() ----------------
 	
+	// 선택상품 삭제
+	function selectDelete(){ // ------------------------
+		
+		const chkBoxArr = [];
+		
+		$("input:checkbox[name='chk_each_prod']:checked").each(function() {
+			chkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+			console.log(chkBoxArr);
+		})
+		
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/wish/wishlistSelectDel.sun",
+			data:{ "chkBoxArr":chkBoxArr },
+			type: "GET",
+			traditional: true,
+			dataType:"text",
+		    success:function(json) {
+		    	
+		    	alert('삭제되었습니다.');
+		    	refresh();
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+			
+		});
 	
+		
+	} // end of function goDelete() ----------------
+	
+	/*
 	function goDelete(fk_userid, fk_pnum){ // -----------------------------------
 		
 		const deleteConfirm = confirm('선택한 상품을 삭제하시겠습니까?');
@@ -204,7 +262,7 @@
 			 	
 			    location.href="/Genmon1/member/wishlistDelete.sun?fk_userid="+fk_userid+"&fk_pnum="+fk_pnum; 
 				
-				alert('삭제되었습니다.ㅎㅎㅎㅎㅎ');
+				alert('삭제되었습니다.');
 			}
 			else {
 				alert('삭제가 취소되었습니다.');
@@ -214,7 +272,76 @@
 		
 		
 	} // end of function goDelete() ---------------------------
+	*/
 	
+	// 개별상품 장바구니 추가
+	function goCart(fk_userid, fk_pnum){ // ------------------------
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/wish/wishToCartOne.sun",
+			data:{ "fk_userid":fk_userid, "fk_pnum":fk_pnum },
+			type: "GET",
+			dataType:"text",
+		    success:function(json) {
+		    	
+		    	// alert('장바구니에 추가되었습니다.');
+		    	$('#goCartModal').modal('show');
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+			
+		});
+	
+	} // end of function goDelete() ----------------
+	
+	
+	
+	// 선택상품 장바구니 추가
+	function selectAddCart(){ // ---------------------------------------------
+		
+		const chkBoxArr = [];
+		
+		$("input:checkbox[name='chk_each_prod']:checked").each(function() {
+			chkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+			// console.log(chkBoxArr);
+		})
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/wish/wishToCartSelect.sun",
+			data:{ "chkBoxArr":chkBoxArr },
+			type: "GET",
+			traditional: true,
+			dataType:"text",
+		    success:function(json) {
+		    	
+		    	$("#goCartModal").show();
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+		});
+		
+		
+		
+	} // end of function selectAddCart(){} -----------------------------------
+	
+	
+	
+	// 장바구니로 페이지 이동
+	function goSeeCart() {
+		location.href="<%= ctxPath%>/order/cart.sun"
+	}
+	
+	
+	function closeModal() {
+		$('#goCartModal').modal('hide');
+	}
+	
+
 
 </script>
     <!-- 인덱스 시작 -->
@@ -222,10 +349,12 @@
     <!-- 위시리스트 목록 -->
 
 	<c:if test="${not empty requestScope.wishList }">
-    	<div id="wishText">위시리스트(0)</div>
+    	<div id="wishText">위시리스트()</div>
 	    <div id="checkbox_choice">
 	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-	        <button type="button" class="btn btn-dark btn_chkbox">선택삭제</button>
+	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()")>선택삭제</button><br>
+	        <button type="button" class="btn btn-dark btn_chkbox" id="addCart_btn" onClick="selectAddCart()">선택상품 장바구니 추가</button>
+	        <button type="button" class="btn btn-dark btn_chkbox" data-toggle="modal" data-target="#goCartModal">장바구니 모달</button>
 	    </div>
 		<div class="album">
 			<div class="box">
@@ -234,14 +363,14 @@
 						<div class="col">
 							<input type="hidden" name="fk_userid" value="${wishvo.fk_userid}" />
 							<input type="hidden" name="pnum" value="${wishvo.fk_pnum}" />
-							<input type="checkbox" name="chk_each_prod" class="chk_wishprod" />
+							<input type="checkbox" name="chk_each_prod" value="${wishvo.fk_pnum}" class="chk_wishprod" />
 							<div class="card_body mx-1 my-3">
-								<img src="../images/${wishvo.pimage1}" class="product_img">
+								<img src="../images/minji/전체보기/${wishvo.cpvo.pimage1}" class="product_img">
 								<div id="productDesc">
-									<p class="productName" style="font-weight: bold;">${wishvo.pname}</p>
-									<p class="productPrice"><fmt:formatNumber value="${wishvo.price}" pattern="#,###" /> 원</p>
+									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
+									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
-								<button type="button" class="btnWish btn btn-dark">장바구니에 추가</button>
+								<button type="button" class="btnWish btn btn-dark" onClick="goCart('${wishvo.fk_userid}','${wishvo.fk_pnum}')" >장바구니에 추가</button>
 								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>
 							</div>
 						</div>
@@ -258,6 +387,24 @@
 		</div>
 	</c:if>
 	<div style="height: 70px;"></div>
+	
+	
+	
+	
+	
+	
+	<!--  장바구니 추가 누르면 나오는 Modal -->
+   <div class="modal fade" id="goCartModal">
+		<div class="modal-dialog">
+			<div class="modal-content modals-fullsize">
+				<div id="modal_box">
+					<div>해당 상품이 장바구니에 추가되었습니다.</div>
+					<button type="button" style="margin-top: 40px;" class="btnWish btn btn-dark modal_btn" onClick="goSeeCart()">장바구니로 가기</button>
+					<button type="button" style="margin-top: 5px;" class="btnWish btn btn-light modal_btn" onClick="closeModal()">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 <%-- 인덱스 끝 --%>
 
 <jsp:include page="../common/footer.jsp" />

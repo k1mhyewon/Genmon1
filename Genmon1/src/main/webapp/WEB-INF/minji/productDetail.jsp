@@ -105,48 +105,109 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 
 <script>
 
-	$(document).ready(function(){
+	$(document).ready(function(){ // =============================================================
 		
-		$("#cart_added_comment").hide();
+		$("#cart_added_comment").hide(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 숨기기--%>
+		
 		
 		$("#addStayPage").click(function(){ // ------------------
 			
-			addStayPage(${pvo.pnum});
+			addStayPage();
 			
 		}); // end of $("#addStayPage").click() -----------------
 		
 		
 		
-	}); // end of $(document).ready() -----------------------
+		$("#addGoCart").click(function(){ // ------------------
+			
+			addGoCart();
+			
+		}); // end of $("#addGoCart").click() -----------------
+		
+		
+		
+	}); // end of $(document).ready() ==============================================================
 
 	
-	function addStayPage(pnum){
-		// ajax로 select insert 해야한다
+	function addStayPage(){
+		// ajax 사용 상품이름이랑 수량 같이 넘겨줘야함
 		
-		
+		const pnum = '${pvo.pnum}';
 		const qty = $("input[name='quantity']").val();
-		// 상품이릅이랑 수량 같이 넘겨줘야함
 		
+		const loginuser = '${sessionScope.loginuser.userid}' ;
 		
-		$.ajax({
-			url:"<%= request.getContextPath()%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
-		//	type: "GET",  
-		    dataType:"TEXT",
-		    success:function(json) {
-		    	
-		    	$("#cart_added_comment").show();
-		    	$('#addCart').modal('hide');
-				
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		if(loginuser == ''){ // 로그인 안 한 경우
+			
+			if(sessionStorage.getItem("Key"+pnum)){ // 이미 장바구니에 있다면 개수 업데이트
+				var qty2 = sessionStorage.getItem('Qty'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
+				sessionStorage.setItem('Qty'+pnum,Number(qty)+Number(qty2));
+			} else {
+				sessionStorage.setItem("Key"+pnum,pnum);
+				sessionStorage.setItem('Qty'+pnum,qty);
 			}
-		});
+			
+			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
 		
-		
+		} else { // 로그인 한 경우
+			$.ajax({
+				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
+				type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	
+			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+					
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
 	}
 	
 	function addGoCart(){
+		
+		const pnum = '${pvo.pnum}';
+		const qty = $("input[name='quantity']").val();
+		
+		const loginuser = '${sessionScope.loginuser.userid}' ;
+		
+		if(loginuser == ''){ // 로그인 안 한 경우
+			
+			if(sessionStorage.getItem("Key"+pnum)){ // 이미 장바구니에 있다면 개수 업데이트
+				var qty2 = sessionStorage.getItem('Qty'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
+				sessionStorage.setItem('Qty'+pnum,Number(qty)+Number(qty2));
+			} else {
+				sessionStorage.setItem("Key"+pnum,pnum);
+				sessionStorage.setItem('Qty'+pnum,qty);
+			}
+		
+			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+		
+			location.href="<%= ctxPath%>/order/cart.sun";
+			
+		} else { // 로그인 한 경우
+			$.ajax({
+				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
+				type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	
+			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+			    	location.href="<%= ctxPath%>/order/cart.sun";
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
 		
 	}
 	
@@ -177,20 +238,27 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
 			 			<c:if test="${not empty requestScope.proList}">
-			 				<c:forEach var="pvo" items="${requestScope.proList}">
-			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
-			 				</c:forEach>
+			 				<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 				
+			 				<%-- <c:forEach var="pvo" items="${requestScope.proList}">
+			 					<c:if test="${pvo.fk_id eq pvo.parentProvo.pid}">
+			 						<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 					</c:if>
+			 					<c:if test="${pvo.fk_id != pvo.parentProvo.pid}">
+									<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px; height: 100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 					</c:if>
+			 				</c:forEach> --%>
 			 			</c:if>
 			 		</ul>
 		 		</div>
 			</div>
 				
-				<div class="item-info-description-box">
-		   	 		<div class="item-info-description" style="width: 300px;">
-		    	 	   ${pvo.parentProvo.pcontent }
-		   	 		</div>
+			<div class="item-info-description-box">
+	   	 		<div class="item-info-description" style="width: 300px;">
+	    	 	   ${pvo.parentProvo.pcontent}
 	   	 		</div>
-	      	 	<br>
+   	 		</div>
+      	 	<br>
 	      	 	
 	 		<%-- 카트 및 관심 상품 버튼 --%>
 	 		<div class="add-option-btn">
@@ -322,10 +390,9 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" class="sunglasses-image"></div>
 			        <c:if test="${not empty requestScope.imgList}">
 			        	<c:forEach var="ivo" items="${requestScope.imgList}">
-			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/${ivo.imgfilename}" class="sunglasses-image"></div>
+			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${ivo.pimage1}" class="sunglasses-image"></div>		
 			        	</c:forEach>
 			        </c:if>
-			        
 			   </div> 
 	 		</div>
 	 
@@ -333,19 +400,26 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
  
 	   <%-- 비슷한 상품 추천 --%>
        <div class="related-box">
-         <div class="related-title">릴리트01과 비슷한 추천제품을 만나보세요</div>
+         <div class="related-title"><span style="color: gray;">${pvo.parentProvo.pname}</span>과 비슷한 추천제품을 만나보세요</div>
        		<ul class="related-item">
        			<li class="related-item-list">
-       			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/디디온01(G)1.jpg"></a></div>
-      				<div class="related-item-info-box">
-   						<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">디디온01(G)</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">270,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
+       				<div class="related-deep-box">
+       					<c:if test="${not empty requestScope.recommendList}">
+       						<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></div>
+       					
+       				<%-- 	gkgkgk <div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}"><img src="<%= ctxPath %>/images/minji/전체보기/${recomCvo.pimage1}"></a></div>
+       						<c:forEach var="recomvo" items="${requestScope.recomendList}">
+       						
+       						</c:forEach> --%>
+       					</c:if>
+	      				<div class="related-item-info-box">
+	   						<ul class="related-go">
+	      						<li class="sun-title"><a href="#" class="link">${pvo.pnum}</a></li>
+	      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">${pvo.parentProvo.price}</a></li>
+	      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
+	      					</ul>
+	   					</div>
    					</div>
-   				</div>
        			</li>
         		<li class="related-item-list">
         		<div class="related-deep-box">

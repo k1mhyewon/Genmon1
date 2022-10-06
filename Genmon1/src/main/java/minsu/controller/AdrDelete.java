@@ -1,25 +1,80 @@
 package minsu.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import common.model.MemberVO;
+import minsu.model.InterPersonDAO;
+import minsu.model.PersonDAO;
 
 public class AdrDelete extends AbstractController {
 
 	// 주소를 삭제하는 페이지
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		try {
-			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/minsu/adrDelete.jsp");
-			} catch(Exception e) {
-				e.printStackTrace();
-				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/error.sun");
+		
+		HttpSession session = request.getSession();
+		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
+		
+		String userid = loginuser.getUserid();
+		
+		if(!super.checkLogin(request)) {
+				// 로그인 안했으면 
+			    String message = "회원정보를 수정하려면 먼저 로그인을 하세요.!!";
+	            String loc = "javascript:history.back()";
+	            
+	            request.setAttribute("message", message);
+	            request.setAttribute("loc", loc);
+	            
+	      //   super.setRedirect(false);
+	           super.setViewPage("/WEB-INF/common/msg.jsp");
+	           return;
 			}
+			else {
 		
-		
+				String method = request.getContextPath();
+				
+				if("get".equals(method)) {
+					  String message = "회원정보 수정이 불가합니다.!!";
+			          String loc = "javascript:history.back()";
+			            
+			            request.setAttribute("message", message);
+			            request.setAttribute("loc", loc);
+			            
+			      //   super.setRedirect(false);
+			           super.setViewPage("/WEB-INF/common/msg.jsp");
+			           return;
+				}
+				else {
+					
+					String name = request.getParameter("name");
+					String postcode = request.getParameter("postcode");
+					String address = request.getParameter("address");
+					String detailaddress = request.getParameter("detailaddress");
+					String extraaddress = request.getParameter("extraaddress");
+					
+					Map<String,String> paraMap = new HashMap<>();
+					paraMap.put("name", name);
+					paraMap.put("postcode", postcode);
+					paraMap.put("address", address);
+					paraMap.put("detailaddress", detailaddress);
+					paraMap.put("extraaddress", extraaddress);
+					
+					// === 주소를 삭제하는 메소드 생성하기 === //
+					InterPersonDAO pdao = new PersonDAO();
+					int n = pdao.adrDelete(paraMap);
+					
+			
+				// super.setRedirect(false);
+				// super.setViewPage("/WEB-INF/minsu/adrDelete.jsp");
+				
+			
+			}
+		}
 	}
-
 }

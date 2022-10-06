@@ -5,9 +5,11 @@
 
 <% String ctxPath = request.getContextPath(); %>
 
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
+
 <style type="text/css">
 
-	* {font-family: 'Noto Sans KR', sans-serif;}
+	* {font-family: 'Pretendard', sans-serif; !important}
 	
 	li { list-style : none; }
     
@@ -39,6 +41,26 @@
     }
     
     #find_pwd { margin-bottom: 25px; }
+    
+    #error_msg {
+    	font-size: 10pt;
+    	color: red;
+    	margin: 10px 0 0 60px;
+    }
+    
+    #find_msg {
+    	color: red; font-size: 11pt;
+    	text-align: center;
+    	margin-top: 10px;
+    }
+    
+    #timer {
+    	color: red; font-size: 17pt;
+    	font-weight: bold;
+    	margin-top: 10px;
+    }
+    
+    
 
 </style>
 
@@ -51,19 +73,95 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
-<!-- 폰트 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 <script>
 
+	
+	
+	
+
 	$(document).ready(function(){
-		//찾기
+		
+		$("#timer_end").hide();
+		
+		$("div#pwdFind_result").hide();
+		
+		$("#error_msg").hide();
+		$("#find_msg").hide();
+		
+		let id_bool = false; 
+		let email_bool = false; 
+		
+		// === 아이디 유효성 검사 === //
+		$("input#userid").blur((e) => {
+	   	
+	   		const $target = $(e.target);
+	            
+	        if($target.val() == "") { // 아이디 입력칸이 공백인 경우
+	        	$("#error_msg").show();
+	        	$target.focus();
+	        	id_bool = false;
+	        }
+	        else if($target.val().length < 4){ // 입력칸에 네글자 이하로 들어온 경우
+	        	$("#error_msg").show();
+	        	$target.focus();
+	        	id_bool = false;
+	        }
+	        else { // 입력칸에 네글자 이상의 글자가 들어온경우
+	        	 $("#error_msg").hide();
+	        	 id_bool = true; 
+	          }
+	   	}); // end of  $("input#userid").blur((e) => {} --------------------------------
+		
+	   	
+
+		// === 이메일주소 유효성 검사 === //
+		$("input#email").blur((e) => {
+	   	
+	   		const $target = $(e.target);
+			const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
+	            
+	        const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
+	        
+	        if($target.val() == "") {
+	        	// 이메일 입력칸이 공백인 경우
+	        	$("#error_msg").show();
+	        	email_bool = false;
+	        }
+	        else {
+	        	// 입력칸에 글이 들어온경우
+	        	$("#error_msg").hide();
+	        	
+	        	if(!bool) {
+	   				// 이메일이 정규표현식에 위배된 경우  
+	   			    $("#error_msg").show();
+	   			 	email_bool = false;
+	   				$target.focus();
+	   			}
+	   			else {
+	   				// 이메일이 정규표현식에 맞는 경우 
+	   				$("#error_msg").hide();
+	   				email_bool = true; 
+	   			}
+	          }
+		}); // end of  $("input#email").blur((e) => {} --------------------------------
+	   			
+		
+		$("input#email").change((e) => {
+	   		$("#error_msg").hide();
+	   	});
+	   	   
+	   	$("input#name").change((e) => {
+	   		$("#error_msg").hide();
+	   	});
+		
+		
+		
+		// 찾기 버튼 클릭
 		$("button#link_btn").click(function(){
+			$("#find_msg").hide();
 			
 			const useridVal = $("input#userid").val().trim();
 			const emailVal = $("input#email").val().trim();
@@ -71,14 +169,14 @@
 			
 			// 아이디 및 이메일에 대한 정규표현식을 사용한 유효성 검사는 생략한다.
 			
-			if( useridVal != "" && emailVal != "" ) {
+			if( id_bool && email_bool ) {
 				const frm = document.findPwdFrm;
 				frm.action = "<%= ctxPath%>/pwdFind.sun";
 				frm.method = "POST"; // 대소문자 구분 안함
 				frm.submit();
 			}
 			else{
-				alert("아이디와 이메일을 입력하세요 !!");
+				$("#error_msg").show();
 				return;
 			}
 			
@@ -86,24 +184,69 @@
 		
 		const method = "${requestScope.method}"; // requestScope. 은 생략 가능 / "" 넣어줘야 함
 		
-		if(method == "POST"){
-			$("div#pwdFind_result").show();
-			$("input#userid").val("${requestScope.userid}");
-			$("input#email").val("${requestScope.email}");
+		const isUserExists = "${requestScope.isUserExists}";
+		const sendMailSuccess = "${requestScope.sendMailSuccess}";
+		
+		console.log("isUserExists : "+isUserExists);
+		console.log("sendMailSuccess : "+sendMailSuccess);
+		
+		if(method == "POST" ){ // 메일 전송 버튼을 클릭하여 컨트롤러에 갔다왔을 때  
+			if(isUserExists == "true" && sendMailSuccess == "true"){
+				// 유저가 존재하고, 메일전송이 성공했을 때
+				
+				// setInterval(function(){timer();}, 1000); // 1초마다 주기적으로 타이머 함수를 호출하도록 지정
+				// ============================================================================================ //
+				// [타이머 시작]
+				
+				let time = 60;// 타이머 시간을 10분으로 지정
+				
+				let minute = "";
+			    let second = "";
+				
+				// 타이머 함수 만들기    
+				const timer = setInterval(function(){
+					
+					minute = parseInt(time / 60); // 소수부는 없애버리고 정수만 가져오는 것이다. 
+			        if(minute < 10) {
+			            minute = "0" + minute;
+			        }
 			
-			if("${requestScope.sendMailSuccess}"){
-				$("div#div_btnFind").hide(); // 찾기버튼 감춤
+			        second = time % 60;
+			        if(second < 10) {
+			            second = "0" + second;
+			        }
+			
+			        document.getElementById("timer").innerHTML = minute + ":" + second;
+			        time --;
+			        
+			        if(time < 0){
+			        	clearInterval(timer);
+			        	$("#timer_end").show();
+			        }
+					
+				}, 1000);
+				
+				// [타이머 종료]
+				// ============================================================================================ //
+				
+				$("div#pwdFind_result").show();
+				$("input#userid").val("${requestScope.userid}");
+				$("input#email").val("${requestScope.email}");
+				
+				$("#link_btn").hide(); // 찾기버튼 감춤
+				$("#find_msg").hide();
+			}
+			else { 
+				// 유저가 존재하지 않는다면 결과물을 보여주면 안됨
+				$("div#pwdFind_result").hide();
+				$("#find_msg").show();
 			}
 		}
-		else { // get 방식이라면 결과물을 보여주면 안됨
+		else { // get 방식이면 결과물을 보여주면 안됨
 			$("div#pwdFind_result").hide();
+			$("#find_msg").hide();
 		}
 		
-		
-		// 닫기버튼을 클릭하면 모달창 닫기
-		$("#btn_close").click(function(){ // -----------------------
-			self.close();
-		}); // end of $("#btn_close").click() ----------------------
 		
 		
 		
@@ -124,18 +267,21 @@
 		<li style="margin: 25px 0">
 			<label for="email" style="display: inline-block; width: 90px">이메일</label>
 			<input type="text" name="email" id="email" size="25" placeholder="gentle@gentlemonster.com" autocomplete="off" required />
+			<div id="error_msg">아이디 또는 이메일을 올바르게 입력해주세요.</div>
 		</li>
 	</ul>
-	<div style="text-align: center; margin-top: 30px;">
+	<div style="text-align: center; margin-top: 15px;">
 		<button type="button" class="btn btn-dark" id="link_btn" style="font-size: 9pt;">비밀번호 변경 링크 전송</button>
 	</div>
+	<div id="find_msg">존재하지 않는 회원 입니다. <br>올바른 정보를 입력해주세요.</div>
 	
 	<div id="pwdFind_result" >
 		<div style="font-size: 9pt;">비밀번호 변경 링크가 회원님의 이메일</div>
 		<div style="font-size: 9pt; font-weight: bold;">"${requestScope.email}"</div>
 		<div style="font-size: 9pt;">로 발송되었습니다.</div>
 		<div style="font-size: 9pt;">이메일을 확인해주세요.</div>
-		<button type="button" class="btn btn-light" id="btn_close" style="font-size: 9pt;">닫기</button>
+		<div id="timer"></div>
+		<div id="timer_end" style="font-size: 9pt; color: red;">비밀번호 리셋시간이 종료되었습니다. 다시 시도해주세요.</div>
 	</div>
 </form>
 

@@ -1,15 +1,21 @@
 package minsu.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
+import minsu.model.InterPersonDAO;
+import minsu.model.PersonDAO;
 
 public class AdrUpdate extends AbstractController {
 
 	// 주소를 수정하는 페이지 //
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		try {
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/minsu/adrUpdate.jsp");
@@ -18,7 +24,7 @@ public class AdrUpdate extends AbstractController {
 				super.setRedirect(true);
 				super.setViewPage(request.getContextPath()+"/error.sun");
 			}
-		
+			
 	}
 
 }

@@ -1,17 +1,19 @@
 package hw.model;
 
+import common.model.ChildProductVO;
+import common.model.ParentProductVO;
+
 public class WishlistVO {
 	
 	private String fk_userid;         // 회원아이디 - tbl_member 의 userid 
 	private String fk_pnum;           // 개별상품코드 - tbl_all_product 의 pnum
 
-	/*
-	  *********** 나중에 ProductVO 생기면 바꾸기***********
-	private ProductVO prodvo;
-	*/
-	private String pname;
-	private String price;
-	private String pimage1;
+	
+	//////////////////////////////////////
+	
+	private ParentProductVO ppvo;
+	private ChildProductVO cpvo;
+	
 	
 	// ===================================================================================== //
 	
@@ -34,33 +36,21 @@ public class WishlistVO {
 	
 	
 	
-	// ------------------- 나중에 삭제 ------------------ //
+	//////////////////////////////////////
 	
-	public String getPname() {
-		return pname;
+	public ParentProductVO getPpvo() {
+		return ppvo;
 	}
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setPpvo(ParentProductVO ppvo) {
+		this.ppvo = ppvo;
 	}
-	
-	
-	public String getPrice() {
-		return price;
+	public ChildProductVO getCpvo() {
+		return cpvo;
 	}
-	public void setPrice(String price) {
-		this.price = price;
+	public void setCpvo(ChildProductVO cpvo) {
+		this.cpvo = cpvo;
 	}
 	
-	
-	public String getPimage1() {
-		return pimage1;
-	}
-	public void setPimage1(String pimage1) {
-		this.pimage1 = pimage1;
-	}
-	
-	
-	// ----------------------------------------------- //
 	
 	
 

@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import hw.model.CartDAO;
+import hw.model.InterCartDAO;
 import hw.model.InterMemberDAO;
 import hw.model.MemberDAO;
+import common.model.CartVO;
 import common.model.MemberVO;
 
 
@@ -37,9 +40,65 @@ public class Login extends AbstractController {
 				String userid = request.getParameter("userid");
 				String pwd = request.getParameter("pwd");
 				
-				
 				// System.out.println("확인용 userid : "+ userid);
 				// System.out.println("확인용 pwd : "+ pwd);
+				
+				
+				// ============================================================= //
+				// [비회원 장바구니 시작]
+				
+				String all_pnum = request.getParameter("pnum");
+				String all_qty = request.getParameter("qty");
+				
+				// System.out.println("확인용 all_pnum : "+ all_pnum);
+				// System.out.println("확인용 all_qty : "+ all_qty);
+				
+				if(all_pnum != null && all_qty != null) {
+					
+					String[] arr_pnum = all_pnum.split(",");
+					String[] arr_qty = all_qty.split(",");
+					
+					InterCartDAO cdao = new CartDAO();
+					
+					
+					
+					for(int i=0;i<arr_pnum.length;i++) {
+						// System.out.println(arr_pnum[i]);
+						
+						try {
+						
+							CartVO cart = new CartVO(userid, Integer.parseInt(arr_pnum[i]), Integer.parseInt(arr_qty[i]));
+							
+							int isCartExist = cdao.isCartExist(userid, Integer.parseInt(arr_pnum[i]));
+							
+							if(isCartExist == 0) { // 해당 상품이 장바구니에 없다면
+								
+					        	cdao.cartInsert(cart); // insert 하기
+					        	
+							
+							}
+							else { // 해당 상품이 장바구니에 있다면
+								
+								int updateQty = Integer.parseInt(arr_qty[i]) + isCartExist;
+								
+								cdao.cartUpdate(userid, Integer.parseInt(arr_pnum[i]), updateQty); // update 하기
+								
+								
+							}
+					
+						} catch(NumberFormatException e) {
+							
+						}
+					}
+					
+					
+				}
+				
+				
+				// [비회원 장바구니 끝]
+				// ============================================================= //
+				
+				
 				
 				// ===> 웹클라이언트의 IP 주소를 알아오는 것 <==== //
 				String clientip = request.getRemoteAddr();
