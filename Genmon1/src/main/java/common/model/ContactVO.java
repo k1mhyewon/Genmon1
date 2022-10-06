@@ -10,7 +10,10 @@ public class ContactVO {
 	private String contents; //문의 내용
 	private String filename; // 첨부파일 
 	private String cregisterday; // 문의글등록일(sysdate)
+	private String pwd; // 문의글비밀번호
 	
+
+
 	// 비회원 guest
 	private String email; // 이메일 (AES-256 암호화/복호화 대상)
 	
@@ -19,6 +22,13 @@ public class ContactVO {
 	
 	
 	
+	public String getPwd() {
+		return pwd;
+	}
+	
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 	public MemberVO getMvo() {
 		return mvo;
 	}

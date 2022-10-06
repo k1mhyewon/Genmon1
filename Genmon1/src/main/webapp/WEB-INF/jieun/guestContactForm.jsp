@@ -84,16 +84,6 @@
 <script>
 
 	$(document).ready(function() {
-		
-		// 로그인한 유저 정보 넣어주기 
-		const name = "${sessionScope.loginuser.name}"
-		const email = "${sessionScope.loginuser.email}"
-		$("input#name").val(name);
-		$("input#email").val(email);
-		$("div.logined :input").prop("disabled", true);
-		
-		
-		
 		$("input#name").focus();
 		$("span.error").hide();
 		
@@ -109,7 +99,7 @@
 		
 		
 	});// end of $(document).ready(function() {}----------------
-
+	
 	let name_flag = false;
 	let email_flag = false;
 	let textarea_flag = false;
@@ -121,7 +111,7 @@
 		const name = $("input#name").val().trim();
 		const email = $("input#email").val().trim();
 		const contents = $("textarea").val().trim();
-		const password = $("input#typePassword").val().trim();
+		const password = $("input#password").val().trim();
 		
 		// 입력란이 채워있을경우 true 깃발
 		let name_flag = name!="" ?? true;
@@ -176,7 +166,7 @@
 				else{// 문의내용 입력했을경우
 					
 					if( !pwd_flag ){
-						const inputpassword = $("input#typePassword");
+						const inputpassword = $("input#password");
 						inputpassword.focus();
 						inputpassword.css('border','1px solid red');
 						inputpassword.parent().find("span.error").show() // 경고 표기
@@ -184,14 +174,13 @@
 						inputpassword.keydown(function(){
 							inputpassword.parent().find("span.error").hide();
 							inputpassword.css('border','1px solid #ccc');
-							textarea_flag = true;
+							pwd_flag = true;
 							return;
 						});
 					}
 				}
 			}
 		}
-		
 		
 			
 		
@@ -204,9 +193,8 @@
 				const frm = document.conInputFrm;
 			    frm.submit();
 			};
-			
 		}
-	};
+	};// end of function funcSubmitForm() {}---------------------------------
 	
 	
 	
@@ -218,24 +206,25 @@
 	    } else {
 	        pwd.type = "password";
 	    }
-	}
+	};// end of function myClick() {}---------------------
 
 	// 취소버튼 누를시 
 	function funcCancel() {
 		if(confirm("정말로 문의작성을 취소하시겠습니까?")){
 			history.go(-1);
 		};
-	};
+	};// end of function funcCancel() {}-------------------
+	
 	
 </script>
          
-	<div class="box_content col-md-8">
+		<div class="box_content col-md-8">
             <br>
        <div class="form" style="margin-top: 10px;" >
 		 <h3 style="font-size: 12pt; margin-bottom: 20px;">Contact</h3> 
 		
-		<form class="mb-5 conInputFrm" method="post" action="<%= ctxPath%>/customerCare/contact/memberGoContact.sun" enctype="multipart/form-data" 
-		id="contactForm" name="conInputFrm" style="font-size: 11pt;">
+		<form class="mb-5 " method="post" action="<%= ctxPath%>/contact/guestGoContact.sun" enctype="multipart/form-data" 
+		id="contactForm" name="conInputFrm" novalidate="novalidate"style="font-size: 11pt;">
 
 		<div class="row">
 			<div class="col-md-6 form-group mb-3">
@@ -253,31 +242,14 @@
 		<div class="row logined">
 			<div class="col-md-6 form-group mb-3">
 				<label for="name" class="col-form-label">이름 *</label><span class="error">이름을 입력해주세요</span>
-				<input type="text" class="form-control must" name="name" id="name" placeholder="Your name" >
+				<input type="text" class="form-control" name="name" id="name" placeholder="Your name" >
 			</div>
 			<div class="col-md-6 form-group mb-3">
 				<label for="email" class="col-form-label">이메일 *</label><span class="error">이메일을 입력해주세요</span>
-				<input type="text" class="form-control must" name="email" id="email" placeholder="Your email">
+				<input type="text" class="form-control" name="email" id="email" placeholder="Your email">
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12 form-group mb-3">
-			<label for="order" class="col-form-label">주문번호</label>
-			<select class="custom-select valid" id="order" name="order" aria-invalid="false">
-				<option selected="">Choose Orderno..</option>
-				
-				<%-- <c:forEach var="order" items="${sessionScope.loginUser }">
-					<option value="$1000 below">&lt; $1,000</option>
-				</c:forEach> --%>
-				
-				<option value="$1000 below">&lt; $1,000</option>
-				<option value="$2,000 - $5,000">$2,000 - $5,000</option>
-				<option value="$5,000 - $15,000">$5,000 - $15,000</option>
-				<option value="$15,000 - $25,000">$15,000 - $25,000</option>
-				<option value="$25,000 >">$25,000 &gt;</option>
-			</select>
-			</div>
-		</div>
+		
 		<div class="row">
 			<div class="col-md-12 form-group mb-3">
 				<label for="contents" class="col-form-label">내용 *</label><span class="error">문의내용을 입력해주세요</span>
@@ -299,17 +271,11 @@
               <input type="file" id="file" name="file">
 			</div>
 		</div>
-		
-		<input type="hidden" name="userid" value="${sessionScope.loginuser.userid}">
-		
 	</form>                    
 			<a href="#" class="col-md-6 btn margin_b50" onclick="funcSubmitForm()">문의하기</a>
 			<a href="#" class="col-md-6 btn margin_b50" style="background-color: white; color:black;" onclick="funcCancel()">취소하기</a>
 			<span class="submitting"></span>
-
-
 		</div>
 	</div>
-
 
 <jsp:include page="../common/footer.jsp" />

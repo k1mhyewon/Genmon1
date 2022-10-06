@@ -240,7 +240,7 @@ $(document).ready(function () {
 	// === 답변폼창 나오기 === //
 	function goAnswerForm(contactid){
 		// alert(contactid);
-		const url = "<%= request.getContextPath()%>/admin/adminAnswer.sun?contactid"+contactid;
+		const url = "<%= request.getContextPath()%>/admin/adminAnswer.sun?contactid="+contactid;
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
 		const pop_width = 800;
@@ -280,6 +280,7 @@ $(document).ready(function () {
 				else if( json.length > 0 ){ // 데이터가 존재하는 경우   
 					
 					$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
+						let contents = item.contents.substr(0,20)+"...";
 						html += '<tr scope="row" class="tr_data" >'+
 									'<td scope="row" >'+
 										'<label class="control control--checkbox">'+
@@ -289,12 +290,12 @@ $(document).ready(function () {
 									'</td>'+
 									'<td class="under contactid">'+item.contactid+'</td>'+
 									'<td>'+
-										'<p class="fw-bold mb-1">'+item.fk_userid+'</p>'+
-										'<p class="text-muted mb-0">'+item.email+'</p>'+
+//										'<p class="fw-bold mb-1">'+item.name+'</p>'+
+										'<p class="text-muted mb-0" style="font-weight:normal;">'+item.email+'</p>'+
 									'</td>'+
 									'<td class="under" >'+
-										'<p class="fw-normal mb-1">'+item.ctype+'문의</p>'+
-										'<p class=" text-muted mb-0">'+item.contents+'</p>'+
+										'<p class="fw-normal mb-1" style="font-weight:bold;">'+item.ctype+'문의</p>'+
+										'<p class=" text-muted mb-0">'+contents+'</p>'+
 									'</td>'+
 									'<td>'+item.cregisterday+'</td>'+
 									'<td>&nbsp;<p href="#" style="display: inline-block"><i class="fas fa-envelope-square"></i></p>&nbsp;&nbsp;'+
@@ -398,7 +399,7 @@ $(document).ready(function () {
 				</label>
 				</th>
 				<th scope="col">no</th>
-				<th scope="col">Name</th>
+				<th scope="col">Email</th>
 				<th scope="col">Contents</th>
 				<th scope="col">Date</th>
 				<th scope="col"></th>

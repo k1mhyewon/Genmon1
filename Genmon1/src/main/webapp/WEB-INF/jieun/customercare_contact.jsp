@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% String ctxPath = request.getContextPath(); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
@@ -80,7 +81,7 @@
 		// 회원 문의하기를 클릭했다면		
 		$("a#membercontactFrm").click(function() {
 			// 로그인 안되어있으면 로그인 페이지갓다가 현재 url으로 다시오기 
-			if(${empty sessionScope.loginuser}){
+			if(${empty sessionScope.loginuser}){ // 로그인안되어있으면
 				location.href="<%= ctxPath%>/login.sun"; // 로그인 페이지 
 			}
 			else{// 로그인이 되어있으면 문의작성폼으로 
@@ -91,8 +92,7 @@
 		
 		// 비회원 문의하기를 클릭했다면	
 		$("a#guestcontactFrm").click(function() {
-			 
-			// goGuestCotactFrm();
+			location.href="<%= ctxPath%>/customerCare/contact/guestGoContact.sun"; // 문의작성 페이지
 		})
 		
 		// 문의조회를 클릭했다면	
@@ -119,8 +119,9 @@
                	<div>
                    <span>주문, 배송, 제품, 결제 등 궁금한 사항이 있으시거나 도움이 필요하시면 아래 편하신 방법으로 연락주시기 바랍니다.</span>
 					<div><a class="btn margin_b50" id="membercontactFrm">회원 문의하기</a>
-					
-					<a class="btn margin_b50" id="guestcontactFrm">비회원 문의하기</a> <%-- 회원으로 로그인했으면 안보이게하기 --%> 
+					<c:if test="${sessionScope.loginuser == null}">
+						<a class="btn margin_b50" id="guestcontactFrm">비회원 문의하기</a> <%-- 회원으로 로그인했으면 안보이게하기 --%> 
+					</c:if>
 					
 					<a href="#" class="btn margin_b50" id="livechat">실시간 채팅하기</a></div>
                 </div>

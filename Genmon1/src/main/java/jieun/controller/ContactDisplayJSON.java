@@ -40,7 +40,7 @@ public class ContactDisplayJSON extends AbstractController {
 				JSONObject jsonObj = new JSONObject(); // {}  ==> simple로 import 하면 안됨!!! (import org.json.simple.JSONObject;)
 //				contactid, fk_userid, email, ctype, contents
 				jsonObj.put("contactid", cvo.getContactid());
-				jsonObj.put("fk_userid", cvo.getFk_userid());
+				//  jsonObj.put("fk_userid", cvo.getFk_userid());
 				jsonObj.put("email", cvo.getEmail());
 				jsonObj.put("ctype", cvo.getCtype());
 				jsonObj.put("contents", cvo.getContents());

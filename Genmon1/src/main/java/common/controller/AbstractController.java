@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import common.model.MemberVO;
+import common.util.MyUtil;
 
 
 //얘가 모든 클래스의 부모 클래스가 될거임
@@ -86,7 +87,13 @@ public abstract class AbstractController implements InterCommand {
 		} else { // 로그인 안한 경우
 			return false;
 		}
-		
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	// == 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임. == // 
+	public void goBackURL(HttpServletRequest request) {
+	HttpSession session = request.getSession(); // 모든 파일에서 쓸수있게 
+	session.setAttribute("goBackURL", MyUtil.getCurrentURL(request));
 	}
 	
 	

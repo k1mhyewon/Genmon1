@@ -15,13 +15,11 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import common.model.AddImgVO;
-import common.model.ChildProductVO;
 import common.model.ContactVO;
 import common.model.MemberVO;
-import common.model.ParentProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
+import util.security.Sha256;
 
 public class ContactDAO implements InterContactDAO {
 
@@ -71,29 +69,11 @@ public class ContactDAO implements InterContactDAO {
 	public List<ContactVO> selectContactList(Map<String, String> paraMap) throws SQLException {
 		
 		List<ContactVO> contactList = new ArrayList<>();
+		
 		String ctype = paraMap.get("ctype");
-//		String sql1 ="";
+
 		try {
 			conn = ds.getConnection();
-			
-//			if(!"전체".equalsIgnoreCase(ctype)) {// 전체가 아니면 
-//				sql1 =  " where ctype = ? ";
-//			}
-
-//			String sql = "with v as "
-//					+ " ( "
-//					+ " select contactid, ctype, contents, cregisterday, email "
-//					+ " from tbl_member_contact_test c left join tbl_member_test m "
-//					+ " on c.fk_userid = m.userid "
-//					+ sql1
-//					+ " UNION ALL "
-//					+ " select contactid, ctype, contents, cregisterday, email "
-//					+ " from tbl_guest_contact_test "
-//					+ sql1
-//					+ " ) "
-//					+ " select contactid, (select fk_userid from tbl_member_contact_test)as fk_userid, email, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday "
-//					+ " from v "
-//					+ " order by cregisterday desc ";
 			
 			String sql = "with v as "
 					+ " ( "
@@ -110,7 +90,7 @@ public class ContactDAO implements InterContactDAO {
 				sql +=  " where ctype = ? ";
 			}
 			sql += "  ) "
-				+ "select contactid, (select fk_userid from tbl_member_contact_test)as fk_userid, email, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday " 
+				+ " select contactid, email, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday " 
 				+ " from v "	
 				+ " order by cregisterday desc ";
 			
@@ -126,11 +106,11 @@ public class ContactDAO implements InterContactDAO {
 			while(rs.next()) {
 				ContactVO cvo = new ContactVO();
 				cvo.setContactid(rs.getString(1));
-				cvo.setFk_userid(rs.getString(2));
-				cvo.setEmail(aes.decrypt(rs.getString(3)));
-				cvo.setCtype(rs.getString(4));
-				cvo.setContents(rs.getString(5));
-				cvo.setCregisterday(rs.getString(6));
+//				cvo.setFk_userid(rs.getString(2));
+				cvo.setEmail(aes.decrypt(rs.getString(2)));
+				cvo.setCtype(rs.getString(3));
+				cvo.setContents(rs.getString(4));
+				cvo.setCregisterday(rs.getString(5));
 				
 				contactList.add(cvo);
 			}
@@ -193,6 +173,62 @@ public class ContactDAO implements InterContactDAO {
 		}
 		return cvo;
 	}
+
+	
+	
+	// 멤버문의글 insert
+	@Override
+	public void insertMemberContact(ContactVO cvo) throws SQLException {
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_member_contact_test(contactid, fk_userid, ctype, contents, pwd)  "
+						+ "values ('M'||to_char(sysdate,'yyyymmdd')||seq_tbl_member_contact_ctid.nextval, ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, cvo.getFk_userid());
+			pstmt.setString(2, cvo.getCtype());
+			pstmt.setString(3, cvo.getContents());
+			pstmt.setString(4, Sha256.encrypt(cvo.getPwd())); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+
+			pstmt.executeUpdate();
+		
+		} finally {
+			close();
+		}
+		
+	}// end of public void insertMemberContact(ContactVO cvo) throws SQLException {}--------
+
+	
+	// 비회원문의글 insert
+	@Override
+	public void insertGuestContact(ContactVO cvo) throws SQLException {
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_guest_contact_test(contactid, email, ctype, contents, pwd) "
+						+ "values ('G'||to_char(sysdate,'yyyymmdd')||seq_tbl_guest_contact_ctid.nextval, ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, aes.encrypt(cvo.getEmail()));	
+			pstmt.setString(2, cvo.getCtype());
+			pstmt.setString(3, cvo.getContents());
+			pstmt.setString(4, Sha256.encrypt(cvo.getPwd())); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+
+			pstmt.executeUpdate();
+		
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+	}// end of public void insertGuestContact(ContactVO cvo) throws SQLException {}--------------------
 
 	
 	

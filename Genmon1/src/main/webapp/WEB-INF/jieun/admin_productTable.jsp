@@ -282,7 +282,7 @@ $(document).ready(function () {
 	
     <div class="table-responsive custom-table-responsive" style="width:80%; margin:auto;">
       
-      <button type="button" class="btn btn-secondary" onclick="goSearch();" style="margin-right: 30px;">검색</button>
+      <!-- <button type="button" class="btn btn-secondary" onclick="goSearch();" style="margin-right: 30px;">검색</button> -->
       
     	<div class="input-group mb-4">
 			  <input type="text" name="searchWord" class="form-control" id="searchWord" placeholder="검색하고 싶은 회원의 전화번호,이메일,이름을 입력해주세요." />
@@ -292,27 +292,22 @@ $(document).ready(function () {
                그래서 아래와 같이 style="display: none;" 해서 1개 더 만든 것이다. 
        			--%>
 		      <input type="text" style="display: none;" /> <%-- 조심할 것은 type="hidden" 이 아니다. --%> 
-			  <button class="btn btn-primary" id="advanced-search-button" onclick="goSearch();" type="button" style="border:none; background-color: #45494c">
+			  <button class="btn" id="advanced-search-button" onclick="goSearch();" type="button" style="border:none; ">
 			    <i class="fa fa-search"></i>
 			  </button>
 			  
-			  <span style="color: red; font-weight: bold; font-size: 12pt;">페이지당 상품수-</span>
-			    <select id="sizePerPage" name="sizePerPage">
-			       <option value="10">10</option>
-			       <option value="5">5</option>
-			       <option value="3">3</option>
-			    </select>
       
 		</div>
+			    
     
 		<table class="table custom-table datatable ">
 		<thead>
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
-				<th scope="col">
-				<label class="control control--checkbox">
-					<input type="checkbox" class="js-check-all">
-					<div class="control__indicator"><i class="fa fa-check" "></i></div>
-				</label>
+				<th scope="col" >
+					<label class="control control--checkbox">
+						<input type="checkbox">
+						<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
+					</label>
 				</th>
 				<th scope="col" name="pimage1" style="margin-left: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image</th>
 				<th scope="col" name="pname">Name</th>
@@ -335,37 +330,6 @@ $(document).ready(function () {
 		
 		
 		<tr class="spacer"><td colspan="100"></td></tr>
-		<!-- <tr scope="row" class="hover">
-			<th scope="row">
-				<label class="control control--checkbox">
-				<input type="checkbox">
-				<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-			</th>
-			<td >
-				<img
-              src="https://www-prd-kr.gentlemonster.com/media/catalog/product/cache/6c6f229b8a7ab97f51028776641e27d1/1/1/11001_LILIT_01_Y_1_4.jpg"
-              alt=""
-              style="width: 60px; height: 60px; margin-left: 20px; border-radius: 2;"
-              class="rounded-circle"
-              />
-				</td>
-			<td>
-			 	<p class="fw-bold mb-1">릴리트 01</p>
-             <p class="text-muted mb-0">john.doe@gmail.com</p>
-			</td>
-			<td>
-				<p class="fw-normal mb-1">RILE-YEL</p>
-        		<p class="text-muted mb-0">배송 언제시작할까요?</p>
-			</td>
-			<td>232</td>
-			<td>259,000</td>
-			<td>19</td>
-			<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-			<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-			<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-		</tr> -->
-		
 		
  		<c:forEach var="cpvo" items="${requestScope.productList}">
 			
@@ -406,12 +370,17 @@ $(document).ready(function () {
 		
 		</tbody>
 		</table>
-		
-		 <nav class="my-5">
-		 	<div style="display:flex; width:80%">
-		 		<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
-		 	</div>
- 		</nav> 
+			 <nav class="my-5">
+			 	<div style="display:flex; ">
+			 		<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
+					
+					<select id="sizePerPage" name="sizePerPage">
+				       <option value="10">10</option>
+				       <option value="5">5</option>
+				       <option value="3">3</option>
+				    </select>
+			 	</div>
+	 		</nav> 
  
 </div>
 </section>
