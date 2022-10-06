@@ -76,6 +76,7 @@ public class ProductDAO implements InterProductDAO {
 				ParentProductVO ppvo = new ParentProductVO();
 				ppvo.setPname(rs.getString("pname"));
 				ppvo.setPrice(rs.getInt("price"));
+				
 				cvo.setParentProvo(ppvo); // JOIN
 				
 				cvo.setPcolor(rs.getString("pcolor")); 
@@ -102,11 +103,11 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pnum, fk_pid ,pcolor ,pimage1,salePcnt,pname,price ,pcontent\n"+
-					"from tbl_product_test\n"+
-					"JOIN tbl_all_product_test \n"+
-					"ON pid = fk_pid\n"+
-					"where pnum = ?";
+			String sql = " select pnum, fk_pid ,pcolor ,pimage1,salePcnt,pname,price ,pcontent,  pmaterial\n "+
+					" from tbl_product_test\n "+
+					" JOIN tbl_all_product_test \n "+
+					" ON pid = fk_pid\n "+
+					" where pnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pnum);
@@ -126,9 +127,9 @@ public class ProductDAO implements InterProductDAO {
 				ppvo.setPname(rs.getString("pname"));
 				ppvo.setPrice(rs.getInt("price"));
 				ppvo.setPcontent(rs.getString("pcontent"));
+				ppvo.setPmaterial(rs.getString("pmaterial"));
 				
 				cpvo.setParentProvo(ppvo);
-				
 				
 			}
 			
@@ -151,9 +152,9 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pimage1, pnum \n"+
-						"from tbl_all_product_test\n"+
-						"where FK_PID = ?  ";
+			String sql = " select pimage1, pnum \n "+
+						" from tbl_all_product_test\n "+
+						" where FK_PID = ?  ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("fk_pid"));
@@ -187,8 +188,8 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pnum, fk_pid, pimage1\n"+
-						 "from tbl_all_product_test";
+			String sql = " select pnum, fk_pid, pimage1\n "+
+						 " from tbl_all_product_test ";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -216,16 +217,22 @@ public class ProductDAO implements InterProductDAO {
 	@Override
 	public List<ChildProductVO> recommendProduct(Map<String, String> map) throws SQLException {
 		
-		List<ChildProductVO> recommendList = new ArrayList<>();
+		List<ChildProductVO> recomList = new ArrayList<>();
 		 
 		try { 
 			
 			conn = ds.getConnection();
 		 
-			String sql = " select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\n "+
-						" from tbl_all_product_test\n"+ "join \n"+ "tbl_product_test\n "+
-						" on fk_pid = pid\n "+ 
-						" where pcolor=? and pmaterial=? and fk_pid != ? ";
+			String sql = " select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
+						+ " from\r\n "
+						+ " (\r\n "
+						+ " select row_number() over(order by pnum desc) AS RNO\r\n "
+						+ "      , pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
+						+ " from tbl_all_product_test\r\n "
+						+ " JOIN tbl_product_test\r\n "
+						+ " ON fk_pid = pid\r\n "
+						+ " )\r\n "
+						+ " where pcolor= ? and pmaterial= ? and fk_pid != ? and RNO <= 5 ";
 		
 			pstmt = conn.prepareStatement(sql); 
 			
@@ -237,22 +244,21 @@ public class ProductDAO implements InterProductDAO {
 			 
 			while(rs.next()) { 
 				
-			ChildProductVO recomCvo = new ChildProductVO();
+			ChildProductVO recomcvo = new ChildProductVO();
 			 
-			recomCvo.setPnum(rs.getInt("pnum"));
-			recomCvo.setFk_pid(rs.getString("fk_pid"));
-			recomCvo.setPcolor(rs.getString("pcolor"));
-			recomCvo.setPimage1(rs.getString("pimage1"));
+			recomcvo.setPnum(rs.getInt("pnum"));
+			recomcvo.setFk_pid(rs.getString("fk_pid"));
+			recomcvo.setPcolor(rs.getString("pcolor"));
+			recomcvo.setPimage1(rs.getString("pimage1"));
 		
 			ParentProductVO ppvo = new ParentProductVO();
 			ppvo.setPname(rs.getString("pname")); 
 			ppvo.setPrice(rs.getInt("price"));
 			ppvo.setPmaterial(rs.getString("pmaterial"));
 		
-			recomCvo.setParentProvo(ppvo);
-			recommendList.add(recomCvo); 
-		
-			/* recommendList.add(recomCvo); */
+			recomcvo.setParentProvo(ppvo);
+			
+			recomList.add(recomcvo);
 			
 			}
 			 
@@ -261,8 +267,8 @@ public class ProductDAO implements InterProductDAO {
 			close(); 
 		
 		}
+		return recomList; 
 		
-		return recommendList; 
 		}
 	
 }

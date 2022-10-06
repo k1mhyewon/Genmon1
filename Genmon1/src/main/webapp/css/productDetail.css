@@ -18,6 +18,7 @@
 	
 	.item-info-cotent-box {
 		width: 100%;
+		margin-bottom: 5%;
 	}
 	.item-info-cotent {
 		width: 100%;
@@ -37,7 +38,6 @@
 		width: 50%;
 		box-sizing: border-box;
 		float: right;
-		font-weight: bold;
 		text-align: center;
 		padding: 0;
 	}
@@ -50,15 +50,15 @@
 	.item-info-color {
 		clear: right;
 		width: 100%;
-		margin: 0;
+		margin: 0%;
 		padding: 0%;
 	}
 	
 	.color-list {
 	/* 	border: 1px gray solid; */
 		list-style-type: none;
-		margin: 0;
-		padding: 0
+		margin: 2% 0% 0% 0%;
+		padding: 0;
 	}
 	
 	.color-img {
@@ -67,11 +67,6 @@
 	
 	.admin-review {
 		text-align: center;
-	}
-	
-	.color-real-img {
-		padding: 2% 5% 2% 0;
-		width: 20%;
 	}
 	
 	.item-info-description-box {
@@ -167,13 +162,15 @@
 	}
 	
 	.related-item {
-		padding: 0
-	}
-	.related-item-list {
+		padding: 0;
 		display: inline-block;
+	}
+	
+	.related-item-list {
+	
 		margin-right: 1%;
 	}
-
+	
 	.related-go {
 		display: inline-block;
 		list-style: none;

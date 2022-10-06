@@ -41,7 +41,7 @@ SELECT * FROM SYS.user_sequences;
 
 ALTER SEQUENCE SEQ_TBL_PRODUCT_PID INCREMENT BY 1;
 SELECT SEQ_TBL_ALL_PRODUCT_PNUM .NEXTVAL FROM DUAL;
-
+SELECT * FROM SYS.user_sequences;
 SELECT LAST_NUMBER  
 FROM USER_SEQUENCES  
 WHERE SEQUENCE_NAME = 'seq_tbl_product_pid' 
@@ -196,19 +196,36 @@ where V.RNO between 1 and 8;
 select*
 from tbl_product_imagefile_test;
 
+select*
+from tbl_all_product_test;
 
+select*
+from tbl_product_test;
+
+SELECT *
+FROM tab
+
+
+SELECT SEQ_TBL_ALL_PRODUCT_PNUM.NEXTVAL FROM DUAL;
+select seq_tbl_product_imagefile_test_imgfileno.NEXTVAL FROM DUAL;
+
+SELECT * FROM SYS.user_sequences;
+
+----  tbl_product_imagefile_test 에 추가 이미지 인서트
+insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
+values(seqimgfileno.nextval, 3, '디디온VC2.jpg');
 
 
 insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
-values(1, 3, '릴리트01정면.jpg' );
+values(seqimgfileno.nextval, 3, '디디온VC3.jpg');
 
 
 insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
-values(2, 3, '릴리트착샥02.jpg' );
+values(seqimgfileno.nextval, 3, '디디온VC4.jpg');
 
 
 insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
-values(3, 3, '릴리트01정면.jpg' );
+values(seqimgfileno.nextval, 3, '파우치.jpg');
 
 commit;
 

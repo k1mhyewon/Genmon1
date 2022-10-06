@@ -38,15 +38,22 @@ public class ProductDetail extends AbstractController {
 		request.setAttribute("imgList", imgList);
 	
 		// color와 material이 동일한 추천제품 가져오기 
-		Map<String,String> map = new HashMap<>();                                                                                                                                                                    
-		map.put("fk_pid", pvo.getFk_pid());
-		map.put("pnum", pnum);
-		  
-		List<ChildProductVO> recomendList = pdao.recommendProduct(map);
-		request.setAttribute("recomendList", recomendList);
-
+		Map<String,String> map = new HashMap<>();   
 		
-		 
+		map.put("pcolor", pvo.getPcolor());
+		map.put("pmaterial", pvo.getParentProvo().getPmaterial());
+		map.put("fk_pid", pvo.getFk_pid());
+		  
+		List<ChildProductVO> recommendList = pdao.recommendProduct(map);
+		
+	//	System.out.println(recommendList.size());
+	//	request.setAttribute("recommendList", recommendList);
+		
+	//	System.out.println(pvo.getPcolor());
+	//	System.out.println(pvo.getParentProvo().getPmaterial());
+	//	System.out.println(pvo.getFk_pid());
+		
+
 		// super.setRedirect(false);          
 		super.setViewPage("/WEB-INF/minji/productDetail.jsp");
 	}
