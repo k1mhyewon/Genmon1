@@ -224,3 +224,12 @@ update tbl_member_test set postcode = 14547,
                            detailaddress = 1동, 
                            extraaddress = 영평동
 where userid = 'leess';
+
+delete from tbl_member_test
+where address = '서울 송파구 바람드리길 2'
+--오류 보고 -
+--ORA-02292: 무결성 제약조건(SEMI_ORAUSER1.FK_TBL_LOGIN_HISTORY_FK_USERID)이 위배되었습니다- 자식 레코드가 발견되었습니다
+
+
+
+

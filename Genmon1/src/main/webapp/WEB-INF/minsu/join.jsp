@@ -483,7 +483,7 @@ b_flag_idDuplicate_click = false;
 	    	alert("아이디중복확인을 클릭하셔야 합니다.");
 	    	return; // 종료
 	    } 
-	   console.log($("input#pwd").val());
+	
 		
 	   const frm = document.joinFrm;
 	    frm.action = "join.sun"; // URL view단을 관리하는 클래스는 join클래스

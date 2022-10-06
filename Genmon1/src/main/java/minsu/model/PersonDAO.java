@@ -123,7 +123,7 @@ public class PersonDAO implements InterPersonDAO {
 	} // end of public boolean idDuplicateCheck(String userid) throws SQLException---------------------------------
 	
 	
-	// DB에 주소 추가하는 메소드
+	// === DB에 주소 추가 및 변경하는 메소드 === // 
 	@Override
 	public int addAdreess(Map<String, String> paraMap) throws SQLException {
 		
@@ -189,13 +189,60 @@ public class PersonDAO implements InterPersonDAO {
 		}// end of public int coinUpdate(Map<String, String> paraMap) throws SQLException-------
 
 		
-	
+		/*
+		 * // === 주소를 삭제하는 메소드 생성하기 === //
+		 * 
+		 * @Override public int adrDelete(Map<String, String> paraMap) { int result = 0;
+		 * 
+		 * try { conn = ds.getConnection();
+		 * 
+		 * String sql =
+		 * " update tbl_member_test set coin = coin + ? , point = point + ? " +
+		 * " where userid = ? ";
+		 * 
+		 * pstmt = conn.prepareStatement(sql);
+		 * 
+		 * pstmt.setInt(1, Integer.parseInt(paraMap.get("coinmoney")) ); pstmt.setInt(2,
+		 * (int)(Integer.parseInt(paraMap.get("coinmoney")) * 0.01) ); // 포인트. 금액의 1%==>
+		 * ___.0으로 나오는 double타입을 int로 바꿔 소수부를 절삭 // 예) 300000 *0.01 ==> (int)3000.0 ==>
+		 * 3000 pstmt.setString(3, paraMap.get("userid"));
+		 * 
+		 * result = pstmt.executeUpdate();
+		 * 
+		 * } finally { close(); }
+		 * 
+		 * return result; } // end of public int adrDelete(Map<String, String> paraMap)
+		 * --------------------
+		 * 
+		 */
 		
-		
-		
-		
-		
-		
+		// === 비밀번호가 맞는지 확인하는 메소드 === // 
+		@Override
+		public boolean ispwdCheck(Map<String, String> paraMap)throws SQLException {
+			
+			boolean ispwdCheck = false;
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select userid "+
+							 " from tbl_member_test "+
+							  "where userid = ? and pwd = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "userid");
+				pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+				
+				rs = pstmt.executeQuery();
+				
+				ispwdCheck = rs.next();
+					
+			} finally {
+				close();
+			}
+			return ispwdCheck;
+		} // end of public boolean pwdCheck(Map<String, String> paraMap)throws SQLException  -----------------------------------------
 	
 	
 

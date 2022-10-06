@@ -17,16 +17,32 @@ public class MyinfoDetail extends AbstractController {
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
 		String userid = request.getParameter("loginuser"); // login.jsp에서 userid를 받아온다
-		
-		try {
-			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/minsu/myinfoDetail.jsp");
-			} catch(Exception e) {
-				e.printStackTrace();
-				super.setRedirect(true);
-				super.setViewPage(request.getContextPath()+"/error.sun");
-			}
-		
+		if(!super.checkLogin(request)) {
+			// 로그인 안했으면 
+		    String message = "회원정보를 수정하려면 먼저 로그인을 하세요.!!";
+            String loc = "javascript:history.back()";
+            
+            request.setAttribute("message", message);
+            request.setAttribute("loc", loc);
+            
+      //   super.setRedirect(false);
+           super.setViewPage("/WEB-INF/common/msg.jsp");
+           return;
+		}
+		else {		
+			try {
+				// super.setRedirect(false);
+				super.setViewPage("/WEB-INF/minsu/myinfoDetail.jsp");
+				} catch(Exception e) {
+					e.printStackTrace();
+					super.setRedirect(true);
+					super.setViewPage(request.getContextPath()+"/error.sun");
+				}
+			
+		System.out.println("~~~ 확인용1 : " + request.getParameter("address"));
+		System.out.println("~~~ 확인용1 : " + request.getParameter("detailAddress"));
+		System.out.println("~~~ 확인용1 : " + request.getParameter("extraAddress"));
 	
+		}
 	}
 }

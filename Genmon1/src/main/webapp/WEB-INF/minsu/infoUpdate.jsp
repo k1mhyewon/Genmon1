@@ -4,7 +4,7 @@
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="myinfo_sideMenu.jsp" />
 
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
 
  div#menu_myinfoupdate {
@@ -81,10 +81,17 @@
 <div id="container" align="center">
 	<div id="menu_myinfoupdate">
 		<ul  align="left">
-			<li id="gender" name="gender">성별&nbsp;&nbsp;: </li>
-			<li id="name" name="name">성명&nbsp;&nbsp;: </li>
-			<li id="birth" name="birth">생년월일&nbsp;&nbsp;: </li>
-			<li id="email" name="email">이메일&nbsp;&nbsp;: </li>
+		
+			<li id="gender" name="gender">성별&nbsp;&nbsp;: 
+				<c:choose>  <%-- gender 컬럼은 1 또는 2로 나오기때문에 따로 설정한다 --%>
+        					<c:when test=" ${loginuser.gender eq '1'}">남자</c:when>
+        					<c:otherwise>여자</c:otherwise>
+        		</c:choose>
+			</li>
+			
+			<li id="name" name="name">성명&nbsp;&nbsp;: ${loginuser.name}</li>
+			<li id="birth" name="birthday">생년월일&nbsp;&nbsp;: ${loginuser.birthday}</li>
+			<li id="email" name="email">이메일&nbsp;&nbsp;: ${loginuser.email}</li>
 		</ul>
 		<div>
 			<button type="button" id="btn_update" class="btn" >수정하기</button>

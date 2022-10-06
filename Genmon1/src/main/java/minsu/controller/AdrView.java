@@ -52,46 +52,17 @@ public class AdrView extends AbstractController {
 				}
 				else {
 					
-					String name = request.getParameter("name");
-					String postcode = request.getParameter("postcode");
-					String address = request.getParameter("address");
-					String detailAddress = request.getParameter("detailAddress");
-					String extraAddress = request.getParameter("extraAddress");
+					try {
+						// super.setRedirect(false);
+						super.setViewPage("/WEB-INF/minsu/adrView.jsp");
+						} catch(Exception e) {
+							e.printStackTrace();
+							super.setRedirect(true);
+							super.setViewPage(request.getContextPath()+"/error.sun");
+						}
 					
 					
-					 Map<String,String> paraMap = new HashMap<>();
-					 paraMap.put("name",name);
-		        	 paraMap.put("postcode",postcode);
-		        	 paraMap.put("address",address);
-		        	 paraMap.put("detailAddress",detailAddress);
-		        	 paraMap.put("extraAddress",extraAddress);
-		        	 paraMap.put("userid",userid);
-					
-					// DB에 주소를 추가하기
-					InterPersonDAO pdao =  new PersonDAO();
-					int n = pdao.addAdreess(paraMap);
-					
-					String message = "";
-			         if(n == 1) {
-			        	 
-			        	 message = "주소등록 성공!!";
-			        	 super.setRedirect(false);
-			 			 super.setViewPage("/WEB-INF/minsu/adrView.jsp");
-			        	 
-			         }
-			         else {
-			        	 message = "주소등록 실패!!";
-			        	 String loc = "javascript:history.back()"; // 이전페이지로 이동
-				         
-				        request.setAttribute("message", message);
-						request.setAttribute("loc", loc);
-							
-						//	super.setRedirect(false);
-							super.setViewPage("/WEB-INF/common/msg.jsp");
-			         }
-				
-					
-				}
-			}
+				}	
+		}			
 	}
 }

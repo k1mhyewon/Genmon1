@@ -12,9 +12,9 @@ import common.model.MemberVO;
 import minsu.model.InterPersonDAO;
 import minsu.model.PersonDAO;
 
-public class AdrDelete extends AbstractController {
+public class AdrAddEnd extends AbstractController {
 
-	// 주소를 삭제하는 페이지
+	// 주소추가 및 기본 배송지를 보여주는 곳 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -22,6 +22,10 @@ public class AdrDelete extends AbstractController {
 		MemberVO loginuser  = (MemberVO)session.getAttribute("loginuser");
 		
 		String userid = loginuser.getUserid();
+		System.out.println("~~~ 확인용2 : " + request.getParameter("address"));
+		System.out.println("~~~ 확인용2 : " + request.getParameter("detailAddress"));
+		System.out.println("~~~ 확인용2 : " + request.getParameter("extraAddress"));
+	
 		
 		if(!super.checkLogin(request)) {
 				// 로그인 안했으면 
@@ -55,26 +59,44 @@ public class AdrDelete extends AbstractController {
 					String name = request.getParameter("name");
 					String postcode = request.getParameter("postcode");
 					String address = request.getParameter("address");
-					String detailaddress = request.getParameter("detailaddress");
-					String extraaddress = request.getParameter("extraaddress");
+					String detailAddress = request.getParameter("detailAddress");
+					String extraAddress = request.getParameter("extraAddress");
 					
-					Map<String,String> paraMap = new HashMap<>();
-					paraMap.put("name", name);
-					paraMap.put("postcode", postcode);
-					paraMap.put("address", address);
-					paraMap.put("detailaddress", detailaddress);
-					paraMap.put("extraaddress", extraaddress);
 					
-					// === 주소를 삭제하는 메소드 생성하기 === //
-					InterPersonDAO pdao = new PersonDAO();
-					int n = pdao.adrDelete(paraMap);
+					 Map<String,String> paraMap = new HashMap<>();
+					 paraMap.put("name",name);
+		        	 paraMap.put("postcode",postcode);
+		        	 paraMap.put("address",address);
+		        	 paraMap.put("detailAddress",detailAddress);
+		        	 paraMap.put("extraAddress",extraAddress);
+		        	 paraMap.put("userid",userid);
 					
-			
-				// super.setRedirect(false);
-				// super.setViewPage("/WEB-INF/minsu/adrDelete.jsp");
+					// DB에 주소를 추가하기
+					InterPersonDAO pdao =  new PersonDAO();
+					int n = pdao.addAdreess(paraMap);
 				
-			
+			         if(n == 1) {
+			        	 
+			        	 String message = "주소등록 성공!!";
+			        	 String loc = "/WEB-INF/minsu/adrView.jsp"; 
+			        	 
+			        	request.setAttribute("message", message);
+						request.setAttribute("loc", loc);
+			        	 
+			         }
+			         else {
+			        	 String  message = "주소등록 실패!!";
+			        	 String loc = "javascript:history.back()"; // 이전페이지로 이동
+				         
+				        request.setAttribute("message", message);
+						request.setAttribute("loc", loc);
+							
+						//	super.setRedirect(false);
+							super.setViewPage("/WEB-INF/common/msg.jsp");
+			         }
+				
+					
+				}
 			}
-		}
 	}
 }
