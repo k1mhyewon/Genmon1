@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%-- <jsp:include page="managerManage_sidebar2.jsp" /> --%>
 
 <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
 
@@ -118,6 +117,19 @@ a.delete{
 
 <script>
 
+$(document).ready(function() {
+	$("#selDirect").hide();
+	
+	$("select.select").change(function() {
+		if($(this).val() == "direct"){
+			$("#selDirect").show();
+		}else{
+			$("#selDirect").hide();
+		};
+		
+	})
+});
+
 </script>
 
 <%-- 인덱스 시작 --%>
@@ -148,36 +160,95 @@ a.delete{
  -->
  <div class="modal-dialog">
     <div class="modal-content ">
+      
       <div class="modal-header">
-  <h4>New item</h4></div>
-      <div class="modal-body">
-  <form>
-      <div class="my-4 table-editor_input-wrapper" data-mdb-field="company"><div class="form-outline "><input type="text" class="table-editor__input form-control" value="">
-  <label class="form-label" style="margin-left: 0px;">Company</label>
-  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 56.8px;"></div><div class="form-notch-trailing"></div></div></div></div>
-
-  <div class="my-4 table-editor_input-wrapper" data-mdb-field="office"><div id="select-wrapper-934186" class="select-wrapper"><div class="form-outline"><input class="form-control select-input active" type="text" role="listbox" aria-multiselectable="false" aria-disabled="false" aria-haspopup="true" aria-expanded="false" readonly="true"><label class="form-label select-label active" style="margin-left: 0px;">Office</label><span class="select-arrow"></span><div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 39.2px;"></div><div class="form-notch-trailing"></div></div><div class="form-label select-fake-value">Warsaw</div></div><select class="select table-editor__input-select select-initialized">
-  <option value="London">London</option>
-  <option value="Warsaw" selected="">Warsaw</option>
-  <option value="New York">New York</option>
-  </select></div>
-  </div>
-
-      <div class="my-4 table-editor_input-wrapper" data-mdb-field="employees"><div class="form-outline "><input type="number" class="table-editor__input form-control active" value="1">
-  <label class="form-label" style="margin-left: 0px;">제품재고량</label>
-  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64px;"></div><div class="form-notch-trailing"></div></div></div></div>
-
-      <div class="my-4 table-editor_input-wrapper" data-mdb-field="international"><div class="form-check ms-1 mt-1 ps-0">
-<input class="table-editor__input form-check-input ms-1" type="checkbox">
-<label class="ps-3 form-check-label">International</label>
-</div></div></form>
-  </div>
-      <div class="modal-footer">
-        <button class="btn shadow-0 btn-md btn-outline-primary modal-discard-button" data-mdb-dismiss="modal" style="">Cancel</button>
-        <button class="me-2 btn shadow-0 btn-md btn-primary modal-save-button" style="">Save</button>
-      </div>
+		  <h4>New item</h4>
+	  </div>
+	  <div class="modal-body">
+	  	<form>
+	  	
+		  	<div class="my-4 table-editor_input-wrapper" data-mdb-field="company">
+		  		<div class="form-outline ">
+		  			<input type="text" class="table-editor__input form-control" value="">
+		  			<label class="form-label" style="margin-left: 0px;">Product Name</label>
+		  				<div class="form-notch">
+		  					<div class="form-notch-leading" style="width: 9px;"></div>
+		  					<div class="form-notch-middle" style="width: 56.8px;"></div>
+		  					<div class="form-notch-trailing"></div>
+		  				</div>
+		  		</div>
+		  	</div>
+		  	
+	  <!-- 현재있는거 select-> dropdown  	원래있는상품이라면 소재고정 updown datepicker  updown   첨부파일
+	  추가하려면 그냥 input입력/ pid원래있는거넣으면pname자동넣어짐 
+		pid, pname, pcolor ,       상품 소재, 상품정가가격, 상품재고, 상품 출시일, 상품 할인율,  상품이미지 / -> 상품일련번호 pnum 은 자동으로 생성 -->
+	    
+			  <div class="my-4 table-editor_input-wrapper" data-mdb-field="office">
+			  	<div id="select-wrapper-934186" class="select-wrapper">
+			  		
+			  		<div class="form-outline">
+			  			<input class="form-control select-input active" type="text" role="listbox" aria-multiselectable="false" aria-disabled="false" aria-haspopup="true" aria-expanded="false" readonly="true">
+			  			<label class="form-label select-label active" style="margin-left: 0px;">Office</label>
+			  			
+			  			<span class="select-arrow"></span>
+			  			
+		  				<div class="form-notch">
+		  					<div class="form-notch-leading" style="width: 9px;"></div>
+		  					<div class="form-notch-middle" style="width: 39.2px;"></div>
+		  					<div class="form-notch-trailing"></div>
+		 				</div>
+		 				
+			 		
+			 		</div>
+			  </div>
+				  
+		<div class="col-md-6 form-group mb-3">
+         <label for="question"></label>
+         <select id="type" name="type" class="select">
+             <option value="delivery">배송문의</option>
+             <option value="product">상품문의</option>
+             <option value="refExch">환불/교환문의</option>
+             <option value="cancel">취소문의</option>
+             <option value="direct">직접입력</option>
+         </select>
+         <input class="form-control select-input active" id="selDirect" name="selDirect" type="text">
+		</div>
+		
+				  
+				  
+				  
+				  
+				  
+				</div>
+		  </div>
+		
+		  <div class="my-4 table-editor_input-wrapper" data-mdb-field="employees">
+		  	<div class="form-outline ">
+		  		<input type="number" class="table-editor__input form-control active" value="1">
+				  <label class="form-label" style="margin-left: 0px;">제품재고량</label>
+				  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div>
+				  <div class="form-notch-middle" style="width: 64px;"></div>
+				  <div class="form-notch-trailing"></div>
+				</div>
+			</div>
+		 </div>
+				
+		 <div class="my-4 table-editor_input-wrapper" data-mdb-field="international">
+		 	<div class="form-check ms-1 mt-1 ps-0">
+				<input class="table-editor__input form-check-input ms-1" type="checkbox">
+				<label class="ps-3 form-check-label">International</label>
+			</div>
+		</div>
+		
+	</form>
+	
+	</div>
+     
+     <div class="modal-footer">
+       <button class="btn shadow-0 btn-md btn-outline-primary modal-discard-button" data-mdb-dismiss="modal" style="">Cancel</button>
+       <button class="me-2 btn shadow-0 btn-md btn-primary modal-save-button" style="">Save</button>
+     </div>
+     
     </div>
   </div>
-<%-- 인덱스 끝 --%>
 
-<%-- <jsp:include page="footer.jsp" /> --%>

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> 
-    
+<style>
+    .row{
+    	margin-right: 0;
+    }
+</style>
     <%-- 푸터 시작 --%>
     <footer>
     	<%-- 아코디언 --%>
