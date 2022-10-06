@@ -243,6 +243,13 @@ public class PersonDAO implements InterPersonDAO {
 			}
 			return ispwdCheck;
 		} // end of public boolean pwdCheck(Map<String, String> paraMap)throws SQLException  -----------------------------------------
+
+		// === 주소를 삭제하는 메소드 생성하기 === //
+		@Override
+		public int adrDelete(Map<String, String> paraMap) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 	
 	
 
