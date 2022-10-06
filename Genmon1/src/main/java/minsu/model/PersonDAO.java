@@ -268,6 +268,38 @@ public class PersonDAO implements InterPersonDAO {
 			      
 			      return result;   
 			} // end of public int adrDelete(Map<String, String> paraMap)throws SQLException
+
+			
+			// === 유저의 비밀번호가 맞는지 확인하는 매소드 === 
+			@Override
+			public boolean ispasswdCheck(Map<String, String> paraMap) throws SQLException {
+				
+				boolean ispasswdCheck = false;
+				
+				try {
+					
+					conn = ds.getConnection();
+					
+					String sql = " select userid "+
+								 " from tbl_member_test "+
+								 " where userid = ? and pwd= ? ";
+
+				         pstmt = conn.prepareStatement(sql);
+				         pstmt.setString(1, paraMap.get("userid"));
+				         pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+				         
+				         rs = pstmt.executeQuery();
+				         
+				         ispasswdCheck = rs.next();
+			         
+			      } finally {
+			         close();
+			      }
+			      
+			      return ispasswdCheck;   
+				
+				
+			}// end of public int ispasswdCheck(Map<String, String> paraMap) throws SQLException
 			
 			
 	

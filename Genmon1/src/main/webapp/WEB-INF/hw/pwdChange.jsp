@@ -70,7 +70,7 @@
 
 </style>
 
-<script>
+<script type="text/javascript">
 
 
 	$(document).ready(function(){ // --------------------------------------------------
@@ -188,9 +188,6 @@
 		
 		
 	}); // end of $(document).ready() ----------------------------------------------------
-	
-	
-	
 	
 	
 </script>
