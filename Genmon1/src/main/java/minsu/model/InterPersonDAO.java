@@ -29,8 +29,6 @@ public interface InterPersonDAO {
 	int adrDelete(Map<String, String> paraMap)throws SQLException;
 
 	
-
-
 	
 	
 	

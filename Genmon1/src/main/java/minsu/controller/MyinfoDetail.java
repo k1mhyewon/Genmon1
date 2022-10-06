@@ -40,8 +40,8 @@ public class MyinfoDetail extends AbstractController {
 				}
 			
 		System.out.println("~~~ 확인용1 : " + request.getParameter("address"));
-		System.out.println("~~~ 확인용1 : " + request.getParameter("detailAddress"));
-		System.out.println("~~~ 확인용1 : " + request.getParameter("extraAddress"));
+		System.out.println("~~~ 확인용1 : " + request.getParameter("detailaddress"));
+		System.out.println("~~~ 확인용1 : " + request.getParameter("extraaddress"));
 	
 		}
 	}

@@ -65,7 +65,7 @@
 
 		// 주소 수정버튼을 누르면  
 	    $("button#btn_update").click(function(){
-	    	location.href="<%= ctxPath%>/myinfo/adrUpdate.sun";
+	    	location.href="<%= ctxPath%>/myinfo/adrAdd.sun";
 			
 		}); // end of $("button#btn_logout").click() --------------
 		
@@ -77,7 +77,7 @@
 		
 		
 		// 주소 추가버튼을 누르면  
-	    $("button#btn_adrAdd").click(function(){
+	    $("button#adrAdd").click(function(){
 	    	location.href="<%= ctxPath%>/myinfo/adrAdd.sun";
 		}); // end of $("button#btn_logout").click() --------------
 		
@@ -118,7 +118,6 @@
 	    				addrAdd파일을 넣어야한다.
 	   			</c:if>
 		   			
-		   		<button type="button" id="btn_adrAdd" style="background-color: black; color: white;width: 72%; margin: 0 0 30% 10%;">주소추가하기</button>
 		   	</div>
 	</form>
 	

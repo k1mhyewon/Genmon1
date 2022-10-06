@@ -148,17 +148,17 @@ $(document).ready(function(){
 	                    extraAddr = ' (' + extraAddr + ')';
 	                }
 	                // 조합된 참고항목을 해당 필드에 넣는다.
-	                document.getElementById("extraAddress").value = extraAddr;
+	                document.getElementById("extraaddress").value = extraAddr;
 	            
 	            } else {
-	                document.getElementById("extraAddress").value = '';
+	                document.getElementById("extraaddress").value = '';
 	            }
 	
 	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
 	            document.getElementById('postcode').value = data.zonecode;
 	            document.getElementById("address").value = addr;
 	            // 커서를 상세주소 필드로 이동한다.
-	            document.getElementById("detailAddress").focus();
+	            document.getElementById("detailaddress").focus();
 	        }
 	    }).open();
 	} // end of openDaumPOST() -------------------------------
@@ -223,15 +223,14 @@ $(document).ready(function(){
 		  <ul>
 			 <li>
 		         <label >성명</label>
-		       	 <input type="text" id="name" name="name" class="requiredInfo" placeholder="필수입력사항입니다."  value="${sessionScope.loginuser.name}"autofocus required />
+		       	 <input type="text" id="name" name="name" class="requiredInfo" placeholder="필수입력사항입니다." value="${sessionScope.loginuser.name}"  required />
 		       	 <div class="first_error">필수 입력란입니다.</div>
 	       	</li>
-	      </ul>
-	    
+	      </ul>	    
 	      <ul>
 		      <li>
 				<div class="puretxt">우편번호</div>
-				<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: inline-block; width: 50%;" value="${sessionScope.loginuser.postcode}"/>
+				<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: inline-block; width: 50%;" value="${sessionScope.loginuser.postcode}" autofocus />
 				<button type="button" class="btn_adrsearch" onclick="openDaumPOST();">검색</button>
 				<div class="error">검색을 통하여 배송지를 입력해주세요.</div>
 				<div class="first_error">필수 입력란입니다.</div>
@@ -241,9 +240,9 @@ $(document).ready(function(){
 		<ul>
 			<li>
 				<span class="puretxt">상세주소</span>
-				<input type="text" id="address" name="address" class="input_style" placeholder="예)00동, 00로" value="${sessionScope.loginuser.address}"/>
-				<input type="text" id="detailaddress" name="detailaddress" class="input_style"  placeholder="상세주소" style="display: inline-block;  width: 177px;"  value="${sessionScope.loginuser.detailaddress}" />
-				<input type="text" id="extraaddress" name="extraaddress" placeholder="참고항목" style="display: inline-block;  width: 178px;  margin: 10px 0 10px 8px;" value="${sessionScope.loginuser.extraaddress}" />
+				<input type="text" id="address" name="address" class="input_style" placeholder="예)00동, 00로"/>
+				<input type="text" id="detailaddress" name="detailaddress" class="input_style"  placeholder="상세주소" style="display: inline-block;  width: 177px;"   />
+				<input type="text" id="extraaddress" name="extraaddress" placeholder="참고항목" style="display: inline-block;  width: 178px;  margin: 10px 0 10px 8px;" />
 				<div class="first_error">필수 입력란입니다.</div>
 			</li>
 		</ul>
