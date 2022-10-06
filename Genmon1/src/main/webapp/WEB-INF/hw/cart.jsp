@@ -190,7 +190,7 @@
 			for(let i=0; i<sessionStorage.length; i++) {
 				// 문자열.indexOf("찾고자하는문자열")
 				let key = sessionStorage.key(i);
-				if(key.indexOf('Key')!=-1){  // 키 값인 경우
+				if(key.indexOf('Key')!=-1){ // 키 값인 경우
 					let comma =  cnt1 ==0 ? "": ",";
 					allkey += comma + sessionStorage.getItem(key);
 					cnt1 +=1;
@@ -201,8 +201,13 @@
 				}
 			} // end of for
 			
-			//console.log("all_key"+all_key);
-			//console.log("all_qty"+all_qty);
+			console.log("allkey"+allkey);
+			console.log("allqty"+allqty);
+			
+			$("#all_pnum").val(allkey);
+			$("#all_qty").val(allqty);
+			
+			
 			
 			// ajax로 띄우기
 			
@@ -328,7 +333,13 @@
 		const userid = '${sessionScope.loginuser.userid}';
 		
 		if(!userid){
-			location.href="<%= ctxPath%>/order/checkLogin.sun";
+			
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/checkLogin.sun";
+			frm.submit();
+			
 		}
 		else{
 			let qty=$("input[name='quantity']").val();
@@ -478,8 +489,8 @@
 	<div style="height: 50px;"></div>
 <%-- 인덱스 끝 --%>
 	<form name="hiddenFrm">
-		<input type="hidden" name="all_qty" />
-		<input type="hidden" name="all_pnum" />
+		<input type="text" name="all_qty" id="all_qty" />
+		<input type="text" name="all_pnum" id="all_pnum" />
 	</form>
 
 <jsp:include page="../common/footer.jsp" />

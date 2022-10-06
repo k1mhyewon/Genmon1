@@ -30,6 +30,16 @@ public class CheckLogin extends AbstractController {
 			super.setViewPage("/WEB-INF/jihyun/deliveryInfo.jsp");
 			
 		} else { // 로그인 안 한 상태라면 로그인 체크로
+			
+			String all_pnum = request.getParameter("all_pnum");
+			String all_qty = request.getParameter("all_qty");
+			
+			System.out.println("확인용 all_pnum : "+ all_pnum);
+			System.out.println("확인용 all_qty : "+ all_qty);
+			
+			request.setAttribute("all_pnum", all_pnum);
+			request.setAttribute("all_qty", all_qty);
+			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/jihyun/checkLogin.jsp");
 		}
