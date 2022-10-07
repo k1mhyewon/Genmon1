@@ -287,15 +287,16 @@ where pnum= 1;
 commit;
 
 select *
-from tbl_all_product_test;
+from tbl_product_test;
+
 
 select pname, pid, pnum, pimage1, pcolor
 from tbl_product_test
 join tbl_all_product_test
 on fk_pid = pid;
 
-update tbl_all_product_test set pimage1 = 'mil01(K).jpg'
-where pnum = 22;
+update tbl_product_test set pname = 'tambu'
+where pid = 'p_11';
 
-
+commit;
 
