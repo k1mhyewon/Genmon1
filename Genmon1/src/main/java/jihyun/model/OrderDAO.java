@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -184,6 +188,109 @@ int result =0;
 		
 		return result;
 	}// end of 회원/비회원 주문하기 상세 insert (자식)
+
+
+	
+	// 회원 아이디 가지고 주문내역 리스트로 보여주기
+	@Override
+	public List<HashMap<String,String>> selectOrderList(String userid) throws SQLException {
+		
+		List<HashMap<String,String>> mapList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			// 주문 정보 알아오기
+			String sql = "select PK_ORDERID, STATUS, to_char(ORDERDATE)  \n"+
+					"from\n"+
+					"    (select *\n"+
+					"    from tbl_order_test \n"+
+					"    where fk_userid = ? )\n"+
+					"join tbl_purchase_test\n"+
+					"on PK_ORDERID = FK_ORDERID";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				String orderid = rs.getString(1);
+				String status = String.valueOf(rs.getInt(2)) ;
+				String orderdate = rs.getString(3);
+				
+				HashMap<String, String> map = new HashMap<>();
+				map.put("orderid", orderid);
+				map.put("status", status );
+				map.put("orderdate", orderdate);
+				
+				/*
+				// 주문 수량 구해오기
+				String sql2 = "select count(PK_ORDER_DETAIL_ID)\n"+
+						"       from tbl_order_detail_test\n"+
+						"       where FK_ORDERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, map.get("orderid"));
+				
+				rs = pstmt.executeQuery();
+				rs.next();
+				map.put("totalqty", rs.getString(1));
+				
+				
+				// 대표이미지 담기
+				sql2 = "select PIMAGE1 \n"+
+						"from tbl_all_product_test\n"+
+						"join tbl_order_detail_test\n"+
+						"on PNUM = fk_PNUM\n"+
+						"where FK_ORDERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, map.get("orderid"));
+				
+				rs = pstmt.executeQuery();
+				rs.next();
+				map.put("image", rs.getString(1));
+				*/
+				mapList.add(map);
+			}
+			
+			for(HashMap<String,String> map :mapList) {
+				
+				// 총 주문 수량 세어주고
+				sql = "select count(PK_ORDER_DETAIL_ID)\n"+
+						"       from tbl_order_detail_test\n"+
+						"       where FK_ORDERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, map.get("orderid"));
+				
+				rs = pstmt.executeQuery();
+				rs.next();
+				map.put("totalqty", rs.getString(1));
+				
+				
+				// 썸네일 찾아준다
+				sql = "select PIMAGE1 \n"+
+						"from tbl_all_product_test\n"+
+						"join tbl_order_detail_test\n"+
+						"on PNUM = fk_PNUM\n"+
+						"where FK_ORDERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, map.get("orderid"));
+				
+				rs = pstmt.executeQuery();
+				rs.next();
+				map.put("image", rs.getString(1));
+			}
+			
+		} finally {
+			close();
+		}
+		return mapList;
+	} // 회원 아이디 가지고 주문내역 리스트로 보여주기
 	
 	
 	

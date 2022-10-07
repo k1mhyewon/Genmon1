@@ -47,6 +47,7 @@ create table tbl_basket_test
 )
 -- Table TBL_BASKET_TEST이(가) 생성되었습니다.
 
+select * from tbl_member_test
 
 -- tbl_order_test 주문하기 테이블
 create table tbl_order_test
@@ -230,6 +231,39 @@ where address = '서울 송파구 바람드리길 2'
 --오류 보고 -
 --ORA-02292: 무결성 제약조건(SEMI_ORAUSER1.FK_TBL_LOGIN_HISTORY_FK_USERID)이 위배되었습니다- 자식 레코드가 발견되었습니다
 
+-- 저장된 주소를 알아옴
+select name, address, detailaddress, extraaddress
+from tbl_member_test
+where userid = 'kimms'
 
+update  tbl_member_test set name = ?,  address = ?, detailaddress = ? , extraaddress = ?
+where userid = ?
+
+
+
+insert into tbl_member_test(name, address, detailaddress, extraaddress )
+values( ?, ?, ?, ? )
+
+
+select address
+from tbl_member_test
+where userid = 'kimms'
+
+insert into tbl_member_test (address)
+values("상문동")
+
+update tbl_member_test  set detailaddress = '상암동'
+where userid = 'kimms'
+
+delete from tbl_member_test address, detailaddress, extraaddress
+where userid = ( select address, detailaddress, extraaddress from tbl_member_test where userid)
+
+
+select postcode, address, detailaddress, extraaddress
+from tbl_member_test
+
+update tbl_member_test set postcode = null, address = null, detailaddress=null, extraaddress = null
+from tbl_member_test
+where userid = 'kimms'
 
 

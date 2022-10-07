@@ -213,12 +213,6 @@ public class PersonDAO implements InterPersonDAO {
 			return ispwdCheck;
 		} // end of public boolean pwdCheck(Map<String, String> paraMap)throws SQLException  -----------------------------------------
 
-		// === 주소를 삭제하는 메소드 생성하기 === //
-		@Override
-		public int adrDelete(Map<String, String> paraMap)throws SQLException {
-			// TODO Auto-generated method stub
-			return 0;
-		}
 
 		// === DB에 주소 추가 및 변경하는 메소드 === // 
 		@Override
@@ -227,27 +221,87 @@ public class PersonDAO implements InterPersonDAO {
 			int result = 0;
 			
 			try {
+				
 				conn = ds.getConnection();
 				
-				String sql = "select name, address, detailaddress, extraaddress\n"+
-						"from tbl_member_test\n"+
-						"where userid = ? ";
+		        String sql = " update  tbl_member_test set postcode = ? address = ?, detailaddress = ? , extraaddress = ? "+
+		        			 " where userid = ?";
+
+			         pstmt = conn.prepareStatement(sql);
+			         pstmt.setString(1, paraMap.get("postcode"));
+			         pstmt.setString(2, paraMap.get("address"));
+			         pstmt.setString(3, paraMap.get("detailaddress"));
+			         pstmt.setString(4, paraMap.get("extraaddress"));
+			         pstmt.setString(5, paraMap.get("userid"));
+			         
+			         result = pstmt.executeUpdate();
+		         
+		      } finally {
+		         close();
+		      }
+		      
+		      return result;   
 			
-				pstmt = conn.prepareStatement(sql);
+		} // end of public int addAdreess(Map<String, String> paraMap) throws SQLException
+
+		
+		// === 주소를 삭제하는 메소드 생성하기 === //
+			@Override
+			public int adrDelete(Map<String, String> paraMap)throws SQLException {
+				int result = 0;
 				
-				pstmt.setString(1, paraMap.getUserid() );
-				
-				result = pstmt.executeUpdate();
+				try {
 					
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) { // |는 OR(또는)
-				e.printStackTrace();
-			} finally {
-				close();
-			}
+					conn = ds.getConnection();
+					
+					String sql = " update tbl_member_test set postcode=null, address=null, detailaddress=null, extraaddress=null "+
+								 " where userid = ? ";
+
+				         pstmt = conn.prepareStatement(sql);
+				         pstmt.setString(1, paraMap.get("userid"));
+				         
+				         result = pstmt.executeUpdate();
+			         
+			      } finally {
+			         close();
+			      }
+			      
+			      return result;   
+			} // end of public int adrDelete(Map<String, String> paraMap)throws SQLException
+
 			
-			return result;
+			// === 유저의 비밀번호가 맞는지 확인하는 매소드 === 
+			@Override
+			public boolean ispasswdCheck(Map<String, String> paraMap) throws SQLException {
+				
+				boolean ispasswdCheck = false;
+				
+				try {
+					
+					conn = ds.getConnection();
+					
+					String sql = " select userid "+
+								 " from tbl_member_test "+
+								 " where userid = ? and pwd= ? ";
+
+				         pstmt = conn.prepareStatement(sql);
+				         pstmt.setString(1, paraMap.get("userid"));
+				         pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+				         
+				         rs = pstmt.executeQuery();
+				         
+				         ispasswdCheck = rs.next();
+			         
+			      } finally {
+			         close();
+			      }
+			      
+			      return ispasswdCheck;   
+				
+				
+			}// end of public int ispasswdCheck(Map<String, String> paraMap) throws SQLException
 			
-		}
+			
 	
 	
 

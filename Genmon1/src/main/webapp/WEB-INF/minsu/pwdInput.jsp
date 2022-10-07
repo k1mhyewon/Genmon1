@@ -126,6 +126,7 @@
 				
 				$("#notPassed").css({"color": "", "font-weight": ""});
 				
+				console.log(pwd)
 			}); // end of $("#pwd1").on() ----------------------------------------
 			
 			
@@ -133,22 +134,25 @@
 		$("button#btn_pwdcheck").click(function(){ 
 			
 				const frm = document.menu_myinfoupdate;
-				frm.action = "<%= ctxPath%>/myinfo/InfoUpdateEnd.sun";
+				frm.action = "<%= ctxPath%>/myinfo/pwdCheck.sun";
 				frm.method = "POST"; // post 방식이어야 함
 				frm.submit();
-					
-		});// end of $(document).ready(function() ------------------------------------------
+		});	// end of $("button#btn_pwdcheck").click(function() ---------------------
+				
+	});// end of $(document).ready(function() ------------------------------------------
+			
+			
 			
 	
 </script>
 
 
-<form id="menu_myinfoupdate" >
+<form name="menu_myinfoupdate" id="menu_myinfoupdate">
 		<div>
 			<ul>
 				<li>
-					<label for="passwd" style="font-size: 16px; font-weight: bold;">비밀번호</label>
-					<input type="password" name="passwd" class="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required style="display: block;"/>
+					<label for="pwd" style="font-size: 16px; font-weight: bold;">비밀번호</label>
+					<input type="password" name="pwd" class="passwd" size="20" placeholder="비밀번호를 입력해주세요" autofocus required style="display: block;"/>
 				<li>
 			<div class="error_msg"><div id="notPassed">비밀번호는 해당 조건을 모두 충족해야 합니다.</div>
 	        	<div class="chk" id="size">✔</div>&nbsp;최소 8자 이상 15글자 이하<br>
