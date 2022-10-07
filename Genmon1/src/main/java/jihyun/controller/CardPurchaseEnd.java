@@ -194,8 +194,7 @@ public class CardPurchaseEnd extends AbstractController {
 			// 상품 수량 만큼 테이블에 추가해주기
 			// 상품 수량 만큼 테이블에 추가해주기
 			for(CartVO cvo : ordertList) {
-				content+= "<tr><td><img src='http://127.0.0.1:9090/Genmon1/images/didion_01_1.jpg' style='width:100px;'/></td></tr>";	
-				//content+= "<tr><td><img src='http://192.168.10.106:9090/Genmon1/images/minji/전체보기/"+ cvo.getAllProdvo().getPimage1()+"'></td></tr>";
+				content+= "<tr><td><img src='http://127.0.0.1:9090/Genmon1/images/common/products/"+cvo.getAllProdvo().getPimage1()+"' style='width:100px;'/></td></tr>";	
 				content+= "<tr><td> 수량: "+cvo.getQty()+" 제품명: "+cvo.getAllProdvo().getParentProvo().getPname()+" "+cvo.getAllProdvo().getColorName()+"</td></tr>";
 			} // end of for
 			// System.out.println(content);

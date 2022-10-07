@@ -203,11 +203,12 @@ int result =0;
 			// 주문 정보 알아오기
 			String sql = "select PK_ORDERID, STATUS, to_char(ORDERDATE)  \n"+
 					"from\n"+
-					"    (select *\n"+
+					"    (select PK_ORDERID, ORDERDATE\n"+
 					"    from tbl_order_test \n"+
 					"    where fk_userid = ? )\n"+
 					"join tbl_purchase_test\n"+
-					"on PK_ORDERID = FK_ORDERID";
+					" on PK_ORDERID = FK_ORDERID  "+
+					" order by PK_ORDERID desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
