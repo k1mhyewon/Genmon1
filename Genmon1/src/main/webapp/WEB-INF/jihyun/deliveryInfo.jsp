@@ -453,7 +453,7 @@
 				<c:if test="${ not empty ordertList }">
 					<c:forEach items="${ordertList }" var="order">
 						<tr>
-							<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath %>/images/minji/전체보기/${order.allProdvo.pimage1}"></td>
+							<td rowspan="3" style="vertical-align: top; text-align: center;"><img src="<%= ctxPath %>/images/common/products/${order.allProdvo.pimage1}"></td>
 							<td style="font-weight: bold;">${order.allProdvo.parentProvo.pname} ${order.allProdvo.colorName}</td>
 							<td class="myright">상품가격</td>
 						</tr>
