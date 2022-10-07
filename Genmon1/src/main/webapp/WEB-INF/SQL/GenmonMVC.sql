@@ -266,4 +266,9 @@ update tbl_member_test set postcode = null, address = null, detailaddress=null, 
 from tbl_member_test
 where userid = 'kimms'
 
+-- 아이디와 입력한 비밀번호가 맞는지 알아옴
+select userid
+from tbl_member_test
+where userid = 'kimms' and pwd= '29b204ad54a353a4709554362574a889be32d92f801500cd9abf32a2bb2954ed'
+
 

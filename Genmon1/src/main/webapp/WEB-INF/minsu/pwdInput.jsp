@@ -141,7 +141,7 @@
 				
 	});// end of $(document).ready(function() ------------------------------------------
 			
-			
+			console.log(pwd)
 			
 	
 </script>
@@ -163,8 +163,9 @@
 	        </div>
 	        
 			</ul>
-		<button type="button" id="btn_pwdcheck">비밀번호 확인</button>
-		<input type="hidden" name="userid" value="${requestScope.userid}"/>
+			
+			<button type="button" id="btn_pwdcheck">비밀번호 확인</button>
+			<input type="hidden" name="userid" value="${requestScope.userid}"/>
 		</div>
 </form>
 

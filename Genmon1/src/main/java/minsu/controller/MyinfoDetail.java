@@ -29,20 +29,25 @@ public class MyinfoDetail extends AbstractController {
            super.setViewPage("/WEB-INF/common/msg.jsp");
            return;
 		}
-		else {		
-			try {
-				// super.setRedirect(false);
-				super.setViewPage("/WEB-INF/minsu/myinfoDetail.jsp");
-				} catch(Exception e) {
-					e.printStackTrace();
-					super.setRedirect(true);
-					super.setViewPage(request.getContextPath()+"/error.sun");
+		else {	
+				String method = request.getContextPath();
+				
+				if("get".equals(method)) {
+					  String message = "비밀번호 수정이 불가합니다.!!";
+			          String loc = "javascript:history.back()";
+			            
+			            request.setAttribute("message", message);
+			            request.setAttribute("loc", loc);
+			            
+			      //   super.setRedirect(false);
+			           super.setViewPage("/WEB-INF/common/msg.jsp");
+			           return;
 				}
-			
-		System.out.println("~~~ 확인용1 : " + request.getParameter("address"));
-		System.out.println("~~~ 확인용1 : " + request.getParameter("detailaddress"));
-		System.out.println("~~~ 확인용1 : " + request.getParameter("extraaddress"));
-	
+				else {
+						// super.setRedirect(false);
+						super.setViewPage("/WEB-INF/minsu/myinfoDetail.jsp");
+						
+			}
 		}
 	}
 }
