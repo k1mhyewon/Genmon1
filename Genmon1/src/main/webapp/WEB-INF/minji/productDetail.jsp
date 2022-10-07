@@ -120,7 +120,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		
 		$("#addGoCart").click(function(){ // ------------------
 			
-			addGoCart();
+			addGoCart(); 
 			
 		}); // end of $("#addGoCart").click() -----------------
 		
@@ -189,7 +189,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		
 			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
 	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
-		
+	    	
 			location.href="<%= ctxPath%>/order/cart.sun";
 			
 		} else { // 로그인 한 경우
@@ -261,9 +261,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
 			 			<c:if test="${not empty requestScope.proList}">
-			 				<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:70px; height: 80px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
-			 				<c:forEach var="pvo" items="${requestScope.proList}">
-			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:70px; height: 80px;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
+			 				<c:forEach var="pvo" items="${requestScope.proList}" varStatus="status" >
+			 					<li class="color-img" ><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:80px; height: 70px; object-fit: cover;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
 			 				</c:forEach>
 		 				</c:if>
 			 		</ul>
@@ -285,19 +284,26 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      	<br><br>
 	      	 	
 	      	 	
+	      	 	
 	 		<%-- 카트 및 관심 상품 버튼 --%>
 	 		<div class="add-option-btn">
-		 			<div class="cart-btn" >
-		 				<%-- onclick="addtoCart()" --%>
-		 				<button type="button" class="btn btn-dark btn-block" id="add-cart-btn" data-toggle="modal" data-target="#addCart" style="background-color: #000000;">쇼핑백에 추가</button>
-		 			</div>
-		 			<div id="cart_added_comment">해당 상품이 장바구니에 추가되었습니다.</div>
-		 			<br>
-		 			<div class="wish-btn" >
-		 				<button type="button" class="btn btn-dark btn-block"  id="wish-cart-btn" onclick="addtoWish()" style="background-color: #000000;">관심상품에 추가</button>
-		 			</div>
-	 		</div>
- 	    	<br>
+	 			<div class="cart-btn" >
+					<c:if test="${pvo.pqty == 0}">
+	 					<%-- onclick="addtoCart()" --%>
+	 					<button type="button" class="btn btn-dark btn-block" style="background-color: #000000;">일시품절</button>
+	 				</c:if>
+	 				<c:if test="${pvo.pqty != 0}">
+	 					<button type="button" class="btn btn-dark btn-block" id="add-cart-btn" data-toggle="modal" data-target="#addCart" style="background-color: #000000;">장바구니에 추가</button>
+		 				<div id="cart_added_comment">해당 상품이 장바구니에 추가되었습니다.</div>
+		 			</c:if>
+	 			</div>
+	 			<br>
+		 			
+	 			<div class="wish-btn" >
+	 				<button type="button" class="btn btn-dark btn-block"  id="wish-cart-btn" onclick="addtoWish()" style="background-color: #000000;">관심상품에 추가</button>
+	 			</div>
+	 	   </div>
+ 	       <br>
  	    	
  	    	
 	 	   <%-- 서비스 설명 --%>
@@ -410,17 +416,17 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  
 	  	
 	  <%-- 제품 상세 이미지 박스 --%>
-	  		<div class="img-row-box"> 
-		      <div class="img-row">
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" class="sunglasses-image"></div>
-			        <c:if test="${not empty requestScope.imgList}">
-			        	<c:forEach var="ivo" items="${requestScope.imgList}">
-			        		<div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${ivo.imgfilename}" class="sunglasses-image"></div>		
-			        	</c:forEach>
-			        </c:if>
-			   </div> 
-	 		</div>
-	 
+	  <div class="img-row-box"> 
+	    <div class="img-row">
+	       <div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" class="sunglasses-image"></div>
+	       <c:if test="${not empty requestScope.imgList}">
+	       	<c:forEach var="ivo" items="${requestScope.imgList}">
+	       		<div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${ivo.imgfilename}" class="sunglasses-image"></div>		
+	       	</c:forEach>
+	       </c:if>
+	    </div> 
+	 </div>
+
 					     
  
 	   <%-- 비슷한 상품 추천 --%>
@@ -461,8 +467,9 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		</span>
 	  </div>
 	</nav>
+	
 	 
-<%-- 인덱스 끝 --%>
+<%-- //////////////////////////////////////////////////////////////////////////////////////////// --%>
 
 
 <%-- 장바구니 모달 시작 --%>
@@ -476,7 +483,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      	 <span class="boltxt ml-5">선택상품</span>
 	      	 <div class="row mt-4">
 	      	 	<div class="col-sm-4 offset-sm-1">
-	      	 		<img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" style="width: 150px; height: 150px; border-radius: 50%;" >
+	      	 		<img src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" style="width: 150px; height: 150px; border-radius: 50%;" >
 	      	 	</div>
 	      	 	<div class="col-sm-4 offset-sm-1">
 	      	 		<span class="boltxt mt-5">${pvo.parentProvo.pname } ${pvo.colorName }</span>
@@ -498,5 +505,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  </div>
 	</div>
  <%-- 장바구니 모달 끝 --%>
+
+
+<%-- 인덱스 끝 --%>
 
 <jsp:include page="../common/footer.jsp" />

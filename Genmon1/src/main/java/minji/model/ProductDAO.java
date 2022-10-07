@@ -226,7 +226,7 @@ public class ProductDAO implements InterProductDAO {
 						+ " from tbl_all_product_test\r\n "
 						+ " JOIN tbl_product_test\r\n "
 						+ " ON fk_pid = pid\r\n "
-						+ " where pcolor= ? and pmaterial=? and fk_pid != ? \r\n "
+						+ " where pcolor= ? or pmaterial=? and fk_pid != ? \r\n "
 						+ " )\r\n "
 						+ " where RNO <= 5 ";
 		
