@@ -198,13 +198,13 @@
         
        	<div class="containers">
 	        <div id="prod_photo">
-	            <img src="../images/le_iv1_1.jpg" style="width:230px; height:auto;">
+	            <img src="../images/common/products/${requestScope.pimage1}" style="width:230px; height:auto;">
 	        </div>
 	        <div id="prod_info">
-	        	<div style="font-size: 11pt;">르 (확인용)상품번호: ${requestScope.pnum}</div>
-	            <div style="font-size: 10pt;">189,000원</div>
+	        	<div style="font-size: 11pt;">${requestScope.pname}</div>
+	            <div style="font-size: 10pt;">${requestScope.price}</div>
 	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</span>&nbsp;
-	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(2)</span>
+	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(${requestScope.replyCnt})</span>
 	        </div>
 		</div>
         
