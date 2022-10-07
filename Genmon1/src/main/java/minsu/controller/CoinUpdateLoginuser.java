@@ -20,7 +20,7 @@ public class CoinUpdateLoginuser extends AbstractController {
 			String coinmoney = request.getParameter("coinmoney");
 			
 			
-		//	System.out.println("확인용 userid" + userid + ",coinmoney " + coinmoney);
+			System.out.println("확인용 userid" + userid + ",coinmoney " + coinmoney);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);
@@ -43,7 +43,7 @@ public class CoinUpdateLoginuser extends AbstractController {
 				
 				
 				message = loginuser.getName()+"님의 "+coinmoney+"원 결제가 되었습니다.";
-				loc = request.getContextPath()+"/index.up";
+				loc = request.getContextPath()+"/myinfo/myinfoDetail.sun";
 				
 			}
 			else {
@@ -56,7 +56,7 @@ public class CoinUpdateLoginuser extends AbstractController {
 			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
+			super.setViewPage("/WEB-INF/common/msg.jsp");
 			
 			
 		}
@@ -69,7 +69,7 @@ public class CoinUpdateLoginuser extends AbstractController {
 			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
+			super.setViewPage("/WEB-INF/common/msg.jsp");
 			
 			
 		}

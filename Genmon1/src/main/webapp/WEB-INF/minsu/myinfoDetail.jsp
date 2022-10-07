@@ -191,14 +191,18 @@
 		
 	}// end of function goCoinPurchaseTypeChoice(userid) --------------------------
 	
-	
-	// >>> 코인충전 보여주는 함수 <<<  //
-	function goCoinPurchaseTypeChoice(userid) {
-		
-		location.href="<%= request.getContextPath()%>/myinfo/coinPurchaseTypeChoice.up?userid="+userid;
-		
-	}// end of function goCoinPurchaseTypeChoice(userid) --------------------------
 
+	// === 코인충전 결재금액 선택하기(실제카드로 결제) 함수 === //
+	function goCoinPurchaseTypeChoice(userid) { // userid을 알아야 코인충전이 가능하기때문에
+		
+		// 코인금액 선택 팝업창 띄우기
+		const url = "<%= request.getContextPath()%>/myinfo/coinPurchaseTypeChoice.sun?userid="+userid;
+		
+		window.open(url,"coinPurchaseTypeChoice",
+					"left=350px, top=100px, width=650px, height=570px"); // 팝업창 크기설정
+		
+	} // end of function goCoinPurchaseTypeChoice()-----------------------------------
+		
 	
 	
 	// 결제선택창을 닫으면 금액을 결제하는 새로운 결제창이 떠야함으로 부모클래스에 있는 로그인 유무를 가져와 함수를 생성한다.
@@ -210,11 +214,28 @@
 	//	 alert("확인용 결제할 사용자 아이디 : " + userid);
 		
 	//	아임포트 결제 팝업창 띄우기	
-		const url = "<%= request.getContextPath()%>/member/coinPurchaseEnd.up?userid="+userid + "&coinmoney=" +coinmoney;
+		const url = "<%= request.getContextPath()%>/myinfo/coinPurchaseEnd.sun?userid="+userid + "&coinmoney=" +coinmoney;
 		
 		window.open(url,"coinPurchaseEnd",
 					"left=350px, top=100px, width=1000px, height=600px"); // 팝업창 크기설정
 	}
+	
+	// === DB상의 tbl_member 테이블의 해당 사용자의 코인금액 및 포인트를 증가(update)시키는 함수 === //
+	
+	function goCoinUpdate(userid,coinmoney){ //userid,coinmoney를 알려달라(들어온다)
+		
+	//	console.log("~~~ 확인용 userid : " + userid + ", coinmoney : " + coinmoney); 
+	      
+	      const frm = document.coinUpdateFrm;
+	      frm.userid.value = userid;
+	      frm.coinmoney.value = coinmoney;
+	      
+	      frm.action = "<%= request.getContextPath()%>/member/coinUpdateLoginuser.up";
+	      frm.method = "POST";
+	      frm.submit();
+		
+		
+	} // end of function goCoinUpdate()-----------------------
 	
 
 </script>

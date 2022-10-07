@@ -72,7 +72,7 @@ public class Login extends AbstractController {
 						}
 				
 					} catch(NumberFormatException e) {
-						e.printStackTrace();
+						
 					}
 					
 				} // end of for(int i=0;i<arr_pnum.length;i++) --------------------------------------
