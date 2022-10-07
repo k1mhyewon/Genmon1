@@ -1,21 +1,24 @@
 package hw.model;
 
 import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import common.model.ChildProductVO;
 import common.model.CartVO;
+import common.model.ParentProductVO;
 import common.util.security.AES256;
 import common.util.security.SecretMyKey;
-import util.security.Sha256;
 
 public class CartDAO implements InterCartDAO {
 
@@ -170,6 +173,170 @@ public class CartDAO implements InterCartDAO {
 		
 		return result;
 	} // end of public int cartUpdate(String fk_userid, int fk_pnum, int updateQty) throws SQLException {} -----
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	// 로그인된 회원의 장바구니 전체 조회 ---------------------------------------------------------------------------------
+	@Override
+	public List<CartVO> memberCartSelect(String fk_userid) throws SQLException {
+		
+		List<CartVO> cartList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price, A.pcolor, qty\n"+
+					"						 from tbl_basket_test B \n"+
+					"						 JOIN tbl_all_product_test A \n"+
+					"						 on B.fk_pnum = A.pnum\n"+
+					"						 JOIN tbl_product_test P\n"+
+					"						 on A.fk_pid = P.pid\n"+
+					"						 where B.fk_userid = ? \n"+
+					"						 order by updatedate desc";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			rs = pstmt.executeQuery(); // 돌려라!
+			
+			while( rs.next() ) {
+				
+				CartVO cart = new CartVO();
+				ChildProductVO apvo = new ChildProductVO();
+				ParentProductVO pvo = new ParentProductVO();
+				
+				cart.setFk_userid(rs.getString(1));
+				cart.setFk_pnum(rs.getInt(2));
+
+				apvo.setFk_pid(rs.getString(3));
+				apvo.setPimage1(rs.getString(4));
+				
+				pvo.setPname(rs.getString(5) + " " + rs.getString(7).substring(0, 2).toUpperCase());
+				pvo.setPrice(rs.getInt(6));
+
+				apvo.setParentProvo(pvo);
+				cart.setAllProdvo(apvo);
+				
+				cart.setQty(rs.getInt(8));
+				
+				cartList.add(cart);
+			}
+					
+		} finally {
+			close();
+		}
+
+		
+		return cartList;
+	} // end of public int memberCartSelect(String fk_userid) {} ------------------------------------------------
+
+
+	
+	// 로그인 된 회원의 장바구니에서 상품 1나 삭제하기
+	@Override
+	public int cartDeleteOne(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "delete from tbl_basket_test \n"+
+						"where FK_USERID = ? and  FK_PNUM = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, paraMap.get("loginUserid"));
+			 pstmt.setString(2, paraMap.get("pnum"));
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of  로그인 된 회원의 장바구니에서 상품 1나 삭제하기
+
+
+	
+	// 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
+	@Override
+	public CartVO selectOneOrder(String pnum, String qty) throws SQLException {
+		CartVO cvo = null;
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "select pnum, pcolor ,pimage1,salePcnt,pname,price \n"+
+					 "from tbl_product_test\n"+
+					 "JOIN tbl_all_product_test \n"+
+					 "ON pid = fk_pid\n"+
+					 "where pnum = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, pnum);
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 cvo = new CartVO();
+				 cvo.setFk_pnum(rs.getInt(1));
+				 cvo.setQty(Integer.parseInt(qty));
+				 
+				 ChildProductVO cpvo = new ChildProductVO();
+				 cpvo.setPcolor(rs.getString(2));
+				 cpvo.setPimage1(rs.getString(3));
+				 cpvo.setSalePcnt(rs.getInt(4));
+				 
+				 ParentProductVO ppvo = new ParentProductVO();
+				 ppvo.setPname(rs.getString(5));
+				 ppvo.setPrice(rs.getInt(6));
+				 cpvo.setParentProvo(ppvo);
+				 
+				 cvo.setAllProdvo(cpvo);
+			 }
+			 
+		} finally {
+			close();
+		}
+		return cvo;
+	} // 반복문을 사용하여 주문 상품의 모든 정보 끌어오기 
+
+
+	
+	
+	// 주문 완료 후 회원 장바구니 비워주깅
+	@Override
+	public int deleteOrderedList(List<CartVO> ordertList, String fk_userid) throws SQLException {
+		int result = 0;
+		
+		try {
+			 
+			 for( CartVO cvo: ordertList) {
+				 conn = ds.getConnection();
+				 
+				 String sql = "delete from tbl_basket_test\n"+
+						 "where FK_USERID = ? and  FK_PNUM = ?";
+				 
+				 pstmt = conn.prepareStatement(sql);
+				 pstmt.setString(1, fk_userid);
+				 pstmt.setInt(2, cvo.getFk_pnum());
+				 
+				 result  += pstmt.executeUpdate();
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of 주문 완료 후 회원 장바구니 비워주깅
 	
 	
 

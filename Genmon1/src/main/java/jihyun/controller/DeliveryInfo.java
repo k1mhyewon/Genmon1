@@ -18,7 +18,7 @@ public class DeliveryInfo extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		
-		// get으로 넘어오면 비회원 post로 넘어오면 회원
+		// get 방식으로 넘어오면 기존 로그인 했던거 또는 비회원 주문 // post 방식으로 넘어오면 넘어오면서 로그인 한거
 		try {
 			String method = request.getMethod(); // "GET" or "POST"
 			
@@ -140,8 +140,8 @@ public class DeliveryInfo extends AbstractController {
 				
 		
 			} 
-			/*
-			else { // get 방식으로 넘어왔다면 아마 필요 없지 않을가...
+			
+			else {
 				
 				if(super.checkLogin(request)) { // 로그인을 했다면 // 나중에 아이디 비교도 해야대
 					
@@ -161,7 +161,7 @@ public class DeliveryInfo extends AbstractController {
 				super.setRedirect(false);
 				super.setViewPage("/WEB-INF/jihyun/deliveryInfo.jsp");
 				
-			}*/
+			}
 			
 			
 			} catch(Exception e) {

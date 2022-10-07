@@ -67,25 +67,42 @@
   		list-style: none;
   		line-height: 25px;
   	}
-
+  	
+  
 </style>
 
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
 
-	$(document).ready(function(){
-		
-		$("div.first_error").hide();
-		$("div.error").hide();
-		
-		
-		
-		
-		
-	}); // end of $(document).ready(function(){}-----------------------------------------
+let b_flag_btn_adrsearch_click = false;
+//"우편번호찾기" 을 클릭했는지 클릭을 안했는지 여부를 알아오기 위한 용도.
+
+$(document).ready(function(){
+	
+	$("div.first_error").hide();
+	$("div.error").hide();
+	
+	// === 우편번호 찾기를 클릭했을 때 이벤트 처리하기 === //
+	 $("button#btn_adrsearch").click(function() {
+	 	b_flag_btn_adrsearch_click = true;
+	 });
+	 
+	 // === 우편번호 입력란에 키보드로 입력할 경우 이벤트 처리하기 === //
+	 $("input:text[id='postcode']").keyup( function() {
+	 	alert("우편번호 입력은 \"우편번호찾기\"를 클릭하여 입력해야 합니다. ");
+	 	$(this).val("");
+	 });
+	 
+
+ 
+ 
+ 
+ 
+}); // end of $(document).ready(function(){}-----------------------------------------
 
 
+//>>> Function Declaration <<< //
 	function openDaumPOST(){
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -119,20 +136,73 @@
 	                    extraAddr = ' (' + extraAddr + ')';
 	                }
 	                // 조합된 참고항목을 해당 필드에 넣는다.
-	                document.getElementById("extraAddress").value = extraAddr;
+	                document.getElementById("extraaddress").value = extraAddr;
 	            
 	            } else {
-	                document.getElementById("extraAddress").value = '';
+	                document.getElementById("extraaddress").value = '';
 	            }
 	
 	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
 	            document.getElementById('postcode').value = data.zonecode;
 	            document.getElementById("address").value = addr;
 	            // 커서를 상세주소 필드로 이동한다.
-	            document.getElementById("detailAddress").focus();
+	            document.getElementById("detailaddress").focus();
 	        }
 	    }).open();
-	} // end of openDaumPOST()
+	} // end of openDaumPOST() -------------------------------
+	
+	// >>> 주소를 저장하는 함수 <<<
+	function goaddAddress() {
+		
+		// "우편번호 찾기" 를 클릭했는지 여부 알아오기
+		if( !b_flag_btn_adrsearch_click ) {
+			// / "우편번호 찾기" 를 클릭하지 않은 경우
+			alert("우편번호 찾기 버튼을 이용하여 주소를 입력하세요.");
+			return; // 종료
+			
+		}
+		else {
+			// "우편번호 찾기" 를 클릭한 경우
+			// const regExp = /^[0-9]{5}$/g;
+			// 또는
+			const regExp = new RegExp(/^[0-9]{5}$/g);
+			// 숫자 3자리 또는 4자리만 들어오도록 검사하는 정규표현식 객체 생성
+			
+			const postcode = $("input:text[id='postcode']").val();
+			
+			const bool = regExp.test( postcode );
+			
+			if( !bool ) {
+				alert("우편번호 형식에 맞지 않습니다.");
+				$("input:text[id='postcode']").val("");
+				b_flag_btn_adrsearch_click = false;
+			}
+			
+		}
+		
+		// 필수입력 사항 입력여부에 대한 흔적남기기
+		let b_Flag_requiredInfo = false;
+		
+		const requiredInfo_list = document.querySelectorAll("input.requiredInfo");
+		for( let i=0; i<requiredInfo_list.length; i++ ){
+			const val = requiredInfo_list[i].value.trim();
+			if(val == ""){
+				alert("필수입력 사항은 모두 입력해야합니다.");
+				b_Flag_requiredInfo = true;
+				break;
+			}
+		} // end of for -------------------------
+		
+		if(b_Flag_requiredInfo) {
+			return; // 종료
+		}
+		
+		
+		const frm = document.frm_adrupdateMenu;
+		frm.action = "<%= ctxPath%>/myinfo/adrAddEnd.sun";
+		frm.method = "post";
+		frm.submit();
+	}
 	
 </script>
 
@@ -142,28 +212,11 @@
 	
 <%-- 배송지 시작(만들어놓은 입력값 자동으로 들어가게하기) --%>
 
-		  <ul>
-			 <li>
-		         <label >성명</label>
-		       	 <input type="text" id="name" name="name"/>
-		       	 <div class="first_error">필수 입력란입니다.</div>
-	       	</li>
-	      </ul>
-	      
-	       <ul>
-		       <li>
-		         <label >전화번호</label>
-		         <input type="text" id="mobile" name="mobile"/>
-		         <div class="first_error">필수 입력란입니다.</div>
-		      </li>
-	      </ul>
-	      
 	      <ul>
 		      <li>
-				<div class="puretxt">주소검색</div>
-				<input type="hidden" id="postcode" name=""/>
-				<input type="text" id="address" name="" class="input_style" placeholder="예)00동, 00로" style="display: inline-block; width: 40%" />
-				<button type="button" class="btn_adrsearch" onclick="openDaumPOST();">검색</button>
+				<div class="puretxt">우편번호</div>
+				<input type="text" id="postcode" name="postcode" placeholder="우편번호" style="display: inline-block; width: 40%;"/>
+				<button type="button" class="btn_adrsearch" id="btn_adrsearch" onclick="openDaumPOST();">검색</button>
 				<div class="error">검색을 통하여 배송지를 입력해주세요.</div>
 				<div class="first_error">필수 입력란입니다.</div>
 			</li>
@@ -172,13 +225,15 @@
 		<ul>
 			<li>
 				<span class="puretxt">상세주소</span>
-				<input type="text" id="detailAddress" name="" class="input_style"  placeholder="상세주소" />
+				<input type="text" id="address" name="address" class="input_style" placeholder="예)00동, 00로" />
+				<input type="text" id="detailaddress" name="detailaddress" class="input_style"  placeholder="상세주소" style="display: inline-block;  width: 190px;" />
+				<input type="text" id="extraaddress" name="extraaddress" placeholder="참고항목" style="display: inline-block;  width: 190px;  margin: 10px 0 10px 8px;"/>
 				<div class="first_error">필수 입력란입니다.</div>
 			</li>
 		</ul>
 			<%-- 배송지 끝 --%>
 		
-		<button type="button" id="btn_update" class="btn">저장</button> <%-- 저장을 누르면 다시 adrAdd1로 이동 --%>
+		<button type="button" id="btn_update" class="btn" onClick="goaddAddress();">저장</button> <%-- 저장을 누르면 다시 adrAdd1로 이동 --%>
 	</form>
 </div>
 

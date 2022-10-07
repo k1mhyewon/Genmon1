@@ -19,7 +19,7 @@
     
     div#login_container > ul > li > label, p{
     	display: block;
-    	font-size: 9pt;
+    	font-size: 10pt;
     	
     }
     
@@ -37,7 +37,7 @@
     }
     
     .titles {
-     font-size: 10pt;
+     font-size: 11pt;
      text-decoration: underline;
      font-weight: bold;
     } 
@@ -59,7 +59,7 @@
     }
     
     .fontSize_small {
-    	font-size: 9pt;
+    	font-size: 10pt;
     }
     
     .find_result_content {
@@ -88,7 +88,7 @@
     .save_box {
     	/* border: solid 1px pink; */
     	width: 80%;
-    	font-size: 9pt;
+    	font-size: 10pt;
     	padding-left: 40px;
     }
     
@@ -96,7 +96,47 @@
 
 <script>
 	$(document).ready(function(){ // --------------------------------------------------
+		<%--
+		const all_pnum = '${requestScope.all_pnum}';
+		const all_qty = '${requestScope.all_qty}';
 		
+		console.log("all_pnum:"+all_pnum);
+		console.log("all_qty:"+all_qty);
+		
+		$("#all_pnum").val(all_key);
+		$("#all_qty").val(all_qty);
+		--%>
+		
+		if(sessionStorage.length > 1){ // 장바구니 내역이 있을때만 조회함
+			
+			let allkey = "";
+			let allqty = "";
+			
+			let cnt1 = 0;
+			let cnt2 = 0;
+			for(let i=0; i<sessionStorage.length; i++) {
+				// 문자열.indexOf("찾고자하는문자열")
+				let key = sessionStorage.key(i);
+				if(key.indexOf('Key')!=-1){ // 키 값인 경우
+					let comma =  cnt1 ==0 ? "": ",";
+					allkey += comma + sessionStorage.getItem(key);
+					cnt1 +=1;
+				} else { // 수량 값일 경우
+					let comma =  cnt2 ==0 ? "": ",";
+					allqty+= comma + sessionStorage.getItem(key);
+					cnt2 += 1;
+				}
+			} // end of for
+			
+			console.log("allkey"+allkey);
+			console.log("allqty"+allqty); // 나옴
+			
+			$("#all_pnum").val(allkey);
+			$("#all_qty").val(allqty);
+			
+			
+	
+		} // end of 장바구니 내역이 있을때만 조회함
 		
 		$("button#btn_goLogin").click(function(){
 			// 로그인 버튼을 클릭하면
@@ -155,9 +195,14 @@
 			
 		}); // end of $("button#btn_logout").click() --------------
         
-        
+		
+		// 모달창 닫으면 초기화
+        $('#pwdFindModal').on('hidden.bs.modal', function (e) {
+        	$(this).find('div#find_msg').hide();
+        });
 		
 		
+	
 		
 	}); // end of $(document).ready() ----------------------------------------------------
 	
@@ -168,7 +213,8 @@
 	function goLogin(){
 	//	alert("로그인 시도함");
 	
-		
+			
+	
 		const loginUserid = $("input#loginUserid").val().trim();
 	    const loginPwd = $("input#loginPwd").val().trim();
 	    
@@ -195,8 +241,7 @@
 		else { // 아이디 저장 체크 안했다면
 	    	localStorage.removeItem('saveid');    // 삭제
 	    }
-	
-	
+	    
 	    const frm = document.loginFrm; 
 	    frm.action = "<%= ctxPath%>/login.sun";
 	    frm.method = "post";
@@ -228,7 +273,7 @@
         		<input type="checkbox" id="saveid" name="saveid" /><label for="saveid">아이디저장</label>
         	</div>
         	<c:if test="${ not empty requestScope.isLogined && isLogined == 'false' }">
-	           	<div id="loginFailed" style="font-size: 9pt; color: red; margin: 10px 0 0 80px;">
+	           	<div id="loginFailed" style="font-size: 10pt; color: red; margin: 10px 0 0 80px;">
 	           		잘못된 아이디 또는 비밀번호를 입력하셨습니다. 다시 입력해주세요.
 	           	</div>
            	</c:if>
@@ -245,6 +290,9 @@
         	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">회원가입을 하시면, 주문 조회와 개인정보 관리 및 위시리스트 확인 등 다양한 혜택을 누리실 수 있습니다.</div>
         	<button class="login_btn" type="button" id="btn_gojoin" style="margin-top: 15px;">신규가입</button>
         	
+        	
+        	<input type="hidden" name="all_qty" id="all_qty" />
+			<input type="hidden" name="all_pnum" id="all_pnum"/>
         </div>
     </form>    	
     

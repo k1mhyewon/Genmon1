@@ -1,25 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<% String ctxPath=request.getContextPath();%>        
+<% String ctxPath=request.getContextPath();%>     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>   
+
 <jsp:include page="../common/header.jsp" />
 
 <style type="text/css">
 
 		.item-category {
 	        text-align: center;
-		    margin-left: 10%;
+		    margin: 2% 0% 0% 10%;
 		    padding: 0;
 		}
-	
+		
    	   .item-category>li {
 	        display: inline-block;
 	        top: 10px;
 	        text-align: center;
 	        width: 10%;
-	        
         }
-
 
         .item-category>li>a {
 		     display: block;
@@ -31,11 +31,11 @@
         .item-category>li>a>img {
 	         position: relative;
 	         text-align: center;
-	         width: 70%;
+	         width: 60%;
 	         border-radius: 50%;
 	         padding: 70;
         }
-
+        
         .item-category>li>a>span {
 	          position: absolute;
 	          bottom: 0;
@@ -44,33 +44,12 @@
 	          line-height: 1.462em;
 	          white-space: nowrap;
 	          transform: translate(-50%, 0);
-	          font-size: 3pt;
+	          font-size: 9.5pt;
+	          font-weight: bold;
+	          margin-top: 7%;
        }
        
-        .grid-container {
-			  display: grid;
-			  grid-column-gap: 50px;
-			  grid-row-gap: 50px;
-			  background-color: none;
-			  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	 		  grid-template-rows: 1fr 1fr 1fr;
-	 		  margin: 0 auto;
-	 		  box-sizing : border-box;
-	 	      padding: 2rem 2rem;
-		}
-		
-		.grid-item-text {
-			float: left;
-			position: relative;
-		}
-        
-		.grid-item-img * {
-			  width: 100%;
-			  bottom: 0%;
-			  display: block;
-			  margin: 0;
-		}
-
+       
         .button {
             cursor: pointer;
         }
@@ -266,16 +245,15 @@
 <%-- 인덱스 시작 --%>
 
  <%-- 아이템 카테고리 --%>
- 
-    <div class="all-List-page">
+ <div class="all-List-page">
  
     <ul class="item-category">
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/셀리컬렉션.jpg"><span class="category-font">전체보기</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/틴트렌즈.jpg"><span class="category-font">틴트렌즈</span></a></li>
+       <li><a href="#"><img src="<%= ctxPath %>/images/common/category/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/전체보기.jpg"><span class="category-font">전체보기</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/틴트렌즈.jpg"><span class="category-font">틴트렌즈</span></a></li>
         <li class="item-category-next">
             <a class="category-link" href="#"><i class="fa-solid fa-circle-chevron-right"></i></a>
         </li>
@@ -283,15 +261,15 @@
     <br><br>
 
     <%-- 상품 타이틀과 필터 --%>
-    <div class="title" style="padding: 0 2.5rem; margin-bottom:none; ">
+    <div class="title" style="padding:0.7%;	margin-bottom:none; ">
     	<div class="product-title">  		
 	        <span>선글라스/</span>  
 	        <span>전체보기</span>
-	        <span>(304)</span>
+	        <span>(27)</span>
         </div>
         
-        <div class="product-filter">
-	       <a href="productFilter.jsp"><button type="button" id="item-short">사단보기</button></a>
+        <div class="product-filter"  style="padding: 0% 1%;">
+	       <a href="<%= ctxPath %>/product/productList.sun"><button type="button" id="item-short">사단보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
 		   <a href="#pop01"><button class="popup_btn">필터</button></a>
 		</div>
@@ -355,70 +333,19 @@
 
 
 
-    <%-- 상품목록 --%>
-    <div class="grid-container">
-    	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="<%= ctxPath %>/product/productDetail.sun" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/릴리트01(Y).jpg" ></a></div>
-	  	</div>
-		
-		<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/디디온GRC1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/디디온VC1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/로지YC5.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/론디01(V).jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르IBG1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Ic1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르Iv1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/르P1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀IC1.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/밀Y2.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/크렐라01.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/크렐라S3.jpg" ></a></div>
-	  	</div>
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/탐부W1.jpg" ></a></div>
-	  	</div>	
-	  	
-	  	<div class="grid-info">
-	 		<div class="grid-item-img"><a href="#" class="product"><img src="<%= ctxPath %>/images/minji/전체보기/프리다BRC1.jpg" ></a></div>
-	  	</div>	
-	  	
+    <%-- 상품 리스트 이미지 나열 --%>
+    <div class="row" style="text-align: center; margin: 1% 1%;">
+ 		<c:if  test="${not empty requestScope.proSimple }">
+ 			<c:forEach var="simplevo" items="${requestScope.proSimple}">
+ 					<div class="col-md-8 mt-3 p-0 col-lg-2"  >
+	 					<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${simplevo.pnum}">
+	 						<img style="width: 200px; heigh: 70px;" src="<%= ctxPath %>/images/common/products/${simplevo.pimage1}">
+	 					</a>
+ 					</div>
+ 			</c:forEach>
+ 		</c:if>
 	</div>
-	
+		
 	
 	<%-- footer 하단bar 고정 --%>
 	

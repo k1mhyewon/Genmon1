@@ -41,7 +41,7 @@ SELECT * FROM SYS.user_sequences;
 
 ALTER SEQUENCE SEQ_TBL_PRODUCT_PID INCREMENT BY 1;
 SELECT SEQ_TBL_ALL_PRODUCT_PNUM .NEXTVAL FROM DUAL;
-
+SELECT * FROM SYS.user_sequences;
 SELECT LAST_NUMBER  
 FROM USER_SEQUENCES  
 WHERE SEQUENCE_NAME = 'seq_tbl_product_pid' 
@@ -196,64 +196,88 @@ where V.RNO between 1 and 8;
 select*
 from tbl_product_imagefile_test;
 
+select*
+from tbl_all_product_test;
 
+select*
+from tbl_product_test;
+
+SELECT *
+FROM tab
+
+
+SELECT SEQ_TBL_ALL_PRODUCT_PNUM.NEXTVAL FROM DUAL;
+select seq_tbl_product_imagefile_test_imgfileno.NEXTVAL FROM DUAL;
+
+SELECT * FROM SYS.user_sequences;
+
+----  tbl_product_imagefile_test 에 추가 이미지 인서트
+insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
+values(seqimgfileno.nextval, 3, '디디온VC2.jpg');
 
 
 insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
-values(1, 3, '릴리트01정면.jpg' );
+values(seqimgfileno.nextval, 3, '디디온VC3.jpg');
 
 
 insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
-values(2, 3, '릴리트착샥02.jpg' );
+values(seqimgfileno.nextval, 3, '디디온VC4.jpg');
 
 
 insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
-values(3, 3, '릴리트01정면.jpg' );
+values(seqimgfileno.nextval, 3, '파우치.jpg');
 
 commit;
 
-탐부 YC6
-탐부 L2
-탐부 01
-탐부 Y4
-탐부 W1 
-
-르 KC1 280000
-르 L2
-르 01
-르 IC1
-르 IBG1
-르 IV1 
-르 P1 
-
-릴리트 01  259000
-릴리트 01(Y)
-릴리트 01(K)
-릴리트 01(BR)
-
-로지 YC5  269000
-로지 01
-로지 01(BRG)
-
-크렐라 S3  280000
-크렐라 01
-
-밀 01  249000
-밀 Y2
-밀 01(K)
-밀 IC1
-
-디디온 VC1  279000
-디디온 01  
-디디온 GRC1
-
-로티 01  280000
-로티 IC1
-로티 Y1
-
-론디 01  259000
-론디 01(V) 
-론디 01(BR)
+select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from tbl_all_product_test
+join 
+tbl_product_test
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7';
 
 
+String sql = "select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\n"+
+"from tbl_all_product_test\n"+
+"join \n"+
+"tbl_product_test\n"+
+"on fk_pid = pid\n"+
+"where pcolor='black' and pmaterial='metal' and fk_pid != 'p_7'";
 
+-- 할인가
+
+select*
+from tbl_all_product_test;
+
+update tbl_product_test set pname = '론디'
+where pid = 'p_7';
+
+update tbl_all_product_test set pimage1 = 디디온
+where pnum = 7;
+
+commit;
+
+
+select *
+from tbl_all_product_test;
+
+
+select pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from
+(select row_number() over(order by pnum desc) AS RNO 
+,pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from tbl_all_product_test
+JOIN tbl_product_test
+ON fk_pid = pid
+)
+where pcolor= 'black' and pmaterial='metal' and fk_pid != 'p_7' 
+and RNO <= 5 ;
+
+
+
+select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from tbl_all_product_test
+join 
+tbl_product_test
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_pid != 'p_3';

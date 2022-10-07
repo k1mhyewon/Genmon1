@@ -1,21 +1,15 @@
 package minji.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import java.util.*;
+
+import javax.naming.*;
+
 import javax.sql.DataSource;
 
-import common.model.AddImgVO;
-import common.model.ChildProductVO;
-import common.model.ParentProductVO;
+import common.model.*;
+
 
 public class ProductDAO implements InterProductDAO {
 
@@ -59,7 +53,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pname, pnum, price, pcolor, pimage1\n"+
+			String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt\n"+
 					"from tbl_product_test\n"+
 					"JOIN tbl_all_product_test \n"+
 					"ON pid = fk_pid";
@@ -71,16 +65,18 @@ public class ProductDAO implements InterProductDAO {
 				ChildProductVO cvo =new ChildProductVO();
 				
 				cvo.setPnum(rs.getInt("pnum"));
+				cvo.setSalePcnt(rs.getInt("salePcnt"));
 				
 				ParentProductVO ppvo = new ParentProductVO();
 				ppvo.setPname(rs.getString("pname"));
 				ppvo.setPrice(rs.getInt("price"));
-				cvo.setParentProvo(ppvo);
 				
-				cvo.setPcolor(rs.getString("pcolor"));
+				cvo.setParentProvo(ppvo); // JOIN
+				
+				cvo.setPcolor(rs.getString("pcolor")); 
 				cvo.setPimage1(rs.getString("pimage1"));
 				
-				productList.add(cvo);
+				productList.add(cvo); 
 			}
 			
 		} finally {
@@ -101,11 +97,11 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pnum, fk_pid ,pcolor ,pimage1,salePcnt,pname,price ,pcontent\n"+
-					"from tbl_product_test\n"+
-					"JOIN tbl_all_product_test \n"+
-					"ON pid = fk_pid\n"+
-					"where pnum = ?";
+			String sql = " select pnum, fk_pid ,pcolor ,pimage1,salePcnt,pname,price ,pcontent,  pmaterial\n "+
+					" from tbl_product_test\n "+
+					" JOIN tbl_all_product_test \n "+
+					" ON pid = fk_pid\n "+
+					" where pnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pnum);
@@ -125,9 +121,9 @@ public class ProductDAO implements InterProductDAO {
 				ppvo.setPname(rs.getString("pname"));
 				ppvo.setPrice(rs.getInt("price"));
 				ppvo.setPcontent(rs.getString("pcontent"));
+				ppvo.setPmaterial(rs.getString("pmaterial"));
 				
 				cpvo.setParentProvo(ppvo);
-				
 				
 			}
 			
@@ -150,13 +146,12 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pimage1, pnum \n"+
-						"from tbl_all_product_test\n"+
-						"where FK_PID = ? and pnum !=  ? ";
+			String sql = " select pimage1, pnum \n "+
+						" from tbl_all_product_test\n "+
+						" where FK_PID = ?  ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("fk_pid"));
-			pstmt.setString(2, paraMap.get("pnum"));
 			
 			rs = pstmt.executeQuery();
 			
@@ -178,9 +173,96 @@ public class ProductDAO implements InterProductDAO {
 	}// end of 색깔이 다른 동일 제품들 조회해오기 
 
 	
+	// 상품 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
+	@Override
+	public List<ChildProductVO> simpleAllProduct() throws SQLException{
+		
+		List<ChildProductVO> simpleList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pnum, fk_pid, pimage1\n "+
+						 " from tbl_all_product_test ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ChildProductVO simpleCvo = new ChildProductVO();
+				
+				simpleCvo.setPnum(rs.getInt("pnum"));
+				simpleCvo.setFk_pid(rs.getString("fk_pid"));
+				simpleCvo.setPimage1(rs.getString("pimage1"));
+				
+				simpleList.add(simpleCvo); 
+			}
+			
+		} finally {
+			close();
+		}
+
+		return simpleList;
+	}
+
 	
-	
-	
-	
+	// color와 material이 동일한 추천제품 가져오기 
+	@Override
+	public List<ChildProductVO> recommendProduct(Map<String, String> map) throws SQLException {
+		
+		List<ChildProductVO> recomList = new ArrayList<>();
+		 
+		try { 
+			
+			conn = ds.getConnection();
+		 
+			String sql = " select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
+						+ " from\r\n "
+						+ " (select row_number() over(order by pnum desc) AS RNO \r\n "
+						+ " ,pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
+						+ " from tbl_all_product_test\r\n "
+						+ " JOIN tbl_product_test\r\n "
+						+ " ON fk_pid = pid\r\n "
+						+ " where pcolor= ? and pmaterial=? and fk_pid != ? \r\n "
+						+ " )\r\n "
+						+ " where RNO <= 5 ";
+		
+			pstmt = conn.prepareStatement(sql); 
+			
+			pstmt.setString(1, map.get("pcolor"));
+			pstmt.setString(2, map.get("pmaterial")); 
+			pstmt.setString(3, map.get("fk_pid"));
+			
+			rs = pstmt.executeQuery();
+			 
+			while(rs.next()) { 
+				
+			ChildProductVO recomcvo = new ChildProductVO();
+			 
+			recomcvo.setPnum(rs.getInt("pnum"));
+			recomcvo.setFk_pid(rs.getString("fk_pid"));
+			recomcvo.setPcolor(rs.getString("pcolor"));
+			recomcvo.setPimage1(rs.getString("pimage1"));
+		
+			ParentProductVO ppvo = new ParentProductVO();
+			ppvo.setPname(rs.getString("pname")); 
+			ppvo.setPrice(rs.getInt("price"));
+			ppvo.setPmaterial(rs.getString("pmaterial"));
+		
+			recomcvo.setParentProvo(ppvo);
+			
+			recomList.add(recomcvo);
+			
+			}
+			 
+		} finally { 
+			
+			close(); 
+		
+		}
+		return recomList; 
+		
+		}
 	
 }

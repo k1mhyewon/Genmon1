@@ -105,48 +105,109 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 
 <script>
 
-	$(document).ready(function(){
+	$(document).ready(function(){ // =============================================================
 		
-		$("#cart_added_comment").hide();
+		$("#cart_added_comment").hide(); <%-- 장바구니에 상품이 추가되면 뜨는 메시지 숨기기--%>
+		
 		
 		$("#addStayPage").click(function(){ // ------------------
 			
-			addStayPage(${pvo.pnum});
+			addStayPage();
 			
 		}); // end of $("#addStayPage").click() -----------------
 		
 		
 		
-	}); // end of $(document).ready() -----------------------
+		$("#addGoCart").click(function(){ // ------------------
+			
+			addGoCart();
+			
+		}); // end of $("#addGoCart").click() -----------------
+		
+		
+		
+	}); // end of $(document).ready() ==============================================================
 
 	
-	function addStayPage(pnum){
-		// ajax로 select insert 해야한다
+	function addStayPage(){
+		// ajax 사용 상품이름이랑 수량 같이 넘겨줘야함
 		
-		
+		const pnum = '${pvo.pnum}';
 		const qty = $("input[name='quantity']").val();
-		// 상품이릅이랑 수량 같이 넘겨줘야함
 		
+		const loginuser = '${sessionScope.loginuser.userid}' ;
 		
-		$.ajax({
-			url:"<%= request.getContextPath()%>/order/cart.sun?pnum="+pnum+"&qty="+qty,
-		//	type: "GET",  
-		    dataType:"TEXT",
-		    success:function(json) {
-		    	
-		    	$("#cart_added_comment").show();
-		    	$('#addCart').modal('hide');
-				
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		if(loginuser == ''){ // 로그인 안 한 경우
+			
+			if(sessionStorage.getItem("Key"+pnum)){ // 이미 장바구니에 있다면 개수 업데이트
+				var qty2 = sessionStorage.getItem('Qty'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
+				sessionStorage.setItem('Qty'+pnum,Number(qty)+Number(qty2));
+			} else {
+				sessionStorage.setItem("Key"+pnum,pnum);
+				sessionStorage.setItem('Qty'+pnum,qty);
 			}
-		});
+			
+			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
 		
-		
+		} else { // 로그인 한 경우
+			$.ajax({
+				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
+				type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	
+			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+					
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
 	}
 	
 	function addGoCart(){
+		
+		const pnum = '${pvo.pnum}';
+		const qty = $("input[name='quantity']").val();
+		
+		const loginuser = '${sessionScope.loginuser.userid}' ;
+		
+		if(loginuser == ''){ // 로그인 안 한 경우
+			
+			if(sessionStorage.getItem("Key"+pnum)){ // 이미 장바구니에 있다면 개수 업데이트
+				var qty2 = sessionStorage.getItem('Qty'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
+				sessionStorage.setItem('Qty'+pnum,Number(qty)+Number(qty2));
+			} else {
+				sessionStorage.setItem("Key"+pnum,pnum);
+				sessionStorage.setItem('Qty'+pnum,qty);
+			}
+		
+			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+		
+			location.href="<%= ctxPath%>/order/cart.sun";
+			
+		} else { // 로그인 한 경우
+			$.ajax({
+				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
+				type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	
+			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
+			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
+			    	location.href="<%= ctxPath%>/order/cart.sun";
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
 		
 	}
 	
@@ -159,38 +220,66 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 
 </script>
 
-	<%-- 전체 박스 사이즈 --%>
+	<%-- 전체 박스 사이즈 // 노트북 해상도 달라서 전체 한번 디브로 감쌈 --%>
 	<div class="whole-box">
 		
 		<%-- 제품 정보 --%>
      	<div class="item-info-box">
-     		
      		<div class="item-info-cotent-box">
 	      		<div class="item-info-cotent">
-	      			<div class="item-name">${pvo.parentProvo.pname } ${pvo.colorName }</div>
-	    		    <div class="item-price"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</div>
-			 	</div>
-		 	</div>
+	      			<c:if test="${not empty requestScope.proList}">
+		      			<div class="item-name">${pvo.parentProvo.pname } ${pvo.colorName }</div>
+				      			<c:choose >
+				      				<c:when test="${pvo.salePcnt > 0}">
+				    		   			 <div style="text-decoration: line-through; font-style: italic; font-size: 11pt; color: gray;"  class="item-price"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</div>
+				    		    	</c:when>
+				    		    	
+				    		    	<c:otherwise>
+				    		   			 <div class="item-price"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</div>
+				    		    	</c:otherwise>
+				    		    </c:choose>
+				    		    
+				    		    <c:choose>
+				      				<c:when test="${pvo.salePcnt > 0}">
+				    			 		 <div  style="font-size: 11pt;" class="item-price"><fmt:formatNumber value="${pvo.parentProvo.price - (((pvo.parentProvo.price) * pvo.salePcnt)/100) }" pattern="#,###"></fmt:formatNumber> 원</div>
+				    		    	</c:when>
+				    		    	
+				    		    	<c:otherwise>
+				    		   			 <div class="item-price">&nbsp;</div>
+				    		    	</c:otherwise>
+				    		   </c:choose>
+				    	</c:if> 
+				 </div>
+			 </div>
 		 	
 		 	<%-- 제품 색상 및 설명 --%>
 		 	<div class="item-info-color-box">
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
 			 			<c:if test="${not empty requestScope.proList}">
+			 				<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:70px; height: 80px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
 			 				<c:forEach var="pvo" items="${requestScope.proList}">
-			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:100px;" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
+			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:70px; height: 80px;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
 			 				</c:forEach>
-			 			</c:if>
+		 				</c:if>
 			 		</ul>
 		 		</div>
 			</div>
 				
-				<div class="item-info-description-box">
-		   	 		<div class="item-info-description" style="width: 300px;">
-		    	 	   ${pvo.parentProvo.pcontent }
-		   	 		</div>
+			<div class="item-info-description-box">
+	   	 		<div class="item-info-description" style="width: 300px;">
+	    	 	   ${pvo.parentProvo.pcontent}
 	   	 		</div>
-	      	 	<br>
+   	 		</div>
+      	 	<br>
+	      	 	
+	      	 	
+	      	<%-- 리뷰 --%> 	
+	      	<div class="review">
+		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}">리뷰보기 (5) </a></span>
+		 	</div>
+	      	<br><br>
+	      	 	
 	      	 	
 	 		<%-- 카트 및 관심 상품 버튼 --%>
 	 		<div class="add-option-btn">
@@ -319,13 +408,12 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  <%-- 제품 상세 이미지 박스 --%>
 	  		<div class="img-row-box"> 
 		      <div class="img-row">
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" class="sunglasses-image"></div>
+			        <div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" class="sunglasses-image"></div>
 			        <c:if test="${not empty requestScope.imgList}">
 			        	<c:forEach var="ivo" items="${requestScope.imgList}">
-			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/${ivo.imgfilename}" class="sunglasses-image"></div>
+			        		<div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${ivo.imgfilename}" class="sunglasses-image"></div>		
 			        	</c:forEach>
 			        </c:if>
-			        
 			   </div> 
 	 		</div>
 	 
@@ -333,71 +421,28 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
  
 	   <%-- 비슷한 상품 추천 --%>
        <div class="related-box">
-         <div class="related-title">릴리트01과 비슷한 추천제품을 만나보세요</div>
-       		<ul class="related-item">
-       			<li class="related-item-list">
-       			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/디디온01(G)1.jpg"></a></div>
-      				<div class="related-item-info-box">
-   						<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">디디온01(G)</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">270,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
-   					</div>
-   				</div>
-       			</li>
-        		<li class="related-item-list">
-        		<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/로셀BC5(1).jpg"></a></div>
-      				<div class="related-item-info-box">
-   						<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">로셀BC5</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">269,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
-       				</div>
-       			</div>	
-       			</li>
-       			<li class="related-item-list">
-       			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/모마티01(OR)2.jpg"></a></div>
-      				<div class="related-item-info-box">
-   						<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">모마티01(OR)</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">249,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
-       				</div>
-       			</div >
-       			</li>
-       			<li class="related-item-list">
-       			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/밀01(K)1.jpg"></a></div>
-      				<div class="related-item-info-box">
-      					<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">밀01(K)</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">249,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
-       				</div>
-       			</div>
-       			</li>
-       			<li class="related-item-list">
-       			<div class="related-deep-box">
-  					<div><a href="" class="related-img"><img alt="" src="<%= ctxPath %>/images/minji/related/밀Y2(1).jpg"></a></div>
-      				<div class="related-item-info-box">
-      					<ul class="related-go">
-      						<li class="sun-title"><a href="#" class="link">밀Y2</a></li>
-      						<li class="sun-price"><a href="#" class="link" style="margin: 0;">249,000원</a></li>
-      						<li class="sun-color"><a href="#" class="link">+<span class="color-count">5</span> Colors</a></li>
-      					</ul>
-       				</div>
-       			</div>
-       			</li>
-        	</ul>
-       	</div>
-    </div>
+         <div class="related-title"><span style="color: gray;">${pvo.parentProvo.pname} ${pvo.colorName }</span>과 비슷한 추천제품을 만나보세요</div>
+   			<c:if test="${not empty requestScope.recommendList}"> 
+				<c:forEach var="recomvo" items="${requestScope.recommendList}">
+   					<ul class="related-item" style="margin-right: 5px;">
+						<li class="related-item-list" style="list-style: none;">
+							<div class="related-deep-box">
+							<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}"><img style="width: 270px; height:350px;" src="<%= ctxPath %>/images/common/products/${recomvo.pimage1}"></a></div>
+							<div class="related-item-info-box">
+								<ul class="related-go">
+								<li class="sun-title"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">${recomvo.parentProvo.pname}</a></li>
+								<li class="sun-price"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link" style="margin: 0;">${recomvo.parentProvo.price}</a></li>
+								<li class="sun-color"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">+<span class="color-count">5</span> Colors</a></li>
+								</ul>
+							</div>
+							</div>
+						</li>
+		   			</ul>	
+				</c:forEach> 
+			</c:if>
+		  </div>
+		</div>
+       		
 	 
 	 
 	<%-- footer 하단bar 고정 --%>
