@@ -88,15 +88,22 @@ public class ProductDAO implements InterProductDAO {
 			
 			conn = ds.getConnection();
 
-			String sql = " select pname, price, pcolor, pimage1 ,salePcnt ,pqty ,preleasedate,pnum "
-						+ "from  "
-						+ "( "
-						+ "select row_number() over(order by pnum desc) AS RNO, pnum,"
-						+ "       pname, price, pcolor, pimage1 ,salePcnt ,pqty ,to_char(preleasedate,'yyyy-mm-dd') as preleasedate "
-						+ "from tbl_product_test P RIGHT JOIN tbl_all_product_test C "
+			String sql = " with C as( "
+						+ " select count(pk_order_detail_id) as psales , fk_pnum  "
+						+ " from TBL_ORDER_DETAIL_TEST "
+						+ " group by fk_pnum "
+						+ " ), D as ( "
+						+ " select row_number() over(order by pnum desc) AS RNO, pnum, "
+						+ "       pname||'('||substr(pcolor,1,2)||')' as pname, price, pcolor, pimage1 ,salePcnt ,pqty , "
+						+ "       to_char(preleasedate,'yyyy-mm-dd') as preleasedate, pinsertdate "
+						+ " from tbl_product_test P RIGHT JOIN tbl_all_product_test C "
 						+ "on p.pid = c.fk_pid "
-						+ ")A "
-						+ "where RNO between ? and ? ";
+						+ ") "
+						+ " select pname, price, pcolor, pimage1, salePcnt, pqty, preleasedate, pnum, nvl(psales,0)as psales "
+						+ " from C right join D "
+						+ " on C.fk_pnum = d.pnum "
+						+ " where RNO between ? and ? "
+						+ " order by pinsertdate desc ";
 			
 			// ***** 서치단어 , 필터 넣기 ***** 
 
@@ -122,6 +129,7 @@ public class ProductDAO implements InterProductDAO {
 				int pqty = rs.getInt(6);
 				String preleasedate = rs.getString(7);
 				int pnum = rs.getInt(8);
+				int psales = rs.getInt(9);
 				
 				ChildProductVO cpvo = new ChildProductVO();
 				ParentProductVO ppvo = new ParentProductVO();
@@ -137,23 +145,7 @@ public class ProductDAO implements InterProductDAO {
 				cpvo.setPqty(pqty);
 				cpvo.setPreleasedate(preleasedate);
 				cpvo.setPnum(pnum);
-				
-				
-				// 제품 판매량 알아오기 
-				sql = "select count(pk_order_detail_id) as psales  "
-					+ "from tbl_all_product_test A left join tbl_order_detail_test B "
-					+ "on a.pnum = b.fk_pnum  "
-					+ "where a.pnum = ?  "
-					+ "group by a.pnum ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, pnum); // 가져온 pnum 판매량
-				
-				rs = pstmt.executeQuery();
-				
-				rs.next(); // 결과값 무조건 있음
-				
-				cpvo.setPsales(rs.getInt(1)); // 0 이상 
+				cpvo.setPsales(psales); // 0 이상 
 //				
 				productList.add(cpvo);
 			}// end of while(rs.next()) {}------------------

@@ -11,6 +11,7 @@ public class ChildProductVO {
 	private int salePcnt; 				// 할인율
 	private int pqty; 					// 재고
 	private String preleasedate;		// 출시일
+	private int panmaestate;			// 판매상태 
 	////////////////////////////////
 	// private int colAmount;	            // 같은 컬러 갯수 구하기 
 	
@@ -20,9 +21,25 @@ public class ChildProductVO {
 	private ParentProductVO parentProvo ;
 	
 	////////////////////////////
-	private int psales; 					// 판매량ㄴ
+	private int psales; 					// 판매량
 	
 
+	
+	
+	public int getPanmaestate() {
+		// panmaestate=0 , pqty=0 => 판매중단  
+		// panmaestate=1 , pqty>0, releasedate 오늘날짜보다 후 => 판매중 
+		// releasedate 오늘날짜보다 전 => 출시예정
+		return panmaestate;
+	}
+
+	public void setPanmaestate(int panmaestate) {
+		this.panmaestate = panmaestate;
+	}
+
+	
+	
+	
 	public ChildProductVO() {}
 
 	public ChildProductVO(int pnum, String fk_pid, String pcolor, String pimage1, int salePcnt, int pqty,

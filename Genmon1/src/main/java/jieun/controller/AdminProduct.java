@@ -118,6 +118,8 @@ public class AdminProduct extends AbstractController {
 					  
 					List<ChildProductVO> productList= pdao.selectPagingProduct(paraMap);
 					
+					
+					
 					// == 확인용 시작== //
 					   
 					if( productList.size() > 0) { // memberList는 dao 에서 초기값을 new 해왓기때문에 null 일수없다

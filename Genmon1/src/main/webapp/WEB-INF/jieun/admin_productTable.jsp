@@ -367,6 +367,11 @@ $(document).ready(function () {
     					<c:otherwise>여</c:otherwise>
     				</c:choose>
     			</td> --%>
+    			
+    			
+		<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
+		<td><span class="badge badge-success rounded-pill d-inline">Waiting</span></td>
+		<td><span class="badge badge-warning rounded-pill d-inline">Disenable</span></td>
 		
 		</tbody>
 		</table>
