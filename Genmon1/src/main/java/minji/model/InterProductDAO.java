@@ -1,10 +1,7 @@
 package minji.model;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import common.model.ChildProductVO;
 
 public interface InterProductDAO {
