@@ -13,9 +13,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import common.model.AddImgVO;
-import common.model.ChildProductVO;
-import common.model.ParentProductVO;
 
 public class ProductDAO implements InterProductDAO {
 

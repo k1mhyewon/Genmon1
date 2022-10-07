@@ -3,7 +3,6 @@ package jieun.model;
 import java.sql.SQLException;
 import java.util.*;
 
-import common.model.ChildProductVO;
 
 public interface InterProductDAO {
 

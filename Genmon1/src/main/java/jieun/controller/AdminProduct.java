@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import common.model.*;
 import jieun.model.*;
+import jieun.model.ChildProductVO;
 
 public class AdminProduct extends AbstractController {
 
