@@ -262,17 +262,16 @@ select *
 from tbl_all_product_test;
 
 
-select pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
 from
 (select row_number() over(order by pnum desc) AS RNO 
 ,pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
 from tbl_all_product_test
 JOIN tbl_product_test
 ON fk_pid = pid
-)
 where pcolor= 'black' and pmaterial='metal' and fk_pid != 'p_7' 
-and RNO <= 5 ;
-
+)
+where RNO <= 5 ;
 
 
 select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
@@ -281,3 +280,5 @@ join
 tbl_product_test
 on fk_pid = pid
 where pcolor='black' and pmaterial='metal' and fk_pid != 'p_3';
+
+

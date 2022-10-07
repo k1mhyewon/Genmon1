@@ -43,13 +43,13 @@
 	}
 	
 	.item-info-color-box {
-		padding: 15% 0% 10% 0%;
+		padding: 10% 0% 10% 0%;
 		width: 110%;
 	}
 	
 	.item-info-color {
 		clear: right;
-		width: 100%;
+		width: 90%;
 		margin: 0%;
 		padding: 0%;
 	}
@@ -199,29 +199,29 @@
 	
 	/* footer-navbar 하단메뉴바 */
 	    
-	    .footer-navbar {
-	    	 width: 20%;
-	    	 height: auto;
-	    	 background: #fff;
-		     border-top: 1px solid #a1a1a1;
-		     border-left: 1px solid #a1a1a1;
-	    }
-   	
-	    .container-fluid {
-	   		clear:both;
-	 	    border: 1px black green;
-	    	margin-top: 1%;
-	    	text-align: center; 
-	    	padding: 0;
-	    }
-	    
-	    .footer-bar__btn {
-	    	float: right; 
-	    	cursor: pointer;
-	    	margin-top: 4%;
-	    	margin-bottom: 4%; 
-	    	margin-right: 15%; 
-	    	font-size: 11pt;
-	    	font-weight: bold;
+    .footer-navbar {
+    	 width: 20%;
+    	 height: auto;
+    	 background: #fff;
+	     border-top: 1px solid #a1a1a1;
+	     border-left: 1px solid #a1a1a1;
+    }
+  	
+    .container-fluid {
+   		clear:both;
+ 	    border: 1px black green;
+    	margin-top: 1%;
+    	text-align: center; 
+    	padding: 0;
+    }
+    
+    .footer-bar__btn {
+    	float: right; 
+    	cursor: pointer;
+    	margin-top: 4%;
+    	margin-bottom: 4%; 
+    	margin-right: 15%; 
+    	font-size: 11pt;
+    	font-weight: bold;
 
 	    }

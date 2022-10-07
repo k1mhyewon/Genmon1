@@ -53,7 +53,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt\n"+
+			String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt, pqty \n"+
 					"from tbl_product_test\n"+
 					"JOIN tbl_all_product_test \n"+
 					"ON pid = fk_pid";
@@ -66,6 +66,7 @@ public class ProductDAO implements InterProductDAO {
 				
 				cvo.setPnum(rs.getInt("pnum"));
 				cvo.setSalePcnt(rs.getInt("salePcnt"));
+				cvo.setPqty(rs.getInt("pqty"));
 				
 				ParentProductVO ppvo = new ParentProductVO();
 				ppvo.setPname(rs.getString("pname"));
@@ -97,7 +98,7 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select pnum, fk_pid ,pcolor ,pimage1,salePcnt,pname,price ,pcontent,  pmaterial\n "+
+			String sql = " select pnum, fk_pid ,pcolor ,pimage1,salePcnt,pname,price ,pcontent,  pmaterial, pqty\n "+
 					" from tbl_product_test\n "+
 					" JOIN tbl_all_product_test \n "+
 					" ON pid = fk_pid\n "+
@@ -116,6 +117,7 @@ public class ProductDAO implements InterProductDAO {
 				cpvo.setPcolor(rs.getString("pcolor"));
 				cpvo.setPimage1(rs.getString("pimage1"));
 				cpvo.setSalePcnt(rs.getInt("salePcnt"));
+				cpvo.setPqty(rs.getInt("pqty"));
 				
 				ParentProductVO ppvo = new ParentProductVO();
 				ppvo.setPname(rs.getString("pname"));

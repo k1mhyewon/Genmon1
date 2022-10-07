@@ -220,7 +220,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 
 </script>
 
-	<%-- 전체 박스 사이즈 // 노트북 해상도 달라서 전체 한번 디브로 감쌈 --%>
+	<%-- 전체 박스 사이즈 // 노트북 해상도 달라서 전체 한번 div로 감쌈 --%>
 	<div class="whole-box">
 		
 		<%-- 제품 정보 --%>
@@ -229,7 +229,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      		<div class="item-info-cotent">
 	      			<c:if test="${not empty requestScope.proList}">
 		      			<div class="item-name">${pvo.parentProvo.pname } ${pvo.colorName }</div>
-				      			<c:choose >
+				      		  <c:choose >
 				      				<c:when test="${pvo.salePcnt > 0}">
 				    		   			 <div style="text-decoration: line-through; font-style: italic; font-size: 11pt; color: gray;"  class="item-price"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</div>
 				    		    	</c:when>
@@ -249,6 +249,10 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 				    		    	</c:otherwise>
 				    		   </c:choose>
 				    	</c:if> 
+				    	
+				    	<c:if test="${pvo.pqty == 0}">
+				    		<div id="zerostock"  style="color: #449ce8;"><i>out of stock</i></div>
+				    	</c:if>
 				 </div>
 			 </div>
 		 	
