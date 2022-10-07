@@ -316,12 +316,12 @@
  <div class="all-List-page">
  
     <ul class="item-category">
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
-        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/셀리컬렉션.jpg"><span class="category-font">전체보기</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/minji/틴트렌즈.jpg"><span class="category-font">틴트렌즈</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/전체보기.jpg"><span class="category-font">전체보기</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/틴트렌즈.jpg"><span class="category-font">틴트렌즈</span></a></li>
         <li class="item-category-next">
             <a class="category-link" href="#"><i class="fa-solid fa-circle-chevron-right"></i></a>
         </li>
@@ -334,7 +334,7 @@
     	<div class="product-title">  		
 	        <span>선글라스/</span>  
 	        <span>전체보기</span>
-	        <span>(304)</span>
+	        <span>(27)</span>
         </div>
         
         <div class="product-filter" style="padding: 0% 1%;">
@@ -408,7 +408,7 @@
 	   		<c:forEach var="pvo" items="${requestScope.proList }">
 		   		<div class="col-md-3 mt-3">
 		   			 <div style="width:340px;">
-			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" ></a>
+			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" ></a>
 			  				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product">
 				 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
 				 		 		<c:choose>

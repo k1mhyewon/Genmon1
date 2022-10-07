@@ -47,7 +47,7 @@ public class ProductDetail extends AbstractController {
 		List<ChildProductVO> recommendList = pdao.recommendProduct(map);
 		
 	//	System.out.println(recommendList.size());
-	//	request.setAttribute("recommendList", recommendList);
+		request.setAttribute("recommendList", recommendList);
 		
 	//	System.out.println(pvo.getPcolor());
 	//	System.out.println(pvo.getParentProvo().getPmaterial());

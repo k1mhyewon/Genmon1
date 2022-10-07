@@ -1,21 +1,15 @@
 package minji.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import java.util.*;
+
+import javax.naming.*;
+
 import javax.sql.DataSource;
 
-import common.model.AddImgVO;
-import common.model.ChildProductVO;
-import common.model.ParentProductVO;
+import common.model.*;
+
 
 public class ProductDAO implements InterProductDAO {
 
@@ -225,14 +219,14 @@ public class ProductDAO implements InterProductDAO {
 		 
 			String sql = " select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
 						+ " from\r\n "
-						+ " (\r\n "
-						+ " select row_number() over(order by pnum desc) AS RNO\r\n "
-						+ "      , pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
+						+ " (select row_number() over(order by pnum desc) AS RNO \r\n "
+						+ " ,pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial\r\n "
 						+ " from tbl_all_product_test\r\n "
 						+ " JOIN tbl_product_test\r\n "
 						+ " ON fk_pid = pid\r\n "
+						+ " where pcolor= ? and pmaterial=? and fk_pid != ? \r\n "
 						+ " )\r\n "
-						+ " where pcolor= ? and pmaterial= ? and fk_pid != ? and RNO <= 5 ";
+						+ " where RNO <= 5 ";
 		
 			pstmt = conn.prepareStatement(sql); 
 			

@@ -257,12 +257,10 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			 	<div class="item-info-color">
 			 		<ul class="color-list">
 			 			<c:if test="${not empty requestScope.proList}">
-			 				<c:forEach  items="${requestScope.proList}">
-		 						<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:80px; height: 70px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
-			 				</c:forEach> 
-			 				<c:forEach  items="">
-		 						<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:80px; height: 70px; " class="color-real-img"  src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}"></a></li>
-			 				</c:forEach> 
+			 				<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:70px; height: 80px; border: 1px solid gray" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
+			 				<c:forEach var="pvo" items="${requestScope.proList}">
+			 					<li class="color-img"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:70px; height: 80px;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
+			 				</c:forEach>
 		 				</c:if>
 			 		</ul>
 		 		</div>
@@ -410,10 +408,10 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  <%-- 제품 상세 이미지 박스 --%>
 	  		<div class="img-row-box"> 
 		      <div class="img-row">
-			        <div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${pvo.pimage1}" class="sunglasses-image"></div>
+			        <div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" class="sunglasses-image"></div>
 			        <c:if test="${not empty requestScope.imgList}">
 			        	<c:forEach var="ivo" items="${requestScope.imgList}">
-			        		<div class="sun-row"><img src="<%= ctxPath %>/images/minji/전체보기/${ivo.imgfilename}" class="sunglasses-image"></div>		
+			        		<div class="sun-row"><img src="<%= ctxPath %>/images/common/products/${ivo.imgfilename}" class="sunglasses-image"></div>		
 			        	</c:forEach>
 			        </c:if>
 			   </div> 
@@ -426,10 +424,10 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
          <div class="related-title"><span style="color: gray;">${pvo.parentProvo.pname} ${pvo.colorName }</span>과 비슷한 추천제품을 만나보세요</div>
    			<c:if test="${not empty requestScope.recommendList}"> 
 				<c:forEach var="recomvo" items="${requestScope.recommendList}">
-   					<ul class="related-item">
-						<li class="related-item-list">
+   					<ul class="related-item" style="margin-right: 5px;">
+						<li class="related-item-list" style="list-style: none;">
 							<div class="related-deep-box">
-							<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}"><img style="width: 270px; height:350px;" src="<%= ctxPath %>/images/minji/전체보기/${recomvo.pimage1}"></a></div>
+							<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}"><img style="width: 270px; height:350px;" src="<%= ctxPath %>/images/common/products/${recomvo.pimage1}"></a></div>
 							<div class="related-item-info-box">
 								<ul class="related-go">
 								<li class="sun-title"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">${recomvo.parentProvo.pname}</a></li>

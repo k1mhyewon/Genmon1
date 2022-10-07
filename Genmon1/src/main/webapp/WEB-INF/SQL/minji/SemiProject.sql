@@ -229,16 +229,6 @@ values(seqimgfileno.nextval, 3, '파우치.jpg');
 
 commit;
 
-
-
-select pnum, pname, fk_pid, pcolor, pimage1, pmaterial
-from tbl_all_product_test 
-join tbl_product_test 
-on fk_pid = pid
-where pcolor='black' and pmaterial='metal' and fk_id != 3 ;
-
-
-
 select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
 from tbl_all_product_test
 join 
@@ -266,3 +256,28 @@ update tbl_all_product_test set pimage1 = 디디온
 where pnum = 7;
 
 commit;
+
+
+select *
+from tbl_all_product_test;
+
+
+select pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from
+(select row_number() over(order by pnum desc) AS RNO 
+,pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from tbl_all_product_test
+JOIN tbl_product_test
+ON fk_pid = pid
+)
+where pcolor= 'black' and pmaterial='metal' and fk_pid != 'p_7' 
+and RNO <= 5 ;
+
+
+
+select distinct pnum, pname, fk_pid, price, pcolor, pimage1, pmaterial
+from tbl_all_product_test
+join 
+tbl_product_test
+on fk_pid = pid
+where pcolor='black' and pmaterial='metal' and fk_pid != 'p_3';
