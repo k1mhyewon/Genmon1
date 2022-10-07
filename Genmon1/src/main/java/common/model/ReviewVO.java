@@ -11,6 +11,10 @@ public class ReviewVO {
 	private String reply;
 	
 	
+	private String star_text;
+	
+	
+	
 	private MemberVO mvo;
 	
 	
@@ -74,6 +78,32 @@ public class ReviewVO {
 	}
 	
 	
+	////////////////////////////////////////
+	
+	// 별모양
+	public String getStar_text() {
+		return star_text;
+	}
+	public void setStar_text(String star_text) {
+		
+		switch (star) {
+		case "1":
+			this.star_text = "★☆☆☆☆";
+			break;
+		case "2":
+			this.star_text = "★★☆☆☆";
+			break;
+		case "3":
+			this.star_text = "★★★☆☆";
+			break;
+		case "4":
+			this.star_text = "★★★★☆";
+			break;
+		case "5":
+			this.star_text = "★★★★★";
+			break;
+		}
+	}
 	
 	
 	////////////////////////////////////////

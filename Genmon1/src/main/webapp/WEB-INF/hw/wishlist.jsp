@@ -365,7 +365,7 @@
 							<input type="hidden" name="pnum" value="${wishvo.fk_pnum}" />
 							<input type="checkbox" name="chk_each_prod" value="${wishvo.fk_pnum}" class="chk_wishprod" />
 							<div class="card_body mx-1 my-3">
-								<img src="../images/minji/전체보기/${wishvo.cpvo.pimage1}" class="product_img">
+								<img src="../images/common/products/${wishvo.cpvo.pimage1}" class="product_img">
 								<div id="productDesc">
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>

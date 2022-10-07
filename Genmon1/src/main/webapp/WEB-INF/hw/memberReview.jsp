@@ -168,13 +168,32 @@
     }
     
     
+	#no_review {
+		/* border: solid 1px pink; */
+		height: 270px;
+		margin: 10%;
+		text-align: center;
+		font-size: 11pt;
+		font-weight: bold;
+	}
+	
+	#go_review {
+		margin-top: 120px;
+		font-size: 10pt;
+	}
+    
     
 
 </style>
 
 
 <script>
-
+	
+	$(document).ready(function(){ //  =============================================================
+		
+		
+		
+	}); // end of $(document).ready() =============================================================
 
 	
 	function go_rev_modify(){ // ---------------------------
@@ -183,10 +202,14 @@
 		
 	} // end of function go_rev_modify() -------------------
 	
+	
+	
+	
+	
 
 </script>
 
-<div id="review_container" >
+	<div id="review_container" >
         <div id="review_desc" class="containers">
         	<p style="font-weight: bold; font-size: 13pt;">PRODUCT REVIEW<p>
             <ul style="font-size: 10pt;">
@@ -207,77 +230,72 @@
 	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(${requestScope.replyCnt})</span>
 	        </div>
 		</div>
+        <c:if test="${ not empty requestScope.reviewList}">
+			<div class="container_boxes">
+				<div id="rate_title">
+		           <select id="select_category" name="select_category">
+		               <option value ="recent">최신순</option>
+		               <option value ="star">별점순</option>
+		               <option value ="like">좋아요순</option>
+		           </select>
+		           
+		           <span id="avgStar">${requestScope.avg_star_shape}</span>
+		           <div id="avgStar_text">
+		               <span id="star_avgRate">${requestScope.avg_star}</span>
+		               <span id="star_full">/ 5.0</span>
+		           </div>
+		      	</div>
+       		
+       			<c:forEach var="reviewList" items="${requestScope.reviewList}">
+			        <div class="each_box">
+			            <div class="rate_content_1">
+			                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">${reviewList.mvo.userid}</div>
+			                <div style="font-size: 9pt;">${reviewList.uploaddate}</div>
+			                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">${reviewList.star}</div>
+			                <div class="content_desc" style="font-size: 10pt;">${reviewList.content}</div>
+			              
+			            </div>
+			            <c:if test="${reviewList.img != 'noimage.png'}">
+				            <div class="rate_content_2">
+			                	<img src="../images/reviewImg/${reviewList.img}" style="width: 80px;">
+				            </div>
+			            </c:if>
+			            <div class="toggle_box">
+			            	<c:if test="${reviewList.reply == '없음'}">
+					            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
+									댓글(0)
+								</div>
+							</c:if>
+							<c:if test="${reviewList.reply != '없음'}">
+					            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
+									댓글(1)
+								</div>
+								<div class="toggle_content collapse" id="reply_${reviewList.reviewid}">
+									<div style="font-weight: bold;">Gentle Monster</div>
+									<div style="font-size: 10pt; margin-top: 10px;">${reviewList.reply}</div>
+								</div>
+							</c:if>
+							
+						</div>
+			        </div>
+			        <div style="height: 30px;"></div>
+			        <hr>
+	        	</c:forEach>
+        	</div>
+        </c:if> 
         
-		<div class="container_boxes">
-			<div id="rate_title">
-	           <select id="select_category" name="select_category">
-	               <option value ="recent">최신순</option>
-	               <option value ="star">별점순</option>
-	               <option value ="like">좋아요순</option>
-	           </select>
-	           
-	           <span id="avgStar">★★★★☆</span>
-	           <div id="avgStar_text">
-	               <span id="star_avgRate">4.0</span>
-	               <span id="star_full">/ 5.0</span>
-	           </div>
-	      	</div>
-       	
-	        <div class="each_box">
-	            <div class="rate_content_1">
-	                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">gentlemons***</div>
-	                <div style="font-size: 9pt;">2022-09-13</div>
-	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
-	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	                
-	            </div>
-	            <div class="rate_content_2">
-	                <img src="../images/le_iv1_1.jpg" style="width: 80px;">
-	            </div>
-	            <div class="toggle_box">
-		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_1">
-						댓글(0)
-					</div>
-				</div>
-	        </div>
-	        <hr>
-	        
-	        <div class="each_box">
-	            <div class="rate_content_1">
-	                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">gentlemons***</div>
-	                <div style="font-size: 9pt;">2022-09-13</div>
-	                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">★★★★☆</div>
-	                <div class="content_desc" style="font-size: 10pt;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</div>
-	            </div>
-	            <div class="rate_content_2">
-	                <img src="../images/le_iv1_1.jpg" type="button" style="width: 80px;" data-toggle="modal" data-target="#img_modal">
-	                <div class="modal fade" id="img_modal">
-			        	<div class="modal-dialog modals-fullsize_img">
-			        		<div class="modal-content modals-fullsize">
-			                	<img src="le_iv1_1.jpg" type="button" style="width: 500px;">
-			         		</div>
-			         	</div>
-			         </div>
-	            </div>
-	            <div class="toggle_box">
-		            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_2">
-						댓글(1)
-					</div>
-					<div class="toggle_content collapse" id="reply_2">
-						<div style="font-weight: bold;">Gentle Monster</div>
-						<div style="font-size: 10pt; margin-top: 10px;">리뷰 감사 포인트 +500 적립해드렸습니다.</div>
-					</div>
-				</div>
-				<div class="modify">
-					<button type="button" class="btn btn-light btn_modify" onclick="go_rev_modify()">수정</button>
-				</div>
-	        </div>
-	        <hr>
-	        
-	        
-	        
-        </div>
+        <c:if test="${ empty requestScope.reviewList}">
+        	<div class="container_boxes">
+				<div id="no_review">
+					<div style="padding-top: 50px; text-decoration: underline;">작성된 리뷰가 없습니다.</div>
+           			<button type="button" class="btn btn-dark" id="go_review">리뷰작성 하러가기</button>
+      			</div>
+        		<hr>
+       		</div>
+        </c:if>
+        
         <div style="clear: both;"></div>
+        
     </div>
     <div id="empty"></div>
 

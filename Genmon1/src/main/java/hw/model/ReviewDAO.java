@@ -14,7 +14,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import common.model.ChildProductVO;
 import common.model.MemberVO;
+import common.model.ParentProductVO;
 import common.model.ReviewVO;
 
 public class ReviewDAO implements InterReviewDAO {
@@ -51,6 +53,28 @@ public class ReviewDAO implements InterReviewDAO {
 		}
 	}
 	
+	
+	public String star_shape(String star) {
+		switch (star) {
+		case "1":
+			star = "★☆☆☆☆";
+			break;
+		case "2":
+			star = "★★☆☆☆";
+			break;
+		case "3":
+			star = "★★★☆☆";
+			break;
+		case "4":
+			star = "★★★★☆";
+			break;
+		case "5":
+			star = "★★★★★";
+			break;
+		}
+		
+		return star;
+	}
 	
 	
 	// 리뷰보기 페이지에서 상품정보 알아오기 ----------------------------------------------------------------
@@ -98,10 +122,33 @@ public class ReviewDAO implements InterReviewDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				
 				prodMap.put("replyCnt", rs.getString(1));
+			}
+			
+			// 리뷰 평균 별점 알아오기
+			sql = "select avg(R.star) as avg_star\n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"JOIN tbl_order_test O\n"+
+					"ON D.fk_orderid  = O.pk_orderid\n"+
+					"JOIN tbl_all_product_test A\n"+
+					"ON D.fk_pnum = A.pnum\n"+
+					"where A.pnum = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				prodMap.put("avg_star", rs.getString(1));
+				
+				String avg_star_cut = rs.getString(1).substring(0, 1);
+				prodMap.put("avg_star_shape", star_shape(avg_star_cut));
 				
 			}
+			
 			
 		} finally {
 			close();
@@ -129,7 +176,7 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			String sql = "select R.content, R.img, R.star,\n"+
 						"       to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, \n"+
-						"       substr(O.fk_userid, 1, LENGTH(O.fk_userid)-2) || LPAD('*', LENGTH(O.fk_userid)-2, '*') as fk_userid\n"+
+						"       substr(O.fk_userid, 1, LENGTH(O.fk_userid)-2) || LPAD('*', LENGTH(O.fk_userid)-2, '*') as fk_userid, R.reviewid\n"+
 						"from tbl_review_test R\n"+
 						"JOIN tbl_order_detail_test D\n"+
 						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
@@ -147,20 +194,21 @@ public class ReviewDAO implements InterReviewDAO {
 			while(rs.next()) {
 				
 	            String content = rs.getString(1);
-	            String img = rs.getString(1);
+	            String img = rs.getString(2);
 	            String star = rs.getString(3);
 	            String uploaddate = rs.getString(4);
 	            String reply = rs.getString(5);
 	            String fk_userid = rs.getString(6);
-	            
+	            String reviewid = rs.getString(7);
 	            
 	            ReviewVO rvo = new ReviewVO();
 	            
 	            rvo.setContent(content);
 	            rvo.setImg(img);
 	            rvo.setReply(reply);
-	            rvo.setStar(star);
+	            rvo.setStar(star_shape(star));
 	            rvo.setUploaddate(uploaddate);
+	            rvo.setReviewid(reviewid);
 	            
 	            MemberVO mvo = new MemberVO();
 	            
@@ -168,10 +216,8 @@ public class ReviewDAO implements InterReviewDAO {
 	            
 	            rvo.setMvo(mvo);
 	            
-	            
 	            reviewList.add(rvo);
 	            
-				
 			}
 			
 		} finally {
@@ -181,6 +227,66 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return reviewList;
 	} // end of public List<ReviewVO> getReviews(String pnum) {} -----------------------------------
+
+	
+	
+	
+	
+	
+	// 로그인된 회원의 작성가능 리뷰 상품 목록 얻어오기 ---------------------------------------------------------
+	@Override
+	public List<ChildProductVO> getUnwrittenReviews(String userid) throws SQLException {
+		
+		// System.out.println("dao 옴");
+		
+		List<ChildProductVO> canReviewProdList = new ArrayList<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = "select D.fk_pnum, A.pimage1, P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname\n"+
+						 "from tbl_order_detail_test D\n"+
+						 "JOIN tbl_order_test O\n"+
+						 "ON O.pk_orderid = D.fk_orderid\n"+
+						 "JOIN tbl_all_product_test A\n"+
+						 "ON D.fk_pnum = A.pnum\n"+
+						 "JOIN tbl_product_test P\n"+
+						 "ON A.fk_pid = P.pid\n"+
+						 "where O.fk_userid = ? and D.order_status = '5'";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			// System.out.println("sql 돌림");
+			
+			while(rs.next()) {
+	            String fk_pnum = rs.getString(1);
+	            String pimage1 = rs.getString(2);
+	            String pname = rs.getString(3);
+	            
+	            ChildProductVO cpvo = new ChildProductVO();
+	            
+	            cpvo.setPimage1(pimage1);
+	            cpvo.setPnum(Integer.parseInt(fk_pnum));
+	            
+	            ParentProductVO ppvo = new ParentProductVO();
+	            
+	            ppvo.setPname(pname);
+	            cpvo.setParentProvo(ppvo);
+	            
+	            canReviewProdList.add(cpvo);
+	            
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return canReviewProdList;
+	} // end of public List<ChildProductVO> getUnwrittenReviews(String userid) {} ------------------
 
 	
 	

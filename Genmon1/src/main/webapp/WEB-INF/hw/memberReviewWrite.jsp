@@ -144,10 +144,55 @@ div#reviewTbl {
 		    };
 		}); // end of $('#rev_content').keyup() ---------------------------------
 		
+		
+		
+		
+		let pnum = $("#rev_category option:selected").val();
+		
+		
+		
+		
+		$("#rev_category").change(function(){
+			
+			const pnum = $("#rev_category option:selected").val();
+			
+			$("#pnum").val(pnum);
+			
+			<%--
+				pimage1 = $("#rev_category option:selected").val();
+				pimage1 = encodeURIComponent(pimage1);
+				$("#prodImg").src = "../images/common/products/"+pimage1;
+			--%>
+			
+		});
+		
+		
 	}); // end of $(document).ready() ---------------
 	
 	
-
+	function go_revWrite() { // --------------------------------------------------
+		
+		const rev_content = $("textarea#rev_content").val().trim();
+	    
+	    if(rev_content == "") {
+	    	alert("리뷰내용 입력");
+	    	$("textarea#rev_content").val("");
+	    	$("textarea#rev_content").focus();
+	    	return; // goLogin() 함수 종료
+	    }
+	    
+	    if($(":radio[name='reviewStar']:checked").length<1){
+	    	alert("별점 선택");
+	    	return;
+	    }
+		
+		
+		const frm = document.reviewFrm; 
+	    frm.action = "<%= ctxPath%>/member/reviewInsert.sun";
+	    frm.method = "post";
+	    frm.submit();
+		
+	} // end of function go_revWrite() -------------------------------------------
 	
 	
 </script>
@@ -160,9 +205,9 @@ div#reviewTbl {
         	<div style="float: left;">
 	            <select id="rev_category" name="rev_category">
 	                <option value ="select_prod">제품선택</option>
-	                <option value ="prod_1">제품1</option>
-	                <option value ="prod_2">제품2</option>
-	                <option value ="prod_3">제품3</option>
+	                <c:forEach var="canReviewProdList" items="${requestScope.canReviewProdList}">
+	                	<option value = '${canReviewProdList.pnum}'>${canReviewProdList.parentProvo.pname}</option>
+	                </c:forEach>
 	            </select>
 	        
 	            <fieldset > <!-- 필드셋은 여러 컨트롤과 레이블을 묶을 때 사용 -->
@@ -178,10 +223,10 @@ div#reviewTbl {
 	                    for="rate5">★</label>
 	            </fieldset>
 	            <p>아이디</p>
-	            <input type="text" id="userid" name="userid" value="userid" />
+	            <input type="text" id="userid" name="userid" value="${requestScope.userid}" />
             </div>
             <div id="review_prod">
-            	<img src="le_iv1_1.jpg" style="width:200px; height:auto;">
+            	<img src="" id="prodImg" style="width:200px; height:auto;">
             </div>
             <div>
                 <textarea class="col-auto form-control" type="text" id="rev_content"
@@ -195,13 +240,13 @@ div#reviewTbl {
             </div>
             <p>파일첨부</p>
             <input type="file" name="photo" id="photo" />
+            
+            <input type="hidden" id="pnum" name="pnum" />
         </form>
     </div>
     <div id="buttons">
-
-        <button type="button" id="btn_write" class="btn btn-secondary">작성</button>
+        <button type="button" id="btn_write" class="btn btn-secondary" onClick="go_revWrite()">작성</button>
         <button type="button" id="btn_cancel" class="btn btn-light">취소</button>
-
     </div>
 
 <%-- 인덱스 끝 --%>
