@@ -141,13 +141,6 @@
 		
 		
 		
-		// 로그인화면에서 신규가입 버튼을 누르면
-        $("button#btn_gojoin").click(function(){
-        	location.href="<%= ctxPath%>/join.sun";
-			
-		}); // end of $("button#btn_logout").click() --------------
-        
-		
 		
 		// 비회원 구매진행 버튼 클릭
 		$("button#btn_notmember").click(function(){
@@ -244,12 +237,8 @@
         	<button class="login_btn" type="button" id="btn_notmember" style="margin-top: 15px;" >구매진행</button>
         	
         	
-        	<div class="titles" style="margin: 10% 0 3% 8%;">회원가입</div>
-        	<div style="width: 72%; margin-left: 8%;" class="fontSize_small">회원가입을 하시면, 주문 조회와 개인정보 관리 및 위시리스트 확인 등 다양한 혜택을 누리실 수 있습니다.</div>
-        	<button class="login_btn" type="button" id="btn_gojoin" style="margin-top: 15px;">신규가입</button>
-        	
-        	<input type="text" name="all_qty" id="all_qty" />
-			<input type="text" name="all_pnum" id="all_pnum" />
+        	<input type="hidden" name="all_qty" id="all_qty" />
+			<input type="hidden" name="all_pnum" id="all_pnum" />
         </div>
     </form>    	
     
