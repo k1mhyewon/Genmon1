@@ -121,7 +121,7 @@ public class AdminProduct extends AbstractController {
 					   
 					if( productList.size() > 0) { // memberList는 dao 에서 초기값을 new 해왓기때문에 null 일수없다
 						for(ChildProductVO cpvo : productList) { 
-							System.out.println(cpvo.getParentProvo().getPname() + "  "+cpvo.getColorName());
+							System.out.println(cpvo.getParentProvo().getPname()+ "  "+cpvo.getColorName()+ "  "+cpvo.getPsales());
 						}
 					}
 					// == 확인용 끝== //

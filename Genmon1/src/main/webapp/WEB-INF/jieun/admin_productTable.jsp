@@ -350,11 +350,11 @@ $(document).ready(function () {
 		              />
     			</td>
     			
-    			<td><p class="fw-bold mb-1">${cpvo.parentProvo.pname}</p></td>
+    			<td><p class="fw-bold mb-1">${cpvo.parentProvo.pname}${cpvo.pcolor}</p></td>
     			<td><p class="fw-bold mb-1">${cpvo.pnum}</p></td>
     			<td>${cpvo.pqty}</td>
     			<td>${cpvo.parentProvo.price}</td>
-    			<td><%-- ${cpvo.psales} --%></td>
+    			<td>${cpvo.psales}</td>
     			<td><%-- ${cpvo.pstatus} --%></td> <%-- 재고량(주문수)이 없다면 판매중단, 재고량이 있다면 판매중, 출시일이 오늘 날짜보다 늦다면 웨이팅. --%>
 				<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
 				<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>

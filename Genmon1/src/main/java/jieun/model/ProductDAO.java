@@ -110,29 +110,54 @@ public class ProductDAO implements InterProductDAO {
 			 int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setInt(1, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
 			pstmt.setInt(2, (currentShowPageNo*sizePerPage) ); // 공식
-			
-			
+
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+
+				String pname = rs.getString(1);
+				int price = rs.getInt(2);
+				String pcolor = rs.getString(3);
+				String pimage1 = rs.getString(4);
+				int salePcnt = rs.getInt(5);
+				int pqty = rs.getInt(6);
+				String preleasedate = rs.getString(7);
+				int pnum = rs.getInt(8);
 				
 				ChildProductVO cpvo = new ChildProductVO();
 				ParentProductVO ppvo = new ParentProductVO();
-				ppvo.setPname(rs.getString(1));
-				ppvo.setPrice(rs.getInt(2));
+				
+				ppvo.setPname(pname);
+				ppvo.setPrice(price);
 //				ppvo.setPcontent(3);
 				
 				cpvo.setParentProvo(ppvo);
-				cpvo.setPcolor(rs.getString(3));
-				cpvo.setPimage1(rs.getString(4));
-				cpvo.setSalePcnt(rs.getInt(5));
-				cpvo.setPqty(rs.getInt(6));
-				cpvo.setPreleasedate(rs.getString(7));
-				cpvo.setPnum(rs.getInt(8));
+				cpvo.setPcolor(pcolor);
+				cpvo.setPimage1(pimage1);
+				cpvo.setSalePcnt(salePcnt);
+				cpvo.setPqty(pqty);
+				cpvo.setPreleasedate(preleasedate);
+				cpvo.setPnum(pnum);
 				
+				
+				// 제품 판매량 알아오기 
+				sql = "select count(pk_order_detail_id) as psales  "
+					+ "from tbl_all_product_test A left join tbl_order_detail_test B "
+					+ "on a.pnum = b.fk_pnum  "
+					+ "where a.pnum = ?  "
+					+ "group by a.pnum ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pnum); // 가져온 pnum 판매량
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next(); // 결과값 무조건 있음
+				
+				cpvo.setPsales(rs.getInt(1)); // 0 이상 
+//				
 				productList.add(cpvo);
 			}// end of while(rs.next()) {}------------------
 			

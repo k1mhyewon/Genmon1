@@ -15,8 +15,10 @@ public class ChildProductVO {
 	// private int colAmount;	            // 같은 컬러 갯수 구하기 
 	
 	
-	////////////////////////////
+	private int psales;					// 판매량 
 	
+	////////////////////////////
+
 	private ParentProductVO parentProvo ;
 	
 	////////////////////////////
@@ -36,6 +38,16 @@ public class ChildProductVO {
 		this.preleasedate = preleasedate;
 	}
 
+	
+	public int getPsales() {
+		return psales;
+	}
+
+	public void setPsales(int psales) {
+		this.psales = psales;
+	}
+	
+	
 	public int getPnum() {
 		return pnum;
 	}
