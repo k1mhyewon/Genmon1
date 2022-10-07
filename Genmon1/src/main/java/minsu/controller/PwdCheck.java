@@ -68,7 +68,7 @@ public class PwdCheck extends AbstractController {
 				
 				
 				// super.setRedirect(false);
-				super.setViewPage("/WEB-INF/minsu/pwdChange.jsp");
+				super.setViewPage("/WEB-INF/minsu/pwdCheck.jsp");
 				
 				
 			}
