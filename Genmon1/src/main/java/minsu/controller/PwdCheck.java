@@ -22,13 +22,6 @@ public class PwdCheck extends AbstractController {
 		HttpSession session = request.getSession();
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 		
-		String pwd = loginuser.getPwd();
-		
-		System.out.println("~~~ 확인용!!! :pwd" + pwd);
-		
-		
-		
-		
 		if(!super.checkLogin(request)) {
 			// 로그인 안했으면 
 		    String message = "로그인을 하세요.!!";
@@ -57,8 +50,11 @@ public class PwdCheck extends AbstractController {
 			}
 			else {
 				
-				/* String pwd = request.getParameter("pwd"); */
+				String pwd = request.getParameter("pwd");
 				String userid = request.getParameter("userid");
+				
+				System.out.println("확인용 pwd :"+ pwd + "userid: " + userid  );
+			
 				
 				Map<String, String> paraMap = new HashMap<>();
 				paraMap.put("pwd", pwd);
@@ -68,23 +64,11 @@ public class PwdCheck extends AbstractController {
 				InterPersonDAO pdao = new PersonDAO();
 				boolean ispasswdCheck = pdao.ispasswdCheck(paraMap);
 				
-				System.out.println("확인용 : ispasswdCheck "  + ispasswdCheck);
+				request.setAttribute("ispasswdCheck", ispasswdCheck);
 				
 				
-				
-				
-				
-				
-				
-				
-				try {
-					// super.setRedirect(false);
-					super.setViewPage("/WEB-INF/minsu/pwdChange.jsp");
-					} catch(Exception e) {
-						e.printStackTrace();
-						super.setRedirect(true);
-						super.setViewPage(request.getContextPath()+"/error.sun");
-					}
+				// super.setRedirect(false);
+				super.setViewPage("/WEB-INF/minsu/pwdCheck.jsp");
 				
 				
 			}

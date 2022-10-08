@@ -7,7 +7,6 @@
 <% String ctxPath = request.getContextPath(); %>
     
 <jsp:include page="../common/header.jsp" />
-<jsp:include page="../common/myinfo_mainMenu.jsp" />
 
 <style>
     div#myPageNav{
@@ -201,12 +200,11 @@
 				}
 			} // end of for
 			
-			console.log("allkey"+allkey);
-			console.log("allqty"+allqty);
+			//console.log("allkey"+allkey);
+			//console.log("allqty"+allqty);
 			
 			$("#all_pnum").val(allkey);
-			$("#all_qty").val(allqty);
-			
+			$("#all_qty").val(allqty); 
 			
 			
 			// ajax로 띄우기
@@ -226,7 +224,7 @@
 				    	
 				    	$.each(json, function(index, item){
 									html+= "<div class='col'><label><input type='checkbox' class='chk_wishprod' name='sun'/><div class='card_body mx-1 my-3'>"+
-														"<img src='../images/minji/전체보기/"+item.image+"' class='product_img' /><br>"+
+														"<img src='../images/common/products/"+item.image+"' class='product_img' /><br>"+
 													"<div class='productDesc'>"+
 														"<p class='productName' style='font-weight: bold;'>"+item.pname+" "+item.colname+"</p>"+
 														"<p class='productPrice'>"+item.price.toLocaleString("ko-KR")+" 원</p>"+
@@ -334,7 +332,7 @@
 		
 		if(!userid){
 			
-			ocation.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
 			
 		}
 		else{
@@ -346,20 +344,36 @@
 	} // end of go_purchase() ---------------------------------
 	
 	
-	// 한개 상품 장바구니 DB에서 삭제하는 함수
+	// 한개 상품 장바구니 DB에서 // 또는 세션스토리지에서 삭제하는 함수
 	function deleteOne(pnum){
-		$.ajax({
-			url:"<%= ctxPath%>/order/cartDeleteOne.sun?pnum="+pnum ,
-		//	type: "GET",  
-		    dataType:"TEXT",
-		    success:function(json) {
-		    	window.location.reload(true);
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		
+		const loginuser = '${sessionScope.loginuser.userid}' ;
+		
+		// 비회원이라면 세션스토리지에서 삭제
+		if(loginuser == ""){ 
+			
+			if(sessionStorage.getItem("Key"+pnum)){
+				sessionStorage.removeItem('Key'+pnum);
+				sessionStorage.removeItem('Qty'+pnum);
 			}
-		});
-	} // end of 한개 상품 장바구니  DB에서 삭제하는 함수
+			
+			window.location.reload(true);
+			
+		} else { // 회원이라면 DB에서 삭제
+			$.ajax({
+				url:"<%= ctxPath%>/order/cartDeleteOne.sun?pnum="+pnum ,
+			//	type: "GET",  
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	window.location.reload(true);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}
+		
+	} // end of 한개 상품 장바구니 DB에서 // 또는 세션스토리지에서 삭제하는 함수
 	
 	
 	// 전체주문 하기 함수
@@ -376,8 +390,8 @@
 				all_pnum += comma + $(item).parent().find(".pnum").val() ;
 			});
 			
-			// console.log(all_qty);
-			// console.log(all_pnum);
+			//console.log(all_qty);
+			//console.log(all_pnum);
 			
 			$("input[name='all_qty']").val(all_qty);
 			$("input[name='all_pnum']").val(all_pnum);
@@ -410,8 +424,8 @@
 				all_pnum += comma + $(item).parent().find(".pnum").val() ;
 			});
 			
-			// console.log(all_qty);
-			// console.log(all_pnum);
+			//console.log(all_qty);
+			//console.log(all_pnum);
 			
 			$("input[name='all_qty']").val(all_qty);
 			$("input[name='all_pnum']").val(all_pnum);
@@ -451,7 +465,7 @@
 						<label>
 							<input type="checkbox" class="chk_wishprod" name='sun'/>
 							<div class="card_body mx-1 my-3 ">
-								<img src="../images/minji/전체보기/${cvo.allProdvo.pimage1}" class="product_img">
+								<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
 								<div class="productDesc">
 									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
@@ -461,7 +475,7 @@
 								  <input  class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
 								  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
 								</div>
-								
+								<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
 								<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 								<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
 							</div>

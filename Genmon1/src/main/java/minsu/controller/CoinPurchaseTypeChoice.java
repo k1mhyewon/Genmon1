@@ -12,7 +12,9 @@ public class CoinPurchaseTypeChoice extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+
 		// 코인충전을 하기위한 전제조건은 먼저 로그인을 해야한다.
+		// 로그인유무처리는 공통된 부분이기 때문에 부모클래스인 AbstractController에 로그인처리유무 매소드 생성한 후
 		if(super.checkLogin(request)) {
 			// 로그인을 했으면 
 			

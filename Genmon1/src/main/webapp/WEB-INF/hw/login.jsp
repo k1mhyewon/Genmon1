@@ -128,8 +128,8 @@
 				}
 			} // end of for
 			
-			console.log("allkey"+allkey);
-			console.log("allqty"+allqty); // 나옴
+			// console.log("allkey"+allkey);
+			// console.log("allqty"+allqty); // 나옴
 			
 			$("#all_pnum").val(allkey);
 			$("#all_qty").val(allqty);

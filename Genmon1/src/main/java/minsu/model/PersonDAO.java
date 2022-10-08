@@ -130,8 +130,7 @@ public class PersonDAO implements InterPersonDAO {
 	
 	// === 회원의 코인 및 포인트 변경하기 === 
 		@Override
-		
-	   public int coinUpdate(Map<String, String> paraMap) throws SQLException {
+		 public int coinUpdate(Map<String, String> paraMap) throws SQLException {
 
 	        int result = 0;
 	        
@@ -139,7 +138,7 @@ public class PersonDAO implements InterPersonDAO {
 	          conn = ds.getConnection();
 	          
 	          String sql = " update tbl_member_test set coin = coin + ? , point = point + ? "
-	                     + " where userid = ? ";
+	                    + " where userid = ? ";
 	          
 	          pstmt = conn.prepareStatement(sql);
 	          
@@ -157,39 +156,14 @@ public class PersonDAO implements InterPersonDAO {
 			return result;
 		}// end of public int coinUpdate(Map<String, String> paraMap) throws SQLException-------
 
+
 		
-		/*
-		 * // === 주소를 삭제하는 메소드 생성하기 === //
-		 * 
-		 * @Override public int adrDelete(Map<String, String> paraMap) { int result = 0;
-		 * 
-		 * try { conn = ds.getConnection();
-		 * 
-		 * String sql =
-		 * " update tbl_member_test set coin = coin + ? , point = point + ? " +
-		 * " where userid = ? ";
-		 * 
-		 * pstmt = conn.prepareStatement(sql);
-		 * 
-		 * pstmt.setInt(1, Integer.parseInt(paraMap.get("coinmoney")) ); pstmt.setInt(2,
-		 * (int)(Integer.parseInt(paraMap.get("coinmoney")) * 0.01) ); // 포인트. 금액의 1%==>
-		 * ___.0으로 나오는 double타입을 int로 바꿔 소수부를 절삭 // 예) 300000 *0.01 ==> (int)3000.0 ==>
-		 * 3000 pstmt.setString(3, paraMap.get("userid"));
-		 * 
-		 * result = pstmt.executeUpdate();
-		 * 
-		 * } finally { close(); }
-		 * 
-		 * return result; } // end of public int adrDelete(Map<String, String> paraMap)
-		 * --------------------
-		 * 
-		 */
 		
 		// === 비밀번호가 맞는지 확인하는 메소드 === // 
 		@Override
-		public boolean ispwdCheck(Map<String, String> paraMap)throws SQLException {
+		public boolean ispasswdCheck(Map<String, String> paraMap)throws SQLException {
 			
-			boolean ispwdCheck = false;
+			boolean ispasswdCheck = false;
 			
 			try {
 				
@@ -205,12 +179,12 @@ public class PersonDAO implements InterPersonDAO {
 				
 				rs = pstmt.executeQuery();
 				
-				ispwdCheck = rs.next();
-					
+				ispasswdCheck = rs.next();
+
 			} finally {
 				close();
 			}
-			return ispwdCheck;
+			return ispasswdCheck;
 		} // end of public boolean pwdCheck(Map<String, String> paraMap)throws SQLException  -----------------------------------------
 
 
@@ -270,38 +244,7 @@ public class PersonDAO implements InterPersonDAO {
 			} // end of public int adrDelete(Map<String, String> paraMap)throws SQLException
 
 			
-			// === 유저의 비밀번호가 맞는지 확인하는 매소드 === 
-			@Override
-			public boolean ispasswdCheck(Map<String, String> paraMap) throws SQLException {
-				
-				boolean ispasswdCheck = false;
-				
-				try {
-					
-					conn = ds.getConnection();
-					
-					String sql = " select userid "+
-								 " from tbl_member_test "+
-								 " where userid = ? and pwd= ? ";
-
-				         pstmt = conn.prepareStatement(sql);
-				         pstmt.setString(1, paraMap.get("userid"));
-				         pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
-				         
-				         rs = pstmt.executeQuery();
-				         
-				         ispasswdCheck = rs.next();
-			         
-			      } finally {
-			         close();
-			      }
-			      
-			      return ispasswdCheck;   
-				
-				
-			}// end of public int ispasswdCheck(Map<String, String> paraMap) throws SQLException
-			
-			
+		
 	
 	
 
