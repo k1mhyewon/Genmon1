@@ -25,4 +25,12 @@ public interface InterOrderDAO {
 	// 회원 아이디 가지고 주문내역 리스트로 보여주기
 	List<HashMap<String,String>> selectOrderList(String userid) throws SQLException;
 
+	// 넘어온 주문번호로 주문 조회하기 (회원용)
+	OrderVO selectOneOrder(long orderid) throws SQLException;
+	
+	// 넘어온 주문번호로 !!! 주문 상세 조회하기 !!!  (회원용)
+	List<OrderDetailVO> selectOneOrderDetail(long orderid) throws SQLException;
+
+	
+
 }

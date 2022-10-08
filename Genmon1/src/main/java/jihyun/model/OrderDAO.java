@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,6 +16,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import common.model.CartVO;
+import common.model.OrderDetailVO;
 import common.model.OrderVO;
 import common.util.security.AES256;
 import common.util.security.SecretMyKey;
@@ -292,6 +292,91 @@ int result =0;
 		}
 		return mapList;
 	} // 회원 아이디 가지고 주문내역 리스트로 보여주기
+
+
+	// 넘어온 주문번호로 주문 조회하기 (회원용)
+	@Override
+	public OrderVO selectOneOrder(long orderid) throws SQLException {
+		
+		OrderVO ordervo = null;
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDERID, FK_USERID, EMAIL, NAME, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, MOBILE, ORDERDATE\n"+
+					"from tbl_order_test\n"+
+					"where PK_ORDERID = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ordervo = new OrderVO();
+				ordervo.setPk_orderid(rs.getString(1));
+				ordervo.setEmail( aes.decrypt(rs.getString(3)) );
+				ordervo.setName(rs.getString(4));
+				ordervo.setPostcode(rs.getString(5));
+				ordervo.setAddress(rs.getString(6));
+				ordervo.setDetailaddress(rs.getString(7));
+				ordervo.setExtraaddress(rs.getString(8));
+				ordervo.setMobile( aes.decrypt(rs.getString(9)));
+				ordervo.setOrderDate(rs.getString(10));
+				ordervo.setFk_userid(rs.getString(2));
+
+			}
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return ordervo;
+	} // end of  넘어온 주문번호로 주문 조회하기 (회원용)
+	
+	
+	
+	
+	// 넘어온 주문번호로 !!! 주문 상세 !!! 조회하기  (회원용)
+	@Override
+	public List<OrderDetailVO> selectOneOrderDetail(long orderid) throws SQLException {
+		
+		List<OrderDetailVO> orddtailList = new ArrayList<>() ;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE\n"+
+					"from tbl_order_detail_test\n"+
+					"where FK_ORDERID = ? \n"+
+					"order by PK_ORDER_DETAIL_ID";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrderDetailVO orddtailvo = new OrderDetailVO();
+				
+				orddtailvo.setPk_order_detail_id(rs.getString(1));
+				orddtailvo.setFk_pnum(rs.getInt(2));
+				orddtailvo.setOrder_status(rs.getInt(3));
+				orddtailvo.setOrder_price(rs.getInt(4));
+				
+				orddtailList.add(orddtailvo);
+			}
+			
+		}  finally {
+			close();
+		}
+		
+		return orddtailList ;
+	}// end of 넘어온 주문번호로 !!! 주문 상세 !!!  조회하기  (회원용) 
+
+
+	
 	
 	
 	

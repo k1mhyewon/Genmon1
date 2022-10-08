@@ -102,7 +102,7 @@
 						<td>주문수량 : ${map.totalqty }<br>${map.orderdate }</td>
 					</tr>
 					<tr>
-						<td  style="vertical-align: bottom;"><button type="button" onclick="javascript:location.href='<%=ctxPath %>/myinfo/orderDetail.sun?orderid=${map.orderid }'">주문 상세보기</button></td>
+						<td  style="vertical-align: bottom;"><button type="button" onclick="javascript:location.href='<%=ctxPath %>/myinfo/orderDetail.sun?orderid=${map.orderid }&totalqty=${map.totalqty }'">주문 상세보기</button></td>
 					</tr>
 				</table>	
 			</div>
