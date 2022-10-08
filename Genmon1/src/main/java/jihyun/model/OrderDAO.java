@@ -16,8 +16,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import common.model.CartVO;
+import common.model.ChildProductVO;
 import common.model.OrderDetailVO;
 import common.model.OrderVO;
+import common.model.ParentProductVO;
 import common.util.security.AES256;
 import common.util.security.SecretMyKey;
 
@@ -201,7 +203,7 @@ int result =0;
 			conn = ds.getConnection();
 			
 			// 주문 정보 알아오기
-			String sql = "select PK_ORDERID, STATUS, to_char(ORDERDATE)  \n"+
+			String sql = "select PK_ORDERID, purchase_status, to_char(ORDERDATE)  \n"+
 					"from\n"+
 					"    (select PK_ORDERID, ORDERDATE\n"+
 					"    from tbl_order_test \n"+
@@ -218,12 +220,12 @@ int result =0;
 			while(rs.next()) {
 				
 				String orderid = rs.getString(1);
-				String status = String.valueOf(rs.getInt(2)) ;
+				String purchase_status = String.valueOf(rs.getInt(2)) ;
 				String orderdate = rs.getString(3);
 				
 				HashMap<String, String> map = new HashMap<>();
 				map.put("orderid", orderid);
-				map.put("status", status );
+				map.put("purchase_status", purchase_status );
 				map.put("orderdate", orderdate);
 				
 				/*
@@ -302,7 +304,7 @@ int result =0;
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select PK_ORDERID, FK_USERID, EMAIL, NAME, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, MOBILE, ORDERDATE\n"+
+			String sql = "select PK_ORDERID, FK_USERID, EMAIL, NAME, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, MOBILE, to_char(ORDERDATE) \n"+
 					"from tbl_order_test\n"+
 					"where PK_ORDERID = ? ";
 			
@@ -348,9 +350,22 @@ int result =0;
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE\n"+
-					"from tbl_order_detail_test\n"+
-					"where FK_ORDERID = ? \n"+
+			String sql = "select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE, PNAME, PRICE, FK_PID, PCOLOR, PIMAGE1, SALEPCNT, PQTY\n"+
+					"from\n"+
+					"(\n"+
+					"    select PNAME, PRICE, PNUM, FK_PID, PCOLOR, PIMAGE1, SALEPCNT, PQTY\n"+
+					"    from tbl_product_test\n"+
+					"    join\n"+
+					"    tbl_all_product_test\n"+
+					"    on pid = fk_pid\n"+
+					")\n"+
+					"join\n"+
+					"(\n"+
+					"    select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE\n"+
+					"    from tbl_order_detail_test\n"+
+					"    where FK_ORDERID = ?\n"+
+					")\n"+
+					"on pnum = fk_pnum\n"+
 					"order by PK_ORDER_DETAIL_ID";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -364,6 +379,21 @@ int result =0;
 				orddtailvo.setFk_pnum(rs.getInt(2));
 				orddtailvo.setOrder_status(rs.getInt(3));
 				orddtailvo.setOrder_price(rs.getInt(4));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString(5));
+				ppvo.setPrice(rs.getInt(6));
+				
+				ChildProductVO cpvo = new ChildProductVO();
+				cpvo.setParentProvo(ppvo);
+				
+				cpvo.setFk_pid(rs.getString(7));
+				cpvo.setPcolor(rs.getString(8));
+				cpvo.setPimage1(rs.getString(9));
+				cpvo.setSalePcnt(rs.getInt(10));
+				cpvo.setPqty(rs.getInt(11));
+				
+				orddtailvo.setCpvo(cpvo);
 				
 				orddtailList.add(orddtailvo);
 			}

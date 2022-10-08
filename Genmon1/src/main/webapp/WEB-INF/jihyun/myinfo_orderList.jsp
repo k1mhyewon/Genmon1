@@ -94,8 +94,8 @@
 					<tr>
 						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/common/products/${map.image }"  class="image"></td>
 						<td style="vertical-align: middle;"><span class="boldtxt2">${map.orderid }</span><br>
-							<c:if test="${map.status eq '1'}">결제완료</c:if>
-							<c:if test="${map.status eq '0'}">입금대기중</c:if>
+							<c:if test="${map.purchase_status eq '1'}">결제완료</c:if>
+							<c:if test="${map.purchase_status eq '0'}">입금대기중</c:if>
 						</td>
 					</tr>
 					<tr>

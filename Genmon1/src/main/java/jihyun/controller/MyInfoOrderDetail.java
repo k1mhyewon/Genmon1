@@ -34,8 +34,8 @@ public class MyInfoOrderDetail extends AbstractController {
 				
 				// 주문조회 먼저하자... 조인으로 다가져올지... 따로 따로 가져올지... 일단 따로
 				OrderVO odervo = odao.selectOneOrder(Long.valueOf(orderid));
-				
-				if(loginuser.getUserid() == odervo.getFk_userid()) { // 로그인 한 회원의 주문일때
+				 
+				if(loginuser.getUserid().equals(odervo.getFk_userid()) ) { // 로그인 한 회원의 주문일때
 					
 					// 주문번호로 주문상세 전부 가져오기
 					List<OrderDetailVO> orddtailList = odao.selectOneOrderDetail(Long.valueOf(orderid) );
@@ -72,6 +72,12 @@ public class MyInfoOrderDetail extends AbstractController {
 			}
 			
 			
+		} else {// 로그인 안한채로 넘어온거임
+			request.setAttribute("message", "비정상적인 접근입니다");
+			request.setAttribute("loc", "javascript:history.back()");
+			
+			super.setViewPage("/WEB-INF/common/msg.jsp");
+			return;
 		}
 		
 		

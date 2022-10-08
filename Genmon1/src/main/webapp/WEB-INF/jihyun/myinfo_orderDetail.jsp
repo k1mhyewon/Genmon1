@@ -272,7 +272,7 @@
 				<tr><td>주문수량 : ${totalqty }</td></tr>
 				<tr>
 					<td class="myright" style="height: 50px;">
-					
+						<span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/customerCare/contact/memberGoContact.sun?orderid=${odervo.pk_orderid}'">리뷰쓰기</span>
 					
 						<!-- ======== [주문취소 Modal] ================================================================ -->
 						
@@ -614,44 +614,31 @@
 			<div class="box">
 				<table class="mb-4 border-right">
 					<tbody>
-						<tr>
+						<tr style="height: 50px;">
 							<td colspan="2"><strong>입금대기중 입금완료 / 배송중 배송완료 </strong></td>
 						</tr>
 						<%-- 반복시작 --%>
-						<c:forEach var="ovo" items="${orddtailList }">
+						<c:forEach var="orddtailvo" items="${orddtailList }">
 							<tr>
-								<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
-								<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
+								<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/common/products/${orddtailvo.cpvo.pimage1 }"  class="image"></td>
+								<td style="vertical-align: middle; "><strong style="margin-left : 20px;">${orddtailvo.cpvo.parentProvo.pname } ${orddtailvo.cpvo.colorName }</strong>
+								<br><span style="margin-left : 20px;">${orddtailvo.order_price }원</span></td>
 							</tr>
 							<tr>
-								<td> </td>
+								<c:if test="${orddtailvo.order_status eq '5' or orddtailvo.order_status eq '4'}">
+									<td><span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/member/memberReviewWrite.sun?orderDetailid=${orddtailvo.pk_order_detail_id} }'">리뷰쓰기</span></td>
+								</c:if>
+								<c:if test="${orddtailvo.order_status ne '5' and orddtailvo.order_status ne '4'}">
+									<td> </td>
+								</c:if>
 							</tr>
 							<tr>
-								<td  style="height: 70px;"> </td>
+								<td  style="height: 60px;"> </td>
 							</tr>
 						</c:forEach>
 						
 						<%-- 반복끝 --%>
-						<tr>
-							<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
-							<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
-						</tr>
-						<tr>
-							<td>수량 : 1</td>
-						</tr>
-						<tr>
-							<td  style="height: 70px;"> </td>
-						</tr>
-						<tr>
-							<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/sun_img.png"  class="image"></td>
-							<td style="vertical-align: middle;"><strong>릴리트01</strong><br>259000원</td>
-						</tr>
-						<tr>
-							<td>수량 : 1</td>
-						</tr>
-						<tr>
-							<td  style="height: 70px;"> </td>
-						</tr>
+						
 					</tbody>
 				</table> <br>
 			</div>
@@ -668,15 +655,16 @@
 						</tr>
 						<tr>
 							<td><strong>배송주소</strong></td>
-							<td  colspan="2">김젠몬<br>서울특별시 관악구 청림3마길 28-8<br>101동 101호<br>08732</td>
+							<td  colspan="2">${odervo.name }<br>${odervo.address }<br>${odervo.detailaddress } ${odervo.extraaddress }<br>${odervo.postcode }</td>
 						</tr>
 						<tr  style="height: 70px;">
 							<td><strong>연락처</strong></td>
-							<td  colspan="2">01012345678</td>
+							<td  colspan="2">${odervo.mobile }</td>
 						</tr>
+						<%-- 결제 조회시작 --%>
 						<tr>
 							<td><strong>결제수단</strong></td>
-							<td  colspan="2">가상계좌</td>
+							<td  colspan="2">가상계좌 ???????</td>
 						</tr>
 						<tr style="height: 70px;">
 							<td><strong>입금 계좌번호</strong></td>
@@ -699,6 +687,7 @@
 							<td>총결제금액</td>
 							<td class="myright">258000원</td>
 						</tr>
+						<%-- 결제 조회시작 끝 --%>
 					</tbody>
 					<tfoot>
 						<tr>
