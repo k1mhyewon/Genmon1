@@ -2,7 +2,7 @@ package common.model;
 
 public class ParentProductVO {
 
-   private int pid;                // 상품id
+   private String pid;                // 상품id
    private String pname;            // 상품명
    private int price;                // 상품정가
    private String pcontent;          // 상품설명
@@ -12,7 +12,7 @@ public class ParentProductVO {
    
    public ParentProductVO() {}
 
-   public ParentProductVO(int pid, String pname, int price, String pcontent, String pmaterial) {
+   public ParentProductVO(String pid, String pname, int price, String pcontent, String pmaterial) {
       super();
       this.pid = pid;
       this.pname = pname;
@@ -21,11 +21,11 @@ public class ParentProductVO {
       this.pmaterial = pmaterial;
    }
 
-   public int getPid() {
+   public String getPid() {
       return pid;
    }
 
-   public void setPid(int pid) {
+   public void setPid(String pid) {
       this.pid = pid;
    }
 
