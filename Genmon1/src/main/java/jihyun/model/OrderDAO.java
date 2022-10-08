@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,7 +16,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import common.model.CartVO;
+import common.model.ChildProductVO;
+import common.model.OrderDetailVO;
 import common.model.OrderVO;
+import common.model.ParentProductVO;
 import common.util.security.AES256;
 import common.util.security.SecretMyKey;
 
@@ -201,7 +203,7 @@ int result =0;
 			conn = ds.getConnection();
 			
 			// 주문 정보 알아오기
-			String sql = "select PK_ORDERID, STATUS, to_char(ORDERDATE)  \n"+
+			String sql = "select PK_ORDERID, purchase_status, to_char(ORDERDATE)  \n"+
 					"from\n"+
 					"    (select PK_ORDERID, ORDERDATE\n"+
 					"    from tbl_order_test \n"+
@@ -218,12 +220,12 @@ int result =0;
 			while(rs.next()) {
 				
 				String orderid = rs.getString(1);
-				String status = String.valueOf(rs.getInt(2)) ;
+				String purchase_status = String.valueOf(rs.getInt(2)) ;
 				String orderdate = rs.getString(3);
 				
 				HashMap<String, String> map = new HashMap<>();
 				map.put("orderid", orderid);
-				map.put("status", status );
+				map.put("purchase_status", purchase_status );
 				map.put("orderdate", orderdate);
 				
 				/*
@@ -292,6 +294,119 @@ int result =0;
 		}
 		return mapList;
 	} // 회원 아이디 가지고 주문내역 리스트로 보여주기
+
+
+	// 넘어온 주문번호로 주문 조회하기 (회원용)
+	@Override
+	public OrderVO selectOneOrder(long orderid) throws SQLException {
+		
+		OrderVO ordervo = null;
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDERID, FK_USERID, EMAIL, NAME, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, MOBILE, to_char(ORDERDATE) \n"+
+					"from tbl_order_test\n"+
+					"where PK_ORDERID = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ordervo = new OrderVO();
+				ordervo.setPk_orderid(rs.getString(1));
+				ordervo.setEmail( aes.decrypt(rs.getString(3)) );
+				ordervo.setName(rs.getString(4));
+				ordervo.setPostcode(rs.getString(5));
+				ordervo.setAddress(rs.getString(6));
+				ordervo.setDetailaddress(rs.getString(7));
+				ordervo.setExtraaddress(rs.getString(8));
+				ordervo.setMobile( aes.decrypt(rs.getString(9)));
+				ordervo.setOrderDate(rs.getString(10));
+				ordervo.setFk_userid(rs.getString(2));
+
+			}
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return ordervo;
+	} // end of  넘어온 주문번호로 주문 조회하기 (회원용)
+	
+	
+	
+	
+	// 넘어온 주문번호로 !!! 주문 상세 !!! 조회하기  (회원용)
+	@Override
+	public List<OrderDetailVO> selectOneOrderDetail(long orderid) throws SQLException {
+		
+		List<OrderDetailVO> orddtailList = new ArrayList<>() ;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE, PNAME, PRICE, FK_PID, PCOLOR, PIMAGE1, SALEPCNT, PQTY\n"+
+					"from\n"+
+					"(\n"+
+					"    select PNAME, PRICE, PNUM, FK_PID, PCOLOR, PIMAGE1, SALEPCNT, PQTY\n"+
+					"    from tbl_product_test\n"+
+					"    join\n"+
+					"    tbl_all_product_test\n"+
+					"    on pid = fk_pid\n"+
+					")\n"+
+					"join\n"+
+					"(\n"+
+					"    select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE\n"+
+					"    from tbl_order_detail_test\n"+
+					"    where FK_ORDERID = ?\n"+
+					")\n"+
+					"on pnum = fk_pnum\n"+
+					"order by PK_ORDER_DETAIL_ID";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrderDetailVO orddtailvo = new OrderDetailVO();
+				
+				orddtailvo.setPk_order_detail_id(rs.getString(1));
+				orddtailvo.setFk_pnum(rs.getInt(2));
+				orddtailvo.setOrder_status(rs.getInt(3));
+				orddtailvo.setOrder_price(rs.getInt(4));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString(5));
+				ppvo.setPrice(rs.getInt(6));
+				
+				ChildProductVO cpvo = new ChildProductVO();
+				cpvo.setParentProvo(ppvo);
+				
+				cpvo.setFk_pid(rs.getString(7));
+				cpvo.setPcolor(rs.getString(8));
+				cpvo.setPimage1(rs.getString(9));
+				cpvo.setSalePcnt(rs.getInt(10));
+				cpvo.setPqty(rs.getInt(11));
+				
+				orddtailvo.setCpvo(cpvo);
+				
+				orddtailList.add(orddtailvo);
+			}
+			
+		}  finally {
+			close();
+		}
+		
+		return orddtailList ;
+	}// end of 넘어온 주문번호로 !!! 주문 상세 !!!  조회하기  (회원용) 
+
+
+	
 	
 	
 	

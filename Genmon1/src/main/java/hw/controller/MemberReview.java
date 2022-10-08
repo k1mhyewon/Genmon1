@@ -30,9 +30,12 @@ public class MemberReview extends AbstractController {
 			request.setAttribute("price", prodMap.get("price"));
 			request.setAttribute("pimage1", prodMap.get("pimage1"));
 			request.setAttribute("replyCnt", prodMap.get("replyCnt"));
-			
+			request.setAttribute("avg_star", prodMap.get("avg_star"));
+			request.setAttribute("avg_star_shape", prodMap.get("avg_star_shape"));
 			
 			List<ReviewVO> reviewList = rdao.getReviews(pnum);
+			
+			request.setAttribute("reviewList", reviewList);
 			
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/memberReview.jsp");

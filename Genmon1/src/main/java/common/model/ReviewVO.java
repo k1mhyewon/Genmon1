@@ -5,10 +5,15 @@ public class ReviewVO {
 	private String reviewid;
 	private String fk_pk_order_detail_id;
 	private String content;
-	private String img;
+	private String img_systemFileName;
+	private String img_orginFileName;
 	private String uploaddate;
 	private String star;
 	private String reply;
+	
+	
+	private String star_text;
+	
 	
 	
 	private MemberVO mvo;
@@ -42,11 +47,19 @@ public class ReviewVO {
 	}
 	
 	
-	public String getImg() {
-		return img;
+	public String getImg_systemFileName() {
+		return img_systemFileName;
 	}
-	public void setImg(String img) {
-		this.img = img;
+	public void setImg_systemFileName(String img_systemFileName) {
+		this.img_systemFileName = img_systemFileName;
+	}
+	
+	
+	public String getImg_orginFileName() {
+		return img_orginFileName;
+	}
+	public void setImg_orginFileName(String img_orginFileName) {
+		this.img_orginFileName = img_orginFileName;
 	}
 	
 	
@@ -74,6 +87,32 @@ public class ReviewVO {
 	}
 	
 	
+	////////////////////////////////////////
+	
+	// 별모양
+	public String getStar_text() {
+		return star_text;
+	}
+	public void setStar_text(String star_text) {
+		
+		switch (star) {
+		case "1":
+			this.star_text = "★☆☆☆☆";
+			break;
+		case "2":
+			this.star_text = "★★☆☆☆";
+			break;
+		case "3":
+			this.star_text = "★★★☆☆";
+			break;
+		case "4":
+			this.star_text = "★★★★☆";
+			break;
+		case "5":
+			this.star_text = "★★★★★";
+			break;
+		}
+	}
 	
 	
 	////////////////////////////////////////

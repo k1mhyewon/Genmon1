@@ -12,7 +12,7 @@ import common.model.MemberVO;
 import jihyun.model.InterOrderDAO;
 import jihyun.model.OrderDAO;
 
-public class OrderList extends AbstractController {
+public class MyInfoOrderList extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

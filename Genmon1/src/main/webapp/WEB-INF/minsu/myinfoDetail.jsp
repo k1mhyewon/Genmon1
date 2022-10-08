@@ -5,6 +5,7 @@
  
  
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
    
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/myinfo_mainMenu.jsp" />
@@ -108,9 +109,9 @@
 		background-color: #cccccc;
 		border: none;
 		width: 100px;
-		margin: 30px 130px;
 		font-size: 13px;
 		line-height: 25px;
+		display: inline-block;
 	}
 	
 	a {
@@ -230,7 +231,7 @@
 	      frm.userid.value = userid;
 	      frm.coinmoney.value = coinmoney;
 	      
-	      frm.action = "<%= request.getContextPath()%>/member/coinUpdateLoginuser.up";
+	      frm.action = "<%= request.getContextPath()%>/myinfo/coinUpdateLoginuser.sun";
 	      frm.method = "POST";
 	      frm.submit();
 		
@@ -270,7 +271,7 @@
 							<c:if test="${empty loginuser.address}">
 								<div style="display: felx; margin: 80px auto; width: 200px;">
 			    					<div style="font-size: 15px; font-weight: bold;">저장된 주소가 없습니다.</div>
-			    					<button id="btn_adradd"><a href="javascript:goAdrAdd('${(sessionScope.loginuser).userid}');" >새로운 주소 추가</a></button>
+			    					<button id="btn_adradd"><a href="javascript:goAdrAdd('${sessionScope.loginuser.userid}');" >새로운 주소 추가</a></button>
 			    				</div>
 					   		</c:if>
 							
@@ -311,17 +312,19 @@
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="point" style="width: 400px; display: inline-block;" >
-	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
-	        		<div style="text-align: center;margin: 3%;font-size: 13px;">포인트</div>
-	        		<button type="button" id="btn_point" class="btn_money"><a href="javascript:goCoinPurchaseTypeChoice('${(sessionScope.loginuser).userid}');">적립내역</a></button>
-	        	</div>
 	        	
-	        	<div id="coin" style="width: 400px;margin-left:50px;display: inline-block;">
-	        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%; ">코인</span>
-	        		<div style="text-align: center;margin: 3%; font-size: 13px;">코인</div>
-	        		<button type="button" id="btn_coin" class="btn_money"><a href="javascript:goCoinPurchaseTypeChoice('${(sessionScope.loginuser).userid}');">충전하기</a></button>
-	        	</div>
+		        	<div id="point" style="width: 410px; height:300px; display: inline-block; vertical-align: top;" >
+		        		<span style="font-size: 16px; font-weight: bold; margin-bottom: 100%;">포인트</span>
+		        		<div style="text-align: center;margin: 3%;font-size: 13px;"><fmt:formatNumber value="${(sessionScope.loginuser).point}" pattern="###,###" /> POINT</div>
+		        		
+		        	</div>
+	        	
+		        	<div id="coin" style="width: 410px;margin-left:50px;display: inline-block; height:300px; vertical-align: top;">
+		        		<div style="font-size: 16px; font-weight: bold; margin-bottom: 3%;">코인</div>
+			        	<span style="text-align: center; margin: 3% 3% 3% 40%; font-size: 13px;"><fmt:formatNumber value="${(sessionScope.loginuser).coin}" pattern="###,###" /> 코인</span>
+			        	<button type="button" id="btn_coin" class="btn_money" style="display: inline-block; "><a href="javascript:goCoinPurchaseTypeChoice('${(sessionScope.loginuser).userid}');">충전하기</a></button>
+		        	</div>
+		        	
      		</section>
      		
      		</div>

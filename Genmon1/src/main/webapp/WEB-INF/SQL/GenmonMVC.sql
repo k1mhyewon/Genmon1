@@ -1,3 +1,79 @@
+
+select * from tbl_order_detail_test where fk_orderid = '2210050003';
+
+select * from tbl_order_test;
+
+select * from tbl_review_test;
+
+select * from tbl_all_product_test;
+
+
+update tbl_order_detail_test set order_status = '6'
+where pk_order_detail_id = '221005000338';
+
+update tbl_review_test set reply = '햄스터가 귀여워요. 포인트 500점 적립해드렸습니다.'
+where reviewid = '2';
+
+insert into tbl_review_test(reviewid, fk_pk_order_detail_id, content, img, star) 
+        values(seq_tbl_review_reviewid.nextval, '221005000338', '색상이 너무 예쁩니다 근데 비싸요 근데 예쁨 2', 'KakaoTalk_20221007_211057068_03.jpg', '5');
+commit;
+
+
+-- 작성 가능한 리뷰 조회
+select D.fk_pnum, A.pimage1, P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname
+from tbl_order_detail_test D
+JOIN tbl_order_test O
+ON O.pk_orderid = D.fk_orderid
+JOIN tbl_all_product_test A
+ON D.fk_pnum = A.pnum
+JOIN tbl_product_test P
+ON A.fk_pid = P.pid
+where O.fk_userid = 'gara' and D.order_status = '5';
+
+String sql = "select D.fk_pnum, A.pimage1, P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname\n"+
+"from tbl_order_detail_test D\n"+
+"JOIN tbl_order_test O\n"+
+"ON O.pk_orderid = D.fk_orderid\n"+
+"JOIN tbl_all_product_test A\n"+
+"ON D.fk_pnum = A.pnum\n"+
+"JOIN tbl_product_test P\n"+
+"ON A.fk_pid = P.pid\n"+
+"where O.fk_userid = 'gara' and D.order_status = '5'";
+
+
+
+-- 별점 평균 조회
+select avg(R.star)
+from tbl_review_test R
+JOIN tbl_order_detail_test D
+ON R.fk_pk_order_detail_id = D.pk_order_detail_id
+JOIN tbl_order_test O
+ON D.fk_orderid  = O.pk_orderid
+JOIN tbl_all_product_test A
+ON D.fk_pnum = A.pnum
+where A.pnum = '26';
+
+String sql = "select avg(R.star) as avg_star\n"+
+"from tbl_review_test R\n"+
+"JOIN tbl_order_detail_test D\n"+
+"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+"JOIN tbl_order_test O\n"+
+"ON D.fk_orderid  = O.pk_orderid\n"+
+"JOIN tbl_all_product_test A\n"+
+"ON D.fk_pnum = A.pnum\n"+
+"where A.pnum = '26'";
+
+
+select D.fk_pnum, O.fk_userid, A.pimage1, P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname
+from tbl_order_detail_test D
+JOIN tbl_order_test O
+ON O.pk_orderid = D.fk_orderid
+JOIN tbl_all_product_test A
+ON D.fk_pnum = A.pnum
+JOIN tbl_product_test P
+ON A.fk_pid = P.pid
+where O.fk_userid = 'gara' and D.order_status = '5';
+
 ---- *** 회원테이블 생성 *** ----
 create table tbl_member_test
 (userid             varchar2(40)   not null  -- 회원아이디
@@ -24,7 +100,8 @@ create table tbl_member_test
 ,constraint CK_tbl_member_idle check( idle in(0,1) )
 );
 -- Table TBL_MEMBER이(가) 생성되었습니다.
-
+select coin
+from tbl_member_test
 
 create table tbl_login_history
 ( fk_userid      varchar2(40)         not null  -- 회원아이디
