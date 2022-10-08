@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,9 @@ public class ProductDAO implements InterProductDAO {
 		}
 	}
 
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	// 전체 한 페이지에 나오는 상품갯수에 따른 총 상품페이지 갯수 
 	@Override
@@ -95,11 +99,11 @@ public class ProductDAO implements InterProductDAO {
 						+ " ), D as ( "
 						+ " select row_number() over(order by pnum desc) AS RNO, pnum, "
 						+ "       pname||'('||substr(pcolor,1,2)||')' as pname, price, pcolor, pimage1 ,salePcnt ,pqty , "
-						+ "       to_char(preleasedate,'yyyy-mm-dd') as preleasedate, pinsertdate "
+						+ "       to_char(preleasedate,'yyyy-mm-dd') as preleasedate, pinsertdate , panmaestate"
 						+ " from tbl_product_test P RIGHT JOIN tbl_all_product_test C "
 						+ "on p.pid = c.fk_pid "
 						+ ") "
-						+ " select pname, price, pcolor, pimage1, salePcnt, pqty, preleasedate, pnum, nvl(psales,0)as psales "
+						+ " select pname, price, pcolor, pimage1, salePcnt, pqty, preleasedate, pnum, nvl(psales,0)as psales, panmaestate "
 						+ " from C right join D "
 						+ " on C.fk_pnum = d.pnum "
 						+ " where RNO between ? and ? "
@@ -130,6 +134,7 @@ public class ProductDAO implements InterProductDAO {
 				String preleasedate = rs.getString(7);
 				int pnum = rs.getInt(8);
 				int psales = rs.getInt(9);
+				int panmaestate = rs.getInt(10);
 				
 				ChildProductVO cpvo = new ChildProductVO();
 				ParentProductVO ppvo = new ParentProductVO();
@@ -146,6 +151,7 @@ public class ProductDAO implements InterProductDAO {
 				cpvo.setPreleasedate(preleasedate);
 				cpvo.setPnum(pnum);
 				cpvo.setPsales(psales); // 0 이상 
+				cpvo.setPanmaestate(panmaestate); // 0 이상 
 //				
 				productList.add(cpvo);
 			}// end of while(rs.next()) {}------------------
@@ -156,7 +162,187 @@ public class ProductDAO implements InterProductDAO {
 		}
 		
 		return productList ;
-	}
+	}// end of public List<ChildProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException {}---------------
+
+	
+	
+	// 등록된 컬러네임들 뿌려주기
+	@Override
+	public List<HashMap<String, String>> selectAllColors() throws SQLException {
+		List<HashMap<String, String>> colorList = new ArrayList<>();
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select distinct pcolor "
+						+ " from tbl_all_product_test ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String, String> paraMap = new HashMap<>();
+				paraMap.put("pcolor", rs.getString(1));
+				colorList.add(paraMap);
+			}
+		} finally {
+			close();
+		}
+		return colorList;
+	}// end of 	public List<HashMap<String, String>> selectAllColors() throws SQLException {}----
+
+	
+	// 등록된 재질명들 뿌려주기
+	@Override
+	public List<HashMap<String, String>> selectAllMaterials() throws SQLException {
+		List<HashMap<String, String>> materialList = new ArrayList<>();
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select distinct pmaterial "
+						+ " from tbl_product_test ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String, String> paraMap = new HashMap<>();
+				paraMap.put("pmaterial", rs.getString(1));
+				materialList.add(paraMap);
+			}
+		} finally {
+			close();
+		}
+		return materialList;
+	}// end of public List<HashMap<String, String>> selectAllMaterials() throws SQLException {}----------------
+
+
+	// 제품 부모테이블 pid 채번해오기
+	public String getPidParentProduct() throws SQLException {
+		String pid = "";
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select 'p_'||seq_tbl_product_pid.nextval "
+						+ " from dual ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			pid = rs.getString(1);
+			
+		} finally {
+			close();
+		}
+		return pid ;
+		
+	}//end of public int getPnumChildProduct() throws SQLException {}------------
+	// 제품 자식테이블 pnum 채번해오기
+	public int getPnumChildProduct() throws SQLException {
+		int pnum = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select seq_tbl_all_product_pnum.nextval "
+						+ " from dual ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			pnum = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		return pnum ;
+		
+	}//end of public int getPnumChildProduct() throws SQLException {}------------
+
+	
+	// 제품부모 insert
+	public int insertParentProduct(ParentProductVO ppvo) throws SQLException {
+		
+		int n = 0;
+	      
+	      try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " insert into tbl_product_test(pid, pname, price, pcontent, pmaterial) "
+	         			+ " values ('p_'||seq_tbl_product_pid.nextval ,?,?,?,?)";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, ppvo.getPname());
+	         pstmt.setInt(2, ppvo.getPrice());    
+	         pstmt.setString(3, ppvo.getPcontent()); 
+	         pstmt.setString(4, ppvo.getPmaterial());    
+
+	         n = pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+	      
+	      return n;   
+	}// end of public int insertParentProduct(ParentProductVO ppvo) throws SQLException {}---------------
+	
+	// 제품자식 insert
+	public int insertChildProduct(ChildProductVO cpvo) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+
+			String sql = " insert into tbl_all_product_test(pnum, fk_pid , pcolor , pimage1 , salePcnt ,pqty, preleasedate ) "
+						+ " values (?, ?, ?, ?, ?, ?, ?) ";
+				
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cpvo.getPnum());
+			pstmt.setString(2, cpvo.getFk_pid());
+			pstmt.setString(3, cpvo.getPcolor());    
+			pstmt.setString(4, cpvo.getPimage1()); 
+			pstmt.setInt(5, cpvo.getSalePcnt());    
+			pstmt.setInt(6, cpvo.getPqty()); 
+			pstmt.setString(7, cpvo.getPreleasedate());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;   
+	}// end of public int insertChildProduct(ChildProductVO cpvo) throws SQLException {}-----------------
+
+	
+	// 상품상세이미지 insert
+	@Override
+	public int insetProdDetailimage(String imgfilename, int pnum) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+
+			String sql = " insert into tbl_product_imagefile_test(imgfileno, fk_pnum, imgfilename) "
+						+ " values (seqImgfileno.nextval, ?, ?) ";
+				
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, pnum);
+			pstmt.setString(2, imgfilename);
+			
+			pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;   
+	}// end of public void insetProdDetailimage(String imgfilename, int pnum) throws SQLException {}---------------
 	
 	
 	

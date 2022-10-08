@@ -350,29 +350,23 @@ $(document).ready(function () {
 		              />
     			</td>
     			
-    			<td><p class="fw-bold mb-1">${cpvo.parentProvo.pname}${cpvo.pcolor}</p></td>
+    			<td><p class="fw-bold mb-1">${cpvo.parentProvo.pname}</p></td>
     			<td><p class="fw-bold mb-1">${cpvo.pnum}</p></td>
     			<td>${cpvo.pqty}</td>
     			<td>${cpvo.parentProvo.price}</td>
-    			<td>${cpvo.psales}</td>
-    			<td><%-- ${cpvo.pstatus} --%></td> <%-- 재고량(주문수)이 없다면 판매중단, 재고량이 있다면 판매중, 출시일이 오늘 날짜보다 늦다면 웨이팅. --%>
+    			<td style="margin: auto;">${cpvo.psales}</td>
+    			<td>
+    				<c:choose>
+    					<c:when test="${cpvo.panmaestate eq '0'}"><span class="badge badge-warning rounded-pill d-inline">Disenable</span></c:when>
+    					<c:when test="${cpvo.panmaestate eq '1'}"><span class="badge badge-primary rounded-pill d-inline">Enable</span></c:when>
+    					<c:otherwise><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:otherwise>
+    				</c:choose>
+    			</td> 
 				<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
 				<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
     		</tr>
     	</c:forEach> 
-    	
-    			<%-- <td>
-    				<c:choose>
-    					<c:when test="${mvo.gender eq '1'}">남</c:when>
-    					<c:otherwise>여</c:otherwise>
-    				</c:choose>
-    			</td> --%>
-    			
-    			
-		<td><span class="badge badge-primary rounded-pill d-inline">Enable</span></td>
-		<td><span class="badge badge-success rounded-pill d-inline">Waiting</span></td>
-		<td><span class="badge badge-warning rounded-pill d-inline">Disenable</span></td>
-		
+
 		</tbody>
 		</table>
 			 <nav class="my-5">
@@ -386,14 +380,19 @@ $(document).ready(function () {
 				    </select>
 			 	</div>
 	 		</nav> 
- 
-</div>
+	</div>
 </section>
 
 
 
   
 </body>
+
+
+
+
+
+
 
 <%-- 인덱스 끝 --%>
 

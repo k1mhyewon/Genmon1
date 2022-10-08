@@ -1,6 +1,8 @@
 package jieun.model;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ChildProductVO {
 
@@ -26,10 +28,37 @@ public class ChildProductVO {
 
 	
 	
-	public int getPanmaestate() {
+	public int getPanmaestate() { // 0:판매중단 1:판매중 2:판매예정
 		// panmaestate=0 , pqty=0 => 판매중단  
 		// panmaestate=1 , pqty>0, releasedate 오늘날짜보다 후 => 판매중 
-		// releasedate 오늘날짜보다 전 => 출시예정
+		// panmaestate=1 , releasedate 오늘날짜보다 전 => 출시예정
+		
+		// 날짜생성 
+		// 오늘날짜 yyyy-MM-dd로 생성
+		String todayfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+		preleasedate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+		
+		//yyyy-MM-dd 포맷 설정
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		 
+		//비교할 date와 today를데이터 포맷으로 변경
+		try {
+			Date date = new Date(dateFormat.parse(preleasedate).getTime());
+			Date today = new Date(dateFormat.parse(todayfm).getTime());
+			//compareTo메서드를 통한 날짜비교
+			int compare = date.compareTo(today); 
+			
+//			if( pqty==0 ) { // 수량이 없으면 
+//				panmaestate=0;
+//			}
+			if( pqty>0 && compare<0 ) { // 재고량이 있으면서 출시일이 오늘날짜보다 이전날짜이면 
+				panmaestate=2;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		 
+		
 		return panmaestate;
 	}
 
