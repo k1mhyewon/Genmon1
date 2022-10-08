@@ -231,7 +231,7 @@
 	      frm.userid.value = userid;
 	      frm.coinmoney.value = coinmoney;
 	      
-	      frm.action = "<%= request.getContextPath()%>/member/coinUpdateLoginuser.up";
+	      frm.action = "<%= request.getContextPath()%>/myinfo/coinUpdateLoginuser.sun";
 	      frm.method = "POST";
 	      frm.submit();
 		
