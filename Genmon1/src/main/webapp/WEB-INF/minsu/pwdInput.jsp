@@ -141,8 +141,8 @@
 				
 	});// end of $(document).ready(function() ------------------------------------------
 			
-			console.log(pwd)
-			
+	
+	
 	
 </script>
 
