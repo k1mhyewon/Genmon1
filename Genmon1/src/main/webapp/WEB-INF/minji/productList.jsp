@@ -229,7 +229,6 @@
 		.popup .close {
 		  position: absolute;
 		  right: 3%;
-		  top: 0.5%;
 		  color: gray;
 		  font-size: 20pt;
 		  font-weight: bold;
@@ -246,6 +245,9 @@
 		.pop-content {
 			height: 85%;
 		/* 	border: 1x red solid;  */
+		
+			display: flex;
+  			justify-content: center;
 		}
 		
 		.filter-title {
@@ -293,11 +295,14 @@
 	}); // end of ready
 	
 	
-	// 위시리스트 추가 메소드 (AJAX)추가 하고 버튼 안에 하트를 빈 하트로 바꾸면 대지 않을가???  ~~~ KHW 화이팅팅팅탱탱탱 룰루랄라~~~~ 
+	// 위시리스트 추가 메소드 (AJAX)추가 하고 버튼 안에 하트를 빈 하트로 바꾸면 대지 않을가??? 
 	function addWish(){
 		
-		// 그리고 다시 누르면 제거 하는 것도 있어야 할듯.... ~~~ 넌 할 수 있어!!! ~~~
+		// 그리고 다시 누르면 제거 하는 것도 있어야 할듯....
 	}
+	
+	const filterCheck = document.querySelectorAll('.filter'); // checked
+	
 
 </script>
 
@@ -308,12 +313,12 @@
  <div class="all-List-page">
  
     <ul class="item-category">
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
-        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/전체보기.jpg"><span class="category-font">전체보기</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/틴트렌즈.jpg"><span class="category-font">틴트렌즈</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span class="category-font">베스트셀러</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span class="category-font">클래식디자인</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span class="category-font">선물추천</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/tintedLense.jpg"><span class="category-font">틴트렌즈</span></a></li>
         <li class="item-category-next">
             <a class="category-link" href="#"><i class="fa-solid fa-circle-chevron-right"></i></a>
         </li>
@@ -339,43 +344,34 @@
 				<div id="pop01" class="overlay">
 				  <div class="popup">
 				    <a href="#none" class="close">&times;</a>
-				    	<%-- 라디오 선택 폼태그 --%>
-					    <form class="popupFrm" action="#">
-					    	<div class="pop-content">
-						    	<div class="filter-title">프레임컬러
+				    	<%-- 라디오 선택 폼태그 --%>d
+					    <form class="popupFrm" action="/WEB-INF/minji/productList.jsp" method="post">
+					    	<div class="pop-content" >
+						    	<div class="filter-title" style="display: inline-block;">프레임컬러
 						    	  <ul class="filter-list">
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter"/>화이트</label></li>
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter" />핑크</label></li>
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter"/>레드</label></li>
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter"/>클리어</label></li>
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter"/>골드</label></li>
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter"/>실버</label></li>
-								      <li><label for="frame-color"><input type="checkbox" id="frame-color" name="filter"/>기타</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="white" name="filter" value="white" />화이트</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="black" name="filter" value="black" />블랙</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="pink" name="filter" value="pink" />핑크</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="yellow" name="filter" value="yellow" />옐로우</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="red" name="filter" value="red" />레드</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="blue" name="filter" value="blue" />블루</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="clear" name="filter" value="clear" />클리어</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="ivory" name="filter" value="ivory" />아이보리</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="green" name="filter" value="green" />그린</label></li>
+								      <li><label for="frame-color"><input type="checkbox" id="brown" name="filter" value="brown" />브라운</label></li>
 								  </ul>
 								</div>
-								<div class="filter-title">렌즈 컬러
-									<ul class="filter-list">  
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>화이트</label></li>
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>핑크</label></li>
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>레드</label></li>
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>클리어</label></li>
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>골드</label></li>
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>실버</label></li>
-								      <li><label for="lense-color"><input type="checkbox" id="lense-color" name="filter"/>기타</label></li>
-								    </ul> 
-								 </div>    
 								 <div class="filter-title">소재
 								 	<ul class="filter-list">   
-								      <li><label for="material"><input type="checkbox" id="material" name="filter"/>아세테이트</label></li>
-								      <li><label for="material"><input type="checkbox" id="material" name="filter"/>메탈</label></li>
-								      <li><label for="material"><input type="checkbox" id="material" name="filter"/>콤비</label></li>
+								      <li><label for="material"><input type="checkbox" id="acetate" name="filter" value="acetate" />아세테이트</label></li>
+								      <li><label for="material"><input type="checkbox" id="metal" name="filter"  value="metal"/>메탈</label></li>
 								    </ul>
 								  </div>    
 								  <div class="filter-title">정렬
 								 	<ul class="filter-list">
-								      <li><label for="order"><input type="checkbox" id="order" name="filter"/>신상품순</label></li>
-								      <li><label for="order"><input type="checkbox" id="order" name="filter"/>낮은가격순</label></li>
-								      <li><label for="order"><input type="checkbox" id="order" name="filter"/>높은가격순</label></li>
+								      <li><label for="order"><input type="checkbox" id="order" name="filter" value="newProduct"/>신상품순</label></li>
+								      <li><label for="order"><input type="checkbox" id="order" name="filter" value="lowPrice"/>낮은가격순</label></li>
+								      <li><label for="order"><input type="checkbox" id="order" name="filter" value="highPrice"/>높은가격순</label></li>
 							       </ul>
 							 	 </div>  
 					  	 	</div>

@@ -248,12 +248,12 @@
  <div class="all-List-page">
  
     <ul class="item-category">
-       <li><a href="#"><img src="<%= ctxPath %>/images/common/category/2022컬렉션.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
-        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/minji/전체보기.jpg"><span class="category-font">전체보기</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/베스트셀러.jpg"><span class="category-font">베스트셀러</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/클래식디자인.jpg"><span class="category-font">클래식디자인</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/선물추천.jpg"><span class="category-font">선물추천</span></a></li>
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/틴트렌즈.jpg"><span class="category-font">틴트렌즈</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span class="category-font">베스트셀러</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span class="category-font">클래식디자인</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span class="category-font">선물추천</span></a></li>
+        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/tintedLense.jpg"><span class="category-font">틴트렌즈</span></a></li>
         <li class="item-category-next">
             <a class="category-link" href="#"><i class="fa-solid fa-circle-chevron-right"></i></a>
         </li>
