@@ -147,22 +147,27 @@ div#reviewTbl {
 		
 		
 		
-		let pnum = $("#rev_category option:selected").val();
+		// let odid_pnum_pimage = $("#rev_category option:selected").val();
+		
+		let pimage1 = "";
 		
 		
-		
-		
+		// select 의 상품이름을 바꿀 때마다 이벤트
 		$("#rev_category").change(function(){
 			
-			const pnum = $("#rev_category option:selected").val();
+			let odid_pnum_pimage = $("#rev_category option:selected").val();
+			// console.log(odid_pnum_pimage);
 			
+			let odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
+			
+			let orderDetailId = odid_pnum_pimage_arr[0];
+			let pnum = odid_pnum_pimage_arr[1];
+			pimage1 = odid_pnum_pimage_arr[2];
+			
+			$("#orderDetailId").val(orderDetailId);
 			$("#pnum").val(pnum);
 			
-			<%--
-				pimage1 = $("#rev_category option:selected").val();
-				pimage1 = encodeURIComponent(pimage1);
-				$("#prodImg").src = "../images/common/products/"+pimage1;
-			--%>
+			
 			
 		});
 		
@@ -206,7 +211,9 @@ div#reviewTbl {
 	            <select id="rev_category" name="rev_category">
 	                <option value ="select_prod">제품선택</option>
 	                <c:forEach var="canReviewProdList" items="${requestScope.canReviewProdList}">
-	                	<option value = '${canReviewProdList.pnum}'>${canReviewProdList.parentProvo.pname}</option>
+	                	<option value = '${canReviewProdList.pk_order_detail_id}_${canReviewProdList.cpvo.pnum}_${canReviewProdList.cpvo.pimage1}'>
+	                		${canReviewProdList.cpvo.parentProvo.pname}
+	                	</option>
 	                </c:forEach>
 	            </select>
 	        
@@ -226,10 +233,10 @@ div#reviewTbl {
 	            <input type="text" id="userid" name="userid" value="${requestScope.userid}" />
             </div>
             <div id="review_prod">
-            	<img src="" id="prodImg" style="width:200px; height:auto;">
+            	<img src="" id="prodImg" style="width:200px; height:auto;" />
             </div>
             <div>
-                <textarea class="col-auto form-control" type="text" id="rev_content"
+                <textarea class="col-auto form-control" type="text" id="rev_content" name="rev_content"
                           placeholder="리뷰내용을 입력해주세요."></textarea>
             </div>
             
@@ -239,8 +246,9 @@ div#reviewTbl {
                 <span>/100자</span>
             </div>
             <p>파일첨부</p>
-            <input type="file" name="photo" id="photo" />
+            <input type="file" name="img" id="img" />
             
+            <input type="hidden" id="orderDetailId" name="orderDetailId" />
             <input type="hidden" id="pnum" name="pnum" />
         </form>
     </div>

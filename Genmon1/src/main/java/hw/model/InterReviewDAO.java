@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import common.model.ChildProductVO;
+import common.model.OrderDetailVO;
 import common.model.ReviewVO;
 
 public interface InterReviewDAO {
@@ -16,7 +16,7 @@ public interface InterReviewDAO {
 	List<ReviewVO> getReviews(String pnum) throws SQLException;
 
 	// 로그인된 회원의 작성가능 리뷰 상품 목록 얻어오기
-	List<ChildProductVO> getUnwrittenReviews(String userid) throws SQLException;
+	List<OrderDetailVO> getUnwrittenReviews(String userid) throws SQLException;
 
 	
 

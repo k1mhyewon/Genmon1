@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import common.model.ChildProductVO;
 import common.model.MemberVO;
+import common.model.OrderDetailVO;
 import common.model.ReviewVO;
 import hw.model.InterReviewDAO;
 import hw.model.ReviewDAO;
@@ -44,7 +45,7 @@ public class MemberReviewWrite extends AbstractController {
 			try {
 			InterReviewDAO rdao = new ReviewDAO();
 			
-			List<ChildProductVO> canReviewProdList = rdao.getUnwrittenReviews(userid);
+			List<OrderDetailVO> canReviewProdList = rdao.getUnwrittenReviews(userid);
 			
 			request.setAttribute("canReviewProdList", canReviewProdList);
 			request.setAttribute("userid", userid);

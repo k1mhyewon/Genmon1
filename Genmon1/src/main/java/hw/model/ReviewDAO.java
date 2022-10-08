@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import common.model.ChildProductVO;
 import common.model.MemberVO;
+import common.model.OrderDetailVO;
 import common.model.ParentProductVO;
 import common.model.ReviewVO;
 
@@ -235,17 +236,17 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// 로그인된 회원의 작성가능 리뷰 상품 목록 얻어오기 ---------------------------------------------------------
 	@Override
-	public List<ChildProductVO> getUnwrittenReviews(String userid) throws SQLException {
+	public List<OrderDetailVO> getUnwrittenReviews(String userid) throws SQLException {
 		
 		// System.out.println("dao 옴");
 		
-		List<ChildProductVO> canReviewProdList = new ArrayList<>();
+		List<OrderDetailVO> canReviewProdList = new ArrayList<>();
 		
 		try {
 			
 			conn = ds.getConnection();
 			
-			String sql = "select D.fk_pnum, A.pimage1, P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname\n"+
+			String sql = "select D.fk_pnum, A.pimage1, P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname, pk_order_detail_id\n"+
 						 "from tbl_order_detail_test D\n"+
 						 "JOIN tbl_order_test O\n"+
 						 "ON O.pk_orderid = D.fk_orderid\n"+
@@ -266,6 +267,7 @@ public class ReviewDAO implements InterReviewDAO {
 	            String fk_pnum = rs.getString(1);
 	            String pimage1 = rs.getString(2);
 	            String pname = rs.getString(3);
+	            String order_detail_id = rs.getString(4);
 	            
 	            ChildProductVO cpvo = new ChildProductVO();
 	            
@@ -273,11 +275,15 @@ public class ReviewDAO implements InterReviewDAO {
 	            cpvo.setPnum(Integer.parseInt(fk_pnum));
 	            
 	            ParentProductVO ppvo = new ParentProductVO();
+	            OrderDetailVO odvo = new OrderDetailVO();
+	            
+	            odvo.setPk_order_detail_id(order_detail_id);
 	            
 	            ppvo.setPname(pname);
 	            cpvo.setParentProvo(ppvo);
+	            odvo.setCpvo(cpvo);
 	            
-	            canReviewProdList.add(cpvo);
+	            canReviewProdList.add(odvo);
 	            
 			}
 			
