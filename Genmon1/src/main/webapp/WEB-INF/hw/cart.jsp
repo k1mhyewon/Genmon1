@@ -465,7 +465,7 @@
 						<label>
 							<input type="checkbox" class="chk_wishprod" name='sun'/>
 							<div class="card_body mx-1 my-3 ">
-								<img src="../images/images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
+								<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
 								<div class="productDesc">
 									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
