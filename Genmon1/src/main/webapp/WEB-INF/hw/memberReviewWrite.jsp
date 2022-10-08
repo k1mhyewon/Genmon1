@@ -206,7 +206,7 @@ div#reviewTbl {
 
     <div id="reviewTbl">
         <div id="rev_title">리뷰작성</div>
-        <form class="mb-3" name="reviewFrm" id="reviewFrm" method="post">
+        <form class="mb-3" name="reviewFrm" id="reviewFrm" method="post" enctype="multipart/form-data">
         	<div style="float: left;">
 	            <select id="rev_category" name="rev_category">
 	                <option value ="select_prod">제품선택</option>

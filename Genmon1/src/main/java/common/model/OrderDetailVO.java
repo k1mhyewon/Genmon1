@@ -11,18 +11,6 @@ public class OrderDetailVO {
 	
 	private ChildProductVO cpvo;
 	
-	/////////////////////////////////////////
-	
-	private int total_qty ; // 총주문개수 알아오기
-	
-	public int getTotal_qty() {
-		return total_qty;
-	}
-
-	public void setTotal_qty(int total_qty) {
-		this.total_qty = total_qty;
-	}
-
 	////////////////////////////
 	private OrderVO ovo;
 	////////////////////////////

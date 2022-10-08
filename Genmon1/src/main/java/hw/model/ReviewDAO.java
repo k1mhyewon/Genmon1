@@ -175,7 +175,7 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = "select R.content, R.img, R.star,\n"+
+			String sql = "select R.content, NVL(R.img_orginFileName, '없음'), R.star,\n"+
 						"       to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, \n"+
 						"       substr(O.fk_userid, 1, LENGTH(O.fk_userid)-2) || LPAD('*', LENGTH(O.fk_userid)-2, '*') as fk_userid, R.reviewid\n"+
 						"from tbl_review_test R\n"+
@@ -205,7 +205,7 @@ public class ReviewDAO implements InterReviewDAO {
 	            ReviewVO rvo = new ReviewVO();
 	            
 	            rvo.setContent(content);
-	            rvo.setImg(img);
+	            rvo.setImg_orginFileName(img);
 	            rvo.setReply(reply);
 	            rvo.setStar(star_shape(star));
 	            rvo.setUploaddate(uploaddate);
@@ -293,6 +293,56 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return canReviewProdList;
 	} // end of public List<ChildProductVO> getUnwrittenReviews(String userid) {} ------------------
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 리뷰 테이블에 insert -----------------------------------------------------------------------------
+	@Override
+	public int reviewInsert(ReviewVO rvo) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " insert into tbl_review_test(reviewid, fk_pk_order_detail_id, content, img_systemFileName, img_orginFileName, star) " +  
+	                    " values(seq_tbl_review_reviewid.nextval,?,?,?,?,?)";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, rvo.getFk_pk_order_detail_id());
+	         pstmt.setString(2, rvo.getContent());
+	         pstmt.setString(3, rvo.getImg_systemFileName());
+	         pstmt.setString(4, rvo.getImg_orginFileName());
+	         pstmt.setString(5, rvo.getStar());
+	            
+	         result = pstmt.executeUpdate();
+	         
+	         if(result == 1) {
+	        	 
+	        	 sql = "update tbl_order_detail_test set order_status = '6'\n"+
+	        			 "where pk_order_detail_id = ?";
+	        	 
+	        	 pstmt = conn.prepareStatement(sql);
+				 
+				 pstmt.setString(1, rvo.getFk_pk_order_detail_id());
+				  
+				 result = pstmt.executeUpdate();
+	         }
+	         
+	      } finally {
+	         close();
+	      }
+		
+		return result;
+	} // end of public int reviewInsert(ReviewVO rvo) throws SQLException {} ------------------------
 
 	
 	

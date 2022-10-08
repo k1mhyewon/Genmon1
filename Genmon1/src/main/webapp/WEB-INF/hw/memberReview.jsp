@@ -255,9 +255,9 @@
 			                <div class="content_desc" style="font-size: 10pt;">${reviewList.content}</div>
 			              
 			            </div>
-			            <c:if test="${reviewList.img != 'noimage.png'}">
+			            <c:if test="${reviewList.img_orginFileName != '없음'}">
 				            <div class="rate_content_2">
-			                	<img src="../images/reviewImg/${reviewList.img}" style="width: 80px;">
+			                	<img src="../images/reviewImg/${reviewList.img_orginFileName}" style="width: 80px;">
 				            </div>
 			            </c:if>
 			            <div class="toggle_box">

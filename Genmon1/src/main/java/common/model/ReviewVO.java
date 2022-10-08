@@ -5,7 +5,8 @@ public class ReviewVO {
 	private String reviewid;
 	private String fk_pk_order_detail_id;
 	private String content;
-	private String img;
+	private String img_systemFileName;
+	private String img_orginFileName;
 	private String uploaddate;
 	private String star;
 	private String reply;
@@ -46,11 +47,19 @@ public class ReviewVO {
 	}
 	
 	
-	public String getImg() {
-		return img;
+	public String getImg_systemFileName() {
+		return img_systemFileName;
 	}
-	public void setImg(String img) {
-		this.img = img;
+	public void setImg_systemFileName(String img_systemFileName) {
+		this.img_systemFileName = img_systemFileName;
+	}
+	
+	
+	public String getImg_orginFileName() {
+		return img_orginFileName;
+	}
+	public void setImg_orginFileName(String img_orginFileName) {
+		this.img_orginFileName = img_orginFileName;
 	}
 	
 	

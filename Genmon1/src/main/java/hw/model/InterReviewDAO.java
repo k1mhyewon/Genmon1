@@ -18,6 +18,9 @@ public interface InterReviewDAO {
 	// 로그인된 회원의 작성가능 리뷰 상품 목록 얻어오기
 	List<OrderDetailVO> getUnwrittenReviews(String userid) throws SQLException;
 
+	// 리뷰 테이블에 insert
+	int reviewInsert(ReviewVO rvo) throws SQLException;
+
 	
 
 
