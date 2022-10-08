@@ -66,7 +66,7 @@ public class InfoUpdateEnd extends AbstractController {
 				
 				
 				// 비밀번호가 맞는지 확인하는 메소드
-				boolean ispwdCheck = pdao.ispwdCheck(paraMap);
+				boolean ispwdCheck = pdao.ispasswdCheck(paraMap);
 			
 	        	// super.setRedirect(false);
 	 			super.setViewPage("/WEB-INF/minsu/infoUpdate.jsp");
