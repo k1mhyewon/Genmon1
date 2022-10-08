@@ -47,24 +47,6 @@
 	          font-weight: bold;
 	          margin-top: 7%;
        }
-     /*   
-        .grid-container {
-			  display: grid;
-			  grid-column-gap: 50px;
-			  grid-row-gap: 50px;
-			  background-color: none;
-			  grid-template-columns: 1fr 1fr 1fr 1fr;
-	 		  grid-template-rows: 1fr 1fr 1fr;
-	 		  margin: 0 auto;
-	 		  box-sizing : border-box;
-	 	      padding: 2rem 2rem;
-		}
-		 */
-		.grid-item-text {
-			float: left;
-			position: relative;
-			margin-top: 5%;
-		}
         
 		.grid-item-img * {
 			  width: 100%;
@@ -73,10 +55,15 @@
 			  margin: 0;
 		}
 		
+		.grid-item-qty {
+		 /* position: relative; */
+			display: block;
+		}
+		
 		.grid-item-name {
 			font-size: 11pt;
 			font-weight: bold;
-			position: relative;
+			display: block;
 		}
 		
 		.grid-item-price {
@@ -99,6 +86,11 @@
 		
 		a:link, a:visited, a:hover, a:active { /* 클릭 후에도 색상 변경 없도록 함  */
  	 		 color: inherit;
+		}
+		
+		.pqty {
+		   -webkit-filter: blur(5px);
+   	       filter: blur(4px);
 		}
 		
         .product-list {
@@ -338,9 +330,9 @@
         </div>
         
         <div class="product-filter" style="padding: 0% 1%;">
-	       <a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short">간략보기</button></a>
+	       <a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short"><i class="fa-thin fa-grid-4"></i>간략보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
-		   <a href="#pop01"><button type="button" class="popup_btn">필터</button></a>
+		   <a href="#pop01"><button type="button" class="popup_btn"><i class="fa-thin fa-arrow-up-short-wide"></i>필터</button></a>
 		</div>
 		
 				<%-- 검색 필터 팝업창  --%>  
@@ -408,37 +400,54 @@
 	   		<c:forEach var="pvo" items="${requestScope.proList }">
 		   		<div class="col-md-3 mt-3">
 		   			 <div style="width:340px;">
-			 			<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" ></a>
+		   			 
+		   			 	<c:choose>
+		   			 		<c:when test="${pvo.pqty == 0}">
+			 				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="pqty"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" ></a>
+			 				</c:when>
+			 				
+			 				<c:when test="${pvo.pqty != 0}">
+			 				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}" ></a>
+			 				</c:when>
+			 			</c:choose>
+			 			
 			  				<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product">
-				 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
-				 		 		<c:choose>
-				 		 			<c:when test="${pvo.salePcnt > 0}">
-				 		 				<span style="text-decoration:line-through; color:gray;" class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
-				 		 			</c:when>
-				 		 			
-			 		 				<c:when test="${pvo.salePcnt <= 0}">
-			 		 					<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
-			 		 				</c:when>
-				 		 		</c:choose>
 				 		 		
-				 		 		<c:choose>
-					 		 		<c:when test="${pvo.salePcnt > 0}">
-					 		 			<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price - (((pvo.parentProvo.price) * pvo.salePcnt)/100) }" pattern="#,###" /></span>
-					 		 		</c:when>
-					 		 		
-					 		 		<c:otherwise> <%-- 할인 없는 곳 공백 넣을까 말까???  --%>
-					 		 			<span class="grid-item-price"> &nbsp; </span>
-					 		 		</c:otherwise>
-				 		 		</c:choose>
-				 		 			
-				 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
-			 		 	 	</a>
-							<button class="item-wish-btn" style="border:none; background-color: white; float: right; display: inline-block;" onclick="addWish()">	&#10084;</button>
-					 </div>	
-				</div>
-	   		</c:forEach>
-	   	</c:if>
-    </div>
+			 		 		<c:if test="${pvo.pqty == 0}">
+			 		 		<span class="grid-item-qty" style="display: inline-block; color: #449ce8;"  class="grid-item-pqty"><i>out of stock</i></span>
+							</c:if>	
+			 		 		
+			 		 		<span class="grid-item-name">${pvo.parentProvo.pname } ${pvo.colorName }</span>
+								 		 		
+			 		 		<c:choose>
+			 		 			<c:when test="${pvo.salePcnt > 0}">
+			 		 				<span style="text-decoration:line-through; color:gray;" class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
+			 		 			</c:when>
+			 		 			
+		 		 				<c:when test="${pvo.salePcnt <= 0}">
+		 		 					<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price}" pattern="#,###" /></span>
+		 		 				</c:when>
+			 		 		</c:choose>
+			 		 		
+			 		 		<c:choose>
+				 		 		<c:when test="${pvo.salePcnt > 0}">
+				 		 			<span class="grid-item-price"><fmt:formatNumber value="${pvo.parentProvo.price - (((pvo.parentProvo.price) * pvo.salePcnt)/100) }" pattern="#,###" /></span>
+				 		 		</c:when>
+				 		 		
+				 		 	<%-- <c:otherwise>  할인 없는 곳 공백 넣을까 말까???  
+				 		 			<span class="grid-item-price"> &nbsp; </span>
+				 		 		</c:otherwise>--%>
+			 		 		</c:choose>
+			 		 			
+			 		 		<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
+		 		 	 	</a>
+		 		 	 	
+						<button class="item-wish-btn" style="border:none; background-color: white; float: right; display: inline-block;" onclick="addWish()">	&#10084;</button>
+				 </div>	
+			</div>
+   		</c:forEach>
+   	</c:if>
+   </div>
     
     
 	
