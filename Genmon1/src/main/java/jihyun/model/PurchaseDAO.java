@@ -67,7 +67,7 @@ public class PurchaseDAO implements InterPurchaseDAO {
 			try {
 				conn = ds.getConnection();
 				
-				String sql = "insert into tbl_purchase_test(pk_purchaseid, fk_orderid, status, paymentAmount, method, usedCoin, usedPoint)\n"+
+				String sql = "insert into tbl_purchase_test(pk_purchaseid, fk_orderid, purchase_status, paymentAmount, method, usedCoin, usedPoint)\n"+
 						"values(seq_tbl_purchase.nextval, ? , 0, ?, 2, ?, ?)";
 				
 				pstmt = conn.prepareStatement(sql);
@@ -96,7 +96,7 @@ public class PurchaseDAO implements InterPurchaseDAO {
 			try {
 				conn = ds.getConnection();
 				
-				String sql = "insert into tbl_purchase_test(pk_purchaseid, fk_orderid, status, paymentAmount, method, usedCoin, usedPoint, purchaseDate)\n"+
+				String sql = "insert into tbl_purchase_test(pk_purchaseid, fk_orderid, purchase_status, paymentAmount, method, usedCoin, usedPoint, purchaseDate)\n"+
 						"values(seq_tbl_purchase.nextval, ? , 1, ?, 1, ?, ?, sysdate)";
 				
 				pstmt = conn.prepareStatement(sql);

@@ -1,14 +1,24 @@
 package jihyun.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
+import common.model.OrderDetailVO;
+import jihyun.model.InterOrderDAO;
+import jihyun.model.OrderDAO;
 
 public class AdminOrderManage extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// 나중에 어드민 확인 넣어주기
+		
+		
+		
 		
 		super.setViewPage("/WEB-INF/jihyun/admin_order_manage.jsp");
 		

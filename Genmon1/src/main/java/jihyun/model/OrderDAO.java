@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -190,6 +191,39 @@ int result =0;
 		
 		return result;
 	}// end of 회원/비회원 주문하기 상세 insert (자식)
+	
+	
+	
+	
+	// 상품 재고 줄어들게 하기
+	@Override
+	public int decreaseProdQty(Map<String, Object> map1) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			List<CartVO> ordertList = (List<CartVO>)map1.get("ordertList");
+			
+			for(CartVO order : ordertList) {
+				
+				String sql = "update tbl_all_product_test set PQTY = PQTY - ?\n"+
+							"where pnum = ?";	
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, order.getQty());
+				pstmt.setInt(2, order.getFk_pnum());
+				
+				result += pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}// 상품 재고 줄어들게 하기
 
 
 	
@@ -275,7 +309,7 @@ int result =0;
 				
 				
 				// 썸네일 찾아준다
-				sql = "select PIMAGE1 \n"+
+				sql = "select PIMAGE1 , ORDER_STATUS \n"+
 						"from tbl_all_product_test\n"+
 						"join tbl_order_detail_test\n"+
 						"on PNUM = fk_PNUM\n"+
@@ -287,6 +321,7 @@ int result =0;
 				rs = pstmt.executeQuery();
 				rs.next();
 				map.put("image", rs.getString(1));
+				map.put("order_status", rs.getString(2));
 			}
 			
 		} finally {
@@ -406,8 +441,75 @@ int result =0;
 	}// end of 넘어온 주문번호로 !!! 주문 상세 !!!  조회하기  (회원용) 
 
 
-	
-	
+	// 관리자에게 주문내역만을 보여주는 것
+	@Override
+	public List<HashMap<String,String>> adminSelectOnlyOrder() throws SQLException {
+		
+		List<HashMap<String,String>> mapList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PURCHASE_STATUS , PK_ORDERID , ORDERDATE, NAME\n"+
+					"from\n"+
+					"    (\n"+
+					"    select rownum AS ANO, PURCHASE_STATUS , PK_ORDERID , ORDERDATE, NAME\n"+
+					"    from tbl_order_test\n"+
+					"    join tbl_purchase_test\n"+
+					"    on PK_ORDERID = fk_ORDERID\n"+
+					"    )\n"+
+					"where ANO between 1 and 10";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String,String> map = new HashMap<>();
+				map.put("PURCHASE_STATUS", rs.getString(1));
+				map.put("PK_ORDERID", rs.getString(2));
+				map.put("ORDERDATE", rs.getString(3));
+				map.put("NAME", rs.getString(4));
+				
+				mapList.add(map);
+			}
+			
+			for(HashMap<String,String> map: mapList) {
+				
+				sql = "select pname, PCOLOR\n"+
+						"from tbl_product_test\n"+
+						"join tbl_all_product_test\n"+
+						"on PID = FK_PID\n"+
+						"join\n"+
+						"(\n"+
+						"    select FK_PNUM\n"+
+						"    from tbl_order_detail_test \n"+
+						"    where FK_ORDERID = ?\n"+
+						")\n"+
+						"on pnum = FK_PNUM";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, map.get("PK_ORDERID"));
+				rs = pstmt.executeQuery();
+				
+				String pnames = "";
+				
+				while(rs.next()) {
+					pnames += rs.getString(1)+" "+rs.getString(2)+", ";
+				}
+				pnames = pnames.substring(0, pnames.length()-2);
+				if(pnames.length()>40) {
+					pnames = pnames.substring(0,40)+"...";
+				}
+				map.put("pnames", pnames);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return mapList;
+	} // end of  관리자에게 전제 주문내역만을 보여주는 것
+
 	
 	
 }

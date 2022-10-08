@@ -218,6 +218,10 @@
     
     
     /* === 모달 CSS 끝 === */
+    
+    table#orderList img:hover {
+		cursor: pointer;
+	}
 	
 </style>
 
@@ -272,7 +276,7 @@
 				<tr><td>주문수량 : ${totalqty }</td></tr>
 				<tr>
 					<td class="myright" style="height: 50px;">
-						<span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/customerCare/contact/memberGoContact.sun?orderid=${odervo.pk_orderid}'">리뷰쓰기</span>
+						<span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/customerCare/contact/memberGoContact.sun?orderid=${odervo.pk_orderid}'">문의하기</span>
 					
 						<!-- ======== [주문취소 Modal] ================================================================ -->
 						
@@ -612,7 +616,7 @@
 		<%-- 밑에 테이블 두개 시작 --%>
 		<div style="display: flex;" class="my-4">
 			<div class="box">
-				<table class="mb-4 border-right">
+				<table class="mb-4 border-right" id="orderList">
 					<tbody>
 						<tr style="height: 50px;">
 							<td colspan="2"><strong>입금대기중 입금완료 / 배송중 배송완료 </strong></td>
@@ -620,13 +624,14 @@
 						<%-- 반복시작 --%>
 						<c:forEach var="orddtailvo" items="${orddtailList }">
 							<tr>
-								<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/common/products/${orddtailvo.cpvo.pimage1 }"  class="image"></td>
+								<td rowspan="3" class="image">
+									<img onclick="javascript:location.href='<%=ctxPath %>/product/productDetail.sun?pnum=${orddtailvo.fk_pnum}'" src="<%=ctxPath %>/images/common/products/${orddtailvo.cpvo.pimage1 }"   class="image"></td>
 								<td style="vertical-align: middle; "><strong style="margin-left : 20px;">${orddtailvo.cpvo.parentProvo.pname } ${orddtailvo.cpvo.colorName }</strong>
 								<br><span style="margin-left : 20px;">${orddtailvo.order_price }원</span></td>
 							</tr>
 							<tr>
 								<c:if test="${orddtailvo.order_status eq '5' or orddtailvo.order_status eq '4'}">
-									<td><span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/member/memberReviewWrite.sun?orderDetailid=${orddtailvo.pk_order_detail_id} }'">리뷰쓰기</span></td>
+									<td><span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/member/memberReviewWrite.sun?orderDetailid=${orddtailvo.pk_order_detail_id}'">리뷰쓰기</span></td>
 								</c:if>
 								<c:if test="${orddtailvo.order_status ne '5' and orddtailvo.order_status ne '4'}">
 									<td> </td>
