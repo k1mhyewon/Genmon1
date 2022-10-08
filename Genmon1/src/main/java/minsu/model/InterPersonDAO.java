@@ -20,13 +20,12 @@ public interface InterPersonDAO {
 	int coinUpdate(Map<String, String> paraMap)throws SQLException;
 
 	// 비밀번호가 맞는지 확인하는 메소드
-	boolean ispwdCheck(Map<String, String> paraMap)throws SQLException;
+	boolean ispasswdCheck(Map<String, String> paraMap)throws SQLException;
 
 	// 주소를 삭제하는 메소드 생성하기 //
 	int adrDelete(Map<String, String> paraMap)throws SQLException;
 
-	// 유저의 비밀번호가 맞는지 확인하는 매소드
-	boolean ispasswdCheck(Map<String, String> paraMap)throws SQLException;
+	
 
 	
 	

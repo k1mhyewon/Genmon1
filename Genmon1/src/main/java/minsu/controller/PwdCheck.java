@@ -50,11 +50,11 @@ public class PwdCheck extends AbstractController {
 			}
 			else {
 				
-				String userid = loginuser.getUserid();
-				String pwd = loginuser.getPwd();
+				String pwd = request.getParameter("pwd");
+				String userid = request.getParameter("userid");
 				
-				System.out.println("~~~ pwd확인용!!! :" + pwd);
-				
+				System.out.println("확인용 pwd :"+ pwd + "userid: " + userid  );
+			
 				
 				Map<String, String> paraMap = new HashMap<>();
 				paraMap.put("pwd", pwd);
@@ -68,7 +68,7 @@ public class PwdCheck extends AbstractController {
 				
 				
 				// super.setRedirect(false);
-				super.setViewPage("/WEB-INF/minsu/pwdChange.jsp");
+				super.setViewPage("/WEB-INF/minsu/pwdCheck.jsp");
 				
 				
 			}
