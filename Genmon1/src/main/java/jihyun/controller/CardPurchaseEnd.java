@@ -1,3 +1,6 @@
+
+
+
 package jihyun.controller;
 
 import java.text.SimpleDateFormat;
@@ -134,7 +137,6 @@ public class CardPurchaseEnd extends AbstractController {
 			paraMap.put("refundbank", request.getParameter("refundbank"));
 			paraMap.put("refundacc", request.getParameter("refundacc"));
 			paraMap.put("accname", request.getParameter("accname"));
-
 			int m = purdao.insertRefund(paraMap);
 			
 			// System.out.println("환불 테이블 :"+m);
