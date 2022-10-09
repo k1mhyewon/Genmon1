@@ -337,6 +337,40 @@ public class CartDAO implements InterCartDAO {
 		
 		return result;
 	} // end of 주문 완료 후 회원 장바구니 비워주깅
+
+
+	
+	
+	
+	
+	
+	// 카트 개수 구하기 ----------------------------------------------------------------------------------
+	@Override
+	public int countCart(String userid) throws SQLException {
+		
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(fk_pnum) from tbl_basket_test where fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery(); // 돌려라!
+			
+			if(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			// System.out.println("cnt : "+cnt);
+			
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	} // end of public int countCart(String userid) throws SQLException {} ---------------------------
 	
 	
 

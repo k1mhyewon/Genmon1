@@ -115,6 +115,9 @@
  		top : 30%; 
 	}
 
+	.album{
+		padding-right: 13%;
+	}
     /* 추가 */
 
 </style>
@@ -333,13 +336,15 @@
 	
 	// 장바구니로 페이지 이동
 	function goSeeCart() {
-		location.href="<%= ctxPath%>/order/cart.sun"
+		location.href="<%= ctxPath%>/order/cart.sun";
 	}
 	
 	
 	function closeModal() {
 		$('#goCartModal').modal('hide');
 	}
+	
+	
 	
 
 
@@ -354,7 +359,6 @@
 	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
 	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()")>선택삭제</button><br>
 	        <button type="button" class="btn btn-dark btn_chkbox" id="addCart_btn" onClick="selectAddCart()">선택상품 장바구니 추가</button>
-	        <button type="button" class="btn btn-dark btn_chkbox" data-toggle="modal" data-target="#goCartModal">장바구니 모달</button>
 	    </div>
 		<div class="album">
 			<div class="box">
@@ -370,7 +374,7 @@
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
 									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
 								</div>
-								<button type="button" class="btnWish btn btn-dark" onClick="goCart('${wishvo.fk_userid}','${wishvo.fk_pnum}')" >장바구니에 추가</button>
+								<button type="button" class="btnWish btn btn-dark" onClick="goCart('${wishvo.fk_userid}','${wishvo.fk_pnum}')" data-toggle="modal" data-target="#goCartModal" >장바구니에 추가</button>
 								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>
 							</div>
 						</div>

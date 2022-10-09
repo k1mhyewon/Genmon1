@@ -383,7 +383,6 @@
 		           <select id="select_category" name="select_category">
 		               <option value ="recent">최신순</option>
 		               <option value ="star">별점순</option>
-		               <option value ="like">좋아요순</option>
 		           </select>
 		           
 		           <span id="avgStar">${requestScope.avg_star_shape}</span>

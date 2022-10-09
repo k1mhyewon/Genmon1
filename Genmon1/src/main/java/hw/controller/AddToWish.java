@@ -1,22 +1,19 @@
 package hw.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import common.model.MemberVO;
-import common.model.OrderDetailVO;
-import hw.model.InterReviewDAO;
-import hw.model.ReviewDAO;
+import hw.model.InterWishlistDAO;
+import hw.model.WishlistDAO;
 
-public class MemberReviewWrite extends AbstractController {
+public class AddToWish extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
 		if( !super.checkLogin(request)) {
 			
 			// 로그인을 안 했으면
@@ -32,35 +29,23 @@ public class MemberReviewWrite extends AbstractController {
 		}
 		else {
 			
-			String orderDetailid = request.getParameter("orderDetailid");
-			
-			request.setAttribute("orderDetailid", orderDetailid);
-		
 			HttpSession session =  request.getSession(); 
 			  // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
-			
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			String userid = loginuser.getUserid();
 			// System.out.println("확인용 loginuser.userid : " + loginuser.getUserid());
+			
+			String userid = request.getParameter("userid");
 			// System.out.println("확인용 userid_request : " + userid_request);
+			String pnum = request.getParameter("pnum");
 			
-			try {
-			InterReviewDAO rdao = new ReviewDAO();
+			InterWishlistDAO wdao = new WishlistDAO();
 			
-			List<OrderDetailVO> canReviewProdList = rdao.getUnwrittenReviews(userid);
-			
-			request.setAttribute("canReviewProdList", canReviewProdList);
-			request.setAttribute("userid", userid);
-			} catch(NumberFormatException e) {
-				
-			}
+			int n = wdao.addToWish(userid, pnum);
 			
 			
 			
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/hw/memberReviewWrite.jsp");
-		
 		}
+		
 		
 	}
 

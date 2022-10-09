@@ -263,10 +263,11 @@ public class ReviewDAO implements InterReviewDAO {
 						 "ON D.fk_pnum = A.pnum\n"+
 						 "JOIN tbl_product_test P\n"+
 						 "ON A.fk_pid = P.pid\n"+
-						 "where O.fk_userid = ? and D.order_status = '5' or D.order_status = '4'";
+						 "where O.fk_userid = ? and D.order_status = '5' or O.fk_userid = ? and D.order_status = '4'";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
+			pstmt.setString(2, userid);
 			
 			rs = pstmt.executeQuery();
 			
