@@ -195,6 +195,45 @@ int result =0;
 	
 	
 	
+	// 현금 회원/비회원 주문하기 상세 insert (자식)
+	@Override
+	public int isertCashOrderDetail(CartVO cvo, String orderid) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_order_detail_test (pk_order_detail_id, fk_orderid, fk_pnum, order_price, order_status)\n"+
+					"values (?||seq_tbl_order_detail.nextval, ?,?,?,6)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderid);
+			pstmt.setString(2, orderid);
+			pstmt.setInt(3, cvo.getFk_pnum());
+			
+			// 세일이 있다면 세일가로
+			if(cvo.getAllProdvo().getSalePcnt()!=0) {
+				int price = cvo.getAllProdvo().getParentProvo().getPrice() * (100 - cvo.getAllProdvo().getSalePcnt() )/ 100;
+				pstmt.setInt(4, price);
+			} else { // 없다면 원가로
+				pstmt.setInt(4, cvo.getAllProdvo().getParentProvo().getPrice());
+			}
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return result;
+	}// end of 현금 회원/비회원 주문하기 상세 insert (자식)
+
+
+	
+	
+	
 	// 상품 재고 줄어들게 하기
 	@Override
 	public int decreaseProdQty(Map<String, Object> map1) throws SQLException {
@@ -237,13 +276,9 @@ int result =0;
 			conn = ds.getConnection();
 			
 			// 주문 정보 알아오기
-			String sql = "select PK_ORDERID, purchase_status, to_char(ORDERDATE)  \n"+
-					"from\n"+
-					"    (select PK_ORDERID, ORDERDATE\n"+
+			String sql = "select PK_ORDERID, ORDERDATE\n"+
 					"    from tbl_order_test \n"+
-					"    where fk_userid = ? )\n"+
-					"join tbl_purchase_test\n"+
-					" on PK_ORDERID = FK_ORDERID  "+
+					"    where fk_userid = ?  "+
 					" order by PK_ORDERID desc ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -254,12 +289,10 @@ int result =0;
 			while(rs.next()) {
 				
 				String orderid = rs.getString(1);
-				String purchase_status = String.valueOf(rs.getInt(2)) ;
-				String orderdate = rs.getString(3);
+				String orderdate = rs.getString(2);
 				
 				HashMap<String, String> map = new HashMap<>();
 				map.put("orderid", orderid);
-				map.put("purchase_status", purchase_status );
 				map.put("orderdate", orderdate);
 				
 				/*
@@ -319,9 +352,12 @@ int result =0;
 				pstmt.setString(1, map.get("orderid"));
 				
 				rs = pstmt.executeQuery();
-				rs.next();
-				map.put("image", rs.getString(1));
-				map.put("order_status", rs.getString(2));
+				
+				while(rs.next()){
+					map.put("image", rs.getString(1));
+					map.put("order_status", rs.getString(2));
+				}
+				
 			}
 			
 		} finally {
@@ -509,6 +545,42 @@ int result =0;
 		
 		return mapList;
 	} // end of  관리자에게 전제 주문내역만을 보여주는 것
+
+
+	
+	// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
+	@Override
+	public OrderVO findGuestOrder(String input_orderid, String input_email) throws SQLException {
+		
+		OrderVO ovo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDERID\n"+
+					"from tbl_order_test \n"+
+					"where PK_ORDERID = ? and EMAIL = ? and FK_USERID is null";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, input_orderid);
+			pstmt.setString(2, aes.encrypt(input_email));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				ovo = new OrderVO();
+				ovo.setPk_orderid(rs.getString(1));
+			}
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return ovo;
+	}// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
 
 	
 	

@@ -1,5 +1,6 @@
 package jihyun.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,13 +12,16 @@ import common.model.MemberVO;
 import common.model.OrderDetailVO;
 import common.model.OrderVO;
 import jihyun.model.InterOrderDAO;
+import jihyun.model.InterPurchaseDAO;
 import jihyun.model.OrderDAO;
+import jihyun.model.PurchaseDAO;
 
 public class MyInfoOrderDetail extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		
 		// 마이인포니까 회원만 // 주문번호랑 fk_userid 비교해주기
 		if(super.checkLogin(request)) {
 			
@@ -40,6 +44,11 @@ public class MyInfoOrderDetail extends AbstractController {
 					// 주문번호로 주문상세 전부 가져오기
 					List<OrderDetailVO> orddtailList = odao.selectOneOrderDetail(Long.valueOf(orderid) );
 					
+					// 주문번호로 결제 내역 가져오기 
+					InterPurchaseDAO pdao = new PurchaseDAO();
+					HashMap<String, Object> purvomap = pdao.SelectOnePurch(orderid);
+					
+					request.setAttribute("purvomap", purvomap);
 					request.setAttribute("orddtailList", orddtailList);
 					request.setAttribute("odervo", odervo);
 					request.setAttribute("totalqty",totalqty);
@@ -73,11 +82,32 @@ public class MyInfoOrderDetail extends AbstractController {
 			
 			
 		} else {// 로그인 안한채로 넘어온거임
-			request.setAttribute("message", "비정상적인 접근입니다");
-			request.setAttribute("loc", "javascript:history.back()");
 			
-			super.setViewPage("/WEB-INF/common/msg.jsp");
-			return;
+			String method = request.getMethod();
+			
+			if("post".equalsIgnoreCase(method)) {
+				
+				String orderid = request.getParameter("orderid");
+				
+				
+				
+				
+				
+				// 주문번호 가져왔고 나중에 뭐라도 해야대 알지
+				
+				
+				
+				
+				
+				System.out.println("진입성공함");
+				System.out.println(orderid);
+				
+				
+				super.setViewPage("/WEB-INF/jihyun/guestOrderDetail.jsp");
+				return;
+			}
+			
+			
 		}
 		
 		

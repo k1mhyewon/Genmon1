@@ -9,7 +9,8 @@ public class AdminSalesStatus extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+
+		super.setViewPage("/WEB-INF/jihyun/admin_sales_status.jsp");
 		
 	}
 

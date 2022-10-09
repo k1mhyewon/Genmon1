@@ -181,13 +181,6 @@
 		}); // end of $("button#codeConfirm_btn").click() ------------------
 		
 		
-		// 로그인화면에서 비회원 주문조회 버튼을 누르면
-		$("button#btn_goCart").click(function(){
-			// 로그인 버튼을 클릭하면
-			 // 비회원 주문조회 모달 호출
-			
-		}); // end of $("button#btnSubmit").click() --------------
-		
 		
 		// 로그인화면에서 신규가입 버튼을 누르면
         $("button#btn_gojoin").click(function(){
@@ -251,6 +244,33 @@
 	
 	
 	
+	// 비회원 주문조회 가기 메소드 
+	function goGuestOrder(orderid){
+			
+		const frm = document.frm_hidden;
+    	
+		frm_hidden.orderid.value = orderid;
+		
+		frm.method = "POST";
+		frm.action = "<%=ctxPath %>/myinfo/orderDetail.sun";
+		frm.submit();
+			
+		
+	}
+	
+	// 비회원 주문조회 팝업창
+	function go_guest_order(){
+		
+		const pop_width = 500;
+		const pop_height = 550;
+		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
+		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
+		
+		window.open("<%=ctxPath %>/guest/goOrderDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+                , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+	} // end of 비회원 주문조회 팝업창
+	
+	
 </script>
 
 
@@ -279,7 +299,7 @@
            	</c:if>
            	
         	<button id="btn_goLogin" class="login_btn" type="button">로그인</button>
-        	<button id="btn_goCart" type="button">비회원 주문조회</button>
+        	<button id="btn_goCart" type="button" onclick="go_guest_order()"  >비회원 주문조회</button>
         	
         	<div> 
 	        	<span class="find_btn" id="find_userid" type="button" data-toggle="modal" data-target="#useridFindModal" style="margin-left: 37px;">아이디찾기</span>
@@ -321,8 +341,15 @@
 			</div>
 		</div>
 	</div>
+	
+	
 
 	
+	<%-- ================== --%>
+	<form name="frm_hidden">
+	   <input type="text" name="orderid" value="" style="display: none;" />
+	   <input type="text" style="display: none;" />
+	</form>
         	
     <!-- 인덱스 끝 -->
 <jsp:include page="../common/footer.jsp" />
