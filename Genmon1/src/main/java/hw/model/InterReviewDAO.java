@@ -21,6 +21,15 @@ public interface InterReviewDAO {
 	// 리뷰 테이블에 insert
 	int reviewInsert(ReviewVO rvo) throws SQLException;
 
+	// 리뷰 삭제하기
+	int deleteReview(String reviewid) throws SQLException;
+	
+	// 리뷰 댓글 삭제하기
+	int deleteReviewReply(String reviewid) throws SQLException;
+
+	// 리뷰 댓글 달기
+	int insertReply(String reviewid, String reply_content) throws SQLException;
+
 	
 
 

@@ -141,6 +141,8 @@
     .modify {
     	/* border: solid 1px gray; */
     	text-align: right;
+        display: inline-block;
+        margin: 0 0 0 5px;
     }
     
     .btn_modify {
@@ -177,10 +179,51 @@
 		font-weight: bold;
 	}
 	
+	.toggle_btn, .toggle_content {
+    	font-size: 11pt; 
+    	margin-top: 10px;
+    }
+    
+    .toggle_btn {
+    	font-weight: bold;
+    }
+    
+    .toggle_content {
+    	border: solid 1px gray;
+    	width: 450px;
+    	height: 140px;
+    	margin-top: 20px;
+    	padding: 10px 0 10px 10px;
+    	border-radius: 15px 15px 15px 15px;
+    }
+	
 	#go_review {
 		margin-top: 120px;
 		font-size: 10pt;
 	}
+	
+	.write_reply_btn {
+    	text-decoration: underline;
+    	font-weight: normal;
+    	margin-left: 10px;
+    	font-size: 10pt;
+    }
+    
+    .reply_content {
+    	font-size: 10pt;
+    	width: 97%;
+    }
+    
+    .color_red {
+    	color: red;
+    }
+  
+    
+    .reply_btns {
+    	font-size: 10pt;
+    	height: 30px;
+    	margin: 7px 0 0 7px;
+    }
     
     
 
@@ -191,19 +234,123 @@
 	
 	$(document).ready(function(){ //  =============================================================
 		
+		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
+		$('.reply_content').keyup(function (e) {
+			let reply_content = $(this).val();
+		    
+		    // 글자수 세기
+		    if (reply_content.length == 0 || reply_content == '') {
+		    	$('.text_cnt').text('0자');
+		    } else {
+		    	$('.text_cnt').text(reply_content.length + '자');
+		    }
+		    
+		    // 글자수 제한
+		    if (reply_content.length > 49) {
+		    	// 50자 부터는 타이핑이 안되게
+		    	$('.text_cnt').addClass('color_red');
+		        $(this).val($(this).val().substring(0, 49));
+		    }
+		    else {
+		    	$('.text_cnt').removeClass('color_red');
+		    }
+		}); // end of $('#rev_content').keyup() ---------------------------------
+		
 		
 		
 	}); // end of $(document).ready() =============================================================
 
-	
-	function go_rev_modify(){ // ---------------------------
+	// 리뷰 수정하기
+	function rev_modify(reviewid){ // ---------------------------
 		
-		window.location.href = 'review_write.jsp';
+		// window.location.href = 'review_write.jsp';
 		
 	} // end of function go_rev_modify() -------------------
 	
 	
+	let purpose = "";
+	// 리뷰 삭제하기
+	function reviewDelete(reviewid){ // --------------------------------
+		
+		purpose = "reviewDelete";
+		
+		if (confirm("리뷰를 삭제하시겠습니까?")) {
+			// 확인(예) 버튼 클릭 시 이벤트
+	        
+	    	$.ajax({
+				url:"<%= ctxPath%>/member/review.sun" ,
+				type: "POST", 
+				data:{"reviewid":reviewid, "purpose":purpose},
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	window.location.reload(true);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+	    } 
+		else {
+			// 취소(아니오) 버튼 클릭 시 이벤트
+	        
+	        return false;
+		}
 	
+		
+	} // end of function rev_delete(reviewid){} -----------------------
+	
+	
+	// 리뷰댓글 삭제하기
+	function reply_delete(reviewid){
+		
+		purpose = "replyDelete";
+		
+		if (confirm("리뷰 댓글을 삭제하시겠습니까?")) {
+			// 확인(예) 버튼 클릭 시 이벤트
+	        
+	    	$.ajax({
+				url:"<%= ctxPath%>/member/review.sun" ,
+				type: "POST", 
+				data:{"reviewid":reviewid, "purpose":purpose},
+			    dataType:"TEXT",
+			    success:function(json) {
+			    	window.location.reload(true);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+	    } 
+		else {
+			// 취소(아니오) 버튼 클릭 시 이벤트
+	        
+	        return false;
+		}
+		
+	}
+	
+	
+	// 리뷰 댓글 달기
+	function reply(reviewid){
+		
+		purpose = "insertReply";
+		
+		const replyFrm = $("form[name=replyFrm]").serialize() ;
+		
+    	$.ajax({
+			url:"<%= ctxPath%>/member/review.sun",
+			type: "POST", 
+			data:replyFrm,
+		    dataType:"TEXT",
+		    success:function(json) {
+		    	window.location.reload(true);
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	    
+	}
 	
 	
 
@@ -262,23 +409,62 @@
 			            </c:if>
 			            <div class="toggle_box">
 			            	<c:if test="${reviewList.reply == '없음'}">
-					            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
+					            <span class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
 									댓글(0)
-								</div>
+								</span>
+								<c:if test="${not empty requestScope.userid && requestScope.userid == 'admin'}">
+									<span id="reply_${reviewList.reviewid}" class="toggle_btn write_reply_btn" type="button" data-toggle="collapse" 
+										  data-target="#see_reply_${reviewList.reviewid}">댓글 작성
+									</span>
+									<div class="toggle_content collapse reply_container" id="see_reply_${reviewList.reviewid}">
+										<div style="font-weight: bold;">Gentle Monster</div>
+										<div style="margin-top: 10px;">
+											<form name="replyFrm">
+								                <textarea class="col-auto form-control reply_content" name="reply_content" type="text" 
+								                          placeholder="댓글내용을 작성해주세요." ></textarea>
+							                <input type="hidden" name="purpose" value="insertReply" />
+							                <input type="hidden" name="reviewid" value="${reviewList.reviewid}" />
+							                </form>
+							                <div align="right" style="padding-right: 10px;">
+								                <span class="text_cnt">0자</span>
+								                <span>/50자</span>
+								                <button type="button" id="btn_reply" class="btn btn-dark reply_btns" onClick="reply('${reviewList.reviewid}')">
+								                	작성완료
+								                </button>
+								            </div>
+							            </div>
+									</div>
+								</c:if>
 							</c:if>
 							<c:if test="${reviewList.reply != '없음'}">
-					            <div class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
+					            <span class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
 									댓글(1)
-								</div>
+								</span>
+								<span id="delete_reply_${reviewList.reviewid}" class="toggle_btn write_reply_btn" type="button" onClick="reply_delete('${reviewList.reviewid}')">
+									댓글 삭제
+								</span>
 								<div class="toggle_content collapse" id="reply_${reviewList.reviewid}">
 									<div style="font-weight: bold;">Gentle Monster</div>
 									<div style="font-size: 10pt; margin-top: 10px;">${reviewList.reply}</div>
 								</div>
 							</c:if>
-							
 						</div>
+						
 			        </div>
 			        <div style="height: 30px;"></div>
+			        <div style="margin-left: 410px;">
+			        	<c:if test="${not empty requestScope.userid && requestScope.userid == reviewList.mvo.userid}">
+							<div class="modify">
+								<button type="button" class="btn btn-light btn_modify" onClick="rev_modify('${reviewList.reviewid}')">리뷰수정</button>
+								<button type="button" class="btn btn-light btn_modify" onClick="reviewDelete('${reviewList.reviewid}')">리뷰삭제</button>
+							</div>
+						</c:if>
+						<c:if test="${not empty requestScope.userid && requestScope.userid == 'admin'}">
+							<div class="modify" style="padding-left: 80px;">
+								<button onClick="reviewDelete('${reviewList.reviewid}')" type="button" class="btn btn-light btn_modify" >리뷰삭제</button>
+							</div>
+						</c:if>
+					</div>
 			        <hr>
 	        	</c:forEach>
         	</div>
@@ -288,7 +474,6 @@
         	<div class="container_boxes">
 				<div id="no_review">
 					<div style="padding-top: 50px; text-decoration: underline;">작성된 리뷰가 없습니다.</div>
-           			<button type="button" class="btn btn-dark" id="go_review">리뷰작성 하러가기</button>
       			</div>
         		<hr>
        		</div>

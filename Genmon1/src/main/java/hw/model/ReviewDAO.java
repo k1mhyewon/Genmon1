@@ -122,33 +122,42 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			
+			if( rs.next() ) { // rs.next()
 				prodMap.put("replyCnt", rs.getString(1));
+				
+				
+				// 리뷰 평균 별점 알아오기
+				sql = "select avg(R.star) as avg_star\n"+
+						"from tbl_review_test R\n"+
+						"JOIN tbl_order_detail_test D\n"+
+						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+						"JOIN tbl_order_test O\n"+
+						"ON D.fk_orderid  = O.pk_orderid\n"+
+						"JOIN tbl_all_product_test A\n"+
+						"ON D.fk_pnum = A.pnum\n"+
+						"where A.pnum = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, pnum);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next() && rs.getString(1) != null) {
+					prodMap.put("avg_star", rs.getString(1));
+					if(rs.getString(1).length() == 1) {
+						prodMap.put("avg_star_shape", star_shape(rs.getString(1)));
+										
+					}
+					else if(rs.getString(1).length() > 1) {
+						String avg_star_cut = rs.getString(1).substring(0, 1);
+						prodMap.put("avg_star_shape", star_shape(avg_star_cut));
+					}
+					
+				}
 			}
 			
-			// 리뷰 평균 별점 알아오기
-			sql = "select avg(R.star) as avg_star\n"+
-					"from tbl_review_test R\n"+
-					"JOIN tbl_order_detail_test D\n"+
-					"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
-					"JOIN tbl_order_test O\n"+
-					"ON D.fk_orderid  = O.pk_orderid\n"+
-					"JOIN tbl_all_product_test A\n"+
-					"ON D.fk_pnum = A.pnum\n"+
-					"where A.pnum = ?";
 			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pnum);
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				prodMap.put("avg_star", rs.getString(1));
-				
-				String avg_star_cut = rs.getString(1).substring(0, 1);
-				prodMap.put("avg_star_shape", star_shape(avg_star_cut));
-				
-			}
 			
 			
 		} finally {
@@ -177,7 +186,7 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			String sql = "select R.content, NVL(R.img_orginFileName, '없음'), R.star,\n"+
 						"       to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, \n"+
-						"       substr(O.fk_userid, 1, LENGTH(O.fk_userid)-2) || LPAD('*', LENGTH(O.fk_userid)-2, '*') as fk_userid, R.reviewid\n"+
+						"       O.fk_userid, R.reviewid\n"+
 						"from tbl_review_test R\n"+
 						"JOIN tbl_order_detail_test D\n"+
 						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
@@ -254,7 +263,7 @@ public class ReviewDAO implements InterReviewDAO {
 						 "ON D.fk_pnum = A.pnum\n"+
 						 "JOIN tbl_product_test P\n"+
 						 "ON A.fk_pid = P.pid\n"+
-						 "where O.fk_userid = ? and D.order_status = '5'";
+						 "where O.fk_userid = ? and D.order_status = '5' or D.order_status = '4'";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userid);
@@ -344,6 +353,103 @@ public class ReviewDAO implements InterReviewDAO {
 		return result;
 	} // end of public int reviewInsert(ReviewVO rvo) throws SQLException {} ------------------------
 
+	
+	
+	
+	
+	
+	
+	// 리뷰 삭제하기 ------------------------------------------------------------------------------------
+	@Override
+	public int deleteReview(String reviewid) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "delete from tbl_review_test \n"+
+						  "where reviewid = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, reviewid);
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+		
+	} // end of public int deleteReview(String reviewid) throws SQLException {} ----------------------
+
+	
+	
+	
+	
+	
+	
+	// 리뷰 댓글 삭제하기 ----------------------------------------------------------------------------------
+	@Override
+	public int deleteReviewReply(String reviewid) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " update tbl_review_test set reply = null where reviewid = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, reviewid);
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+		
+	} // end of public int deleteReviewReply(String reviewid) throws SQLException {} ------------------
+
+	
+	
+	
+	
+	
+	
+	// 리뷰 댓글 달기 ------------------------------------------------------------------------------------
+	@Override
+	public int insertReply(String reviewid, String reply_content) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+	         conn = ds.getConnection();
+	         
+	         String sql = " update tbl_review_test set reply = ? where reviewid = ? ";
+	         
+	         pstmt = conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, reply_content);
+	         pstmt.setString(2, reviewid);
+	         
+	         result = pstmt.executeUpdate();
+	         
+	      } finally {
+	         close();
+	      }
+		
+		return result;
+	} // end of public int insertReply(String reviewid) throws SQLException {} -----------------------
+
+	
+	
+	
 	
 	
 }
