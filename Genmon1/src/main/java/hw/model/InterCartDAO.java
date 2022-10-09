@@ -28,6 +28,9 @@ public interface InterCartDAO {
 
 	// 주문 완료 후 회원 장바구니 비워주깅
 	int deleteOrderedList(List<CartVO> ordertList, String fk_userid) throws SQLException ;
+
+	// 카트 개수 구하기
+	int countCart(String userid) throws SQLException;
 	
 	
 

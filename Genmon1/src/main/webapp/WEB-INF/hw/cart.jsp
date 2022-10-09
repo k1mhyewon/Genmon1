@@ -17,11 +17,12 @@
     }
 
 
-    div#wishText{
+    #wishText{
         /* border: solid 1px green; */
         padding: 6% 0 3% 10%;
         font-size: 14pt;
         font-weight: bold;
+        display: inline-block;
     }
     
     #empty_wishlist {
@@ -61,9 +62,8 @@
     }
 
    .wish_container {
-    	/* border: solid 1px green; */
+    	/* border: solid 1px green;  */
     	width: 1400px;
-    	margin: 0 auto;
     	
     }
 
@@ -77,6 +77,8 @@
     	width: 160px; 
         height: 30px;
     }
+    
+    
     
     
     <%--
@@ -171,6 +173,10 @@
 	 cursor: pointer;
 	}
 	
+	.album{
+		padding-left: 12%;
+	}
+	
 	
 
 </style>
@@ -178,6 +184,8 @@
 
 	$(document).ready(function(){ // ==========================================================
 		
+		cartCount(); // 장바구니 개수 
+	
 		// 비회원이라면???
 		const loginuser = '${sessionScope.loginuser.userid}' ;
 		let allkey = "";
@@ -250,7 +258,11 @@
 			
 			
 		}// end of 비회원이라면???
+				
+				
+				
 		
+				
 		
 		// ==== 체크박스 전체선택/전체해제 ==== //
 		$("input:checkbox[id='chkAll']").click( function(e) {
@@ -324,6 +336,31 @@
 	
 		
 	// #### Function Declaration #### //
+	
+	
+	// ==== 장바구니 개수 ==== // 왜 안되징.,,,,
+	function cartCount(){
+		
+		let cnt = "";
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/order/countWishnCart.sun",
+			data:{ "count":"cart"},
+			type: "get",
+		    success:function(json) {
+		    	
+		    	var str_json = JSON.stringify(json);
+		    	
+		    	// console.log(str_json);		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+		});
+		
+	}
+	
 	
 	
 	function go_purchase(fk_pnum, qty){ // --------------------------------
@@ -443,51 +480,52 @@
 		
 	}// end of 선택상품 주문 하기 함수
 	
-
+	
+	
 </script>
     <!-- 인덱스 시작 -->
  
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">장바구니()</div>
-    <%-- <c:if test="${ not empty requestScope.cartList}"> --%>
-    	<div id="checkbox_choice">
+    <div id="wishText">장바구니(<p id="count" style="display: inline-block;">${requestScope.cnt}</p>)</div>
+    
+   	<div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
         <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings()">전체상품결제</button>
         <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings()">선택상품결제</button>
-	    </div>
-		<div class="album">
-			<div class="box">
-				<div class="wish_container row row-cols-sm-1 row-cols-md-4" id="show">
-					<c:forEach var="cvo" items="${requestScope.cartList}">
-						<div class="col">
-						<label>
-							<input type="checkbox" class="chk_wishprod" name='sun'/>
-							<div class="card_body mx-1 my-3 ">
-								<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
-								<div class="productDesc">
-									<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
-									<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
-								</div>
-								<div class="number-input" style="margin-left: 105px; margin-top: 0;">
-								  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
-								  <input  class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
-								  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-								</div>
-								<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
-								<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
-								<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
+    </div>
+	<div class="album">
+		<div class="box">
+			<div class="wish_container row row-cols-sm-1 row-cols-md-4" id="show">
+				<c:forEach var="cvo" items="${requestScope.cartList}">
+					<div class="col">
+					<label>
+						<input type="checkbox" class="chk_wishprod" name='sun'/>
+						<div class="card_body mx-1 my-3 ">
+							<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
+							<div class="productDesc">
+								<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
+								<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
 							</div>
-						</label>
+							<div class="number-input" style="margin-left: 105px; margin-top: 0;">
+							  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
+							  <input class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
+							  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+							</div>
+							<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
+							<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
+							<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
 						</div>
-					</c:forEach>
-					
-				</div>
+					</label>
+					</div>
+				</c:forEach>
+				
 			</div>
 		</div>
-	
-    <c:if test="${ empty requestScope.cartList && not empty sessionScope.loginuser}">
+	</div>
+
+    <c:if test="${ empty requestScope.cartList and not empty sessionScope.loginuser}">
     	<div id="wishText">장바구니(0)</div>
 		<div id="empty_wishlist">
 			<div>장바구니에 담긴 상품이 없습니다.</div>

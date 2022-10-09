@@ -25,6 +25,9 @@ public interface InterPersonDAO {
 	// 주소를 삭제하는 메소드 생성하기 //
 	int adrDelete(Map<String, String> paraMap)throws SQLException;
 
+	// 비밀번호를 변경해주는 메소드
+	int passwdUpdate(Map<String, String> paraMap)throws SQLException;
+
 	
 
 	

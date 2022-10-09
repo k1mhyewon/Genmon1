@@ -126,6 +126,15 @@ div#reviewTbl {
 
 	$(document).ready(function(){
 		
+		let pimage1 = "";
+		
+		if('${requestScope.orderDetailid}'){
+			const orderDetailid = '${requestScope.orderDetailid}';
+			// console.log("orderDetailid: "+orderDetailid);
+			
+			
+		}
+		
 		// 리뷰내용 글자수 200자 제한 -------------------------------------------------
 		$('#rev_content').keydown(function (e) {
 			let rev_content = $(this).val();
@@ -146,30 +155,46 @@ div#reviewTbl {
 		
 		
 		
+		// --------------------------------------------------------------------------
 		
-		// let odid_pnum_pimage = $("#rev_category option:selected").val();
+		let odid_pnum_pimage = $("#rev_category option:selected").val();
+		console.log(odid_pnum_pimage);
 		
-		let pimage1 = "";
+		let odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
 		
+		let orderDetailId = odid_pnum_pimage_arr[0];
+		let pnum = odid_pnum_pimage_arr[1];
+		pimage1 = "../images/common/products/"+ odid_pnum_pimage_arr[2];
+		
+		console.log(pimage1);
+		
+		$("#orderDetailId").val(orderDetailId);
+		$("#pnum").val(pnum);
 		
 		// select 의 상품이름을 바꿀 때마다 이벤트
-		$("#rev_category").change(function(){
+		$("#rev_category").click(function(){
 			
-			let odid_pnum_pimage = $("#rev_category option:selected").val();
-			// console.log(odid_pnum_pimage);
+			odid_pnum_pimage = $("#rev_category option:selected").val();
+			console.log(odid_pnum_pimage);
 			
-			let odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
+			odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
 			
-			let orderDetailId = odid_pnum_pimage_arr[0];
-			let pnum = odid_pnum_pimage_arr[1];
-			pimage1 = odid_pnum_pimage_arr[2];
+			orderDetailId = odid_pnum_pimage_arr[0];
+			pnum = odid_pnum_pimage_arr[1];
+			pimage1 = "../images/common/products/"+ odid_pnum_pimage_arr[2];
+			
+			console.log(pimage1);
 			
 			$("#orderDetailId").val(orderDetailId);
 			$("#pnum").val(pnum);
 			
 			
-			
 		});
+		
+		// -----------------------------------------------------------------------------
+		
+		
+		$("#prodImg").src = pimage1;
 		
 		
 	}); // end of $(document).ready() ---------------
@@ -180,14 +205,14 @@ div#reviewTbl {
 		const rev_content = $("textarea#rev_content").val().trim();
 	    
 	    if(rev_content == "") {
-	    	alert("리뷰내용 입력");
+	    	alert("리뷰내용을 입력해주세요.");
 	    	$("textarea#rev_content").val("");
 	    	$("textarea#rev_content").focus();
 	    	return; // goLogin() 함수 종료
 	    }
 	    
-	    if($(":radio[name='reviewStar']:checked").length<1){
-	    	alert("별점 선택");
+	    if($(":radio[name='reviewStar']:checked").length < 1){
+	    	alert("별점을 선택해주세요.");
 	    	return;
 	    }
 		
@@ -211,7 +236,7 @@ div#reviewTbl {
 	            <select id="rev_category" name="rev_category">
 	                <option value ="select_prod">제품선택</option>
 	                <c:forEach var="canReviewProdList" items="${requestScope.canReviewProdList}">
-	                	<option value = '${canReviewProdList.pk_order_detail_id}_${canReviewProdList.cpvo.pnum}_${canReviewProdList.cpvo.pimage1}'>
+	                	<option value='${canReviewProdList.pk_order_detail_id}_${canReviewProdList.cpvo.pnum}_${canReviewProdList.cpvo.pimage1}'  <c:if test="${canReviewProdList.pk_order_detail_id == requestScope.orderDetailid}">selected</c:if>>
 	                		${canReviewProdList.cpvo.parentProvo.pname}
 	                	</option>
 	                </c:forEach>
