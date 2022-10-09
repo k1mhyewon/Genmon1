@@ -84,7 +84,6 @@ public class PwdCheck extends AbstractController {
 			           return;
 				}
 			
-				
 			
 				
 			}

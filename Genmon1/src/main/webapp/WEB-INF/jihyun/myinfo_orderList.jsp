@@ -94,15 +94,17 @@
 					<tr>
 						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/common/products/${map.image }"  class="image"></td>
 						<td style="vertical-align: middle;"><span class="boldtxt2">${map.orderid }</span><br>
-							<c:if test="${map.status eq '1'}">결제완료</c:if>
-							<c:if test="${map.status eq '0'}">입금대기중</c:if>
+							<c:if test="${map.purchase_status eq '1'}">결제완료</c:if>
+							<c:if test="${map.purchase_status eq '0' and map.order_status eq '1'}">입금대기중</c:if>
+							<c:if test="${map.purchase_status eq '0' and map.order_status eq '0'}">미입금 주문취소</c:if>
+							
 						</td>
 					</tr>
 					<tr>
 						<td>주문수량 : ${map.totalqty }<br>${map.orderdate }</td>
 					</tr>
 					<tr>
-						<td  style="vertical-align: bottom;"><button type="button" onclick="javascript:location.href='<%=ctxPath %>/myinfo/orderDetail.sun?orderid=${map.orderid }'">주문 상세보기</button></td>
+						<td  style="vertical-align: bottom;"><button type="button" onclick="javascript:location.href='<%=ctxPath %>/myinfo/orderDetail.sun?orderid=${map.orderid }&totalqty=${map.totalqty }'">주문 상세보기</button></td>
 					</tr>
 				</table>	
 			</div>
