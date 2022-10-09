@@ -100,8 +100,15 @@ create table tbl_member_test
 ,constraint CK_tbl_member_idle check( idle in(0,1) )
 );
 -- Table TBL_MEMBER이(가) 생성되었습니다.
-select coin
-from tbl_member_test
+
+update tbl_member_test set pwd = 
+where userid = ''
+
+
+
+
+
+
 
 create table tbl_login_history
 ( fk_userid      varchar2(40)         not null  -- 회원아이디

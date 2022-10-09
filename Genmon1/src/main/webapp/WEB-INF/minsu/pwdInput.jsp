@@ -129,6 +129,16 @@
 				console.log(pwd)
 			}); // end of $("#pwd1").on() ----------------------------------------
 			
+		// 엔터로 넘어가는 메소드 //
+		$("input[name='pwd']").keyup(function(e){
+			if(e.keyCode == 13) {
+				const frm = document.menu_myinfoupdate;
+				frm.action = "<%= ctxPath%>/myinfo/pwdCheck.sun";
+				frm.method = "POST"; // post 방식이어야 함
+				frm.submit();
+			}
+		});
+			
 			
 		// === 비밀번호 확인버튼을 누르면===
 		$("button#btn_pwdcheck").click(function(){ 
@@ -165,7 +175,7 @@
 			</ul>
 			
 			<button type="button" id="btn_pwdcheck">비밀번호 확인</button>
-			<input type="hidden" name="userid" value="${requestScope.userid}"/>
+			<input type="text" value="" style="display: none;" />
 		</div>
 </form>
 
