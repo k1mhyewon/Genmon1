@@ -37,7 +37,7 @@ public class PwdCheck extends AbstractController {
 		else {
 			String method = request.getContextPath();
 			
-			if("get".equals(method)) {
+			if("get".equalsIgnoreCase(method)) {
 				  String message = "비밀번호 수정이 불가합니다.!!";
 		          String loc = "javascript:history.back()";
 		            
@@ -51,9 +51,9 @@ public class PwdCheck extends AbstractController {
 			else {
 				
 				String pwd = request.getParameter("pwd");
-				String userid = request.getParameter("userid");
+				String userid = loginuser.getUserid();
 				
-				System.out.println("확인용 pwd :"+ pwd + "userid: " + userid  );
+				/* System.out.println("확인용 pwd :"+ pwd + "userid: " + userid ); */
 			
 				
 				Map<String, String> paraMap = new HashMap<>();
@@ -64,12 +64,28 @@ public class PwdCheck extends AbstractController {
 				InterPersonDAO pdao = new PersonDAO();
 				boolean ispasswdCheck = pdao.ispasswdCheck(paraMap);
 				
-				request.setAttribute("ispasswdCheck", ispasswdCheck);
+				if(ispasswdCheck) {
+					// 올바른 경우
+					request.setAttribute("ispasswdCheck", ispasswdCheck);
+					
+					// super.setRedirect(false);
+					super.setViewPage("/WEB-INF/minsu/pwdChangeEnd.jsp");
+					
+					return;
+				}
+				else {
+					 String message = "비밀번호가 다릅니다.!!";
+					 String loc = "javascript:history.back()";
+					 
+					   request.setAttribute("message", message);
+					   request.setAttribute("loc", loc);
+					   
+					   super.setViewPage("/WEB-INF/common/msg.jsp");
+			           return;
+				}
+			
 				
-				
-				// super.setRedirect(false);
-				super.setViewPage("/WEB-INF/minsu/pwdChange.jsp");
-				
+			
 				
 			}
 		}

@@ -174,7 +174,7 @@ public class PersonDAO implements InterPersonDAO {
 							 " where userid = ? and pwd = ? ";
 				
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, "userid");
+				pstmt.setString(1, paraMap.get("userid"));
 				pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
 				
 				rs = pstmt.executeQuery();
@@ -242,6 +242,33 @@ public class PersonDAO implements InterPersonDAO {
 			      
 			      return result;   
 			} // end of public int adrDelete(Map<String, String> paraMap)throws SQLException
+
+			// === 비밀번호를 변경해주는 메소드 === 
+			@Override
+			public int passwdUpdate(Map<String, String> paraMap) throws SQLException {
+				
+				int result = 0;
+				
+				try {
+
+					conn = ds.getConnection();
+					String sql = " update tbl_member_test set pwd = ? "+
+								 " where userid = ? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, Sha256.encrypt(paraMap.get("pwd")) );
+					pstmt.setString(2, paraMap.get("userid"));
+					
+					result = pstmt.executeUpdate();
+					
+				} finally {
+					close();
+				}
+				
+				
+				return result;
+				
+			} // end of public boolean isExistPasswd(Map<String, String> paraMap) throws SQLException
 
 			
 		
