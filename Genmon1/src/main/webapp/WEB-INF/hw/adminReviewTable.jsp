@@ -294,8 +294,7 @@ $(document).ready(function () {
 	function displayTypeTab(type){
 		$.ajax({
 			url:"<%= request.getContextPath()%>/admin/reviewDisplayJSON.sun",
-			data:{"type":type
-			},
+			data:{"type":type},
 			dataType:"JSON",
 			success:function(json){
 				let html = "";

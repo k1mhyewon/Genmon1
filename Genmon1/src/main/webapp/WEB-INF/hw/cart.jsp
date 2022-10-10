@@ -341,7 +341,8 @@
 	// ==== 장바구니 개수 ==== // 왜 안되징.,,,,
 	function cartCount(){
 		
-		let cnt = "";
+		let cnt;
+		let obj;
 		
 		$.ajax({
 			url:"<%= request.getContextPath()%>/order/countWishnCart.sun",
@@ -349,8 +350,18 @@
 			type: "get",
 		    success:function(json) {
 		    	
-		    	var str_json = JSON.stringify(json);
+		    	obj = JSON.stringify(json);
+		    	console.log(obj.cnt);
 		    	
+				if(!obj){
+					cnt = "0";
+					console.log("cnt0: "+cnt); 
+				}
+				else if( obj ){
+					console.log("cnt1: "+cnt); 
+
+				}
+				
 		    	// console.log(str_json);		    	
 		    },
 		    error: function(request, status, error){
@@ -359,6 +370,7 @@
 			
 		});
 		
+		// console.log("obj: "+obj); 
 	}
 	
 	
@@ -489,12 +501,13 @@
 
 
     <div id="wishText">장바구니(<p id="count" style="display: inline-block;">${requestScope.cnt}</p>)</div>
-    
+    <c:if test="${ not empty requestScope.cartList and not empty sessionScope.loginuser}">
    	<div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
         <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings()">전체상품결제</button>
         <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings()">선택상품결제</button>
     </div>
+    </c:if>
 	<div class="album">
 		<div class="box">
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4" id="show">
@@ -526,10 +539,9 @@
 	</div>
 
     <c:if test="${ empty requestScope.cartList and not empty sessionScope.loginuser}">
-    	<div id="wishText">장바구니(0)</div>
 		<div id="empty_wishlist">
-			<div>장바구니에 담긴 상품이 없습니다.</div>
-			<button type="button" class="btn btn-dark" id="go_shopping">쇼핑하러가기</button>
+			<div style="margin-bottom: 20px;">장바구니에 담긴 상품이 없습니다.</div>
+			<button type="button" class="btn btn-dark" id="go_shopping" style="width: 200px; font-size: 11pt;">쇼핑하러가기</button>
 		</div>
     </c:if>
 	<div style="height: 50px;"></div>
