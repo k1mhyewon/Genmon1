@@ -66,7 +66,7 @@
 		<span id="info_detail"><a href="javascript:location.href='<%=ctxPath %>/myinfo/infoUpdate.sun'">회원정보</a></span>
 		<span id="order_deli"><a href="javascript:location.href='<%=ctxPath %>/myinfo/orderList.sun'">주문/배송</a></span>
 		<span><a href="javascript:location.href='<%=ctxPath %>/member/wishlist.sun?userid=${(sessionScope.loginuser).userid}'">위시리스트</a></span>
-		<span><a href="#">상품문의</a></span>
+		<span><a href="javascript:location.href='<%=ctxPath %>/member/contactTable.sun?userid=${(sessionScope.loginuser).userid}'">상품문의</a></span>
 	</span>
 
 </div>		
