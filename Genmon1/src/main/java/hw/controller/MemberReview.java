@@ -4,8 +4,10 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import common.model.MemberVO;
 import common.model.ReviewVO;
 import hw.model.InterReviewDAO;
 import hw.model.ReviewDAO;
@@ -17,6 +19,14 @@ public class MemberReview extends AbstractController {
 		
 		
 		try {
+			HttpSession session =  request.getSession(); 
+			
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			
+			if(loginuser != null) {
+				String userid = loginuser.getUserid();
+				request.setAttribute("userid", userid);
+			}
 			
 			String pnum = request.getParameter("pnum");
 			
@@ -30,9 +40,12 @@ public class MemberReview extends AbstractController {
 			request.setAttribute("price", prodMap.get("price"));
 			request.setAttribute("pimage1", prodMap.get("pimage1"));
 			request.setAttribute("replyCnt", prodMap.get("replyCnt"));
-			
+			request.setAttribute("avg_star", prodMap.get("avg_star"));
+			request.setAttribute("avg_star_shape", prodMap.get("avg_star_shape"));
 			
 			List<ReviewVO> reviewList = rdao.getReviews(pnum);
+			
+			request.setAttribute("reviewList", reviewList);
 			
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/memberReview.jsp");

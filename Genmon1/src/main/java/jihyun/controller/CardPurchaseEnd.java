@@ -1,18 +1,14 @@
-
-
-
 package jihyun.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.json.simple.JSONObject;
 
 import common.controller.AbstractController;
 import common.model.CartVO;
@@ -27,7 +23,6 @@ import jihyun.model.InterPurchaseDAO;
 import jihyun.model.MemberDAO;
 import jihyun.model.OrderDAO;
 import jihyun.model.PurchaseDAO;
-import net.nurigo.java_sdk.api.Message;
 
 public class CardPurchaseEnd extends AbstractController {
 
@@ -64,9 +59,16 @@ public class CardPurchaseEnd extends AbstractController {
 				} else {
 					odao.isertOrderDetail(cvo, orderid);
 				}
-				
 				total += (cvo.getAllProdvo().getParentProvo().getPrice()*cvo.getQty())*(100-cvo.getAllProdvo().getSalePcnt())/100;
 			} // end of for
+			
+			
+			// 상품 수량 줄어들게 하기
+			Map<String, Object> map1 = new HashMap<>();
+			map1.put("ordertList", ordertList);
+			odao.decreaseProdQty(map1);
+			
+			//System.out.println(rslt);
 			
 			
 			// 결제 테이블
@@ -137,6 +139,7 @@ public class CardPurchaseEnd extends AbstractController {
 			paraMap.put("refundbank", request.getParameter("refundbank"));
 			paraMap.put("refundacc", request.getParameter("refundacc"));
 			paraMap.put("accname", request.getParameter("accname"));
+
 			int m = purdao.insertRefund(paraMap);
 			
 			// System.out.println("환불 테이블 :"+m);

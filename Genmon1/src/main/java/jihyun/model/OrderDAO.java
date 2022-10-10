@@ -17,7 +17,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import common.model.CartVO;
+import common.model.ChildProductVO;
+import common.model.OrderDetailVO;
 import common.model.OrderVO;
+import common.model.ParentProductVO;
 import common.util.security.AES256;
 import common.util.security.SecretMyKey;
 
@@ -188,6 +191,78 @@ int result =0;
 		
 		return result;
 	}// end of 회원/비회원 주문하기 상세 insert (자식)
+	
+	
+	
+	
+	// 현금 회원/비회원 주문하기 상세 insert (자식)
+	@Override
+	public int isertCashOrderDetail(CartVO cvo, String orderid) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_order_detail_test (pk_order_detail_id, fk_orderid, fk_pnum, order_price, order_status)\n"+
+					"values (?||seq_tbl_order_detail.nextval, ?,?,?,6)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderid);
+			pstmt.setString(2, orderid);
+			pstmt.setInt(3, cvo.getFk_pnum());
+			
+			// 세일이 있다면 세일가로
+			if(cvo.getAllProdvo().getSalePcnt()!=0) {
+				int price = cvo.getAllProdvo().getParentProvo().getPrice() * (100 - cvo.getAllProdvo().getSalePcnt() )/ 100;
+				pstmt.setInt(4, price);
+			} else { // 없다면 원가로
+				pstmt.setInt(4, cvo.getAllProdvo().getParentProvo().getPrice());
+			}
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return result;
+	}// end of 현금 회원/비회원 주문하기 상세 insert (자식)
+
+
+	
+	
+	
+	// 상품 재고 줄어들게 하기
+	@Override
+	public int decreaseProdQty(Map<String, Object> map1) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			List<CartVO> ordertList = (List<CartVO>)map1.get("ordertList");
+			
+			for(CartVO order : ordertList) {
+				
+				String sql = "update tbl_all_product_test set PQTY = PQTY - ?\n"+
+							"where pnum = ?";	
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, order.getQty());
+				pstmt.setInt(2, order.getFk_pnum());
+				
+				result += pstmt.executeUpdate();
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return result;
+	}// 상품 재고 줄어들게 하기
 
 
 	
@@ -201,13 +276,9 @@ int result =0;
 			conn = ds.getConnection();
 			
 			// 주문 정보 알아오기
-			String sql = "select PK_ORDERID, STATUS, to_char(ORDERDATE)  \n"+
-					"from\n"+
-					"    (select PK_ORDERID, ORDERDATE\n"+
+			String sql = "select PK_ORDERID, ORDERDATE\n"+
 					"    from tbl_order_test \n"+
-					"    where fk_userid = ? )\n"+
-					"join tbl_purchase_test\n"+
-					" on PK_ORDERID = FK_ORDERID  "+
+					"    where fk_userid = ?  "+
 					" order by PK_ORDERID desc ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -218,12 +289,10 @@ int result =0;
 			while(rs.next()) {
 				
 				String orderid = rs.getString(1);
-				String status = String.valueOf(rs.getInt(2)) ;
-				String orderdate = rs.getString(3);
+				String orderdate = rs.getString(2);
 				
 				HashMap<String, String> map = new HashMap<>();
 				map.put("orderid", orderid);
-				map.put("status", status );
 				map.put("orderdate", orderdate);
 				
 				/*
@@ -273,7 +342,7 @@ int result =0;
 				
 				
 				// 썸네일 찾아준다
-				sql = "select PIMAGE1 \n"+
+				sql = "select PIMAGE1 , ORDER_STATUS \n"+
 						"from tbl_all_product_test\n"+
 						"join tbl_order_detail_test\n"+
 						"on PNUM = fk_PNUM\n"+
@@ -283,8 +352,12 @@ int result =0;
 				pstmt.setString(1, map.get("orderid"));
 				
 				rs = pstmt.executeQuery();
-				rs.next();
-				map.put("image", rs.getString(1));
+				
+				while(rs.next()){
+					map.put("image", rs.getString(1));
+					map.put("order_status", rs.getString(2));
+				}
+				
 			}
 			
 		} finally {
@@ -292,7 +365,223 @@ int result =0;
 		}
 		return mapList;
 	} // 회원 아이디 가지고 주문내역 리스트로 보여주기
+
+
+	// 넘어온 주문번호로 주문 조회하기 (회원용)
+	@Override
+	public OrderVO selectOneOrder(long orderid) throws SQLException {
+		
+		OrderVO ordervo = null;
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDERID, FK_USERID, EMAIL, NAME, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, MOBILE, to_char(ORDERDATE) \n"+
+					"from tbl_order_test\n"+
+					"where PK_ORDERID = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ordervo = new OrderVO();
+				ordervo.setPk_orderid(rs.getString(1));
+				ordervo.setEmail( aes.decrypt(rs.getString(3)) );
+				ordervo.setName(rs.getString(4));
+				ordervo.setPostcode(rs.getString(5));
+				ordervo.setAddress(rs.getString(6));
+				ordervo.setDetailaddress(rs.getString(7));
+				ordervo.setExtraaddress(rs.getString(8));
+				ordervo.setMobile( aes.decrypt(rs.getString(9)));
+				ordervo.setOrderDate(rs.getString(10));
+				ordervo.setFk_userid(rs.getString(2));
+
+			}
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return ordervo;
+	} // end of  넘어온 주문번호로 주문 조회하기 (회원용)
 	
+	
+	
+	
+	// 넘어온 주문번호로 !!! 주문 상세 !!! 조회하기  (회원용)
+	@Override
+	public List<OrderDetailVO> selectOneOrderDetail(long orderid) throws SQLException {
+		
+		List<OrderDetailVO> orddtailList = new ArrayList<>() ;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE, PNAME, PRICE, FK_PID, PCOLOR, PIMAGE1, SALEPCNT, PQTY\n"+
+					"from\n"+
+					"(\n"+
+					"    select PNAME, PRICE, PNUM, FK_PID, PCOLOR, PIMAGE1, SALEPCNT, PQTY\n"+
+					"    from tbl_product_test\n"+
+					"    join\n"+
+					"    tbl_all_product_test\n"+
+					"    on pid = fk_pid\n"+
+					")\n"+
+					"join\n"+
+					"(\n"+
+					"    select PK_ORDER_DETAIL_ID, FK_PNUM, ORDER_STATUS, ORDER_PRICE\n"+
+					"    from tbl_order_detail_test\n"+
+					"    where FK_ORDERID = ?\n"+
+					")\n"+
+					"on pnum = fk_pnum\n"+
+					"order by PK_ORDER_DETAIL_ID";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				OrderDetailVO orddtailvo = new OrderDetailVO();
+				
+				orddtailvo.setPk_order_detail_id(rs.getString(1));
+				orddtailvo.setFk_pnum(rs.getInt(2));
+				orddtailvo.setOrder_status(rs.getInt(3));
+				orddtailvo.setOrder_price(rs.getInt(4));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString(5));
+				ppvo.setPrice(rs.getInt(6));
+				
+				ChildProductVO cpvo = new ChildProductVO();
+				cpvo.setParentProvo(ppvo);
+				
+				cpvo.setFk_pid(rs.getString(7));
+				cpvo.setPcolor(rs.getString(8));
+				cpvo.setPimage1(rs.getString(9));
+				cpvo.setSalePcnt(rs.getInt(10));
+				cpvo.setPqty(rs.getInt(11));
+				
+				orddtailvo.setCpvo(cpvo);
+				
+				orddtailList.add(orddtailvo);
+			}
+			
+		}  finally {
+			close();
+		}
+		
+		return orddtailList ;
+	}// end of 넘어온 주문번호로 !!! 주문 상세 !!!  조회하기  (회원용) 
+
+
+	// 관리자에게 주문내역만을 보여주는 것
+	@Override
+	public List<HashMap<String,String>> adminSelectOnlyOrder() throws SQLException {
+		
+		List<HashMap<String,String>> mapList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PURCHASE_STATUS , PK_ORDERID , ORDERDATE, NAME\n"+
+					"from\n"+
+					"    (\n"+
+					"    select rownum AS ANO, PURCHASE_STATUS , PK_ORDERID , ORDERDATE, NAME\n"+
+					"    from tbl_order_test\n"+
+					"    join tbl_purchase_test\n"+
+					"    on PK_ORDERID = fk_ORDERID\n"+
+					"    )\n"+
+					"where ANO between 1 and 10";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String,String> map = new HashMap<>();
+				map.put("PURCHASE_STATUS", rs.getString(1));
+				map.put("PK_ORDERID", rs.getString(2));
+				map.put("ORDERDATE", rs.getString(3));
+				map.put("NAME", rs.getString(4));
+				
+				mapList.add(map);
+			}
+			
+			for(HashMap<String,String> map: mapList) {
+				
+				sql = "select pname, PCOLOR\n"+
+						"from tbl_product_test\n"+
+						"join tbl_all_product_test\n"+
+						"on PID = FK_PID\n"+
+						"join\n"+
+						"(\n"+
+						"    select FK_PNUM\n"+
+						"    from tbl_order_detail_test \n"+
+						"    where FK_ORDERID = ?\n"+
+						")\n"+
+						"on pnum = FK_PNUM";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, map.get("PK_ORDERID"));
+				rs = pstmt.executeQuery();
+				
+				String pnames = "";
+				
+				while(rs.next()) {
+					pnames += rs.getString(1)+" "+rs.getString(2)+", ";
+				}
+				pnames = pnames.substring(0, pnames.length()-2);
+				if(pnames.length()>40) {
+					pnames = pnames.substring(0,40)+"...";
+				}
+				map.put("pnames", pnames);
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return mapList;
+	} // end of  관리자에게 전제 주문내역만을 보여주는 것
+
+
+	
+	// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
+	@Override
+	public OrderVO findGuestOrder(String input_orderid, String input_email) throws SQLException {
+		
+		OrderVO ovo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select PK_ORDERID\n"+
+					"from tbl_order_test \n"+
+					"where PK_ORDERID = ? and EMAIL = ? and FK_USERID is null";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, input_orderid);
+			pstmt.setString(2, aes.encrypt(input_email));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				ovo = new OrderVO();
+				ovo.setPk_orderid(rs.getString(1));
+			}
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return ovo;
+	}// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
+
 	
 	
 }

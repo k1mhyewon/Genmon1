@@ -18,4 +18,7 @@ public interface InterWishlistDAO {
 	// 위시리스트에서 장바구니로 update (이미 장바구니에 해당 상품이 존재하는 경우)
 	int wishToCartUpdate(Map<String, String> paraMap);
 
+	// 상품상세에서 위시리스트로 insert
+	int addToWish(String userid, String pnum) throws SQLException;
+
 }

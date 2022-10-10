@@ -17,8 +17,8 @@
 		height:auto;
 	}
     div#login_container {
-    	margin: 5% 15% ;
-    	width:40%
+    	margin: 5% 5% ;
+    	width: 50%;
     }
     
     div#login_container > div>ul > li > label, p{
@@ -121,51 +121,92 @@
 	    margin-bottom: 200px;
 	}
 	
-	
+	.error{
+		color: red;
+		font-size: 7pt;
+		padding-left: 10px;
+		padding-bottom: 1px;
+	}
 </style>
 
 <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script>
 	$(document).ready(function() {
-		//////////////////////////////////////////////////////
-		// === 로그인을 하지 않은 상태일 때
-		// 로컬스토리지(localStorage)에 저장된 key 가 'saveid' 인 userid 값을 불러와서
-		// input 태그 userid 에 넣어주기  ===
-		if(${empty sessionScope.loginuser}){
-			
-			const loginUserid = localStorage.getItem('saveid');
-			
-			if(loginUserid != null){
-				$("input#loginUserid").val(loginUserid);
-				$("input:checkbox[id='saveid']").prop("checked",true);
-			}
-		}
-		//////////////////////////////////////////////////////
-		
 		$("input#none_id").prop("checked",true);
 		$("input#loginEmail").focus();
-		
-		
 		$("input#loginPwd").bind("keyup",(e)=>{
 			if(e.keyCode == 13){ // 검색어에서 엔터를 치면 검색하러 가도록 한다.
 				goSearch();			
 			}
 		});
+		$("span.error").hide();
+		
+		
+		// 비밀번호란에 스페이스바 입력못하게 하기 
+		$("input").keyup(function() {
+			let keycode = event.keyCode;
+			let val = $(this).val().trim()
+			$(this).val(val);
+			if(keycode == 32){
+				alert("스페이스바는 사용하실 수 없습니다.");
+			}
+		});
+		
+		
 		
 		
 		// 회원 라디오체크박스 선택
 		$("span.member [class='checkmark']").click(function() {
 			$("input#has_id").prop("checked",true);	
-			location.href="<%= ctxPath%>/customerCare/contact/memberGoContact.sun";				
+			location.href="<%= ctxPath%>/customerCare/contact/memberSearchContact.sun";				
 		});
-		
-		
 	});
 	
 	// 조회하기 버튼클릭 
 	function goSearch() {
-		alert("dasdas");
+		
+		// 이메일과 비밀번호 정규표현식 검사하고 맞으면 db에서 비밀번호랑 이메일을 가지고 찾아봄.
+		const email = $("input#loginEmail");
+		const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);  
+        //  이메일 정규표현식 객체 생성 
+        const bool = regExp.test(email.val());
+        if(!bool){ // 위배된경우 
+        	email.focus();
+        	email.css('border','1px solid red');
+        	email.parent().find("span.error").show() // 경고 표기
+			
+        	email.keydown(function(){
+        		email.parent().find("span.error").hide();
+        		email.css('border','1px solid #ccc');
+				return;
+			});
+        }
+        else{
+        	// 이메일과 비밀번호 정규표현식 검사하고 맞으면 db에서 비밀번호랑 이메일을 가지고 찾아봄.
+    		const pwd = $("input#loginPwd");
+    		const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);  
+            //  비밀번호 정규표현식 객체 생성 
+            const bool = regExp.test(pwd.val());
+            if(!bool){ // 위배된경우 
+            	pwd.focus();
+            	pwd.css('border','1px solid red');
+            	pwd.parent().find("span.error").show() // 경고 표기
+    			
+            	pwd.keydown(function(){
+            		pwd.parent().find("span.error").hide();
+            		pwd.css('border','1px solid #ccc');
+    				return;
+    			});
+            }
+            else{
+		        const frm = document.loginFrm;
+		        frm.action = "<%= ctxPath%>/customerCare/contact/guestSearchContact.sun";
+		        frm.method = "POST";
+		        frm.submit();
+            }
+        }
+		
 	}
 	
 	
@@ -173,33 +214,32 @@
 
 
 
-<div class="box_content col-md-9">
+<div class="box_content col-md-6 mb-9" style="margin:auto;">
 	<form name="loginFrm">
         <div id="login_container">
         	<div class="titles">문의 조회</div>
         	
         	<p class="checkbox">
-        	
-					<span class="checkbox_item member">
-								<input type="radio" name="memselect" id="has_id" value="T" onclick="">
-								<label for="has_id" >회원</label>
-								<span class="checkmark"></span>
-							</span>
-					<span class="checkbox_item guest" style="margin-left: 10px;">
-								<input type="radio" name="memselect" id="none_id" value="F" onclick="">
-								<label for="none_id" >비회원</label>
-								<span class="checkmark"></span>
-							</span>
-				</p>
+				<span class="checkbox_item member">
+					<input type="radio" name="memselect" id="has_id" value="T" onclick="">
+					<label for="has_id" >회원</label>
+					<span class="checkmark"></span>
+				</span>
+				<span class="checkbox_item guest" style="margin-left: 10px;">
+					<input type="radio" name="memselect" id="none_id" value="F" onclick="">
+					<label for="none_id" >비회원</label>
+					<span class="checkmark"></span>
+				</span>
+			</p>
         	
         	<div id="inputLogin">
 	        	<ul><li>
-	        		<label for="email">이메일</label>
+	        		<label for="email" style="display:inline-block;">이메일</label><span class="error">이메일을 제대로 입력해주세요</span>
 	        		<input type="text" name="email" class="input_login" id="loginEmail" required/>
 	        	</li></ul>
 	        	
 	        	<ul><li>
-	        		<label for="pwd">비밀번호</label>
+	        		<label for="pwd" style="display:inline-block;">비밀번호</label><span class="error">비밀번호를 제대로 입력해주세요</span>
 	        		<input type="password" name="pwd" class="input_login" id="loginPwd" required/>
 	        	</li></ul>
         	</div>

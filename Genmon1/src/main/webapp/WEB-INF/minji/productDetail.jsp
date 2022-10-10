@@ -431,7 +431,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
  
 	   <%-- 비슷한 상품 추천 --%>
        <div class="related-box">
-         <div class="related-title"><span style="color: gray;">${pvo.parentProvo.pname} ${pvo.colorName }</span>과 비슷한 추천제품을 만나보세요</div>
+         <div class="related-title"><span style="color: gray;">${pvo.parentProvo.pname} ${pvo.colorName}</span>과 비슷한 추천제품을 만나보세요</div>
    			<c:if test="${not empty requestScope.recommendList}"> 
 				<c:forEach var="recomvo" items="${requestScope.recommendList}">
    					<ul class="related-item" style="margin-right: 5px;">
@@ -440,7 +440,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 							<div><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}"><img style="width: 270px; height:350px;" src="<%= ctxPath %>/images/common/products/${recomvo.pimage1}"></a></div>
 							<div class="related-item-info-box">
 								<ul class="related-go">
-								<li class="sun-title"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">${recomvo.parentProvo.pname}</a></li>
+								<li class="sun-title"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">${recomvo.parentProvo.pname} ${recomvo.colorName }</a></li>
 								<li class="sun-price"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link" style="margin: 0;">${recomvo.parentProvo.price}</a></li>
 								<li class="sun-color"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">+<span class="color-count">5</span> Colors</a></li>
 								</ul>

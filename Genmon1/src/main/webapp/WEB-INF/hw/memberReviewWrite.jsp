@@ -126,6 +126,15 @@ div#reviewTbl {
 
 	$(document).ready(function(){
 		
+		let pimage1 = "";
+		
+		if('${requestScope.orderDetailid}'){
+			const orderDetailid = '${requestScope.orderDetailid}';
+			// console.log("orderDetailid: "+orderDetailid);
+			
+			
+		}
+		
 		// 리뷰내용 글자수 200자 제한 -------------------------------------------------
 		$('#rev_content').keydown(function (e) {
 			let rev_content = $(this).val();
@@ -144,10 +153,76 @@ div#reviewTbl {
 		    };
 		}); // end of $('#rev_content').keyup() ---------------------------------
 		
+		
+		
+		// --------------------------------------------------------------------------
+		
+		let odid_pnum_pimage = $("#rev_category option:selected").val();
+		console.log(odid_pnum_pimage);
+		
+		let odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
+		
+		let orderDetailId = odid_pnum_pimage_arr[0];
+		let pnum = odid_pnum_pimage_arr[1];
+		pimage1 = "../images/common/products/"+ odid_pnum_pimage_arr[2];
+		
+		console.log(pimage1);
+		
+		$("#orderDetailId").val(orderDetailId);
+		$("#pnum").val(pnum);
+		
+		// select 의 상품이름을 바꿀 때마다 이벤트
+		$("#rev_category").click(function(){
+			
+			odid_pnum_pimage = $("#rev_category option:selected").val();
+			console.log(odid_pnum_pimage);
+			
+			odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
+			
+			orderDetailId = odid_pnum_pimage_arr[0];
+			pnum = odid_pnum_pimage_arr[1];
+			pimage1 = "../images/common/products/"+ odid_pnum_pimage_arr[2];
+			
+			console.log(pimage1);
+			
+			$("#orderDetailId").val(orderDetailId);
+			$("#pnum").val(pnum);
+			
+			
+		});
+		
+		// -----------------------------------------------------------------------------
+		
+		
+		$("#prodImg").src = pimage1;
+		
+		
 	}); // end of $(document).ready() ---------------
 	
 	
-
+	function go_revWrite() { // --------------------------------------------------
+		
+		const rev_content = $("textarea#rev_content").val().trim();
+	    
+	    if(rev_content == "") {
+	    	alert("리뷰내용을 입력해주세요.");
+	    	$("textarea#rev_content").val("");
+	    	$("textarea#rev_content").focus();
+	    	return; // goLogin() 함수 종료
+	    }
+	    
+	    if($(":radio[name='reviewStar']:checked").length < 1){
+	    	alert("별점을 선택해주세요.");
+	    	return;
+	    }
+		
+		
+		const frm = document.reviewFrm; 
+	    frm.action = "<%= ctxPath%>/member/reviewInsert.sun";
+	    frm.method = "post";
+	    frm.submit();
+		
+	} // end of function go_revWrite() -------------------------------------------
 	
 	
 </script>
@@ -156,13 +231,15 @@ div#reviewTbl {
 
     <div id="reviewTbl">
         <div id="rev_title">리뷰작성</div>
-        <form class="mb-3" name="reviewFrm" id="reviewFrm" method="post">
+        <form class="mb-3" name="reviewFrm" id="reviewFrm" method="post" enctype="multipart/form-data">
         	<div style="float: left;">
 	            <select id="rev_category" name="rev_category">
 	                <option value ="select_prod">제품선택</option>
-	                <option value ="prod_1">제품1</option>
-	                <option value ="prod_2">제품2</option>
-	                <option value ="prod_3">제품3</option>
+	                <c:forEach var="canReviewProdList" items="${requestScope.canReviewProdList}">
+	                	<option value='${canReviewProdList.pk_order_detail_id}_${canReviewProdList.cpvo.pnum}_${canReviewProdList.cpvo.pimage1}'  <c:if test="${canReviewProdList.pk_order_detail_id == requestScope.orderDetailid}">selected</c:if>>
+	                		${canReviewProdList.cpvo.parentProvo.pname}
+	                	</option>
+	                </c:forEach>
 	            </select>
 	        
 	            <fieldset > <!-- 필드셋은 여러 컨트롤과 레이블을 묶을 때 사용 -->
@@ -178,13 +255,13 @@ div#reviewTbl {
 	                    for="rate5">★</label>
 	            </fieldset>
 	            <p>아이디</p>
-	            <input type="text" id="userid" name="userid" value="userid" />
+	            <input type="text" id="userid" name="userid" value="${requestScope.userid}" />
             </div>
             <div id="review_prod">
-            	<img src="le_iv1_1.jpg" style="width:200px; height:auto;">
+            	<img src="" id="prodImg" style="width:200px; height:auto;" />
             </div>
             <div>
-                <textarea class="col-auto form-control" type="text" id="rev_content"
+                <textarea class="col-auto form-control" type="text" id="rev_content" name="rev_content"
                           placeholder="리뷰내용을 입력해주세요."></textarea>
             </div>
             
@@ -194,14 +271,15 @@ div#reviewTbl {
                 <span>/100자</span>
             </div>
             <p>파일첨부</p>
-            <input type="file" name="photo" id="photo" />
+            <input type="file" name="img" id="img" />
+            
+            <input type="hidden" id="orderDetailId" name="orderDetailId" />
+            <input type="hidden" id="pnum" name="pnum" />
         </form>
     </div>
     <div id="buttons">
-
-        <button type="button" id="btn_write" class="btn btn-secondary">작성</button>
+        <button type="button" id="btn_write" class="btn btn-secondary" onClick="go_revWrite()">작성</button>
         <button type="button" id="btn_cancel" class="btn btn-light">취소</button>
-
     </div>
 
 <%-- 인덱스 끝 --%>

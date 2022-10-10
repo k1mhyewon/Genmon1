@@ -1,6 +1,7 @@
 package jihyun.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import common.model.PurchaseVO;
@@ -18,6 +19,9 @@ public interface InterPurchaseDAO {
 
 	// 환불정보 저장(insert)하기
 	int insertRefund(Map<String, String> paraMap) throws SQLException;
+
+	// 주문 상품에 대해 결제 내역 조회해오기 (현금결제라면 환불내역까지 가져와야함)
+	HashMap<String, Object> SelectOnePurch(String orderid) throws SQLException;
 
 	
 

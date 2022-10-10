@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 <jsp:include page="../common/adminSidebar.jsp" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -9,9 +10,9 @@
 
 
 <link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/dist/mdb5/standard/modules/b4bca5d779777cff9d5c51553952a0a1.min.css" >
-<link rel="stylesheet" href="<%= ctxPath%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 <!-- Style -->
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="<%= ctxPath%>/css/style.css">
 <style>
 .form-outline {
     position: relative;
@@ -195,10 +196,13 @@ a:hover{
 	opacity: 1; 
 }
 
+.fa:hover{
+	cursor:pointer;
+}
 </style>
-<script src="../js/bootstrap-datepicker.js" type="text/javascript"></script>
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
 	
@@ -217,11 +221,11 @@ $(document).ready(function () {
  		goAddProduct();
  	});
 
- 	$("tr[scope='row']").click(function() {
+ 	/* $("tr[scope='row']").click(function() {
  		if(!$(this).hasClass("addPrd")){
 	 		goEditProduct();
  		}
-	});
+	}); */
  
  	
  	const searchButton = document.getElementById('search-button');
@@ -232,12 +236,10 @@ $(document).ready(function () {
  	  alert(inputValue);
  	}); */
  	
-});// end of $(document).ready(function () {}--------------------------
-		
-	// === 제품 수정하기 === //
-	function goEditProduct(){
-
-		const url = "<%= request.getContextPath()%>/jieun/manager_editProduct.jsp";
+ 	
+ 	$("a.prodEdit").click(function(){
+		const pnum = $(this).parent().parent().children(".pnum").text();
+		const url = "<%= ctxPath%>/admin/adminEditProduct.sun?pnum="+pnum;
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
 		const pop_width = 800;
@@ -247,19 +249,28 @@ $(document).ready(function () {
 
 		window.open(url, "goEditProduct",
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
-						
-	}// end of function function goAnswerForm(){}
-	
-	
+ 	});
+ 	
+ 	
+ 	
+ 	$("a.prodStop").click(function(){
+ 		const pnum = $(this).parent().parent().children(".pnum").text();
+ 		alert(pnum);
+ 		if(confirm("상품 판매를 중단하시겠습니까?")){
+ 			location.href="<%= ctxPath%>/admin/adminProdSellStop.sun?pnum="+pnum;
+ 		}
+ 	});
+});// end of $(document).ready(function () {}--------------------------
+		
 	
 	// === 제품 추가하기 === //
 	function goAddProduct(){
 
-		const url = "<%=request.getContextPath()%>/admin/adminAddProduct.sun";
+		const url = "<%= ctxPath%>/admin/adminAddProduct.sun";
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
 		const pop_width = 500;
-		const pop_height = 650;
+		const pop_height = 700;
 		const pop_left = Math.ceil((window.screen.width - pop_width)/2); /* 정수로만듦 */
 		const pop_top = Math.ceil((window.screen.height - pop_height)/2);/* 정수로만듦 */
 		
@@ -268,6 +279,9 @@ $(document).ready(function () {
 				    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
 						
 	}// end of function function goAnswerForm(){}
+	
+	
+	
 	
 </script>
 <%-- 인덱스 시작 --%>
@@ -311,9 +325,10 @@ $(document).ready(function () {
 				</th>
 				<th scope="col" name="pimage1" style="margin-left: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image</th>
 				<th scope="col" name="pname">Name</th>
-				<th scope="col" name="pnum">Product Code</th>
+				<th scope="col" name="pnum">Product Code</th> 
 				<th scope="col" name="pqty">Quantity</th>
 				<th scope="col" name="price">Price(₩)</th>
+				<th scope="col" name="price">Sale Percent(%)</th>
 				<th scope="col" name="psales">Total Sales</th>
 				<th scope="col" name="pstatus">Status</th>
 				<th scope="col"></th>
@@ -344,30 +359,33 @@ $(document).ready(function () {
 				</th>
     			<td>
     				<img
-		              src="${cpvo.pimage1}"
+		              src="<%= ctxPath%>/images/common/products/${cpvo.pimage1}"
 		              style="width: 60px; height: 60px; margin-left: 20px; border-radius: 2;"
 		              class="rounded-circle"
 		              />
     			</td>
     			
     			<td><p class="fw-bold mb-1">${cpvo.parentProvo.pname}</p></td>
-    			<td><p class="fw-bold mb-1">${cpvo.pnum}</p></td>
+    			<td class="pnum"><p class="fw-bold mb-1 pnum">${cpvo.pnum}</p></td> 
     			<td>${cpvo.pqty}</td>
-    			<td>${cpvo.parentProvo.price}</td>
-    			<td><%-- ${cpvo.psales} --%></td>
-    			<td><%-- ${cpvo.pstatus} --%></td> <%-- 재고량(주문수)이 없다면 판매중단, 재고량이 있다면 판매중, 출시일이 오늘 날짜보다 늦다면 웨이팅. --%>
-				<td>&nbsp;<a href="#" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-				<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
+    			<td>₩<fmt:formatNumber value="${cpvo.parentProvo.price}" pattern="#,###" /></td>
+    			<td>${cpvo.salePcnt}%</td>
+    			<td style="margin: auto;">${cpvo.psales}</td>
+    			<td>
+	   				<c:choose>
+	   					<c:when test="${cpvo.panmaestate eq '0'}"><span class="badge badge-warning rounded-pill d-inline">Disenable</span></c:when>
+	   					<c:when test="${cpvo.panmaestate eq '1'}"><span class="badge badge-primary rounded-pill d-inline">Enable</span></c:when>
+	   					<c:when test="${cpvo.panmaestate eq '2'}"><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:when>
+	   					<%-- <c:otherwise><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:otherwise> --%>
+	   				</c:choose>
+    			</td> 
+				<td>&nbsp;<a class="prodEdit" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
+				<c:if test="${cpvo.panmaestate ne '0'}">
+					<a class="prodStop"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
+				</c:if>
     		</tr>
     	</c:forEach> 
-    	
-    			<%-- <td>
-    				<c:choose>
-    					<c:when test="${mvo.gender eq '1'}">남</c:when>
-    					<c:otherwise>여</c:otherwise>
-    				</c:choose>
-    			</td> --%>
-		
+
 		</tbody>
 		</table>
 			 <nav class="my-5">
@@ -381,14 +399,17 @@ $(document).ready(function () {
 				    </select>
 			 	</div>
 	 		</nav> 
- 
-</div>
+	</div>
+
 </section>
-
-
-
   
 </body>
+
+
+
+
+
+
 
 <%-- 인덱스 끝 --%>
 

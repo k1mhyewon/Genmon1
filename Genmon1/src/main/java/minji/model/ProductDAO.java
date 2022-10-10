@@ -1,5 +1,7 @@
 package minji.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.*;
 
 import java.util.*;
@@ -266,5 +268,100 @@ public class ProductDAO implements InterProductDAO {
 		return recomList; 
 		
 		}
+	
+	
+	
+	// 필터로 선택한 항목에 해당되는 상품 가져오는 메소드 
+	@Override
+	public List<ChildProductVO> selectProductList(Map<String, String> paraMap) throws SQLException {
+		
+		 List<ChildProductVO> filterProductList  = new ArrayList<>();
+		
+			try {
+				conn = ds.getConnection();
+				
+				String where = "";
+				String order = "";
+				
+				if( "".equals(paraMap.get("color")) && "".equals(paraMap.get("material")) ) {
+					
+				}
+				else if( !"".equals(paraMap.get("color"))  && "".equals(paraMap.get("material")) ){
+					where = " where pcolor in('"+ String.join("||','||", paraMap.get("color").split(","))+"') ";
+				}
+				else if( "".equals(paraMap.get("color"))  && !"".equals(paraMap.get("material")) ){
+					where = " where PMATERIAL in('"+ String.join("||','||", paraMap.get("material").split(","))+"') ";
+
+				}
+				else if( !"".equals(paraMap.get("color"))  && !"".equals(paraMap.get("material")) ){
+					where = " where pcolor in('"+ String.join("||','||", paraMap.get("color").split(","))+"') and PMATERIAL in('"+ String.join("||','||", paraMap.get("material").split(","))+"') ";
+				}
+			
+				
+				if("1".equals(paraMap.get("order")) ) {
+					order = " order by PRELEASEDATE desc ";
+				}
+				if("2".equals(paraMap.get("order")) ) {
+					order = " order by price asc ";
+				}
+				if("3".equals(paraMap.get("order")) ) {
+					order = " order by price desc ";
+				}
+				
+				
+				
+				
+				String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt, pqty, pmaterial\n"+
+							"from tbl_product_test\n"+
+							"JOIN tbl_all_product_test\n"+
+							"on pid = fk_pid\n"+ 
+						 	 where + // 변수
+							 order ;
+				
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				/*
+				 * if( "".equals(paraMap.get("color")) && "".equals(paraMap.get("material")) ) {
+				 * 
+				 * } else if( !"".equals(paraMap.get("color")) &&
+				 * "".equals(paraMap.get("material")) ){ pstmt.setString(1,
+				 * paraMap.get("pcolor")); } else if( "".equals(paraMap.get("color")) &&
+				 * !"".equals(paraMap.get("material")) ){ pstmt.setString(2,
+				 * paraMap.get("pmaterial"));
+				 * 
+				 * } else if( !"".equals(paraMap.get("color")) &&
+				 * !"".equals(paraMap.get("material")) ){ pstmt.setString(1,
+				 * paraMap.get("pcolor")); pstmt.setString(2, paraMap.get("pmaterial")); }
+				 */
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					ChildProductVO cvo =new ChildProductVO();
+					
+					cvo.setPnum(rs.getInt("pnum"));
+					cvo.setSalePcnt(rs.getInt("salePcnt"));
+					cvo.setPqty(rs.getInt("pqty"));
+					
+					ParentProductVO ppvo = new ParentProductVO();
+					ppvo.setPname(rs.getString("pname"));
+					ppvo.setPrice(rs.getInt("price"));
+					ppvo.setPmaterial(rs.getString("pmaterial"));
+					
+					cvo.setParentProvo(ppvo); // JOIN
+					
+					cvo.setPcolor(rs.getString("pcolor")); 
+					cvo.setPimage1(rs.getString("pimage1"));
+					
+					filterProductList.add(cvo); 
+				}
+				
+			} finally {
+				close();
+			}
+			
+		return filterProductList;
+	}
 	
 }

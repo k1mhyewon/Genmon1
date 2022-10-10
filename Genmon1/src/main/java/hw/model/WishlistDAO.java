@@ -213,4 +213,37 @@ public class WishlistDAO implements InterWishlistDAO {
 		
 	} // end of public int wishToCartUpdate(Map<String, String> paraMap) {} ------------------------------------------
 
+	
+	
+	
+	
+	
+	
+	// 상품상세에서 위시리스트로 insert --------------------------------------------------------------------------------------
+	@Override
+	public int addToWish(String userid, String pnum) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_wishlist_test(fk_userid, fk_pnum) \n"+
+						 "values (?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setString(2, pnum);
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		
+		
+		return result;
+	} // end of public int addToWish(String userid, String pnum) throws SQLException {} -------------------------------
+
 }

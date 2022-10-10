@@ -57,10 +57,10 @@ public class CashPurchaseEnd extends AbstractController {
 				int qty = cvo.getQty();
 				if(qty>1) {
 					for(int i =0; i<qty ; i++) {
-						odao.isertOrderDetail(cvo, orderid);
+						odao.isertCashOrderDetail(cvo, orderid);
 					}
 				} else {
-					odao.isertOrderDetail(cvo, orderid);
+					odao.isertCashOrderDetail(cvo, orderid);
 				}
 				
 				total += (cvo.getAllProdvo().getParentProvo().getPrice()*cvo.getQty())*(100-cvo.getAllProdvo().getSalePcnt())/100;
