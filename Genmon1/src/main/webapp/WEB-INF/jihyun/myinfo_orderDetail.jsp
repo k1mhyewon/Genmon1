@@ -118,7 +118,7 @@
     /* 스크롤 영역 크기 */
     .prod_container_cancel {
     	overflow: auto; 
-    	height: 320px;
+    	height: 400px;
     	margin: auto;
     	
     }
@@ -223,6 +223,10 @@
 		cursor: pointer;
 	}
 	
+	label:hover{
+		cursor: pointer;
+	}
+	
 </style>
 
 <script>
@@ -252,11 +256,64 @@
 		
 		const orderid = ${odervo.pk_orderid };
 		
-		// 결제 정보 뿌려주기
+		
+		$("button#refund").click(function(){
+			
+			// 환불 상품 선택여부
+			let arr = [];
+			if ($("input:checkbox.prod_chkboxs:checked").length > 0) { 
+
+				$("input:checkbox.prod_chkboxs:checked").each(function () {
+					
+					var ck_val = $(this).val();
+					arr.push(ck_val);
+
+				}); // end of $("input[name='filter1']:checked").each(function()  : color 필터
+
+			} else {
+				alert('환불상품을 한개 이상 선택하여 주세요.');
+				return;
+			}// end of 환불 상품 선택여부
+			
+			
+			// 환불사유 입력여부
+			let rev_content = $('.why_content').val();
+			if (rev_content.length <1) {
+				 alert('환불상품 사유를 입력해주세요');
+					return;
+			}; // end of 환불사유 입력여부
+			
+			
+			// 체크박스 선택여부
+			if($("input:checkbox.refund:checked").length<2){
+				alert('환불시 배송비책임 여부에 동의하셔야 환불신청이 가능합니다.');
+				return;
+			}// end of 체크박스 선택여부
+			
+			
+			// insert 환불테이블에 insert 해주고 상태 업뎃 해주고 새로고침
+			alert('환불');
+		});
 		
 		
 	}); // end of $(document).ready() ---------------
 	
+	
+	// 주문 취소 모달에서 호출한 함수
+	function cancelOrder(){
+		// ajax로 주문상태 전부 0으로 바꿔주고 새로고침
+		
+		const bool = confirm("정말로 주문 취소하시겠습니까?");
+		
+		if(bool){
+			alert('주문취소');
+			
+		} else {
+			history.go(0); // 위에는 리로드 방식으로 읽어와야함
+		}
+		
+		
+	}
 	
 	
 
@@ -273,7 +330,7 @@
 		<%-- 주문번호 부분 시작 --%>
 		<table class="tbl_1 border-bottom">
 			<tbody>
-				<tr><td><strong>${odervo.pk_orderid }</strong><td></tr>
+				<tr><td><strong>Order Number ${odervo.pk_orderid }</strong><td></tr>
 				<tr><td><strong>${odervo.orderDate }</strong></td></tr>
 				<tr><td>주문수량 : ${totalqty }</td></tr>
 				<tr>
@@ -282,7 +339,8 @@
 					
 						<!-- ======== [주문취소 Modal] ================================================================ -->
 						
-						<!-- 주문 취소 Modal 버튼 -->
+						<!-- 주문 취소 Modal 버튼 배송전 주문 상태일때만 취소가능-->
+						<c:if test="${total_status eq 1}">
 				        <span id="cancel" type="button" class="link_tag" data-toggle="modal" data-target="#cancel_modal">주문취소</span>
 				        <!-- 주문 취소 Modal 버튼 끝 -->  
 				
@@ -300,97 +358,66 @@
 					                	<!-- .title_container : Modal 맨위에 글씨들 박스 -->
 					                	<div class="title_container">
 						                    <div id="cancel_title">주문 취소</div>
-						                    <div id="cancel_orderno">Order&nbsp;${odervo.pk_orderid }</div>
+						                    <div id="cancel_orderno"> ${odervo.pk_orderid }</div>
 						                  	<button type="button" class="close" data-dismiss="modal">&times;</button>
-						                  	<div id="cancel_sub_title">주문취소할 상품을 선택하세요.</div>
+						                  	<div id="cancel_sub_title">주문취소할 목록입니다.</div>
 					                  	</div>
 					                  	
 					                  	<!-- .prod_container : 스크롤 영역 -->
-					                  	<div class="prod_container_cancel">
+					                  	<%--<div class="prod_container_cancel"> --%>
 					                  	
 					                  		<!-- foreach 여기부터 하면 됨 (아마도..?) -->
+					                  		<c:forEach var="orddtailvo" items="${orddtailList }">
 						                  	<div class="prod_container_each modal_contents_size">
 						                  		<div class="prod_content_chk">
-						                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+						                  			<%-- <input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >--%>
 						                  		</div>
 					                  			<div class="prod_content_img">
-						                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
+						                  			<img src="<%=ctxPath %>/images/common/products/${orddtailvo.cpvo.pimage1 }" style="max-width: 100px; height: auto;">
 						                  		</div>
 						                  		<div class="prod_contents">
-							                  		<div class="sub_prod_contents">젠몬 01</div>
-							                  		<div class="sub_prod_contents serial_no">시리얼넘버: 0000111123</div>
-							                  		<div class="sub_prod_contents">259,000원</div>
-							                  		<select name="상품아이디_cnt" class="prod_select">
-													  <option value="1">1</option>
-													</select>
+							                  		<div class="sub_prod_contents">${orddtailvo.cpvo.parentProvo.pname } ${orddtailvo.cpvo.colorName }</div>
+							                  		<div class="sub_prod_contents">${orddtailvo.order_price }원</div>
 												</div>
 												<div style="clear:both;"></div>
 						                  	</div>
+						                  	</c:forEach>
 						                  	<!-- foreach 여기까지 끊으면 됨 -->
 						                  	
-						                  	<!-- 여기부터는 삭제 ㄱㄱ -->
-						                  	<div class="prod_container_each modal_contents_size">
-						                  		<div class="prod_content_chk">
-						                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
-						                  		</div>
-					                  			<div class="prod_content_img">
-						                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
-						                  		</div>
-						                  		<div class="prod_contents">
-							                  		<div class="sub_prod_contents">젠몬 01</div>
-							                  		<div class="sub_prod_contents">259,000원</div>
-							                  		<select name="상품아이디_cnt" class="prod_select">
-													  <option value="1">1</option>
-													</select>
-												</div>
-												<div style="clear:both;"></div>
-						                  	</div>
 						                  	
-						                  	<div class="prod_container_each modal_contents_size">
-						                  		<div class="prod_content_chk">
-						                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
-						                  		</div>
-					                  			<div class="prod_content_img">
-						                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
-						                  		</div>
-						                  		<div class="prod_contents">
-							                  		<div class="sub_prod_contents">젠몬 01</div>
-							                  		<div class="sub_prod_contents">259,000원</div>
-							                  		<select name="상품아이디_cnt" class="prod_select">
-													  <option value="1">1</option>
-													</select>
-												</div>
-												<div style="clear:both;"></div>
-						                  	</div>
-						                  	<!-- 여기까지 삭제 ㄱㄱ -->
-						                  	
-					                  	</div>
+					                  	
 					                  	<!-- .prod_container : 스크롤 영역 끝 -->
 					                  	
 					                  	<!-- .modal_footer: 밑에 글씨들 -->
 					                  	<div class="modal_footer modal_contents_size">
-					                  		<div>환불예정금액: 259,000원</div>
-					                  		<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+					                  		<div>환불예정금액: ${purvomap.purvo.paymentAmount -(purvomap.purvo.usedCoin + purvomap.purvo.usedPoint) }원</div>
+					                  		<c:if test="${not empty purvomap.bank }">
+												<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+											</c:if>
+					                  		<c:if test="${empty purvomap.bank }">
+												<div>주문시 결제하신 카드로 환불 됩니다.</div>
+											</c:if>
 					                  	</div>
 					                  	<!-- .modal_footer -->
 					                  	
 					                  	<!-- .modal_btn: 환불신청 버튼 -->
-					                  	<div class="modal_btn modal_contents_size">
-					                  		<button type="button" class="btn btn-dark request_btn">환불신청</button>
+					                  	<div class="modal_btn modal_contents_size mb-5">
+					                  		<button type="button" class="btn btn-dark request_btn" onclick="cancelOrder()">환불신청</button>
 					                  	</div>
 					                  	<!-- .modal_btn -->
 					                </div>
 				         		</div>
 				         	</div>
 				         </div>
-				        
+				        </c:if>
 						<!-- 주문 취소 Modal 끝 똑같이 두번 하면 됨 -->
 						
 						
 						
 						<!-- ======== [환불신청 Modal] ================================================================ -->
 						
-						<!-- 환불신청 Modal 버튼 -->
+						<!-- 환불신청 Modal 버튼 배송완료 일때만 신청가능 -->
+						<%-- <c:if test="${total_status eq 5}">--%>
 				        <span id="refund" type="button" class="link_tag" data-toggle="modal" data-target="#refund_modal">환불신청</span>
 				        <!-- 환불신청 Modal 버튼 끝 -->  
 				
@@ -408,41 +435,44 @@
 					                	<!-- .title_container : Modal 맨위에 글씨들 박스 -->
 					                	<div class="title_container">
 						                    <div id="cancel_title">환불 신청</div>
-						                    <div id="cancel_orderno">Order&nbsp;#00001010</div>
+						                    <div id="cancel_orderno">${odervo.pk_orderid }</div>
 						                  	<button type="button" class="close" data-dismiss="modal">&times;</button>
-						                  	<div id="cancel_sub_title">환불을 신청할 상품을 선택하세요.</div>
 					                  	</div>
 					                  	
 					                  	<!-- .prod_container : 스크롤 영역 -->
-					                  	<div class="prod_container">
 					                  	
 					                  		<!-- foreach 여기부터 하면 됨 (아마도..?) -->
+					                  		<c:forEach var="orddtailvo" items="${orddtailList }">
 						                  	<div class="prod_container_each modal_contents_size">
+						                  		<label>
 						                  		<div class="prod_content_chk">
-						                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="상품아이디" >
+						                  			<input type="checkbox" name="cancel_prod" class="prod_chkboxs" value="${orddtailvo.pk_order_detail_id }" >
 						                  		</div>
 					                  			<div class="prod_content_img">
-						                  			<img src="<%=ctxPath %>/images/sun_img.png" style="max-width: 100%; height: auto;">
+						                  			<img src="<%=ctxPath %>/images/common/products/${orddtailvo.cpvo.pimage1 }" style="max-width: 100px; height: auto;">
 						                  		</div>
 						                  		<div class="prod_contents">
-							                  		<div class="sub_prod_contents">젠몬 01</div>
-							                  		<div class="sub_prod_contents serial_no">시리얼넘버: 0000111123</div>
-							                  		<div class="sub_prod_contents">259,000원</div>
-							                  		<select name="상품아이디_cnt" class="prod_select">
-													  <option value="1">1</option>
-													</select>
+							                  		<div class="sub_prod_contents">${orddtailvo.cpvo.parentProvo.pname } ${orddtailvo.cpvo.colorName }</div>
+							                  		<div class="sub_prod_contents">${orddtailvo.order_price }원</div>
 												</div>
+												</label>
 												<div style="clear:both;"></div>
 						                  	</div>
+						                  	</c:forEach>
 						                  	<!-- foreach 여기까지 끊으면 됨 -->
 						                  	
-					                  	</div>
+					                  	
 					                  	<!-- .prod_container : 스크롤 영역 끝 -->
 					                  	
 					                  	<!-- .modal_footer: 밑에 글씨들 -->
 					                  	<div class="modal_footer modal_contents_size">
-					                  		<div>환불예정금액: 259,000원</div>
-					                  		<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+					                  		<div>환불예정금액: ${purvomap.purvo.paymentAmount -(purvomap.purvo.usedCoin + purvomap.purvo.usedPoint) }원</div>
+					                  		<c:if test="${not empty purvomap.bank }">
+												<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+											</c:if>
+					                  		<c:if test="${empty purvomap.bank }">
+												<div>주문시 결제하신 카드로 환불 됩니다.</div>
+											</c:if>
 					                  	</div>
 					                  	<!-- .modal_footer -->
 					                  	<div style="text-align: left;" class=" why_container">
@@ -458,29 +488,29 @@
 					                  	</div>
 					                  	
 					                  	<div class="terms_chk">
-				                  			<input type="checkbox" name="terms1" value="terms1" style="display: inline" >
-				                  			<div style="display:inline">단순 변심등의 사유는 배송비가 청구될 수 있습니다.</div><br>
-				                  			<input type="checkbox" name="terms2" value="terms2" style="display: inline" >
-				                  			<div style="display:inline">상품 상태에 따라 환불신청이 거부될 수 있습니다.</div>
+				                  			<label><input type="checkbox" class='refund' style="display: inline" >
+				                  			<div style="display:inline">단순 변심등의 사유는 배송비가 청구될 수 있습니다.</div></label><br>
+				                  			<label><input type="checkbox" class='refund' value="terms2" style="display: inline" >
+				                  			<div style="display:inline">상품 상태에 따라 환불신청이 거부될 수 있습니다.</div></label>
 				                  		</div>
 					                  	
 					                  	
 					                  	<!-- .modal_btn: 환불신청 버튼 -->
-					                  	<div class="modal_btn modal_contents_size">
-					                  		<button type="button" class="btn btn-dark request_btn">환불신청</button>
+					                  	<div class="modal_btn modal_contents_size mb-5">
+					                  		<button type="button" class="btn btn-dark request_btn" id="refund">환불신청</button>
 					                  	</div>
 					                  	<!-- .modal_btn -->
 					                </div>
 				         		</div>
 				         	</div>
 				         </div>
-				        
+				        <%-- </c:if>--%>
 						<!-- 환불신청 Modal 끝 -->
 	
 	
 	
 						<!-- ======== [교환신청 Modal] ================================================================ -->
-						
+						<%-- 
 						<!-- 교환신청 Modal 버튼 -->
 				        <span id="refund" type="button" class="link_tag" data-toggle="modal" data-target="#exchange_modal">교환신청</span>
 				        <!-- 교환신청 Modal 버튼 끝 -->  
@@ -601,7 +631,7 @@
 				         		</div>
 				         	</div>
 				         </div>
-				        
+				        --%>
 						<!-- 교환신청 Modal 끝 -->
 	
 						
@@ -632,7 +662,7 @@
 								<br><span style="margin-left : 20px;">${orddtailvo.order_price }원</span></td>
 							</tr>
 							<tr>
-								<c:if test="${orddtailvo.order_status eq '5' or orddtailvo.order_status eq '4'}">
+								<c:if test="${orddtailvo.order_status eq '5' or orddtailvo.order_status eq '4' and not empty sessionScope.loginuser}">
 									<td><span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/member/memberReviewWrite.sun?orderDetailid=${orddtailvo.pk_order_detail_id}'">리뷰쓰기</span></td>
 								</c:if>
 								<c:if test="${orddtailvo.order_status ne '5' and orddtailvo.order_status ne '4'}">

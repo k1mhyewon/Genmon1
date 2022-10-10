@@ -83,12 +83,15 @@ public class PwdCheck extends AbstractController {
 					   super.setViewPage("/WEB-INF/common/msg.jsp");
 			           return;
 				}
-			
-			
-				
+				// super.setRedirect(false);
+				/* super.setViewPage("/WEB-INF/minsu/pwdCheck.jsp"); */
+
 			}
 		}
 		
 
+		
+		
+		
 	}
 }

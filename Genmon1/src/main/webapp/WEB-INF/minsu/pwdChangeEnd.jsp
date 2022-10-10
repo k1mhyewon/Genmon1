@@ -11,19 +11,17 @@
 
 	
 	form#frm_pwdupdate {
-		/* border: solid 1px orange; */
-		display: flex;
+	/* 	border: solid 1px orange; */
 		font-size: 14px;
-		width: 300px;
-		
-		margin: 2% auto 3% auto;
+		width: 400px;
+		margin: 1% 0 7% 40%;
 	}
 	
 	button#btn_pwdUpdate {
 		background-color: black;
 		color: white;
 		line-height: 200%;
-		margin: 3% 0%;
+		margin: 3% 0% 10% 0;
 		width: 99%;
 		font-size: 13px;
 	}
@@ -33,17 +31,17 @@
 		font-size: 14px;
 		left: 15%;
     	position: flex;
+    	width: 300px;
     	font-size: 12px;
 	}
 	
 	div.error_msg {
 		padding-bottom: 5%;
-		
 	}
 	
 	ul {
 		list-style: none;
-		margin-left: -13%;
+		margin-left: -13%; 
 		margin-top: 5%;
 	}
 	
@@ -170,26 +168,24 @@
 				
 			}); // end of $("#pwd2").on() ----------------------------------------
 			
-			
+
 			// 엔터로 넘어가는 메소드 //
-			$("input[name='pwd2']").keyup(function(e){
-				
+			$("input[name='pwd2']").keydown(function(e){
 				     
 				if(e.keyCode == 13) {
 					submit_frm();
 				}
 			}); // end of $("input[name='pwd2']").keyup(function(e)
-		
 
-	
+	/* 
 		// 비밀번호 변경하기 버튼을 누르면
 	    $("button#btn_pwdUpdate").click(function(){
 	    	 alert("하하하");
 	    	 submit_frm();
     	 
 		}); // end of $("button#btn_logout").click() --------------
-		
-		
+		 */
+
 
 	}); // end of $(document).ready(function() ------------------------------------------
 			
@@ -210,7 +206,6 @@
 	    	frm.method="POST";
 	    	frm.submit();
 	}
-	
 
 </script>
 
@@ -219,7 +214,7 @@
 <form id="frm_pwdupdate" name="frm_pwdupdate">
 <div id="pwd_update">
 
-		<span style="font-weight: bold; margin-bottom: 10%;">비밀번호 변경</span>
+		<span style="font-weight: bold; font-size:15px; margin-bottom: 10%;">비밀번호 변경</span>
         	
         	<ul><li>
         		<label for="pwd">비밀번호</label>
@@ -234,7 +229,7 @@
 	        </div>
         	<ul><li>
         		<label for="pwd2">비밀번호 확인</label>
-        		<input type="password" name="pwd2" id="pwd2" class="requiredInfo" required/>
+        		<input type="password" name="pwd2" id="pwd2" class="requiredInfo" OnSubmit ="return submit_frm()"  required/>
         	</li></ul>
         	<div class="error_msg" id="notSame_msg" style="color: red;">비밀번호를 동일하게 입력해주세요.</div>
         	

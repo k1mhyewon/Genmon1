@@ -198,8 +198,8 @@ public class PersonDAO implements InterPersonDAO {
 				
 				conn = ds.getConnection();
 				
-		        String sql = " update  tbl_member_test set postcode = ? address = ?, detailaddress = ? , extraaddress = ? "+
-		        			 " where userid = ?";
+				String sql = " update tbl_member_test set postcode = ?, address = ?, detailaddress = ?, extraaddress = ? "+
+						 	" where userid = ? ";
 
 			         pstmt = conn.prepareStatement(sql);
 			         pstmt.setString(1, paraMap.get("postcode"));
