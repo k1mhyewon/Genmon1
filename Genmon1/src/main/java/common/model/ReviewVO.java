@@ -14,6 +14,7 @@ public class ReviewVO {
 	
 	private String star_text;
 	
+	private OrderDetailVO odvo;
 	
 	
 	private MemberVO mvo;
@@ -122,6 +123,14 @@ public class ReviewVO {
 	}
 	public void setMvo(MemberVO mvo) {
 		this.mvo = mvo;
+	}
+	
+	
+	public OrderDetailVO getOdvo() {
+		return odvo;
+	}
+	public void setOdvo(OrderDetailVO odvo) {
+		this.odvo = odvo;
 	}
 	
 	
