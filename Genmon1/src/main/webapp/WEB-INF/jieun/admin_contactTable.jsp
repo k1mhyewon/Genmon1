@@ -228,6 +228,27 @@ $(document).ready(function () {
  	// ----탭분류를 클릭했을때----- 
  	
  	
+ 	 // 제품번호의 모든 체크박스가 체크가 되었다가 그 중 하나만 이라도 체크를 해제하면 전체선택 체크박스에도 체크를 해제하도록 한다.
+      $(".chkbox").click(function(){
+         var bFlag = false;
+         $(".chkbox").each(function(){
+            var bChecked = $(this).prop("checked");
+            if(!bChecked) { // 체크해제했다면 
+               $("#allCheckOrNone").prop("checked",false);
+               bFlag = true;
+               return false;
+            }
+         });
+         if(!bFlag) {
+            $("#allCheckOrNone").prop("checked",true);
+         }
+      });
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
  	
  	$(document).on("click", ".under", function(e){
  		const contactid = $(this).parent().children(".contactid").text();
@@ -236,6 +257,18 @@ $(document).ready(function () {
 	
 });
 		 
+	// 모두 체크되는 체크박스가 체크되었을떄 모두 체크되고 체크해제되면 모두 체크해제되도록  
+	function allCheckBox() {
+	    var bool = $("#allCheckOrNone").is(":checked");
+	    /*
+	       $("#allCheckOrNone").is(":checked"); 은
+	         선택자 $("#allCheckOrNone") 이 체크되어지면 true를 나타내고,
+	         선택자 $("#allCheckOrNone") 이 체크가 해제되어지면 false를 나타내어주는 것이다.
+	    */
+	    $(".chkbox").prop("checked", bool);
+	 }// end of function allCheckBox()-------------------------
+	
+	
 	
 	// === 답변폼창 나오기 === //
 	function goAnswerForm(contactid){
@@ -284,7 +317,7 @@ $(document).ready(function () {
 						html += '<tr scope="row" class="tr_data" >'+
 									'<td scope="row" >'+
 										'<label class="control control--checkbox">'+
-											'<input type="checkbox">'+
+											'<input type="checkbox" class="chkbox">'+
 											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
 										'</label>'+
 									'</td>'+
@@ -394,7 +427,7 @@ $(document).ready(function () {
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
 				<th scope="col">
 				<label class="control control--checkbox">
-					<input type="checkbox" class="js-check-all">
+					<input type="checkbox" class="js-check-all chkbox" id="allCheckOrNone">
 					<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
 				</label>
 				</th>

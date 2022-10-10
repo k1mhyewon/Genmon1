@@ -238,6 +238,20 @@ btn{
 <script>
 
 $(document).ready(function() {
+	let html = '';
+	/* html = "<option selected value='${cpvo.pcolor}'>${cpvo.pcolor}</option>";
+	$("select#pcolor").html(html);
+	 */
+	/* $("option").click(funcion(){
+		html = '<option>선택해주세요</option><c:forEach var="map" items="${requestScope.colorList}"><option value="${map.pcolor}">${map.pcolor}</option></c:forEach>';
+		$("select#pcolor").html(html);	
+	}); 
+	
+	html = "<option selected value='${cpvo.parentProvo.pmaterial}'>${cpvo.parentProvo.pmaterial}</option>";
+	$("select#pmaterial").html(html);
+	 */
+	
+	
 	$("div#View_area").hide();
 	$("#selDirect").hide();
 	$("span.error").hide();
@@ -337,7 +351,14 @@ $(document).ready(function() {
 		  
 	
 		  
-
+	  $('#pcontent').on('keyup', function() {
+	      $('#pcontent_cnt').html("("+$(this).val().length+" / 100)");
+	
+	      if($(this).val().length > 1000) {
+	          $(this).val($(this).val().substring(0, 1000));
+	          $('#pcontent_cnt').html("(1000 / 1000)");
+	      }
+	  });
 });// end of $(document).ready(function() {}------------------[]
 
 
@@ -435,6 +456,39 @@ $(document).ready(function() {
 	}
 		//  ======== 미리보기 이미지 ========= // 
 	
+		
+		
+		
+		
+	// "수정" 버튼 클릭시 호출되는 함수  
+	function goEdit() {
+		// **** 필수입력사항에 모두 입력이 되었는지 검사한다. **** //
+		let b_Flag_requiredInfo = false;
+	/*	
+		$("input.requiredInfo").each( (index, item)=>{
+			const data = $(item).val().trim();
+			if(data == "") {
+				alert("*표시된 필수입력사항은 모두 입력하셔야 합니다.");
+				b_Flag_requiredInfo = true;
+				return false; // break; 라는 뜻이다.
+			}
+		});
+	*/
+	//  또는
+	    const required_list = document.querySelectorAll(".required"); 
+	    for(let i=0; i<required_list.length; i++) {
+	    	const val = required_list[i].value.trim();
+	    	if(val == "") {
+	    		alert("*표시된 필수입력사항은 모두 입력하셔야 합니다.");
+	    		b_Flag_requiredInfo = true;
+	    		break;
+	    	}
+	    }// end of for-----------------------
+	    ///////////////////////////////////////////////////////
+	    
+	    frm.submit();
+	    
+	}// end of function goRegister()----------------------	
 
 
 </script>
@@ -443,62 +497,49 @@ $(document).ready(function() {
     <div class="modal-content ">
       
       <div class="modal-header">
-		  <h4>New item</h4>
+		  <h4>Product Information</h4>
 	  </div>
 	  <div class="modal-body">
 
 	<form name="prodInputFrm"
-	      action="<%= request.getContextPath()%>/admin/adminAddProduct.sun"
+	      action="<%= request.getContextPath()%>/admin/adminEditProduct.sun"
 	      method="post"
 	      enctype="multipart/form-data">
-	  	
 
 
 		<div class="row">
 			<div class="form-group">
-				<c:if test="${requestScope.pnameList.size()>0}">
-					<select class="infoData" name="pname" id="pname" onchange="changepname(this)" >
-					  <option value="">선택해주세요</option>
-					<c:forEach var="map"  items="${requestScope.pnameList}">
-					  <option value="${map.pname}">${map.pname}</option>
-					</c:forEach>
-					  <option value="plus">상품추가</option>
-					</select>
-					
-					  <div id="divPlusPname1"></div><span class="error">상품명을 입력해주세요</span>
-					  <div id="divPlusPname2"></div>
-					  
-				</c:if>
-				<!-- <label for="pname" class="col-form-label">상품명 *</label><span class="error">상품명을 입력해주세요</span>
-				<input type="text" class="form-control infoData" name="pname" id="pname" placeholder="Product name" > -->
+				<label for="pname" class="col-form-label">상품명 *${requestscope.cpvo.pname}</label><span class="error">상품명을 입력해주세요</span>
+				<input value="${cpvo.parentProvo.pname}"type="text" class="form-control infoData" name="pname" id="pname" > 
 			</div>
 			
          	<div class="form-group ">
 				<label class="form-label" for="pimage1">상품썸네일사진 *</label><span class="error">상품사진을 등록해주세요</span>
-				<input type="file" class="form-control infoData" name="pimage1" id="pimage1" onchange="previewImage(this,'View_area')"/>
-				<div id='View_area' style='position:relative; width: 100px; height: 100px; color: black; border: 0px solid black; dispaly: inline; '></div>
+				<input value="${cpvo.pimage1}" type="file" class="form-control infoData" name="pimage1" id="pimage1" onchange="previewImage(this,'View_area')"/>
+				<div id='View_area' style='position:relative; width: 100px; height: 100px; color: black; border: 0px solid black; dispaly: inline; '>${cpvo.pimage1}</div>
 			</div>
         
 			<div class="form-group existhide">
 				<label for="price" class="col-form-label">가격(₩) *</label><span class="error">가격을 입력해주세요</span>
-				<input type="text" class="form-control infoData" name="price" id="price" placeholder="Product price">
+				<input value="${cpvo.parentProvo.price}" type="text" class="form-control infoData" name="price" id="price" >
 			</div>
 			<div class="form-group existhide">
 				<label for="salePcnt" class="col-form-label">할인율(%)</label>
-				<input type="text" class="form-control" name="salePcnt" id="salePcnt" placeholder="예) 30%">
+				<input value="${cpvo.salePcnt}"type="text" class="form-control" name="salePcnt" id="salePcnt" >
 			</div>
 			<div class="form-group">
 				<label for="pqty" class="col-form-label">상품재고량 *</label><span class="error">상품재고를 입력해주세요</span>
-				<input type="number" name="pqty" class="table-editor__input form-control infoData" value="1" min="1">
+				<input value="${cpvo.pqty}"type="number" name="pqty" class="table-editor__input form-control infoData" value="1" min="1">
 			</div>
 			<div class="form-group existhide">
 				<label for="pcontent" class="col-form-label">상품상세정보 *</label><span class="error">상품상세정보를 입력해주세요</span>
-				<textarea class="form-control infoData" name="pcontent" id="pcontent" cols="30" rows="8" placeholder="내용을 입력해주세요."></textarea>
+				<textarea class="form-control infoData" name="pcontent" id="pcontent" cols="30" rows="8" placeholder="내용을 입력해주세요.">${cpvo.parentProvo.pcontent}</textarea>
+				<div id="pcontent_cnt">(0 / 1000)</div>
 			</div>
 
          	<div class="form-group ">
          	  <label for="preleasedate" class="col-form-label">상품출시일 *</label><span class="error">상품출시일을 입력해주세요</span>
-              <input type="text" id="preleasedate" name="preleasedate" class="infoData">
+              <input value="${cpvo.preleasedate}" type="text" id="preleasedate" name="preleasedate" class="infoData">
 			</div>
 			
         
@@ -511,8 +552,11 @@ $(document).ready(function() {
          		<label for="pmaterial" class="col-form-label" >상품 재질*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
 				<select class="" name="pmaterial" id="pmaterial" >
 				  <option value="">선택해주세요</option>
+				  <option selected value='${cpvo.parentProvo.pmaterial}'>${cpvo.parentProvo.pmaterial}</option>
 				<c:forEach var="map" items="${requestScope.materialList}">
-				  <option value="${map.pmaterial}">${map.pmaterial}</option>
+				  <c:if test="${map.pmaterial ne cpvo.parentProvo.pmaterial}">
+					  <option value="${map.pmaterial}">${map.pmaterial}</option>
+				  </c:if>
 				</c:forEach>
 				</select>
 			</div>
@@ -521,9 +565,12 @@ $(document).ready(function() {
          		<label for="pcolor" class="col-form-label" >상품 색상*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
 				<select class="" name="pcolor" id="pcolor" >
 				  <option value="">선택해주세요</option>
+				  <option selected value='${cpvo.pcolor}'>${cpvo.pcolor}</option>
 				<c:forEach var="map" items="${requestScope.colorList}">
-				  <option value="${map.pcolor}">${map.pcolor}</option>
-				</c:forEach>
+				  <c:if test="${map.pcolor ne cpvo.pcolor}">
+					  <option value="${map.pcolor}">${map.pcolor}</option>
+				  </c:if>
+				</c:forEach> 
 				</select>
 			</div>
         	<br>
@@ -534,19 +581,19 @@ $(document).ready(function() {
 	          	 <br>
 	             <div id="divfileattach"></div>
 	             
+	             <c:forEach var="list" items="${imgList}">
+				  <option value="${list.imgfilename}">${list.imgfilename}</option>
+				</c:forEach>
+	             
 	             <input type="hidden" name="attachCount" id="attachCount" />
 			</div>
-        
-        
-        	
-        	
         	
 		</div>
 
 
 
      <div class="modal-footer">
-       <button type="button" value="register" id="btnRegister" class="btn shadow-0 btn-md btn-outline-primary "style="" >register</button>
+       <button type="button" value="register" id="btnRegister" class="btn shadow-0 btn-md btn-outline-primary "onclick="goEdit()" >Edit</button>
        <button type="reset" value="delete"  class="me-2 btn shadow-0 btn-md btn-primary btnRegister" style="" >delete</button>
      </div>
      

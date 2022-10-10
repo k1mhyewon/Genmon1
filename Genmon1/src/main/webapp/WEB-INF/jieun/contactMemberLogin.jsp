@@ -20,8 +20,8 @@
 		height:auto;
 	}
     div#login_container {
-    	margin: 5% 15% ;
-    	width:40%
+    	margin: 5% 5% ;
+    	width:50%;
     }
     
     div#login_container > div>ul > li > label, p{
@@ -124,7 +124,12 @@
 	    margin-bottom: 200px;
 	}
 	
-	
+	.error{
+		color: red;
+		font-size: 7pt;
+		padding-left: 10px;
+		padding-bottom: 1px;
+	}
 </style>
 
 <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
@@ -148,7 +153,7 @@
 		
 		$("input#has_id").prop("checked",true);
 		$("input#loginUserid").focus();
-		
+		$("span.error").hide();
 		
 		$("input#loginPwd").bind("keyup",(e)=>{
 			if(e.keyCode == 13){ // 검색어에서 엔터를 치면 검색하러 가도록 한다.
@@ -160,7 +165,7 @@
 		// 비회원 라디오체크박스 선택
 		$("span.guest [class='checkmark']").click(function() {
 			$("input#none_id").prop("checked",true);	
-			location.href="<%= ctxPath%>/customerCare/contact/guestGoContact.sun";				
+			location.href="<%= ctxPath%>/customerCare/contact/guestSearchContact.sun";				
 		});
 		
 		
@@ -168,7 +173,32 @@
 	
 	// 조회하기 버튼클릭 
 	function goSearch() {
-		alert("dasdas");
+		
+		// 이메일과 비밀번호 정규표현식 검사하고 맞으면 db에서 비밀번호랑 이메일을 가지고 찾아봄.
+		const pwd = $("input#loginPwd");
+		const regExp = new RegExp(/^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g); 
+        //  숫자/문자/특수문자 포함 형태의 8~15자리 이내의 암호 정규표현식 객체 생성 
+        const bool = regExp.test(pwd.val());
+        if(!bool){ // 위배된경우 
+        	pwd.focus();
+        	pwd.css('border','1px solid red');
+        	pwd.parent().find("span.error").show() // 경고 표기
+			
+        	pwd.keydown(function(){
+        		pwd.parent().find("span.error").hide();
+        		pwd.css('border','1px solid #ccc');
+				return;
+			});
+        }
+        else{
+        	const frm = document.loginFrm;
+	        frm.action = "<%= ctxPath%>/login.sun";
+	        frm.method = "POST";
+	        frm.submit();
+         }
+		
+
+		
 	}
 	
 	
@@ -176,7 +206,7 @@
 
 
 
-<div class="box_content col-md-9">
+<div class="box_content col-md-6 mb-9" style="margin:auto;">
 	<form name="loginFrm">
         <div id="login_container">
         	<div class="titles">문의 조회</div>
@@ -202,7 +232,7 @@
 	        	</li></ul>
 	        	
 	        	<ul><li>
-	        		<label for="pwd">비밀번호</label>
+	        		<label for="pwd" style="display:inline-block;">비밀번호</label><span class="error">비밀번호를 제대로 입력해주세요</span>
 	        		<input type="password" name="pwd" class="input_login" id="loginPwd" required/>
 	        	</li></ul>
         	</div>

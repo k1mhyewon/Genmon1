@@ -119,6 +119,6 @@ $(document).ready(function() {
 
     <script src="<%= ctxPath%>/js/jquery-3.3.1.min.js"></script>
     <script src="<%= ctxPath%>/js/popper.min.js"></script>
-    <script src="<%= ctxPath%>/js/bootstrap.min.js"></script>
+    <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.min.js"></script>
   </body>
 </html>

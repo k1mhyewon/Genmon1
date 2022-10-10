@@ -504,7 +504,7 @@
         </li>
          <c:if test="${sessionScope.loginuser != null and sessionScope.loginuser.userid == 'admin' }"> <%--관리자인 admin으로 로그인했으면 --%>
 	        <li class="nav-item">
-	          <a class="nav-link" href="#">관리자메뉴</a>
+	          <a class="nav-link" href="<%=ctxPath %>/admin.sun">관리자메뉴</a>
 	        </li>
         </c:if>
       </ul>
