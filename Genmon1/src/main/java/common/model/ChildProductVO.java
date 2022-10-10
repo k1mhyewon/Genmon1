@@ -107,7 +107,7 @@ public class ChildProductVO {
    
    // 컬러 앞에 두글자만 따오는 메소드
    public String getColorName() {
-      return pcolor.substring(0, 2).toUpperCase();
+      return pcolor.substring(0, 1).toUpperCase()+pcolor.substring(pcolor.length()-1).toUpperCase();
       
    }
    

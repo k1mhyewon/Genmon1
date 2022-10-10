@@ -22,6 +22,9 @@ public interface InterProductDAO {
 	// color와 material이 동일한 추천제품 가져오기 
 	List<ChildProductVO> recommendProduct(Map<String, String> map) throws SQLException;
 
+	// 필터에서 선택한 사항들에 해당하는 상품 보여주기 
+	List<ChildProductVO> selectProductList(Map<String, String> paraMap) throws SQLException;
+
 	
 
 	
