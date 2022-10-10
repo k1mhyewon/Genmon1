@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 
+
 public class ProductDAO implements InterProductDAO {
 
 	//field
@@ -217,7 +218,6 @@ public class ProductDAO implements InterProductDAO {
 		return materialList;
 	}// end of public List<HashMap<String, String>> selectAllMaterials() throws SQLException {}----------------
 
-
 	// 제품 부모테이블 pid 채번해오기
 	public String getPidParentProduct() throws SQLException {
 		String pid = "";
@@ -240,6 +240,7 @@ public class ProductDAO implements InterProductDAO {
 		return pid ;
 		
 	}//end of public int getPnumChildProduct() throws SQLException {}------------
+
 	// 제품 자식테이블 pnum 채번해오기
 	public int getPnumChildProduct() throws SQLException {
 		int pnum = 0;
@@ -273,14 +274,15 @@ public class ProductDAO implements InterProductDAO {
 	         conn = ds.getConnection();
 	         
 	         String sql = " insert into tbl_product_test(pid, pname, price, pcontent, pmaterial) "
-	         			+ " values ('p_'||seq_tbl_product_pid.nextval ,?,?,?,?)";
+	         			+ " values (?,?,?,?,?)";
 	         
 	         pstmt = conn.prepareStatement(sql);
 	         
-	         pstmt.setString(1, ppvo.getPname());
-	         pstmt.setInt(2, ppvo.getPrice());    
-	         pstmt.setString(3, ppvo.getPcontent()); 
-	         pstmt.setString(4, ppvo.getPmaterial());    
+	         pstmt.setString(1, ppvo.getPid());
+	         pstmt.setString(2, ppvo.getPname());
+	         pstmt.setInt(3, ppvo.getPrice());    
+	         pstmt.setString(4, ppvo.getPcontent()); 
+	         pstmt.setString(5, ppvo.getPmaterial());    
 
 	         n = pstmt.executeUpdate();
 	         
@@ -336,13 +338,176 @@ public class ProductDAO implements InterProductDAO {
 			pstmt.setInt(1, pnum);
 			pstmt.setString(2, imgfilename);
 			
-			pstmt.executeUpdate();
+			result = pstmt.executeUpdate();
 			
 		} finally {
 			close();
 		}
 		return result;   
 	}// end of public void insetProdDetailimage(String imgfilename, int pnum) throws SQLException {}---------------
+
+	
+	// pname 뿌려주기 
+	@Override
+	public List<HashMap<String, String>> isExistPname() throws SQLException {
+		List<HashMap<String, String>> pnameList = new ArrayList<>();
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select pname "
+						+ " from tbl_product_test ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String, String> paraMap = new HashMap<>();
+				paraMap.put("pname", rs.getString(1));
+				pnameList.add(paraMap);
+			}
+		} finally {
+			close();
+		}
+		return pnameList;
+	}// end of 	public List<HashMap<String, String>> isExistPname() throws SQLException {}---------
+
+	
+	
+	// pname 으로 pid 찾기
+	@Override
+	public String findPidParentProduct(String pname) throws SQLException{
+		String pid = "";
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select pname "
+						+ " from tbl_product_test "
+						+ " where pname = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pname);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			pid = rs.getString(1);
+			
+		} finally {
+			close();
+		}
+		return pid;
+	}// end of public String findPidParentProduct(String pname) throws SQLException{}-----------
+
+	
+	
+	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기
+	@Override
+	public ChildProductVO selectOneProductByPnum(String pnum) throws SQLException {
+		//		get방식이므로 유저가 장난칠수있으므로 
+		ChildProductVO cpvo = null;
+
+		try {
+			 conn = ds.getConnection();
+			
+			 String sql = " select pname, price, pcolor, pimage1 ,salePcnt ,pqty, to_char(preleasedate,'yyyy-mm-dd') as preleasedate, pmaterial, pcontent, Panmaestate "
+				 		+ " from tbl_product_test P RIGHT JOIN tbl_all_product_test C "
+				 		+ " on p.pid = c.fk_pid  "
+				 		+ " where pnum = ?  "; 
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, pnum);
+			 			 
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 String pname = rs.getString(1);     // "HIT", "NEW", "BEST" 값을 가짐 
+				 int    price = rs.getInt(2);        // 제품번호
+				 String pcolor = rs.getString(3);     // 제품명
+				 String pimage1 = rs.getString(4);  // 제조회사명
+				 int    salePcnt = rs.getInt(5);        // 제품 정가
+				 int    pqty = rs.getInt(6);         // 제품 재고량
+				 String preleasedate = rs.getString(7);  // 제품이미지2
+				 String pmaterial = rs.getString(8);  // 제품이미지1
+				 String pcontent = rs.getString(9);  // 제품설명
+				 int Panmaestate = rs.getInt(10);  // 제품설명
+				 
+				 cpvo = new ChildProductVO(); 
+				 
+				 ParentProductVO ppvo = new ParentProductVO();
+				 ppvo.setPname(pname);
+				 ppvo.setPcontent(pcontent);
+				 ppvo.setPmaterial(pmaterial);
+				 ppvo.setPrice(price);
+				 
+				 cpvo.setParentProvo(ppvo);
+				 
+				 cpvo.setPcolor(pcolor);
+				 cpvo.setPimage1(pimage1);
+				 cpvo.setSalePcnt(salePcnt);
+				 cpvo.setPnum(Integer.parseInt(pnum));
+				 cpvo.setPreleasedate(preleasedate);
+				 cpvo.setPanmaestate(Panmaestate);
+				 cpvo.setPqty(pqty);
+				 
+			 }// end of while-----------------------------
+			 
+		} finally {
+			close();
+		}
+		return cpvo;		
+	}// end of public ChildProductVO selectOneProductByPnum(String pnum) throws SQLException {}----------
+
+	
+	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기
+	@Override
+	public List<String> getImagesByPnum(String pnum) throws SQLException {
+		List<String> imgList = new ArrayList<>(); // 없으면 size 0 일테니가
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select imgfilename "
+					   + " from tbl_product_imagefile_test "
+					   + " where fk_pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String imgfilename = rs.getString(1); // 이미지파일명 
+				imgList.add(imgfilename);
+			}// end of while-------------------
+			
+		} finally {
+			close();
+		}
+		
+		return imgList;
+	}// end of public List<String> getImagesByPnum(String pnum) throws SQLException {}-------------------
+
+	// 상품 판매상태 판매중지로 변경 
+	public void updateProdStopState(String pnum) throws SQLException {
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_all_product_test set panmaestate = 0 "
+						+ " where pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,Integer.parseInt(pnum)); // 공식 
+
+			rs = pstmt.executeQuery();
+			
+		} finally {
+			close();
+		}
+		
+	}
 	
 	
 	

@@ -29,14 +29,13 @@ public class ChildProductVO {
 	
 	
 	public int getPanmaestate() { // 0:판매중단 1:판매중 2:판매예정
-		// panmaestate=0 , pqty=0 => 판매중단  
+		// panmaestate=0 , pqty=0 => 판매중단   
 		// panmaestate=1 , pqty>0, releasedate 오늘날짜보다 후 => 판매중 
 		// panmaestate=1 , releasedate 오늘날짜보다 전 => 출시예정
 		
 		// 날짜생성 
 		// 오늘날짜 yyyy-MM-dd로 생성
 		String todayfm = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
-		preleasedate = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
 		
 		//yyyy-MM-dd 포맷 설정
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,7 +50,7 @@ public class ChildProductVO {
 //			if( pqty==0 ) { // 수량이 없으면 
 //				panmaestate=0;
 //			}
-			if( pqty>0 && compare<0 ) { // 재고량이 있으면서 출시일이 오늘날짜보다 이전날짜이면 
+			if( pqty>0 && compare>0 ) { // 재고량이 있으면서 출시일이 오늘날짜보다 이전날짜이면 
 				panmaestate=2;
 			}
 		} catch (ParseException e) {

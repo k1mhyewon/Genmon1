@@ -32,6 +32,22 @@ public interface InterProductDAO {
 	// 상품상세이미지 insert
 	int insetProdDetailimage(String imgfilename, int pnum) throws SQLException;
 
+	// pname 뿌려주기 
+	List<HashMap<String, String>> isExistPname() throws SQLException;
+
+	// pname 으로 pid 찾기
+	String findPidParentProduct(String pname) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기
+	ChildProductVO selectOneProductByPnum(String pnum) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기
+	List<String> getImagesByPnum(String pnum) throws SQLException;
+
+	// 상품 판매상태 중지로 변경 update
+	void updateProdStopState(String pnum)throws SQLException;
+
+
 
 
 }
