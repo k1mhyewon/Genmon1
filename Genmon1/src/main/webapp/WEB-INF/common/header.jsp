@@ -485,7 +485,7 @@
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
-        <a class="navbar-brand mt-2 mt-lg-0" href="<%= ctxPath%>"><img  height="15" src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px;"/></a>
+        <a class="navbar-brand mt-2 mt-lg-0" href="<%= ctxPath%>"><img  height="18" src="<%= ctxPath%>/images/common/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px;"/></a>
     </div>
       <!-- Left links -->
       <div class="collapse navbar-collapse">
@@ -571,13 +571,13 @@
                			<div>
                    			<div class="collections">
                            		<a href="#">
-                           			<img src="<%=ctxPath %>/images/Gentle_monster_logo.png" style="width:70px; height:70px; border-radius: 50%;">
+                           			<img src="<%=ctxPath %>/images/common/Gentle_monster_logo.png" style="width:70px; height:70px; border-radius: 50%;">
                        			</a>
                        			<div style="margin-top: 10px;">베스트셀러</div>
                        		</div>
                        		<div class="collections">
                        			<a href="#">
-                           			<img src="<%=ctxPath %>/images/le_01.jpg" style="width:70px; height:70px; border-radius: 50%;">
+                           			<img src="<%=ctxPath %>/images/common/products/le01.jpg" style="width:70px; height:70px; border-radius: 50%;">
                        			</a>
                          		<div style="margin-top: 10px;">캣아이프레임</div>
                        		</div>
