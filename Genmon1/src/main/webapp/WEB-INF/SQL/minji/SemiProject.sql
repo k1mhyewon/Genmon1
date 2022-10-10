@@ -287,7 +287,7 @@ where pnum= 1;
 commit;
 
 select *
-from tbl_product_test;
+from tbl_all_product_test;
 
 
 select pname, pid, pnum, pimage1, pcolor
@@ -300,3 +300,16 @@ where pid = 'p_11';
 
 commit;
 
+select *
+from tbl_product_test
+JOIN tbl_all_product_test
+on fk_pid = pid;
+
+
+-- 필터로 여러 색상 및 재질, 가격순 등 선택하여 상품 진열
+select pname, pnum, price, pcolor, pimage1, salePcnt, pqty
+from tbl_product_test
+JOIN tbl_all_product_test
+on pid = fk_pid
+where pcolor in ('black', 'yellow') and pmaterial in('metal', 'acetate')
+order by PRELEASEDATE desc;

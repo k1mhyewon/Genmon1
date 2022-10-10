@@ -102,7 +102,7 @@ $(document).ready(function() {
             <li class="product"><a href="<%= ctxPath%>/admin/adminProduct.sun" class="d-flex align-items-center"><span class="wrap-icon icon-shopping_cart mr-3"></span><span class="menu-text">상품관리</span></a></li>
             <li class="order"><a href="<%= ctxPath%>/admin/adminOrderManage.sun" class="d-flex align-items-center" ><span class="wrap-icon icon-envelope-open mr-3" style="font-size:12pt;"></span><span class="menu-text">주문관리</span></a></li>
             <li class="contact"><a href="<%= ctxPath%>/admin/adminContact.sun" class="d-flex align-items-center"><span class="wrap-icon icon-question_answer mr-3"></span><span class="menu-text">문의관리</span></a></li>
-            <li class="review"><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-pencil mr-3"></span><span class="menu-text">리뷰관리</span></a></li>
+            <li class="review"><a href="<%= ctxPath%>/admin/manageReview.sun" class="d-flex align-items-center"><span class="wrap-icon icon-pencil mr-3"></span><span class="menu-text">리뷰관리</span></a></li>
             <li class="chart"><a href="<%= ctxPath%>/admin/adminSalesStatus.sun" class="d-flex align-items-center"><span class="wrap-icon icon-pie-chart mr-3"></span><span class="menu-text">판매현황</span></a></li>
           </ul>
         </div>
