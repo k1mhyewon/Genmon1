@@ -69,10 +69,6 @@ public class PwdRechangeEnd extends AbstractController {
 					// 비밀번호를 변경해주는 메소드
 					int passwdUpdate = pdao.passwdUpdate(paraMap);
 					
-					request.setAttribute("passwdUpdate", passwdUpdate);
-				
-					System.out.println("passwdUpdate : "+passwdUpdate);
-					
 					  String message = "";
 			          String loc = "";
 			          
@@ -80,6 +76,8 @@ public class PwdRechangeEnd extends AbstractController {
 					if(passwdUpdate == 1) {
 						
 						request.setAttribute("passwdUpdate", passwdUpdate);
+						System.out.println("passwdUpdate : "+passwdUpdate);
+						
 						
 						 message = "비밀번호가 변경되었습니다.";
 						 loc = request.getContextPath() + "/infoUpdate.sun";
