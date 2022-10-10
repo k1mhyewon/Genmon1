@@ -73,7 +73,7 @@ public class WishlistDAO implements InterWishlistDAO {
 		try {
 			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
 			
-			String sql = " select W.fk_userid, W.fk_pnum, A.pimage1, P.pname, P.price, A.pcolor "+
+			String sql = " select W.fk_userid, W.fk_pnum, A.pimage1, P.pname, P.price, A.pcolor, A.salepcnt "+
 						 " from tbl_wishlist_test W "+
 						 " JOIN tbl_all_product_test A "+
 						 " on W.fk_pnum = A.pnum "+
@@ -100,6 +100,8 @@ public class WishlistDAO implements InterWishlistDAO {
 				
 				ppvo.setPname(rs.getString(4)+"("+rs.getString(6).substring(0, 2).toUpperCase()+")");
 				ppvo.setPrice(rs.getInt(5));
+				
+				cpvo.setSalePcnt(rs.getInt(7));
 				
 				cpvo.setParentProvo(ppvo);
 				wishvo.setCpvo(cpvo);

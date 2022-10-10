@@ -372,7 +372,16 @@
 								<img src="../images/common/products/${wishvo.cpvo.pimage1}" class="product_img">
 								<div id="productDesc">
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
-									<p class="productPrice"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</p>
+									<c:if test="${ wishvo.cpvo.salePcnt > 0}">
+										<div class="productPrice" style="text-decoration:line-through; color:gray;"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</div>
+										<div>
+											<fmt:formatNumber value="${wishvo.cpvo.parentProvo.price - ((wishvo.cpvo.parentProvo.price * wishvo.cpvo.salePcnt)/100) }"
+																		pattern="#,###" /> 원
+										</div>
+									</c:if>
+									<c:if test="${ wishvo.cpvo.salePcnt eq 0}">
+										<div class="productPrice" style="margin-bottom: 44px;"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</div>
+									</c:if>
 								</div>
 								<button type="button" class="btnWish btn btn-dark" onClick="goCart('${wishvo.fk_userid}','${wishvo.fk_pnum}')" data-toggle="modal" data-target="#goCartModal" >장바구니에 추가</button>
 								<button type="button" class="btnWish btn btn-light" id="prod_${wishvo.fk_pnum}" onClick="goDelete('${wishvo.fk_userid}','${wishvo.fk_pnum}');">삭제</button>

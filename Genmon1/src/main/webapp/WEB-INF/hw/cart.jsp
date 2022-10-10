@@ -519,9 +519,18 @@
 							<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
 							<div class="productDesc">
 								<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
-								<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
+								<c:if test="${ cvo.allProdvo.salePcnt > 0}">
+									<div class="productPrice" style="text-decoration:line-through; color:gray;"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</div>
+									<div>
+										<fmt:formatNumber value="${cvo.allProdvo.parentProvo.price - ((cvo.allProdvo.parentProvo.price * cvo.allProdvo.salePcnt)/100) }"
+																		pattern="#,###" /> 원
+									</div>
+								</c:if>
+								<c:if test="${ cvo.allProdvo.salePcnt eq 0}">
+									<div class="productPrice" style="margin-bottom: 44px;"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</div>
+								</c:if>
 							</div>
-							<div class="number-input" style="margin-left: 105px; margin-top: 0;">
+							<div class="number-input" style="margin: 0 0 15px 105px;">
 							  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
 							  <input class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
 							  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
