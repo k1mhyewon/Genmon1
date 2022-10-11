@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
     String ctxPath = request.getContextPath();
     //     /MyMVC
@@ -239,18 +240,6 @@ btn{
 
 $(document).ready(function() {
 	let html = '';
-	/* html = "<option selected value='${cpvo.pcolor}'>${cpvo.pcolor}</option>";
-	$("select#pcolor").html(html);
-	 */
-	/* $("option").click(funcion(){
-		html = '<option>선택해주세요</option><c:forEach var="map" items="${requestScope.colorList}"><option value="${map.pcolor}">${map.pcolor}</option></c:forEach>';
-		$("select#pcolor").html(html);	
-	}); 
-	
-	html = "<option selected value='${cpvo.parentProvo.pmaterial}'>${cpvo.parentProvo.pmaterial}</option>";
-	$("select#pmaterial").html(html);
-	 */
-	
 	
 	$("div#View_area").hide();
 	$("#selDirect").hide();
@@ -262,13 +251,15 @@ $(document).ready(function() {
 			$("#selDirect").hide();
 		};
 	})
-	
+	$(".must").prop("disabled", true);
 
 
 	 // 상품 등록 버튼을 누르면 	
-	$("button#btnRegister").click(function(){
-			let flag = false;
-		if(confirm("상품등록을 하시겠습니까?")){
+	$("button#btnEdit").click(function(){
+		$(".must").prop("disabled", false);
+		
+		let flag = false;
+		if(confirm("상품정보수정을 하시겠습니까?")){
 			
 			$(".infoData").each(function(){// 하나하나 검사한다.
 			
@@ -348,11 +339,10 @@ $(document).ready(function() {
 	  
   });// end of $("input#divfileattach").bind("spinstop",function(){}--------
   
-		  
-	
-		  
+  	
+	// 상품상세정보 글자수 
 	  $('#pcontent').on('keyup', function() {
-	      $('#pcontent_cnt').html("("+$(this).val().length+" / 100)");
+	      $('#pcontent_cnt').html("("+$(this).val().length+" / 1000)");
 	
 	      if($(this).val().length > 1000) {
 	          $(this).val($(this).val().substring(0, 1000));
@@ -510,7 +500,7 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="form-group">
 				<label for="pname" class="col-form-label">상품명 *${requestscope.cpvo.pname}</label><span class="error">상품명을 입력해주세요</span>
-				<input value="${cpvo.parentProvo.pname}"type="text" class="form-control infoData" name="pname" id="pname" > 
+				<input value="${cpvo.parentProvo.pname}"type="text" class="form-control infoData must" name="pname" id="pname" > 
 			</div>
 			
          	<div class="form-group ">
@@ -534,7 +524,7 @@ $(document).ready(function() {
 			<div class="form-group existhide">
 				<label for="pcontent" class="col-form-label">상품상세정보 *</label><span class="error">상품상세정보를 입력해주세요</span>
 				<textarea class="form-control infoData" name="pcontent" id="pcontent" cols="30" rows="8" placeholder="내용을 입력해주세요.">${cpvo.parentProvo.pcontent}</textarea>
-				<div id="pcontent_cnt">(0 / 1000)</div>
+				<div id="pcontent_cnt">(<c:out value="${fn:length(cpvo.parentProvo.pcontent)}" /> / 1000)</div>
 			</div>
 
          	<div class="form-group ">
@@ -549,8 +539,8 @@ $(document).ready(function() {
 			</div> -->
         
          	<div class="form-group existhide" style="width: 50%;display:inline-block;">
-         		<label for="pmaterial" class="col-form-label" >상품 재질*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
-				<select class="" name="pmaterial" id="pmaterial" >
+         		<label for="pmaterial" class="col-form-label " >상품 재질*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
+				<select class="must" name="pmaterial" id="pmaterial" >
 				  <option value="">선택해주세요</option>
 				  <option selected value='${cpvo.parentProvo.pmaterial}'>${cpvo.parentProvo.pmaterial}</option>
 				<c:forEach var="map" items="${requestScope.materialList}">
@@ -562,8 +552,8 @@ $(document).ready(function() {
 			</div>
 			
          	<div class="form-group  " style="width: 50%;display:inline-block;">
-         		<label for="pcolor" class="col-form-label" >상품 색상*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
-				<select class="" name="pcolor" id="pcolor" >
+         		<label for="pcolor" class="col-form-label " >상품 색상*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
+				<select class="must" name="pcolor" id="pcolor" >
 				  <option value="">선택해주세요</option>
 				  <option selected value='${cpvo.pcolor}'>${cpvo.pcolor}</option>
 				<c:forEach var="map" items="${requestScope.colorList}">
@@ -593,7 +583,7 @@ $(document).ready(function() {
 
 
      <div class="modal-footer">
-       <button type="button" value="register" id="btnRegister" class="btn shadow-0 btn-md btn-outline-primary "onclick="goEdit()" >Edit</button>
+       <button type="button" value="register" id="btnEdit" class="btn shadow-0 btn-md btn-outline-primary "onclick="goEdit()" >Edit</button>
        <button type="reset" value="delete"  class="me-2 btn shadow-0 btn-md btn-primary btnRegister" style="" >delete</button>
      </div>
      

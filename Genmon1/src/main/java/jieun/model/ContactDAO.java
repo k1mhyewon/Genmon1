@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -184,7 +185,7 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "insert into tbl_member_contact_test(contactid, fk_userid, ctype, contents, pwd)  "
+			String sql = "insert into tbl_member_contact_test(contactid, fk_userid, ctype, contents, pwd, contactfile_systemFileName, contactfile_orginFileName)  "
 						+ "values ('M'||to_char(sysdate,'yyyymmdd')||seq_tbl_member_contact_ctid.nextval, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -193,6 +194,8 @@ public class ContactDAO implements InterContactDAO {
 			pstmt.setString(2, cvo.getCtype());
 			pstmt.setString(3, cvo.getContents());
 			pstmt.setString(4, Sha256.encrypt(cvo.getPwd())); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+			pstmt.setString(5, cvo.getContactfile_systemFileName()); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+			pstmt.setString(6, cvo.getContactfile_orginFileName()); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
 
 			pstmt.executeUpdate();
 		
@@ -229,6 +232,148 @@ public class ContactDAO implements InterContactDAO {
 		}
 		
 	}// end of public void insertGuestContact(ContactVO cvo) throws SQLException {}--------------------
+
+	
+	// 회원문의리스트 목록
+	@Override
+	public List<ContactVO> selectAllMyContact(Map<String, String> paraMap) throws SQLException {
+		
+		List<ContactVO> contactList = new ArrayList<>();
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select contactid, fk_userid, ctype, contents, cregisterday, exist "
+						+ " from  "
+						+ " ( "
+						+ " select row_number() over(order by cregisterday desc) AS RNO, contactid, fk_userid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd') as cregisterday, nvl2(rpid, 1,0) as exist "
+						+ " from tbl_member_contact_test a left join tbl_member_contact_reply_test b "
+						+ " on a.contactid = b.fk_contactid  "
+						+ " where fk_userid = ? "
+						+ " ) "
+						+ " where RNO between ? and ?  "
+						+ " order by cregisterday desc" ;
+			
+			// === 페이징처리의 공식 ===
+			// where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
+
+			 int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			 int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			 String userid = paraMap.get("userid");
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setInt(2, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+			pstmt.setInt(3, (currentShowPageNo*sizePerPage) ); // 공식
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ContactVO cvo = new ContactVO();
+				cvo.setContactid(rs.getString(1));
+				cvo.setFk_userid(rs.getString(2));
+				cvo.setCtype(rs.getString(3));
+				cvo.setContents(rs.getString(4));
+				cvo.setCregisterday(rs.getString(5));
+				cvo.setReplyExist(String.valueOf(rs.getInt(6)));
+				
+				contactList.add(cvo);
+			}
+			
+		} finally {
+			close();
+		}
+		return contactList;
+	}
+
+	// 문의목록에서 클릭한 문의 관리자 답변 나오기 
+	@Override
+	public Map<String, String> selectContactDetail(String contactid) throws SQLException {
+		Map<String,String> paraMap = new HashMap<>();
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select fk_contactid, rcontent, to_char(rpregisterday,'yyyy-mm-dd') "
+						+ " from tbl_member_contact_reply_test "
+						+ " where fk_contactid = ? " ;
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, contactid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			paraMap.put("contactid", rs.getString(1));
+			paraMap.put("rcontent", rs.getString(2));
+			paraMap.put("rpregisterday", rs.getString(3));
+			
+		} finally {
+			close();
+		}
+		return paraMap;
+	}
+
+	// 전체 한 페이지에 나오는 상품갯수에 따른 총 상품페이지 갯수 
+	@Override
+	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
+		int totalPage = 0; 
+		try {
+			
+			conn = ds.getConnection();
+			String sql = " select ceil(count(*)/?) from tbl_member_contact_test where fk_userid = ? ";
+			
+			// 서치단어 , 필터 넣기 
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")) ); // 한 페이지에 나오는 상품갯수 
+			pstmt.setString(2, paraMap.get("userid")); // 한 페이지에 나오는 상품갯수 
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next(); // 무조건 결과나온다. => if 할필요 없음 
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		
+		return totalPage;
+	}
+
+	
+	// 문의글 업로드한 사진 파일명 알아오기
+	@Override
+	public Map<String, String> getContactFileName(String contactid) throws SQLException {
+		Map<String, String> map = new HashMap<>();
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql = " select contactfile_systemFileName, contactfile_orginFileName "
+						+ " from tbl_member_contact_test "
+						+ " where contactid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contactid);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				String contactfile_systemFileName = rs.getString(1); // 파일서버에 업로드되어지는 실제 제품설명서 파일명
+				String contactfile_orginFileName = rs.getString(2); // 웹클라이언트의 웹브라우저에서 파일을 업로드 할때 올리는 제품설명서 파일명
+				
+				map.put("contactfile_systemFileName", contactfile_systemFileName);
+				map.put("contactfile_orginFileName", contactfile_orginFileName);
+			}
+		} finally {
+			close();
+		}
+		return map;
+	}
 
 	
 	

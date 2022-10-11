@@ -29,7 +29,7 @@ public class GuestGoContact extends AbstractController {
 				// 파일 
 				MultipartRequest mtrequest = null;
 				ServletContext svlCtx = session.getServletContext();
-				String uploadFileDir = svlCtx.getRealPath("/images");
+				String uploadFileDir = svlCtx.getRealPath("/images/contact");
 				System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
 
 				// === 파일을 업로드 해준다. === // 
@@ -115,8 +115,8 @@ public class GuestGoContact extends AbstractController {
 			}// get 방식 일때------------------------------
 				
 		
+			
 		
 		
 	}
-
 }
