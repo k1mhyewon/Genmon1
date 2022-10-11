@@ -306,6 +306,7 @@
 		
 		$(document).ready(function () {
 			
+			<%-- 
 			let	lenDisplay = 8; 
 			// 상품 스크롤 할 때 보여줄 상품의 개수(단위)크기
 		
@@ -362,7 +363,7 @@
 			});
 					
 			// == 스크롤 이벤트 발생시키기 끝 === 	
-			
+			--%>
 			
 			/////////////////////////////////////////////////
 			
@@ -443,6 +444,7 @@
 		 			//	console.log(typeof json);
 		 				
 				    	let html = '';
+	
 				    	
 				    	if(json.length == 0){// 상품이 없는경우.
 							// !!! 주의 !!!
@@ -454,10 +456,68 @@
 						else if( json.length > 0 ){ // 해당되는 상품이 존재하는 경우   
 							
 							$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
-								html += '';
+								
+							html += `<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" >
+								<div class="col-md-3 mt-3">
+									<div style="width:340px;">
+							
+										<c:choose>
+											<c:when test="`+item.pqty+` == 0">
+												<a href="<%= ctxPath %>/product/productDetail.sun?pnum=`+item.pnum+`" class="pqty"><img
+														style="width:340px;" src="<%= ctxPath %>/images/common/products/${item.pimage1}"></a>
+											</c:when>
+							
+											<c:when test="`+item.pqty+` != 0">
+												<a href="<%= ctxPath %>/product/productDetail.sun?pnum=`+item.pnum+` class="product"><img
+														style="width:340px;" src="<%= ctxPath %>/images/common/products/${item.pimage1}"></a>
+											</c:when>
+										</c:choose>
+							
+										<a href="<%= ctxPath %>/product/productDetail.sun?pnum=`+item.pnum+` class="product">
+							
+											<c:if test="`+item.pqty+` == 0">
+												<span class="grid-item-qty" style="display: inline-block; color: #449ce8;"
+													class="grid-item-pqty"><i>out of stock</i></span>
+											</c:if>
+							
+											<span class="grid-item-name">`+item.parentProvo.pname+` `+item.colorName+`</span>
+							
+											<c:choose>
+												<c:when test="`+item.salePcnt+` > 0">
+													<span style="text-decoration:line-through; color:gray;" class="grid-item-price">
+														<fmt:formatNumber value="`+item.parentProvo.price+`" pattern="#,###" />
+													</span>
+												</c:when>
+							
+												<c:when test="`+item.salePcnt+` <= 0">
+													<span class="grid-item-price">
+														<fmt:formatNumber value="`+item.parentProvo.price+`" pattern="#,###" />
+													</span>
+												</c:when>
+											</c:choose>
+							
+											<c:choose>
+												<c:when test="`+item.salePcnt+` > 0">
+													<span class="grid-item-price">
+														<fmt:formatNumber
+															value="`+item.parentProvo.price - (((item.parentProvo.price) * item.salePcnt)/100)+`"
+															pattern="#,###" />
+													</span>
+												</c:when>
+												</c:choose>
+							
+											<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
+										</a>
+							
+										<button class="item-wish-btn"
+											style="border:none; background-color: white; float: right; display: inline-block;"
+											onclick="addWish()"> &#10084;</button>
+									</div>
+								</div>
+							</div>`;
 							});// end of $.each -------------------------
-				    	
 				    	}
+				    	
 				    	
 				    	$("div#pop01").hide();
 				    	$("div#display").html('');
@@ -476,6 +536,7 @@
 		}); // end of ready
 		
 						
+		<%-- 
 		// Function Declaration
 
 		function display(start) { 	 // start 가 1이라면 (페이징 처리 하는 것 rownum) 1~8까지 상품 8개 보여준다. 
@@ -563,9 +624,9 @@
 		         }
 			});
 								 
-		--%>							 
+									 
 		}//end of function display()---		
-						
+		--%>				
 		
 		
 		//////////////////////////////////////////////				
