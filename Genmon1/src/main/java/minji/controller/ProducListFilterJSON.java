@@ -1,20 +1,15 @@
 package minji.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
 
 import common.controller.AbstractController;
 import common.model.ChildProductVO;
-import common.model.ContactVO;
-import jieun.model.ContactDAO;
-import jieun.model.InterContactDAO;
+
 import minji.model.InterProductDAO;
 import minji.model.ProductDAO;
 
@@ -63,14 +58,18 @@ public class ProducListFilterJSON extends AbstractController {
 			}// end of for -----------------
 			
 			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
-				System.out.println("~~~ 확인용 json =>"+json);
+				
+//			System.out.println("~~~ 확인용 json =>"+json);
+			
 			request.setAttribute("json", json);
 			
-//					super.setRedirect(false);
+//			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/common/jsonview.jsp");
-		} else {
-			System.out.println("집에갈래");
-		}
+		} 
+		
+//		else {
+//			System.out.println("확인용");
+//		}
 		
 	}
 	
