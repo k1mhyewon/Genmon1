@@ -187,6 +187,8 @@ th{
 <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="../js/bootstrap-datepicker.js" type="text/javascript"></script>
 <script  type="text/javascript">
+
+let type;
 $(document).ready(function () {
 	
  	
@@ -219,7 +221,7 @@ $(document).ready(function () {
  		$("a").removeClass("active");
  		$(this).addClass("active");
  		$("tbody#contactList").html("");
- 		const type = $(this).text();
+ 		type = $(this).text();
  		// alert(ctype);
  		
  		// 목록불러오는 함수 
@@ -252,7 +254,7 @@ $(document).ready(function () {
  	
  	$(document).on("click", ".under", function(e){
  		const orderDetailId = $(this).parent().children(".orderDetailId").text();
-		goAnswerForm(orderDetailId);
+		goAnswerForm(orderDetailId, type);
  	});
 	
 });
@@ -270,9 +272,9 @@ $(document).ready(function () {
 	
 	
 	// === 답변폼창 나오기 === //
-	function goAnswerForm(orderDetailId){
-		// alert(contactid);
-		const url = "<%= request.getContextPath()%>/admin/adminReplyAnswer.sun?orderDetailId="+orderDetailId;
+	function goAnswerForm(orderDetailId, type){
+		
+		const url = "<%= request.getContextPath()%>/admin/adminReplyAnswer.sun?orderDetailId="+orderDetailId+"&type="+type;
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
 		const pop_width = 800;

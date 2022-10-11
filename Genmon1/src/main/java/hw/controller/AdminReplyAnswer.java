@@ -21,17 +21,20 @@ public class AdminReplyAnswer extends AbstractController {
 		
 		if( loginuser  != null && "admin".equals(loginuser.getUserid())) {
 			
+			
 			String method = request.getMethod();
 			
 			if("GET".equalsIgnoreCase(method)) { // 클릭한 회원이 작성한 문의글을 보여줄때 
 				
 				String orderDetailId = request.getParameter("orderDetailId");
+				String type = request.getParameter("type");
 				
 				InterReviewDAO rdao = new ReviewDAO();
 				
 				ReviewVO rvo = rdao.getOneReview(orderDetailId);
 				
 				request.setAttribute("rvo", rvo);
+				request.setAttribute("type", type);
 				
 
 				super.setRedirect(false); 
