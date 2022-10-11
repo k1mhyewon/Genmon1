@@ -248,4 +248,35 @@ public class WishlistDAO implements InterWishlistDAO {
 		return result;
 	} // end of public int addToWish(String userid, String pnum) throws SQLException {} -------------------------------
 
+	
+	
+	
+	
+	// 이미 위시리스트에 있는 상품인지 확인 --------------------------------------------------------------------------------------
+	@Override
+	public int isWishExist(String userid, String pnum) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
+			
+			String sql = " select * from tbl_wishlist_test where fk_userid = ? and fk_pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setString(2, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) {
+				n = 1;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	} // end of public int isWishExist(String userid, String pnum) throws SQLException {} ------------------------------
 }

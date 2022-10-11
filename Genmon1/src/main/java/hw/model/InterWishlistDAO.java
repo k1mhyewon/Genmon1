@@ -21,4 +21,7 @@ public interface InterWishlistDAO {
 	// 상품상세에서 위시리스트로 insert
 	int addToWish(String userid, String pnum) throws SQLException;
 
+	// 이미 위시리스트에 있는 상품인지 확인
+	int isWishExist(String userid, String pnum) throws SQLException;
+
 }
