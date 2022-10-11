@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 		description = "사용자가 웹에서 *.sun 했을경우 이 서블릿이 응답을 해주도록 한다", 
 		urlPatterns = { "*.sun" }, 
 		initParams = { 
-				@WebInitParam(name = "propertyConfig", value = "C:\\Users\\sist\\git\\Genmon1\\Genmon1\\src\\main\\webapp\\WEB-INF\\Command.properties")
+				@WebInitParam(name = "propertyConfig", value = "/Users/gimjieun/git/Genmon1/Genmon1/src/main/webapp/WEB-INF/Command.properties")
 		})
 public class FrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

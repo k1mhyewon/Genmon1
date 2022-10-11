@@ -473,7 +473,7 @@ public class ReviewDAO implements InterReviewDAO {
 					"JOIN tbl_order_detail_test D\n"+
 					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
 					"JOIN tbl_order_test O\n"+
-					"ON D.fk_orderid = O.pk_orderid";
+					"ON D.fk_orderid = O.pk_orderid ";
 			
 			if("미답변".equalsIgnoreCase(type)) {// 미답변 목록이라면
 				sql +=  " where R.reply is null ";
@@ -481,6 +481,7 @@ public class ReviewDAO implements InterReviewDAO {
 			else if("답변".equalsIgnoreCase(type)) {// 답변 목록이라면
 				sql +=  " where R.reply is not null ";
 			}
+			sql += " order by uploaddate desc ";
 						
 			pstmt = conn.prepareStatement(sql);
 			

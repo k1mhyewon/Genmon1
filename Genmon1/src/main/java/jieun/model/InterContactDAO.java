@@ -20,6 +20,18 @@ public interface InterContactDAO {
 	// 비회원문의글 insert
 	void insertGuestContact(ContactVO cvo) throws SQLException;
 
+	// 회원문의리스트 목록 
+	List<ContactVO> selectAllMyContact(Map<String, String> paraMap) throws SQLException;
+
+	// 문의목록에서 클릭한 문의 관리자 답변 나오기 
+	Map<String, String> selectContactDetail(String contactid) throws SQLException;
+	
+	// 전체 한 페이지에 나오는 상품갯수에 따른 총 문의페이지 갯수 
+	int getTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// 문의글 쓸때 파일명 알아오기
+	Map<String, String> getContactFileName(String contactid) throws SQLException;
+
 
 
 }

@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import common.model.*;
-import jieun.model.*;
+import common.model.MemberVO;
+import common.util.MyUtil;
 import jieun.model.ChildProductVO;
+import jieun.model.InterProductDAO;
+import jieun.model.ProductDAO;
 
 public class AdminProduct extends AbstractController {
 
@@ -258,17 +260,15 @@ public class AdminProduct extends AbstractController {
 				  
 				  
 				// **** 현재 페이지를 돌아갈 페이지(goBackURL)로 주소 지정하기 **** //
-//		            String currentURL = MyUtil.getCurrentURL(request);
+		            String currentURL = MyUtil.getCurrentURL(request);
 		            // 회원조회를 했을시 현재 그 페이지로 그대로 되돌아가기 위한 용도로 쓰임.
 		            
 		         //  System.out.println("currentURL => " + currentURL);
-		         //  /member/memberList.up?sizePerPage=10&currentShowPageNo=8&searchType=name&searchWord=%EC%A0%95 
 		          
-//		            currentURL = currentURL.replaceAll("&", " ");
+		            currentURL = currentURL.replaceAll("&", " ");
 		         //  System.out.println("currentURL => " + currentURL);      
-		         //  /member/memberList.up?sizePerPage=10 currentShowPageNo=8 searchType=name searchWord=%EC%A0%95   
 		            
-//		            request.setAttribute("goBackURL", currentURL);
+		            request.setAttribute("goBackURL", currentURL);
 				  
 //					super.setRedirect(false); 
 					super.setViewPage("/WEB-INF/jieun/admin_productTable.jsp"); // 
