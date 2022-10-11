@@ -1,7 +1,5 @@
 package minji.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.*;
 
 import java.util.*;
@@ -301,20 +299,20 @@ public class ProductDAO implements InterProductDAO {
 				if("1".equals(paraMap.get("order")) ) {
 					order = " order by PRELEASEDATE desc ";
 				}
-				if("2".equals(paraMap.get("order")) ) {
+				else if("2".equals(paraMap.get("order")) ) {
 					order = " order by price asc ";
 				}
-				if("3".equals(paraMap.get("order")) ) {
+				else if("3".equals(paraMap.get("order")) ) {
 					order = " order by price desc ";
 				}
 				
 				
 				
 				
-				String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt, pqty, pmaterial\n"+
-							"from tbl_product_test\n"+
-							"JOIN tbl_all_product_test\n"+
-							"on pid = fk_pid\n"+ 
+				String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt, pqty, pmaterial\n "+
+							" from tbl_product_test\n "+
+							" JOIN tbl_all_product_test\n "+
+							" on pid = fk_pid\n "+ 
 						 	 where + // 변수
 							 order ;
 				
@@ -322,17 +320,17 @@ public class ProductDAO implements InterProductDAO {
 				pstmt = conn.prepareStatement(sql);
 				
 				/*
-				 * if( "".equals(paraMap.get("color")) && "".equals(paraMap.get("material")) ) {
-				 * 
-				 * } else if( !"".equals(paraMap.get("color")) &&
-				 * "".equals(paraMap.get("material")) ){ pstmt.setString(1,
-				 * paraMap.get("pcolor")); } else if( "".equals(paraMap.get("color")) &&
-				 * !"".equals(paraMap.get("material")) ){ pstmt.setString(2,
-				 * paraMap.get("pmaterial"));
-				 * 
-				 * } else if( !"".equals(paraMap.get("color")) &&
-				 * !"".equals(paraMap.get("material")) ){ pstmt.setString(1,
-				 * paraMap.get("pcolor")); pstmt.setString(2, paraMap.get("pmaterial")); }
+				  if( "".equals(paraMap.get("color")) && "".equals(paraMap.get("material")) ) {
+				  
+				  } else if( !"".equals(paraMap.get("color")) &&
+				  "".equals(paraMap.get("material")) ){ pstmt.setString(1,
+				  paraMap.get("pcolor")); } else if( "".equals(paraMap.get("color")) &&
+				  !"".equals(paraMap.get("material")) ){ pstmt.setString(2,
+				  paraMap.get("pmaterial"));
+				  
+				  } else if( !"".equals(paraMap.get("color")) &&
+				  !"".equals(paraMap.get("material")) ){ pstmt.setString(1,
+				  paraMap.get("pcolor")); pstmt.setString(2, paraMap.get("pmaterial")); }
 				 */
 				
 				rs = pstmt.executeQuery();
@@ -363,5 +361,90 @@ public class ProductDAO implements InterProductDAO {
 			
 		return filterProductList;
 	}
+
+	// 상품 전체 개수 알아온다.
+	// Ajax(JSON)를 사용하여 상품목록을 스크롤 방식으로 페이징처리 해주기 위해 제품의 전체개수 알아오기 // 
+	@Override
+	public int totalPspecCount(String pnum) throws SQLException {
+		
+		int totalCount = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select count(pnum) AS count \r\n "
+						+ " from tbl_product_test\r\n "
+						+ " join tbl_all_product_test\r\n "
+						+ " on fk_pid = pid ";
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalCount = rs.getInt("count");
+			
+		} finally {
+			close();
+		}
+		return totalCount;
+	}
+
+	// ajax를 이용해서 상품 8개씩 잘라 스크롤 방식으로 띄워주기
+	@Override
+	public List<ChildProductVO> selectDisplay(Map<String, String> paraMap)throws SQLException {
+
+		List<ChildProductVO> displayList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pnum, pname, price, pcolor, pimage1, salePcnt, pqty, preleasedate, panmaestate\r\n "
+						+ " from\r\n "
+						+ " (select row_number() over(order by pnum desc) AS RNO \r\n "
+						+ " ,pnum, pname, price, pcolor, pimage1, salePcnt, pqty, preleasedate, panmaestate\r\n "
+						+ " from tbl_all_product_test\r\n "
+						+ " JOIN tbl_product_test\r\n "
+						+ " ON fk_pid = pid\r\n "
+						+ " where PANMAESTATE = ?\r\n "
+						+ " )\r\n "
+						+ " where RNO between ? and ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("panmaestate"));
+			pstmt.setString(2, paraMap.get("start"));
+			pstmt.setString(3, paraMap.get("end"));
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ChildProductVO cpvo =new ChildProductVO();
+				
+				cpvo.setPnum(rs.getInt("pnum"));
+				cpvo.setSalePcnt(rs.getInt("salePcnt"));
+				cpvo.setPqty(rs.getInt("pqty"));
+				cpvo.setPcolor(rs.getString("pcolor")); 
+				cpvo.setPimage1(rs.getString("pimage1"));
+				cpvo.setPreleasedate(rs.getString("preleasedate"));
+				cpvo.setPanmaestate(rs.getInt("panmaestate"));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString("pname"));
+				ppvo.setPrice(rs.getInt("price"));
+				
+				cpvo.setParentProvo(ppvo); // JOIN
+				
+				displayList.add(cpvo);
+				
+			}// end of while
+		}finally {
+			close();
+		}
+		return displayList;
+	}
+
+	
 	
 }

@@ -30,6 +30,12 @@ public interface InterReviewDAO {
 	// 리뷰 댓글 달기
 	int insertReply(String reviewid, String reply_content) throws SQLException;
 
+	// 관리자용 리뷰 리스트 select 해오기
+	List<ReviewVO> selectReviewListforAdmin(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자용 팝업창 단일 리뷰 select 해오기
+	ReviewVO getOneReview(String orderDetailId) throws SQLException;
+
 	
 
 

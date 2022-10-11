@@ -36,15 +36,14 @@ public class Wishlist extends AbstractController {
 		
 		else {
 			
-		HttpSession session =  request.getSession(); 
-		  // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		// System.out.println("확인용 loginuser.userid : " + loginuser.getUserid());
+			HttpSession session =  request.getSession(); 
+			  // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
+			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			// System.out.println("확인용 loginuser.userid : " + loginuser.getUserid());
+			
+			String userid = loginuser.getUserid();
+			// System.out.println("확인용 userid_request : " + userid_request);
 		
-		String userid = request.getParameter("userid");
-		// System.out.println("확인용 userid_request : " + userid_request);
-		
-		if(loginuser.getUserid().equals(userid)) {
 			
 			InterWishlistDAO wishdao = new WishlistDAO();
 			
@@ -93,20 +92,8 @@ public class Wishlist extends AbstractController {
 			super.setViewPage("/WEB-INF/hw/wishlist.jsp");
 			
 		}
-		else {
-			// 로그인한 사용자가 다른 사용자의 정보를 수정하려고 시도하는 경우
-			String message = "다른 사용자의 my page 로는 접근 불가합니다.";
-			String loc = "javascript:history.back()";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-			
-		}
 		
-		}
+		
 	}
 
 }

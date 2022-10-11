@@ -403,8 +403,15 @@
 			            </div>
 			            <c:if test="${reviewList.img_orginFileName != '없음'}">
 				            <div class="rate_content_2">
-			                	<img src="../images/reviewImg/${reviewList.img_orginFileName}" style="width: 80px;">
+			                	<img src="../images/reviewImg/${reviewList.img_orginFileName}" style="width: 80px;" data-toggle="modal" data-target="#imgModal_${reviewList.reviewid}" >
 				            </div>
+				            <div class="modal fade" id="imgModal_${reviewList.reviewid}">
+								<div class="modal-dialog">
+									<div class="modal-content modals-fullsize" style="width: 500px; height: auto;">
+										<img src="../images/reviewImg/${reviewList.img_orginFileName}" />
+									</div>
+								</div>
+							</div>
 			            </c:if>
 			            <div class="toggle_box">
 			            	<c:if test="${reviewList.reply == '없음'}">
@@ -439,9 +446,11 @@
 					            <span class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
 									댓글(1)
 								</span>
-								<span id="delete_reply_${reviewList.reviewid}" class="toggle_btn write_reply_btn" type="button" onClick="reply_delete('${reviewList.reviewid}')">
-									댓글 삭제
-								</span>
+								<c:if test="${ sessionScope.loginuser.userid eq 'admin' }">
+									<span id="delete_reply_${reviewList.reviewid}" class="toggle_btn write_reply_btn" type="button" onClick="reply_delete('${reviewList.reviewid}')">
+										댓글 삭제
+									</span>
+								</c:if>
 								<div class="toggle_content collapse" id="reply_${reviewList.reviewid}">
 									<div style="font-weight: bold;">Gentle Monster</div>
 									<div style="font-size: 10pt; margin-top: 10px;">${reviewList.reply}</div>
@@ -482,5 +491,9 @@
         
     </div>
     <div id="empty"></div>
+    
+    
+    
+    
 
 <jsp:include page="../common/footer.jsp" />

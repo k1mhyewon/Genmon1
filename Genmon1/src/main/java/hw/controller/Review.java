@@ -86,7 +86,7 @@ public class Review extends AbstractController {
 				}
 				else {
 					
-					String message = "오류 발생으로 삭제 실패";
+					String message = "오류 발생으로 댓글달기 실패";
 					String loc = "javascript:history.back()";
 					
 					request.setAttribute("message", message);

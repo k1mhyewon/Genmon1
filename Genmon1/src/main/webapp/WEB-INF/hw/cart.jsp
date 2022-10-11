@@ -184,7 +184,6 @@
 
 	$(document).ready(function(){ // ==========================================================
 		
-		cartCount(); // 장바구니 개수 
 	
 		// 비회원이라면???
 		const loginuser = '${sessionScope.loginuser.userid}' ;
@@ -338,31 +337,6 @@
 	// #### Function Declaration #### //
 	
 	
-	// ==== 장바구니 개수 ==== // 왜 안되징.,,,,
-	function cartCount(){
-		
-		let cnt = "";
-		
-		$.ajax({
-			url:"<%= request.getContextPath()%>/order/countWishnCart.sun",
-			data:{ "count":"cart"},
-			type: "get",
-		    success:function(json) {
-		    	
-		    	var str_json = JSON.stringify(json);
-		    	
-		    	// console.log(str_json);		    	
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-			
-		});
-		
-	}
-	
-	
-	
 	function go_purchase(fk_pnum, qty){ // --------------------------------
 		
 		const userid = '${sessionScope.loginuser.userid}';
@@ -488,13 +462,14 @@
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">장바구니(<p id="count" style="display: inline-block;">${requestScope.cnt}</p>)</div>
-    
+    <div id="wishText">장바구니(${listSize})</div>
+    <c:if test="${ not empty requestScope.cartList and not empty sessionScope.loginuser}">
    	<div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
         <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings()">전체상품결제</button>
         <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings()">선택상품결제</button>
     </div>
+    </c:if>
 	<div class="album">
 		<div class="box">
 			<div class="wish_container row row-cols-sm-1 row-cols-md-4" id="show">
@@ -506,9 +481,18 @@
 							<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
 							<div class="productDesc">
 								<p class="productName" style="font-weight: bold;">${cvo.allProdvo.parentProvo.pname}</p>
-								<p class="productPrice"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</p>
+								<c:if test="${ cvo.allProdvo.salePcnt > 0}">
+									<div class="productPrice" style="text-decoration:line-through; color:gray;"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</div>
+									<div>
+										<fmt:formatNumber value="${cvo.allProdvo.parentProvo.price - ((cvo.allProdvo.parentProvo.price * cvo.allProdvo.salePcnt)/100) }"
+																		pattern="#,###" /> 원
+									</div>
+								</c:if>
+								<c:if test="${ cvo.allProdvo.salePcnt eq 0}">
+									<div class="productPrice" style="margin-bottom: 44px;"><fmt:formatNumber value="${cvo.allProdvo.parentProvo.price}" pattern="#,###" /> 원</div>
+								</c:if>
 							</div>
-							<div class="number-input" style="margin-left: 105px; margin-top: 0;">
+							<div class="number-input" style="margin: 0 0 15px 105px;">
 							  <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" ></button>
 							  <input class="quantity" min="1"  name="quantity" value="${cvo.qty}" type="number">
 							  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
@@ -526,10 +510,9 @@
 	</div>
 
     <c:if test="${ empty requestScope.cartList and not empty sessionScope.loginuser}">
-    	<div id="wishText">장바구니(0)</div>
 		<div id="empty_wishlist">
-			<div>장바구니에 담긴 상품이 없습니다.</div>
-			<button type="button" class="btn btn-dark" id="go_shopping">쇼핑하러가기</button>
+			<div style="margin-bottom: 20px;">장바구니에 담긴 상품이 없습니다.</div>
+			<button type="button" class="btn btn-dark" id="go_shopping" style="width: 200px; font-size: 11pt;">쇼핑하러가기</button>
 		</div>
     </c:if>
 	<div style="height: 50px;"></div>

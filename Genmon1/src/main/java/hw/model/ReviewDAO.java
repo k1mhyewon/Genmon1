@@ -1,5 +1,7 @@
 package hw.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +17,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import common.model.ChildProductVO;
+import common.model.ContactVO;
 import common.model.MemberVO;
 import common.model.OrderDetailVO;
+import common.model.OrderVO;
 import common.model.ParentProductVO;
 import common.model.ReviewVO;
 
@@ -447,6 +451,124 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return result;
 	} // end of public int insertReply(String reviewid) throws SQLException {} -----------------------
+
+	
+	
+	
+	// 관리자용 리뷰 리스트 select 해오기
+	@Override
+	public List<ReviewVO> selectReviewListforAdmin(Map<String, String> paraMap) throws SQLException {
+		
+		List<ReviewVO> reviewList = new ArrayList<>();
+		
+		String type = paraMap.get("type");
+		
+		// System.out.println("dao 확인용 type: "+ type);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply \n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
+					"JOIN tbl_order_test O\n"+
+					"ON D.fk_orderid = O.pk_orderid";
+			
+			if("미답변".equalsIgnoreCase(type)) {// 미답변 목록이라면
+				sql +=  " where R.reply is null ";
+			}
+			else if("답변".equalsIgnoreCase(type)) {// 답변 목록이라면
+				sql +=  " where R.reply is not null ";
+			}
+						
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReviewVO rvo = new ReviewVO();
+				
+				rvo.setFk_pk_order_detail_id(rs.getString(2));
+				rvo.setContent(rs.getString(3));
+				rvo.setUploaddate(rs.getString(4));
+				rvo.setImg_orginFileName(rs.getString(5));
+				rvo.setStar(rs.getString(6));
+				rvo.setReply(rs.getString(7));
+				
+				OrderDetailVO odvo = new OrderDetailVO();
+				OrderVO ovo = new OrderVO();
+				
+				ovo.setFk_userid(rs.getString(1));
+				odvo.setOvo(ovo);
+				rvo.setOdvo(odvo);
+				
+				reviewList.add(rvo);
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return reviewList;
+	}
+
+	
+	
+	
+	
+	
+	// 관리자용 팝업창 단일 리뷰 select 해오기
+	@Override
+	public ReviewVO getOneReview(String orderDetailId) throws SQLException {
+		
+		ReviewVO rvo = new ReviewVO();
+		
+		try {
+			conn = ds.getConnection();
+			
+			
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply, R.reviewid \n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
+					"JOIN tbl_order_test O\n"+
+					"ON D.fk_orderid = O.pk_orderid\n"+
+					"where R.fk_pk_order_detail_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderDetailId);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				
+				rvo.setFk_pk_order_detail_id(rs.getString(2));
+				rvo.setContent(rs.getString(3));
+				rvo.setUploaddate(rs.getString(4));
+				rvo.setImg_orginFileName(rs.getString(5));
+				
+				String star_shape = star_shape(rs.getString(6));
+				
+				rvo.setStar(star_shape);
+				rvo.setReply(rs.getString(7));
+				rvo.setReviewid(rs.getString(8));
+				
+				OrderDetailVO odvo = new OrderDetailVO();
+				OrderVO ovo = new OrderVO();
+				ovo.setFk_userid(rs.getString(1));
+				odvo.setOvo(ovo);
+				rvo.setOdvo(odvo);
+				
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return rvo;
+	}
 
 	
 	
