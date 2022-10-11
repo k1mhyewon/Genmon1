@@ -184,7 +184,6 @@
 
 	$(document).ready(function(){ // ==========================================================
 		
-		cartCount(); // 장바구니 개수 
 	
 		// 비회원이라면???
 		const loginuser = '${sessionScope.loginuser.userid}' ;
@@ -338,43 +337,6 @@
 	// #### Function Declaration #### //
 	
 	
-	// ==== 장바구니 개수 ==== // 왜 안되징.,,,,
-	function cartCount(){
-		
-		let cnt;
-		let obj;
-		
-		$.ajax({
-			url:"<%= request.getContextPath()%>/order/countWishnCart.sun",
-			data:{ "count":"cart"},
-			type: "get",
-		    success:function(json) {
-		    	
-		    	obj = JSON.stringify(json);
-		    	console.log(obj.cnt);
-		    	
-				if(!obj){
-					cnt = "0";
-					console.log("cnt0: "+cnt); 
-				}
-				else if( obj ){
-					console.log("cnt1: "+cnt); 
-
-				}
-				
-		    	// console.log(str_json);		    	
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-			
-		});
-		
-		// console.log("obj: "+obj); 
-	}
-	
-	
-	
 	function go_purchase(fk_pnum, qty){ // --------------------------------
 		
 		const userid = '${sessionScope.loginuser.userid}';
@@ -500,7 +462,7 @@
     <!-- 위시리스트 목록 -->
 
 
-    <div id="wishText">장바구니(<p id="count" style="display: inline-block;">${requestScope.cnt}</p>)</div>
+    <div id="wishText">장바구니(${listSize})</div>
     <c:if test="${ not empty requestScope.cartList and not empty sessionScope.loginuser}">
    	<div id="checkbox_choice">
         <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>

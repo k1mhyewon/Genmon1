@@ -217,6 +217,7 @@ div, span{
 	
 	function popClose(){
 		
+		
 		window.close();
 		
 	}
@@ -247,6 +248,7 @@ div, span{
 					<textarea class="form-control" name="reply_content" id="message" cols="30" rows="7" placeholder="내용을 입력해주세요" >${rvo.reply}</textarea>
 					<input type="hidden" name="reviewid" value="${rvo.reviewid}" />
 					<input type="hidden" name="purpose" value="insertReply" />
+					<input type="hidden" name="type" id="type" value="${requestScope.type}" />
 				</form>
 			</div>
 			
