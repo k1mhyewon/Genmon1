@@ -219,9 +219,24 @@ $(document).ready(function () {
  		$("a").removeClass("active");
  		$(this).addClass("active");
  		$("tbody#contactList").html("");
- 		const ctype = $(this).text();
- 		// alert(ctype);
- 		
+ 		let ctype = $(this).text();
+		switch (ctype) {
+		case "배송":
+			ctype="delivery";
+			break;
+		case "상품":
+			ctype="product";
+			break;
+		case "교환/반품":
+			ctype="refund";
+			break;
+		case "전체":
+			ctype="전체";
+			break;
+		default:
+			ctype="other";
+			break;
+		}
  		// 목록불러오는 함수 
  		displayTypeTab(ctype);
  	});
@@ -366,15 +381,15 @@ $(document).ready(function () {
     <a class="nav-link active" id="all tab-1" aria-controls="tabs-1" href="#tabs-1" role="tab">전체</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="product tab-2" aria-controls="tabs-2" href="#tabs-2" role="tab">상품</a
+    <a class="nav-link" id="product tab-2" aria-controls="tabs-2" href="#tabs-2" role="tab" >상품</a
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="delivery tab-3" aria-controls="tabs-3" href="#tabs-3" role="tab" >배송</a
+    <a class="nav-link" id="delivery tab-3" aria-controls="tabs-3" href="#tabs-3" role="tab">배송</a
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">교환/반품</a>
+    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab" >교환/반품</a>
   </li>
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="etc tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >기타</a>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="../bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <!-- 폰트 -->
@@ -79,8 +79,8 @@
 	}
 </style>
 
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script>
 
 	$(document).ready(function() {
@@ -88,8 +88,10 @@
 		// 로그인한 유저 정보 넣어주기 
 		const name = "${sessionScope.loginuser.name}"
 		const email = "${sessionScope.loginuser.email}"
+		const orderid = "${requestScope.orderid}"
 		$("input#name").val(name);
 		$("input#email").val(email);
+		$("input#orderid").val(orderid);
 		$("div.logined :input").prop("disabled", true);
 		
 		
@@ -260,24 +262,14 @@
 				<input type="text" class="form-control must" name="email" id="email" placeholder="Your email">
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12 form-group mb-3">
-			<label for="order" class="col-form-label">주문번호</label>
-			<select class="custom-select valid" id="order" name="order" aria-invalid="false">
-				<option selected="">Choose Orderno..</option>
-				
-				<%-- <c:forEach var="order" items="${sessionScope.loginUser }">
-					<option value="$1000 below">&lt; $1,000</option>
-				</c:forEach> --%>
-				
-				<option value="$1000 below">&lt; $1,000</option>
-				<option value="$2,000 - $5,000">$2,000 - $5,000</option>
-				<option value="$5,000 - $15,000">$5,000 - $15,000</option>
-				<option value="$15,000 - $25,000">$15,000 - $25,000</option>
-				<option value="$25,000 >">$25,000 &gt;</option>
-			</select>
+		<c:if test="${orderid != null}">
+			<div class="row logined">
+				<div class="col-md-12 form-group mb-3">
+				<label for="order" class="col-form-label">주문번호</label>
+				<input type="text" class="form-control must" name="orderid" id="orderid">
+				</div>
 			</div>
-		</div>
+		</c:if>
 		<div class="row">
 			<div class="col-md-12 form-group mb-3">
 				<label for="contents" class="col-form-label">내용 *</label><span class="error">문의내용을 입력해주세요</span>
