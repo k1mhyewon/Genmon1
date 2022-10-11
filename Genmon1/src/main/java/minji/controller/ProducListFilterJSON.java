@@ -37,10 +37,11 @@ public class ProducListFilterJSON extends AbstractController {
 		// 복수개이므로 자바스크립트의 배열형식으로 받아와야함.
 		
 		// JSONArray => []
+		String json="";
 		JSONArray jsonArr = new JSONArray(); // []   ==> simple로 import 하면 안됨!!! (import org.json.simple.JSONArray;)
+		System.out.println("사이즈=>"+selectList.size());
 		
-		
-		if( selectList.size() > 0 ) { // 글이 있으면 넣어두기 
+		if( selectList.size() != 0 ) { // 글이 있으면 넣어두기 
 			for( ChildProductVO cpvo : selectList) {
 				// JSONObject => {}
 				JSONObject jsonObj = new JSONObject();
@@ -57,20 +58,27 @@ public class ProducListFilterJSON extends AbstractController {
 				jsonArr.put(jsonObj);
 			}// end of for -----------------
 			
-			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
+			json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
 				
-//			System.out.println("~~~ 확인용 json =>"+json);
-			
+			System.out.println("~~~ 확인용 json =>"+json);
 			request.setAttribute("json", json);
-			
 //			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/common/jsonview.jsp");
+			
+			
 		} 
 		
-//		else {
-//			System.out.println("확인용");
-//		}
-		
+		else {
+			System.out.println("확인용노노");
+			json = jsonArr.toString();
+			request.setAttribute("json", json);
+//			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/common/jsonview.jsp");
+			
+		}
+	
+			
+			
 	}
 	
 }
