@@ -1,16 +1,16 @@
 package common.model;
 
-import java.util.List;
 
 public class ChildProductVO {
 
-	private int pnum;				// 상품일련번호
+	private int pnum;					// 상품일련번호
 	private String fk_pid; 				// 상품id
 	private String pcolor;				// 상품색상
 	private String pimage1; 			// 대표상품이미지
 	private int salePcnt; 				// 할인율
 	private int pqty; 					// 재고
 	private String preleasedate;		// 출시일
+	private int panmaestate;			// 판매상태
 	////////////////////////////////
 	// private int colAmount;	            // 같은 컬러 갯수 구하기 
 	
@@ -25,7 +25,7 @@ public class ChildProductVO {
 	public ChildProductVO() {}
 
 	public ChildProductVO(int pnum, String fk_pid, String pcolor, String pimage1, int salePcnt, int pqty,
-			String preleasedate) {
+			String preleasedate, int panmaestate) {
 		super();
 		this.pnum = pnum;
 		this.fk_pid = fk_pid;
@@ -34,7 +34,9 @@ public class ChildProductVO {
 		this.salePcnt = salePcnt;
 		this.pqty = pqty;
 		this.preleasedate = preleasedate;
+		this.panmaestate = panmaestate;
 	}
+
 
 	public int getPnum() {
 		return pnum;
@@ -92,6 +94,13 @@ public class ChildProductVO {
 		this.preleasedate = preleasedate;
 	}
 	
+	public int getPanmaestate() {
+		return panmaestate;
+	}
+
+	public void setPanmaestate(int panmaestate) {
+		this.panmaestate = panmaestate;
+	}
 	
 	////////////////////////////////////////////
 	
@@ -111,7 +120,11 @@ public class ChildProductVO {
 		
 	}
 
-	
+	// 할인된 가격
+	public int getSalePrice() {
+		return parentProvo.getPrice() - (((parentProvo.getPrice() * salePcnt) / 100));
+		
+	}
 	
 	
 }

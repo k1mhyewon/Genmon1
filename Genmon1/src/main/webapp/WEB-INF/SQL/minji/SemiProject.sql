@@ -313,3 +313,27 @@ JOIN tbl_all_product_test
 on pid = fk_pid
 where pcolor in ('black', 'yellow') and pmaterial in('metal', 'acetate')
 order by PRELEASEDATE desc;
+
+select count(pnum) 
+from tbl_product_test
+join tbl_all_product_test
+on fk_pid = pid;
+ 
+ 
+select *
+from tbl_all_product_test;
+
+
+select pnum, pname, price, pcolor, pimage1, pmaterial, salePcnt, pqty, preleasedate, panmaestate
+from
+(select row_number() over(order by pnum desc) AS RNO 
+,pnum, pname, price, pcolor, pimage1, pmaterial, salePcnt, pqty, preleasedate, panmaestate
+from tbl_all_product_test
+JOIN tbl_product_test
+ON fk_pid = pid
+where PANMAESTATE = 1
+)
+where RNO between 1 and 8;
+
+ 
+ 
