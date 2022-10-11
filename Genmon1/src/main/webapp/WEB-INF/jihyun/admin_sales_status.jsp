@@ -4,8 +4,13 @@
     
 <jsp:include page="../common/adminSidebar.jsp" />
 
+<!-- 폰트 -->
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
+
 <style>
 
+	* {font-family: 'Pretendard', sans-serif; !important}
+	
 	table{
 		background-color: white;
 	}

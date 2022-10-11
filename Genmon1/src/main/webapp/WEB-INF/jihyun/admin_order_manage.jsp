@@ -6,12 +6,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- 폰트 -->
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
 
 <link rel="stylesheet" href="../css/bootstrap-datepicker.css" type="text/css">
 <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
 <!-- Style -->
   <link rel="stylesheet" href="../css/style.css">
 <style>
+
+* {font-family: 'Pretendard', sans-serif; !important}
+
 .form-outline {
     position: relative;
 }
@@ -343,9 +348,44 @@ $(document).ready(function () {
 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 			}
 			
-			
 		});
 		
+	}// 주문 탭 눌렀을때
+	
+	
+	// tr 클릭 이벤트 (나중에 바인드로 다 고치쟝) 주문/ 취소/ 반품/ 교환 다 달라야해
+	// 창 닫으면 자동으로 refresh 하도록 하자
+	function click_event10(){
+		
+		//팝업창을 화면 가운데 위치시키기
+		const pop_width = 600;
+		const pop_height = 800;
+		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
+		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
+		
+		
+		// 주문상세
+		window.open("<%=ctxPath%>/admin/adminOrderDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		<%--
+		// 취소상세
+		window.open("admin_cancel_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		
+		// 반품상세
+		window.open("admin_return_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		*/
+		// 교환상세
+		 window.open("<%=ctxPath%>/admin/adminChangDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
+	           , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
+		--%>
+	} // end of tr 클릭 이벤트
+	
+	
+	// 배송지 일괄등록페이지로 넘어가기
+	function click_event(){
+		location.href = "<%=ctxPath%>/admin/adminRegisterTracking.sun";
 	}
 	
 </script>
@@ -356,7 +396,7 @@ $(document).ready(function () {
  <body style="background: #f4f4f4;">   
 <section class="py-4 px-2 " style="width:90%; margin:0 auto; ">
  
- &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 3% 6%;">Order</h3> 
+ &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 3% 6%;">Order</h3> <button type="button" id="btn_deli" onclick="click_event()">배송등록</button>
 <!-- Tabs navs -->
 <ul class="nav nav-tabs mb-5" id="ex1" role="tablist" style="margin:auto;">
   <li class="nav-item" role="presentation">
@@ -371,7 +411,7 @@ $(document).ready(function () {
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">교환 환불</a>
+    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">환불</a>
   </li>
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="etc tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >완료</a>
@@ -458,39 +498,6 @@ $(document).ready(function () {
 
 
 
-<script>
-
-	// tr 클릭 이벤트 (나중에 바인드로 다 고치쟝) 주문/ 취소/ 반품/ 교환 다 달라야해
-	// 창 닫으면 자동으로 refresh 하도록 하자
-	function click_event(){
-		
-		//팝업창을 화면 가운데 위치시키기
-		const pop_width = 600;
-		const pop_height = 800;
-		const pop_left = Math.ceil((window.screen.width-pop_width)/2);
-		const pop_top = Math.ceil((window.screen.height-pop_height)/2);
-		
-		
-		// 주문상세
-		window.open("<%=ctxPath%>/admin/adminOrderDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
-		<%--
-		// 취소상세
-		window.open("admin_cancel_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
-		
-		// 반품상세
-		window.open("admin_return_detail.jsp", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	            , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
-		*/
-		// 교환상세
-		 window.open("<%=ctxPath%>/admin/adminChangDetail.sun", "MyPopup" // 팝업창 안에 들어갈 내용물 // 직접쓰던가 파일네임
-	           , "left="+pop_left+"px, top="+pop_top+"px, width="+pop_width+"px, height="+pop_height+"px"); 
-		--%>
-	} // end of tr 클릭 이벤트
-
-
-</script>
 
 
 <div class="border-top"></div>
@@ -505,7 +512,7 @@ $(document).ready(function () {
         <option value="end">완료</option>
 	</select>
 	<span class="link_tag" style="margin-left:58%;">업데이트 09-19 14:20 ㉿</span>
-	<button type="button" id="btn_deli" onclick="click_event()">배송등록</button>
+	
 	<table>
 		<thead>
 			<tr>

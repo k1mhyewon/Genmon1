@@ -2,6 +2,7 @@ package jihyun.model;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -581,6 +582,285 @@ int result =0;
 		
 		return ovo;
 	}// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
+
+
+	
+	// 주문상세에서 주문 취소 했을때
+	@Override
+	public void myinfoCancelOrder(String orderid) throws SQLException {
+		
+		try {
+			conn = ds.getConnection();
+			// 프로시저를 실행한다
+			CallableStatement cstmt = conn.prepareCall("{call pcd_myinfo_ordercancel(?)}");
+			// ?에 값 바인딩
+			cstmt.setString(1, orderid);
+			// 프로시저 실행
+			cstmt.executeQuery();
+			
+			cstmt.close();
+			
+		}  finally {
+			
+			close();
+		}
+	}// end of 주문상세에서 주문 취소 했을때 
+
+
+	
+	// 주문 상세에서 환불 신청 했을때
+	@Override
+	public int myinfoRefundOrder(String rev_content, String arrjoin, String orderid) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String [] arr = arrjoin.split(",");
+			
+			// 환불신청 개수만큼 update와 insert를 반복해야함
+			for(int i =0; i<arr.length; i++) {
+				// System.out.println(arr[i]);
+				
+				String sql = "update tbl_order_detail_test set ORDER_STATUS = 3\n"+
+						"where PK_ORDER_DETAIL_ID = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, arr[i]);
+				result += pstmt.executeUpdate();
+				
+				sql = "insert into tbl_refund (pk_fk_order_detail_id, fk_orderid, reason)\n"+
+						"values(?,?,?)";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, arr[i]);
+				pstmt.setString(2, orderid);
+				pstmt.setString(3, rev_content);
+				
+				result += pstmt.executeUpdate();
+				
+			}
+			
+		}  finally {
+			
+			close();
+		}
+		return result;
+	} // 주문 상세에서 환불 신청 했을때
+
+
+	
+	// 관리자 페이지에서 배송지등록이 필요한 목록을 띄워주는 것
+	@Override
+	public List<HashMap<String, String>> selectAllNeedShipOrder() throws SQLException {
+		
+		List<HashMap<String, String>> mapList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select pname, pcolor, pk_order_detail_id, pk_orderid, fk_pnum, order_status, to_char(start_day), "
+					+ "to_char(orderdate), name, mobile, address, detailaddress, extraaddress, postcode\n"+
+					"from\n"+
+					"(\n"+
+					"    select pname, pcolor, pnum\n"+
+					"    from tbl_product_test\n"+
+					"    JOIN tbl_all_product_test \n"+
+					"    ON pid = fk_pid\n"+
+					")\n"+
+					"join \n"+
+					"(\n"+
+					"    select PK_ORDER_DETAIL_ID, PK_ORDERID, FK_PNUM, ORDER_STATUS, START_DAY, ORDERDATE, NAME, MOBILE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, POSTCODE\n"+
+					"    from tbl_order_test\n"+
+					"    join\n"+
+					"    (select PK_ORDER_DETAIL_ID, FK_ORDERID, FK_PNUM, ORDER_STATUS, START_DAY\n"+
+					"    from tbl_order_detail_test\n"+
+					"    left join (  select PK_FK_ORDER_DETAIL_ID, START_DAY\n"+
+					"            from tbl_refund\n"+
+					"            where refund_status = 1)\n"+
+					"    on PK_ORDER_DETAIL_ID = PK_FK_ORDER_DETAIL_ID \n"+
+					"    where ORDER_STATUS in(1,3) )\n"+
+					"    on PK_ORDERID = FK_ORDERID\n"+
+					")\n"+
+					"on pnum = fk_pnum\n"+
+					"order by START_DAY , ORDERDATE desc";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs=pstmt.executeQuery();
+			int cnt = 0;
+					
+			while(rs.next()) {
+				
+				if(cnt==0) { // 첫번째 줄은 그냥 저장
+					
+					HashMap<String,String> map = new HashMap<>();
+					map.put("pname", rs.getString(1) +" "+ rs.getString(2));
+					map.put("pk_order_detail_id", rs.getString(3));
+					map.put("pk_orderid", rs.getString(4));
+					map.put("fk_pnum", rs.getString(5));
+					map.put("order_status", rs.getString(6));
+					if(rs.getInt(6)==3) { // 환불인 경우
+						map.put("date", rs.getString(7));
+					} else { // 1 결제완료인 경우
+						map.put("date", rs.getString(8));
+					}
+					map.put("name", rs.getString(9));
+					map.put("mobile", aes.decrypt(rs.getString(10)) );
+					map.put("address", rs.getString(11));
+					map.put("detailaddress", rs.getString(12));
+					map.put("extraaddress", rs.getString(13));
+					map.put("postcode", rs.getString(14));
+					
+					mapList.add(map);
+					
+				} else { // 두번째 줄부터는 이전것과 비교
+					
+					// 똑같은 주문이라면
+					if(mapList.get(cnt-1).get("pk_orderid").equals(rs.getString(4)) ) {
+						
+						String pname = mapList.get(cnt-1).get("pname");
+						mapList.get(cnt-1).put("pname", pname + ", " + rs.getString(1) +" "+ rs.getString(2));
+						String pk_order_detail_id = mapList.get(cnt-1).get("pk_order_detail_id");
+						mapList.get(cnt-1).put("pk_order_detail_id", pk_order_detail_id + ", " + rs.getString(3));
+						
+						cnt--;
+					} else { // 이전 주문과 같지 않은 주문이라면
+						
+						HashMap<String,String> map = new HashMap<>();
+						map.put("pname", rs.getString(1) +" "+ rs.getString(2));
+						map.put("pk_order_detail_id", rs.getString(3));
+						map.put("pk_orderid", rs.getString(4));
+						map.put("fk_pnum", rs.getString(5));
+						map.put("order_status", rs.getString(6));
+						if(rs.getInt(6)==3) { // 환불인 경우
+							map.put("date", rs.getString(7));
+						} else { // 1 결제완료인 경우
+							map.put("date", rs.getString(8));
+						}
+						map.put("name", rs.getString(9));
+						map.put("mobile", aes.decrypt(rs.getString(10)));
+						map.put("address", rs.getString(11));
+						map.put("detailaddress", rs.getString(12));
+						map.put("extraaddress", rs.getString(13));
+						map.put("postcode", rs.getString(14));
+						
+						mapList.add(map);
+					}
+				}
+				
+				cnt++;
+			} // end of while
+			
+		}  catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}  finally {
+			
+			close();
+		}
+		
+		
+		
+		return mapList;
+	}// end of 관리자 페이지에서 배송지등록이 필요한 목록을 띄워주는 것
+
+
+	
+	// 관리자 페이지에서 배송지일괄등록 하기
+	@Override
+	public void insertManyTrack(Map<String, String> paraMap) throws SQLException {
+		
+		try {
+			conn = ds.getConnection();
+			
+			String orderidjoin = paraMap.get("orderidjoin");
+			String trackjoin = paraMap.get("trackjoin");
+			String companyjoin = paraMap.get("companyjoin");
+			String orderstatusjoin = paraMap.get("orderstatusjoin");
+			
+			String[] orderidArr = orderidjoin.split(",");
+			String[] trackArr = trackjoin.split(",");
+			String[] companyArr = companyjoin.split(",");
+			String[] orderstatusArr = orderstatusjoin.split(",");
+			
+			// 선택된 갯수만큼 반복해줘야함 (P_fk_orderid  in number, P_deliv_company in varchar2, P_tracking_number in varchar2)
+			for(int i =0; i<orderidArr.length;i++) { 
+				
+				if("1".equals(orderstatusArr[i])) { // 일반주문배송일때(상태가1)
+					
+					// 프로시저를 실행한다
+					CallableStatement cstmt = conn.prepareCall("{call pcd_register_tracking(?,?,?)}");
+					// ?에 값 바인딩
+					cstmt.setString(1, orderidArr[i]);
+					cstmt.setString(2, companyArr[i]);
+					cstmt.setString(3, trackArr[i]);
+					// 프로시저 실행
+					cstmt.executeQuery();
+					cstmt.close();
+					
+					
+				} else { // 환불배송수거일때(상태가3)
+					
+					// 프로시저를 실행한다
+					CallableStatement cstmt = conn.prepareCall("{call pcd_register_refund_tracking(?,?,?)}");
+					// ?에 값 바인딩
+					cstmt.setString(1, orderidArr[i]);
+					cstmt.setString(2, companyArr[i]);
+					cstmt.setString(3, trackArr[i]);
+					// 프로시저 실행
+					cstmt.executeQuery();
+					cstmt.close();
+					
+				}
+				
+				
+			}
+			
+			
+			
+		}  finally {
+			
+			close();
+		}
+		
+	}// end of 관리자 페이지에서 배송지일괄등록 하기
+
+	
+	
+	
+	// 주문상세에서 배송정보 알아오기
+	@Override
+	public HashMap<String, String> selectOneDeliInfo(String total_status, String orderid) throws SQLException {
+		
+		HashMap<String, String> delimap = new HashMap<String, String>();
+		
+		try {
+			conn = ds.getConnection();
+		
+			// 배송완료나 구매확정인 경우
+				
+			String sql = "select DELIV_COMPANY, TRACKING_NUMBER, to_char(DELIV_DATE)\n"+
+						"from tbl_delivery_test\n"+
+						"where FK_ORDERID = ? and DELIV_CLASS = 1";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderid);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				delimap.put("deliv_company", rs.getString(1));
+				delimap.put("tracking_number", rs.getString(2));
+				delimap.put("deliv_date", rs.getString(3));
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return delimap;
+		
+	} // end of 주문상세에서 배송정보 알아오기
 
 	
 	

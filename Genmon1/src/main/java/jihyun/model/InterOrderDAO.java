@@ -45,6 +45,21 @@ public interface InterOrderDAO {
 	// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
 	OrderVO findGuestOrder(String input_orderid, String input_email) throws SQLException;
 
+	// 주문상세에서 주문 취소 했을때
+	void myinfoCancelOrder(String orderid) throws SQLException;
+
+	// 주문 상세에서 환불 신청 했을때
+	int myinfoRefundOrder(String rev_content, String arrjoin, String orderid) throws SQLException;
+
+	// 관리자 페이지에서 배송지등록이 필요한 목록을 띄워주는 것
+	List<HashMap<String, String>> selectAllNeedShipOrder() throws SQLException;
+
+	// 관리자 페이지에서 배송지일괄등록 하기
+	void insertManyTrack(Map<String, String> paraMap) throws SQLException;
+
+	// 주문상세에서 배송정보 알아오기
+	HashMap<String, String> selectOneDeliInfo(String total_status, String orderid) throws SQLException;
+
 
 	
 

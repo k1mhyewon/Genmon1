@@ -235,6 +235,35 @@
 		$("span#order_deli").css("font-weight","bold");
 		
 		
+		// 배송테이블 조회해서 보여주는 메소드 (주문 상태랑, orderid 넘겨줘야함)
+		const total_status = "${total_status}";
+		const orderid = "${odervo.pk_orderid }";
+			
+		$.ajax({
+			url : "<%= ctxPath%>/myinfo/deliInfo.sun" , 
+			type: "POST",  
+			data: {"total_status":total_status,
+					"orderid":orderid},
+		    dataType:"json",
+		    success:function(json) {
+		    	
+		    	html = '' ;
+		    	if(json.deliv_company == null){
+		    		
+		    	} else {
+		    		html += '<tr><td colspan="2"><strong>배송사</strong></td></tr>'+
+						'<tr><td><strong>'+json.deliv_company+'</strong></td><td>'+json.tracking_number+'</td></tr>'+
+						'<tr><td><strong>배송일</strong></td><td>'+json.deliv_date+'</td></tr>';
+		    	}
+		    	
+		    	$("tfoot").html(html);
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});// end of 배송테이블 조회해서 보여주는 메소드 (주문 상태랑, orderid 넘겨줘야함)
+		
+		
 		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
 		$('.why_content').keyup(function (e) {
 			let rev_content = $(this).val();
@@ -253,9 +282,10 @@
 		    };
 		}); // end of $('#rev_content').keyup() ---------------------------------
 		
-		const orderid = ${odervo.pk_orderid };
 		
 		
+		
+		// 환불 신청 이벤트
 		$("button#refund").click(function(){
 			
 			// 환불 상품 선택여부
@@ -289,10 +319,28 @@
 				return;
 			}// end of 체크박스 선택여부
 			
+			const arrjoin = arr.join(",");
+			const orderid = "${odervo.pk_orderid }";
 			
 			// insert 환불테이블에 insert 해주고 상태 업뎃 해주고 새로고침
-			alert('환불');
-		});
+			$.ajax({
+				url : "<%= ctxPath%>/myinfo/orderCancel.sun" , 
+				type: "POST",  
+				data: {"rev_content":rev_content,
+						"arrjoin":arrjoin,
+						"orderid":orderid},
+			    dataType:"text",
+			    success:function(json) {
+			    	
+			    	alert('환불이 접수되었습니다.');
+			    	window.location.reload(true);
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+		}); // end of 환불 신청 이벤트
+		
 		
 		
 	}); // end of $(document).ready() ---------------
@@ -300,19 +348,35 @@
 	
 	// 주문 취소 모달에서 호출한 함수
 	function cancelOrder(){
-		// ajax로 주문상태 전부 0으로 바꿔주고 새로고침
 		
 		const bool = confirm("정말로 주문 취소하시겠습니까?");
 		
 		if(bool){
-			alert('주문취소');
+			
+			const orderid = "${odervo.pk_orderid }";
+			
+			// ajax로 주문상태 전부 0으로 바꿔주고 새로고침
+			$.ajax({
+				url : "<%= ctxPath%>/myinfo/orderCancel.sun" , 
+				type: "POST",  
+				data: {"orderid":orderid},
+			    dataType:"text",
+			    success:function(json) {
+			    	
+			    	alert('주문이 취소되었습니다');
+			    	window.location.reload(true);
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
 			
 		} else {
 			history.go(0); // 위에는 리로드 방식으로 읽어와야함
 		}
 		
 		
-	}
+	} // end of 주문 취소 모달에서 호출한 함수
 	
 	
 	// 비회원 문의하기 보내기
@@ -320,9 +384,6 @@
 		
 		const orderid = "${odervo.pk_orderid }";
 		const email = "${odervo.email }";
-		
-		alert(orderid);
-		alert(email);
 		
 		const frm = document.frm_hidden;
     	
@@ -347,7 +408,7 @@
 		<%-- 주문번호 부분 시작 --%>
 		<table class="tbl_1 border-bottom">
 			<tbody>
-				<tr><td><strong>Order Number ${odervo.pk_orderid }</strong><td></tr>
+				<tr><td><strong>${odervo.pk_orderid }</strong><td></tr>
 				<tr><td><strong>${odervo.orderDate }</strong></td></tr>
 				<tr><td>주문수량 : ${totalqty }</td></tr>
 				<tr>
@@ -434,7 +495,7 @@
 						<!-- ======== [환불신청 Modal] ================================================================ -->
 						
 						<!-- 환불신청 Modal 버튼 배송완료 일때만 신청가능 -->
-						<%-- <c:if test="${total_status eq 5}">--%>
+						<c:if test="${total_status eq 5}">
 				        <span id="refund" type="button" class="link_tag" data-toggle="modal" data-target="#refund_modal">환불신청</span>
 				        <!-- 환불신청 Modal 버튼 끝 -->  
 				
@@ -521,7 +582,7 @@
 				         		</div>
 				         	</div>
 				         </div>
-				        <%-- </c:if>--%>
+				        </c:if>
 						<!-- 환불신청 Modal 끝 -->
 	
 	
@@ -668,7 +729,15 @@
 				<table class="mb-4 border-right" id="orderList">
 					<tbody>
 						<tr style="height: 50px;">
-							<td colspan="2"><strong>입금대기중 입금완료 / 배송중 배송완료 </strong></td>
+							<c:if test="${total_status eq 0}"><td colspan="2"><strong> 주문취소 </strong></td></c:if>
+							<c:if test="${total_status eq 1}"><td colspan="2"><strong> 결제완료 </strong></td></c:if>
+							<c:if test="${total_status eq 2}"><td colspan="2"><strong> 환불수거완료 </strong></td></c:if>
+							<c:if test="${total_status eq 3}"><td colspan="2"><strong> 환불요청 </strong></td></c:if>
+							<c:if test="${total_status eq 4}"><td colspan="2"><strong> 구매확정 </strong></td></c:if>
+							<c:if test="${total_status eq 5}"><td colspan="2"><strong> 배송완료 </strong></td></c:if>
+							<c:if test="${total_status eq 6}"><td colspan="2"><strong> 입금대기 </strong></td></c:if>
+							<c:if test="${total_status eq 7}"><td colspan="2"><strong> 미입금 주문취소 </strong></td></c:if>
+							
 						</tr>
 						<%-- 반복시작 --%>
 						<c:forEach var="orddtailvo" items="${orddtailList }">

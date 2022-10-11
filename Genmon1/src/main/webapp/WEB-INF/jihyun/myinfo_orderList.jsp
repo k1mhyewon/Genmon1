@@ -94,8 +94,12 @@
 					<tr>
 						<td rowspan="3" class="image"><img src="<%=ctxPath %>/images/common/products/${map.image }"  class="image"></td>
 						<td style="vertical-align: middle;"><span class="boldtxt2">${map.orderid }</span><br>
+							<c:if test="${map.order_status eq '0'}">주문취소</c:if>
 							<c:if test="${map.order_status eq '1'}">결제완료</c:if>
+							<c:if test="${map.order_status eq '2'}">환불수거완료</c:if>
+							<c:if test="${map.order_status eq '3'}">환불</c:if>
 							<c:if test="${map.order_status eq '4'}">구매확정</c:if>
+							<c:if test="${map.order_status eq '5'}">배송완료</c:if>
 							<c:if test="${map.order_status eq '6'}">입금대기중</c:if>
 							<c:if test="${map.order_status eq '7'}">미입금 주문취소</c:if>
 							
