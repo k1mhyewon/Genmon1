@@ -55,9 +55,10 @@ public class PwdRechangeEnd extends AbstractController {
 					String userid = loginuser.getUserid();
 					String pwd = request.getParameter("pwd");
 					
-					
-					System.out.println("~~~~~~~~~~~~~~~~ userid : "+userid);
-					System.out.println("~~~~~~~~~~~~~~~~ pwd : "+pwd);
+					/*
+					  System.out.println("~~~~~~~~~~~~~~~~ userid : "+userid);
+					  System.out.println("~~~~~~~~~~~~~~~~ pwd : "+pwd);
+					 */
 					
 				
 					Map<String, String> paraMap = new HashMap<>();
@@ -72,32 +73,27 @@ public class PwdRechangeEnd extends AbstractController {
 					  String message = "";
 			          String loc = "";
 			          
-			          
 					if(passwdUpdate == 1) {
 						
 						request.setAttribute("passwdUpdate", passwdUpdate);
-						System.out.println("passwdUpdate : "+passwdUpdate);
+						/* System.out.println("passwdUpdate : "+passwdUpdate); */
 						
-						
-						 message = "비밀번호가 변경되었습니다.";
-						 loc = request.getContextPath() + "/infoUpdate.sun";
-						 
-						 super.setViewPage("/WEB-INF/common/msg.jsp");
-				         return;
+						message = "비밀번호가 변경되었습니다.";
+						loc = request.getContextPath()+"/myinfo/infoUpdate.sun";
 						
 					}
-					/*else {*/
+					else {
 						message = "비밀번호가 다릅니다.!!";
 						loc = "javascript:history.back()";
-						 
-					   request.setAttribute("message", message);
-					   request.setAttribute("loc", loc);
-					   
-					   super.setViewPage("/WEB-INF/common/msg.jsp");
-			           return;
-						/*
-						 * }
-						 */
+						
+					}
+					
+					 request.setAttribute("message", message);
+					 request.setAttribute("loc", loc);
+					 
+					 super.setViewPage("/WEB-INF/common/msg.jsp");
+			         return;
+					
 			}
 		}
 		

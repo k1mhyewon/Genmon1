@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-비밀번호변경하기
+
+
+회원 한명을 보여주는 페이지
 </body>
 </html>

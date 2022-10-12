@@ -101,18 +101,18 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		margin: 5px 0 0 40px;
 	}
 	
+	<%--
 	.wishModalBtn {
 		width: 300px;
 		font-size: 10pt;
 		display: block;
-		
-	
 	}
+	--%>
 	
 	#wishModalBody {
-		margin: 0 auto;
 		padding-top: 40px;
 		padding-bottom: 40px;
+		padding-left: 100px;
 		
 	}
 
@@ -139,6 +139,27 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			
 		}); // end of $("#addGoCart").click() -----------------
 		
+		
+		const pnumrv = '${pvo.pnum}';
+		
+		console.log("pnum: "+ pnumrv);
+		
+		
+		$.ajax({
+			url : "<%= ctxPath%>/product/reviewCount.sun?pnum="+pnumrv , 
+			type: "GET",  
+		    dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	const revcnt = json.cnt;
+		    	
+		    	$("a#review_cnt").text("리뷰보기 ("+json.cnt+")");
+		    	
+		    },
+		    error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
 		
 		
 	}); // end of $(document).ready() ==============================================================
@@ -315,7 +336,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      	 	
 	      	<%-- 리뷰 --%> 	
 	      	<div class="review">
-		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}">리뷰보기 (5) </a></span>
+		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a id="review_cnt" href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}"></a></span>
 		 	</div>
 	      	<br><br>
 	      	 	
@@ -549,8 +570,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			<div class="modal-content" style="background-color: #f2f2f2;">
 			<div id="modalComment" style="font-size: 12pt; margin: 0 auto; padding-top: 50px;"></div>
 				<div class="modal-body" id="wishModalBody">
-	      			<button class="btn btn-dark wishModalBtn" data-dismiss="modal">계속 쇼핑하기</button>
-	      			<button class="btn btn-dark wishModalBtn" style="margin-top: 10px;" onclick = "location.href = '<%= ctxPath%>/member/wishlist.sun' ">위시리스트로 가기</button>
+	      			<button class="wishModalBtn" style="border:1px solid black; background-color: white; font-size: 10pt; width:300px;  height: 35px; border-radius: 0.4rem;" data-dismiss="modal">계속 쇼핑하기</button>
+	      			<button class="wishModalBtn" style="background-color: black; color:white; font-size: 10pt; width:300px; height: 35px;  margin-top: 10px; border-radius: 0.4rem;" onclick = "location.href = '<%= ctxPath%>/member/wishlist.sun' ">위시리스트로 가기</button>
 				</div>
 			</div>
 		</div>

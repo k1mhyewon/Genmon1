@@ -251,7 +251,12 @@
 		       		<a href="javascript:goEditPersonal('${(sessionScope.loginuser).userid}');" id="update">수정</a>
 					<div style="margin: 3% 0 0 -5%; font-size: 13px;">
 						<ul style="list-style: none; line-height: 30px;">
-							<li id="gender" name="gender">성별&nbsp;&nbsp;: <span>${sessionScope.loginuser.userid}</span></li> 
+							<li id="gender" name="gender">성별&nbsp;&nbsp;: <span>
+								<c:choose>
+				    				<c:when test="${(sessionScope.loginuser).gender}')">남자</c:when>
+				    				<c:otherwise>여자</c:otherwise>
+			    				</c:choose>
+								</span></li> 
 							<li id="name" name="name">이름&nbsp;&nbsp;: <span>${sessionScope.loginuser.name}</span></li>
 							<li id="birth" name="birth">생년월일&nbsp;&nbsp;: <span>${sessionScope.loginuser.birthday}</span></li>
 							<li id="email" name="email">이메일&nbsp;&nbsp;: <span>${sessionScope.loginuser.email}</span></li>
