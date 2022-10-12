@@ -5,11 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class Shop extends AbstractController {
+public class IntroGM extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		try {
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/minsu/introGM.jsp");
