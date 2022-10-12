@@ -144,7 +144,7 @@
 		$("button#btn_pwdcheck").click(function(){ 
 			
 				const frm = document.menu_myinfoupdate;
-				frm.action = "<%= ctxPath%>/myinfo/pwdCheck.sun";
+				frm.action = "<%= ctxPath%>/myinfo/updatePwdCheck.sun";
 				frm.method = "POST"; // post 방식이어야 함
 				frm.submit();
 		});	// end of $("button#btn_pwdcheck").click(function() ---------------------

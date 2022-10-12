@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 
 <% String ctxPath = request.getContextPath(); %>
 
@@ -247,46 +248,26 @@
 			}
 	    }
 		$("#day").html(day);
-    			   
+		
+	
 	}); // end of $(document).ready(function() ------------------------------------
 			
+		
 			
 			
-	  // >>> 회원가입하기 버튼 = 계정생성<<<
-	   
-	   function gojoin() {
-		   
-		   // *** 필수입력사항에 모두 입력이 되었는지 검사하기 ***//
-		   b_Flag_requiredInfo = false;
-		   
-		   // -- 인풋태그 --  
-		    const requiredInfo_list =  document.querySelectorAll("input.requiredInfo"); // 배열과 유사하게 나옴
-	        for(let i=0; i<requiredInfo_list.length; i++) { // 일반 for문 사용.of는 끝까지간다. break를 못씀
-	        	const val = requiredInfo_list[i].value.trim();
-	        	if(val == "") { // 필수입력사항이 한개라도 비었을 경우
-	        		alert(" 필수입력사항은 모두 입력하셔야 합니다.");
-	    			b_Flag_requiredInfo = true;
-	    			return false;//break
-	        	}
-	        }// end of for
-	        
-	        if(b_Flag_requiredInfo) {
-	        		return; //종료
-	        }
-	        
-	   
-		   const frm = document.joinFrm;
-		    frm.action = "<%= ctxPath%>/myinfo/infoUpdateEnd.sun"; // URL view단을 관리하는 클래스는 join클래스
+	  // >>> 수정하기 버튼을 누르면 <<<
+	   function goUpdate(userid) {
+		   const frm = document.frm_update;
+		    frm.action = "<%= ctxPath%>/myinfo/infoUpdateEndCommit.sun"; // URL view단을 관리하는 클래스는 join클래스
 		    frm.method = "post";
 		    frm.submit();
-		   
 	   }
 			
 			
 			
 </script>
 
-	<form id="frm_update" method="post">
+	<form id="frm_update">
 	
 	
 		<%-- 성별과 이름은 변경불가 변경을 원할경우 창띄우기
@@ -319,7 +300,7 @@
 	      <ul>
 		      <li>
 		         <label >성명</label>
-		         <input type="text" id="name"name="name" class="requiredInfo t_input requiredInfo" value="${sessionScope.loginuser.name}"  readonly/>
+		         <input type="text" id="name"name="name" class="requiredInfo t_input requiredInfo" value="${sessionScope.loginuser.name}" />
 		         <div class="first_error">필수 입력란입니다.</div>
 	       	  </li>
 	      </ul>
@@ -334,21 +315,21 @@
 	         </li>
 	      </ul>
 	      
+	      
 	      <ul>
 	      	<li>
 		         <span>생년월일</span>
-		         <div style="text-align: left;" id="birthday" name="birthday" "   readonly>
+		         <div style="text-align: left;" id="birthday" name="birthday"  value="${sessionScope.loginuser.birthday}"  readonly>
 				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly></select>
-						<select name="month" id="month" title="월" class="custom-select requiredInfo" ></select>
-						<select name="day" id="day" title="일" class="custom-select requiredInfo" ></select>
+						<select name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 5, 6)}" ></select>
+						<select name="day" id="day" title="일" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 7, 8)}"></select>
 						<div class="first_error">필수 입력란입니다.</div>
 				</div>
 			 </li>
      	  </ul>
      	  
-     	 
 	      
-	      <button type="button" id="btn_update" class="btn" href="<%= ctxPath%>/member/infoUpdate.sun">수정하기</button>
+	      <button type="button" id="btn_update" class="btn">수정하기</button>
 	      <%-- 이버튼을 클릭하면 infoUpdate로 이동 --%>
 
 </form>

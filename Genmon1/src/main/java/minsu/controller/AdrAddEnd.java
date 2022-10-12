@@ -87,7 +87,7 @@ public class AdrAddEnd extends AbstractController {
 			         else {
 			        	 
 
-			        		String message = "주소등록 성공!!";
+			        		String message = "주소등록 실패!!";
 					        String loc = "javascript:history.back()";
 					            
 				            request.setAttribute("message", message);

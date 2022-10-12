@@ -448,6 +448,34 @@ public class PersonDAO implements InterPersonDAO {
 			}
 
 			
+			// 정보변경 메소드
+			@Override
+			public int myinfoUpdate(Map<String, String> paraMap) throws SQLException {
+				int n = 0;
+				
+				try {
+					conn = ds.getConnection();
+					
+					String sql = " update tbl_member_test set name = ?, gender = ? , mobile = ? "+
+								 " where userid = ? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setString(1, paraMap.get("name"));
+					pstmt.setString(1, paraMap.get("gender"));
+					pstmt.setString(1, paraMap.get("mobile"));
+					pstmt.setString(1, paraMap.get("userid"));
+					
+					n = pstmt.executeUpdate();
+					
+				} finally {
+					close();
+				}
+				
+				return n;
+			} // end of public int myinfoUpdate(Map<String, String> paraMap) throws SQLException
+
+			
 		
 	
 	

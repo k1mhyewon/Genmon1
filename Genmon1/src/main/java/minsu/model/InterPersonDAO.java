@@ -38,6 +38,9 @@ public interface InterPersonDAO {
 	// 비밀번호가 맞는지 확인하는 메소드
 	boolean ispasswdCheck2(Map<String, String> paraMap)throws SQLException;
 
+	// 정보변경 메소드
+	int myinfoUpdate(Map<String, String> paraMap)throws SQLException;
+
 	
 
 	
