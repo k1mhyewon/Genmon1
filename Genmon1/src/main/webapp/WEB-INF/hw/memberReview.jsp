@@ -228,7 +228,7 @@
     }
     
     #pagebar {
-    	border: solid 1px pink;
+    	/* border: solid 1px pink; */
     	font-size: 9pt;
     	padding-left: 700px;
     }

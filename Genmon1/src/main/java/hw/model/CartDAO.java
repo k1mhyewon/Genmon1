@@ -304,7 +304,9 @@ public class CartDAO implements InterCartDAO {
 				 cvo.setAllProdvo(cpvo);
 			 }
 			 
-		} finally {
+		} catch(NumberFormatException e) {
+			
+		}finally {
 			close();
 		}
 		return cvo;

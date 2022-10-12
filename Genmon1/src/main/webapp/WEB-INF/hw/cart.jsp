@@ -364,11 +364,31 @@
 		
 		if(!userid){
 			
-			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+			let all_qty ="";
+			let all_pnum = "";
+
+			$("input[name='all_qty']").val(qty);
+			$("input[name='all_pnum']").val(fk_pnum);
+
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/cartToPurchase.sun";
+			frm.submit();
 			
 		}
 		else{
-			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+			let all_qty ="";
+			let all_pnum = "";
+
+			$("input[name='all_qty']").val(qty);
+			$("input[name='all_pnum']").val(fk_pnum);
+
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/cartToPurchase.sun";
+			frm.submit();
 		}
 		
 		
@@ -444,10 +464,10 @@
 	// 선택상품 주문 하기 함수
 	function chooseThings(){
 		
-		if($("input:checkbox[name='sun']:checked").length >0){ // 선택된 것이 하나라도 존재하면
+		if($("input:checkbox[name='chk_each_prod']:checked").length >0){ // 선택된 것이 하나라도 존재하면
 			
 			let arr_check = [];
-			arr_check = $("input:checkbox[name='sun']:checked");
+			arr_check = $("input:checkbox[name='chk_each_prod']:checked");
 			let all_qty ="";
 			let all_pnum = "";
 			
@@ -533,6 +553,7 @@
 							<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
 							<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 							<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
+							
 						</div>
 					</label>
 					</div>
