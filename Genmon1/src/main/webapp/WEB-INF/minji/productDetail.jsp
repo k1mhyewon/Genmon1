@@ -153,7 +153,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		    	
 		    	const revcnt = json.cnt;
 		    	
-		    	$("span#review").text("리뷰보기 ("+json.cnt+")");
+		    	$("a#review_cnt").text("리뷰보기 ("+json.cnt+")");
 		    	
 		    },
 		    error: function(request, status, error){
@@ -336,7 +336,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      	 	
 	      	<%-- 리뷰 --%> 	
 	      	<div class="review">
-		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}"></a></span>
+		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a id="review_cnt" href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}"></a></span>
 		 	</div>
 	      	<br><br>
 	      	 	
