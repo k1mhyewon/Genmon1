@@ -210,6 +210,12 @@ div#reviewTbl {
 	    	$("textarea#rev_content").focus();
 	    	return; // goLogin() 함수 종료
 	    }
+	    else if(rev_content < 20) {
+	    	alert("리뷰내용을 20자 이상으로 입력해주세요.");
+	    	$("textarea#rev_content").val("");
+	    	$("textarea#rev_content").focus();
+	    	return; // goLogin() 함수 종료
+	    }
 	    
 	    if($(":radio[name='reviewStar']:checked").length < 1){
 	    	alert("별점을 선택해주세요.");
@@ -262,7 +268,7 @@ div#reviewTbl {
             </div>
             <div>
                 <textarea class="col-auto form-control" type="text" id="rev_content" name="rev_content"
-                          placeholder="리뷰내용을 입력해주세요."></textarea>
+                          placeholder="리뷰내용을 20자 이상으로 입력해주세요."></textarea>
             </div>
             
             <div style="clear: both;"></div>

@@ -38,6 +38,7 @@
         background-color: #f2f2f2;
         height: 35px;
         margin-bottom: 50px;
+        border-radius: 10px;
     }
 
 
@@ -158,6 +159,7 @@
     
     .container_boxes {
     	border-left: solid 1px #e6e6e6;
+    	
     	width: 610px;
     	float:left;
     	padding-left: 25px;
@@ -225,6 +227,34 @@
     	margin: 7px 0 0 7px;
     }
     
+    #pagebar {
+    	border: solid 1px pink;
+    	font-size: 9pt;
+    	padding-left: 700px;
+    }
+    
+    
+    .page-link {
+	  color: #000; 
+	  background-color: #fff;
+	  border: 1px solid #ccc; 
+	  font-size: 8pt;
+	}
+	
+	.page-item.active .page-link {
+	 z-index: 1;
+	 color: #555;
+	 font-weight:bold;
+	 background-color: #f1f1f1;
+	 border-color: #ccc;
+	 
+	}
+	
+	.page-link:focus, .page-link:hover {
+	  color: #000;
+	  background-color: #fafafa; 
+	  border-color: #ccc;
+	}
     
 
 </style>
@@ -257,6 +287,33 @@
 		}); // end of $('#rev_content').keyup() ---------------------------------
 		
 		
+		
+		///////////////////////////////////////////////////
+		
+		let putSearchType = "${requestScope.searchType}";
+		// alert("putSearchType: "+ putSearchType);
+		
+		$("#select_category").val(putSearchType).prop("selected", true);
+		
+		/////////////////////////////////////////////////// 
+		
+		
+		
+		// 카테고리를 바꿀때마다 ---------------------------------------------
+		$("#select_category").change(function(){
+			// searchType: t searchType = $("#select_category option:selected").attr('value');
+			
+			let searchType = this.value;
+			// alert("searchType : "+searchType);
+			// alert(searchType);
+			
+			const pnum = $("input#pnum").val();
+			// alert("pnum: "+pnum);
+			
+			
+			location.href= "<%= ctxPath%>/member/memberReview.sun?pnum="+pnum+"&searchType="+searchType;
+			
+		}); // end of $("#select_category").change(} -------------------
 		
 	}); // end of $(document).ready() =============================================================
 
@@ -376,15 +433,16 @@
 	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</span>&nbsp;
 	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(${requestScope.replyCnt})</span>
 	        </div>
+	        <input type="hidden" id="pnum" value="${requestScope.pnum}"/>
 		</div>
         <c:if test="${ not empty requestScope.reviewList}">
 			<div class="container_boxes">
 				<div id="rate_title">
 		           <select id="select_category" name="select_category">
-		               <option value ="recent">최신순</option>
-		               <option value ="star">별점순</option>
+		               <option value ="uploaddate">최신순</option>
+		               <option value ="starhigh">별점높은순</option>
+		               <option value ="starlow">별점낮은순</option>
 		           </select>
-		           
 		           <span id="avgStar">${requestScope.avg_star_shape}</span>
 		           <div id="avgStar_text">
 		               <span id="star_avgRate">${requestScope.avg_star}</span>
@@ -489,6 +547,12 @@
         
         <div style="clear: both;"></div>
         
+        <nav class="my-5" id="pagebar">
+			<div style="display: flex; width: 80%;">
+				<ul class="pagination pagination-sm" style="margin: auto;">${requestScope.pageBar}</ul>
+			</div>
+		</nav>
+	
     </div>
     <div id="empty"></div>
     
