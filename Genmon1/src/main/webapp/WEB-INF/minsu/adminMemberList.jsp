@@ -300,10 +300,10 @@ $(document).ready(function () {
          const userid = $target.parent().children(".userid").text();
       // alert(userid);
      
-         location.href="<%= ctxPath%>/admin/memberOneDetail.sun?userid="+userid +"&goBackURL=${requestScope.goBackURL}" ;  // 한사람에 대한 상세정보를 보여주는 페이지
-         // 																	  &goBackURL= 은  /member/memberList.sun?sizePerPage=10&currentShowPageNo=10&searchType=name&searchWord=정
+         location.href="<%= ctxPath%>/admin/adminMemberOneDetail.sun?userid="+userid +"&goBackURL=${requestScope.goBackURL}" ;  // 한사람에 대한 상세정보를 보여주는 페이지
+         // 																	  &goBackURL= 은  /admin/adminMemberOneDetail.sun?sizePerPage=10&currentShowPageNo=10&searchType=name&searchWord=정
       	// &은 데이터 구분자이다. goBackURL은 &앞까지만 잡아온다.
-      	// 																		  &goBackURL=/member/memberList.sun?sizePerPage=10&currentShowPageNo=10 searchType=name searchWord=정
+      	// 																		  &goBackURL=/admin/adminMemberOneDetail.sun?sizePerPage=10&currentShowPageNo=10 searchType=name searchWord=정
       });
  	
  	
@@ -316,7 +316,7 @@ $(document).ready(function () {
 function goSearch() {
 	
 	 const frm = document.memberFrm;
-	   frm.action = "memberList.sun";  //자기자신으로 넘어간다. 상대경로로 설정
+	   frm.action = "adminMemberList.sun";  //자기자신으로 넘어간다. 상대경로로 설정
 	   frm.method = "GET";
 	   frm.submit();
 	

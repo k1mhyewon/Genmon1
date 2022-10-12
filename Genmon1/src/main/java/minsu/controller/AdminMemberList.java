@@ -8,7 +8,7 @@ import common.util.MyUtil;
 import minsu.model.InterPersonDAO;
 import minsu.model.PersonDAO;
 
-public class MemberList extends AbstractController {
+public class AdminMemberList extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -67,11 +67,9 @@ public class MemberList extends AbstractController {
 				String sizePerPage = request.getParameter("sizePerPage");
 		        // 메뉴에서 회원목록 만을 클릭했을 경우에는 sizePerPage 는 null 이 된다.
 		        // sizePerPage 가 null 이라면 sizePerPage 를 10 으로 바꾸어야 한다.
-				// select 해옴
-		        // "10" or "5" or "3" 
 			
 				if(sizePerPage == null || !("3".equals(sizePerPage)||"5".equals(sizePerPage) ||"10".equals(sizePerPage)) ) {
-					// null또는 3,5,10이 아니라면(3,5,10만가능) (끊어서 보여주는 것이므로 get방식을 사용한다. 폼태그에 담아 정보를 전달하는 post방식을 사용하지 않는다.)
+					
 					sizePerPage = "10"; // 회원이 null이라면 디폴트로 10으로 설정하겠다.
 				}
 				
@@ -104,26 +102,12 @@ public class MemberList extends AbstractController {
 				// *** 페이지도 맵에 담기 ***// 
 				paraMap.put("sizePerPage", sizePerPage );  			  // map에서 한페이지당 설정한 값(변수생성)만큼 잘라서 보여줄지 설정
 				paraMap.put("currentShowPageNo", currentShowPageNo);  // 현재 내가 보고자하는 페이지.
-				// ==> paraMap에는 searchType, searchWord, sizePerPage, currentShowPageNo 담겨있다.
-				
 				
 				
 				// === 페이지 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기 === 
 				int totalPage = pdao.getTotalPage(paraMap); // paraMap을 사용하여 보고싶은 정보만 꺼내와서 total페이지 구해오는 매소드 생성하기
 				// System.out.println("확인용 totalPage => " + totalPage );
-				// 검색어가 없을 시
-				/*
-				 	10명 확인용 totalPage => 21	 sizePerPage 가 10일때 totalPage는 21
-					5명  확인용 totalPage => 41	 sizePerPage 가 10일때 totalPage는 41
-					3명  확인용 totalPage => 68	 sizePerPage 가 10일때 totalPage는 68
-				 */
-					
-				// 검색어가 있을 시(회원명에 '정'을 검색할때)
-				/*
-				 	sizePerPage 가 10일때 totalPage는 11
-					sizePerPage 가 10일때 totalPage는 21
-					sizePerPage 가 10일때 totalPage는 34
-				 */
+				
 				
 				// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo에 totalPage수보다 큰 값을 입력하여
 				// 		장난친 경우에는 1페이지로 가게끔 막아주는 것 시작 										=== //
@@ -137,16 +121,16 @@ public class MemberList extends AbstractController {
 				
 				List<MemberVO> memberList =  pdao.selectPagingMember(paraMap); // 리턴타입은 여려개가 나와야함으로 list이다
 				
-				/*
+			
 				  // === DAO에서 넘어왔는지 확인용 시작 === //
 				   
 				    if(memberList.size() > 0) { 
 					    for(MemberVO mvo:memberList) { 
-					    System.out.println(mvo.getUserid() + "" + mvo.getName()); } 
-				    }end of if()--------------
+					    System.out.println(mvo.getUserid() + "" + mvo.getName() + mvo.getEmail()); } 
+				    }// end of if()--------------
 				    
 				  // === DAO에서 넘어왔는지 확인용 끝 === //
-				 */				
+					
 
 				request.setAttribute("memberList", memberList);
 				request.setAttribute("sizePerPage", sizePerPage);
@@ -194,9 +178,9 @@ public class MemberList extends AbstractController {
 				// ===== ***** [맨처음][이전] 만들기 ***** ====== //
 				
 				if(pageNo != 1) { // 1페이지가 아니라면 
-					 pageBar += "<li class='page-item'><a class='page-link' href='memberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo=1&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>"; 
+					 pageBar += "<li class='page-item'><a class='page-link' href='adminMemberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo=1&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>"; 
 					// 맨처음은 1페이지
-					 pageBar += "<li class='page-item'><a class='page-link' href='memberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
+					 pageBar += "<li class='page-item'><a class='page-link' href='adminMemberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+(pageNo-1)+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
 					// pageNo가 totalPage보다
 				}
 				
@@ -210,7 +194,7 @@ public class MemberList extends AbstractController {
 													  // active는 현재 내가 보고있는 페이지에 파란색으로 표시
 					}
 					else {
-						 pageBar += "<li class='page-item'><a class='page-link' href='memberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";   
+						 pageBar += "<li class='page-item'><a class='page-link' href='adminMemberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";   
 									// 부트스트랩을 사용하여 get방식으로 페이지바 숫자 출력
 									// currentShowPageNo는 현재 내가 보고 있는 페이지. pageNo 찍어주는 페이지 넘버
 					
@@ -225,23 +209,15 @@ public class MemberList extends AbstractController {
 					
 				}// end of while()------------------------------
 				
-				// ===== ***** [다음][마지막] 만들기 ***** ====== //
-				// while문에서 빠져나올때 
-				// 첫번째 블럭인 경우( 1  2  3  4  5  6  7  8  9 10)  pageNo 가 11이고 
-				// 두번째 블럭인 경우( 11 12 13 14 15 16 17 18 19 20) pageNo 가 21이고 
-				// 세번째 블럭인 경우(21) 							 pageNo 가 22가 된다. 
-				
+			
 				if(pageNo <= totalPage) { // 페이지번호가 전체페이지 번호보다 작거나 같은 경우라면 [다음]출력
-					  pageBar += "<li class='page-item'><a class='page-link' href='memberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>"; 
+					  pageBar += "<li class='page-item'><a class='page-link' href='adminMemberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+pageNo+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>"; 
 					// 글자는 [다음]지만 원래는 11페이지이다.
 					  
-					  pageBar += "<li class='page-item'><a class='page-link' href='memberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
+					  pageBar += "<li class='page-item'><a class='page-link' href='adminMemberList.sun?sizePerPage="+sizePerPage+"&currentShowPageNo="+totalPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
 				}
 				
 				request.setAttribute("pageBar", pageBar);
-				
-				
-				
 				
 				// ============================ ***** 페이지바 만들기 끝 ***** ============================ //
 				
@@ -250,9 +226,6 @@ public class MemberList extends AbstractController {
 				String currentURL = MyUtil.getCurrentURL(request);
 				// 회원조회를 했을시 현재 그 페이지 그대로 되돌아가기 위한 용도로 쓰인다.
 				
-				// System.out.println("currentURL => " + currentURL);
-				// currentURL => /member/memberList.sun?sizePerPage=10&currentShowPageNo=10&searchType=name&searchWord=정
-
 				currentURL = currentURL.replaceAll("&", " "); // &가 들어오면 " "으로 바꿔라
 				// System.out.println("currentURL => " + currentURL);
 				// /member/memberList.sun?sizePerPage=10 currentShowPageNo=10 searchType=name searchWord=정
@@ -262,7 +235,7 @@ public class MemberList extends AbstractController {
 				request.setAttribute("goBackURL", currentURL);
 				
 			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/minsu/memberList.jsp"); // view단 페이지 보여주기
+				super.setViewPage("/WEB-INF/minsu/adminMemberList.jsp"); // view단 페이지 보여주기
 				
 			}
 			

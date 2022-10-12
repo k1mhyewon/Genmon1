@@ -250,31 +250,29 @@
 		$("#day").html(day);
 		
 	
+	
 	}); // end of $(document).ready(function() ------------------------------------
 			
 		
 			
-			
-	  // >>> 수정하기 버튼을 누르면 <<<
+  // >>> 수정하기 버튼을 누르면 <<<
 	   function goUpdate(userid) {
-		   const frm = document.frm_update;
+	  	const frm = document.frm_update;
 		    frm.action = "<%= ctxPath%>/myinfo/infoUpdateEndCommit.sun"; // URL view단을 관리하는 클래스는 join클래스
 		    frm.method = "post";
 		    frm.submit();
-	   }
-			
-			
-			
+	   };
+
 </script>
 
-	<form id="frm_update">
+	<form name="frm_update" id="frm_update"  >
 	
 	
 		<%-- 성별과 이름은 변경불가 변경을 원할경우 창띄우기
 			이름과 생년월일은 변경이 불가합니다. 변경을 원하실 경우 고객문의센터로 연락부탁드립니다.
 		 --%>
 	 	
-			
+			<input type="hidden" name="userid" value="${sessionScope.loginuser.userid}" readonly/>
 	        	<ul>
 	        		<li>
 						<label for="email">이메일주소</label>
@@ -320,16 +318,16 @@
 	      	<li>
 		         <span>생년월일</span>
 		         <div style="text-align: left;" id="birthday" name="birthday"  value="${sessionScope.loginuser.birthday}"  readonly>
-				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly></select>
-						<select name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 5, 6)}" ></select>
-						<select name="day" id="day" title="일" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 7, 8)}"></select>
+				    	<input name="year" id="year" title="년도" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly></input>
+						<input name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 5, 6)}" ></input>
+						<input name="day" id="day" title="일" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 7, 8)}"></input>
 						<div class="first_error">필수 입력란입니다.</div>
 				</div>
 			 </li>
      	  </ul>
      	  
 	      
-	      <button type="button" id="btn_update" class="btn">수정하기</button>
+	      <button type="button" id="btn_update" class="btn" onclick="goUpdate()" >수정하기</button>
 	      <%-- 이버튼을 클릭하면 infoUpdate로 이동 --%>
 
 </form>

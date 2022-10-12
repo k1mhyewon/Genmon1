@@ -98,7 +98,7 @@ $(document).ready(function() {
         <div class="nav-menu">
           <ul>
             <li class="home"><a href="<%= ctxPath%>/" class="d-flex align-items-center"><span class="wrap-icon icon-home2 mr-3" style="color: #414141;"></span><span class="menu-text" style="color: #414141;">홈</span></a></li>
-            <li class="member"><a href="#" class="d-flex align-items-center"><span class="wrap-icon icon-person mr-3"></span><span class="menu-text">회원관리</span></a></li>
+            <li class="member"><a href="<%= ctxPath%>/admin/adminMemberList.sun" class="d-flex align-items-center"><span class="wrap-icon icon-person mr-3"></span><span class="menu-text">회원관리</span></a></li>
             <li class="product"><a href="<%= ctxPath%>/admin/adminProduct.sun" class="d-flex align-items-center"><span class="wrap-icon icon-shopping_cart mr-3"></span><span class="menu-text">상품관리</span></a></li>
             <li class="order"><a href="<%= ctxPath%>/admin/adminOrderManage.sun" class="d-flex align-items-center" ><span class="wrap-icon icon-envelope-open mr-3" style="font-size:12pt;"></span><span class="menu-text">주문관리</span></a></li>
             <li class="contact"><a href="<%= ctxPath%>/admin/adminContact.sun" class="d-flex align-items-center"><span class="wrap-icon icon-question_answer mr-3"></span><span class="menu-text">문의관리</span></a></li>

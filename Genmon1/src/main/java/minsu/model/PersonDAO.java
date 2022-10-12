@@ -2,23 +2,13 @@ package minsu.model;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import java.sql.*;
+import java.util.*;
+import javax.naming.*;
 import javax.sql.DataSource;
 
 import common.model.MemberVO;
-import common.util.security.AES256;
-import common.util.security.SecretMyKey;
+import common.util.security.*;
 import util.security.Sha256;
 
 public class PersonDAO implements InterPersonDAO {
@@ -63,7 +53,7 @@ public class PersonDAO implements InterPersonDAO {
 	////////////////////////////////////////////////////////////
 
 	
-	// 회원가입을 해주는 매소드(tbl_member 테이블 insert)
+	// 회원가입을 해주는 매소드(tbl_member_test 테이블 insert)
 	@Override
 	public int registerMember(MemberVO member) throws SQLException {
 		
@@ -244,6 +234,10 @@ public class PersonDAO implements InterPersonDAO {
 			      return result;   
 			} // end of public int adrDelete(Map<String, String> paraMap)throws SQLException
 
+			
+			
+			
+			
 			// === 비밀번호를 변경해주는 메소드 === 
 			@Override
 			public int passwdUpdate(Map<String, String> paraMap) throws SQLException {
@@ -271,6 +265,66 @@ public class PersonDAO implements InterPersonDAO {
 				
 			} // end of public boolean isExistPasswd(Map<String, String> paraMap) throws SQLException
 
+			
+		
+			// 비밀번호가 맞는지 확인하는 메소드
+			@Override
+			public boolean ispasswdCheck2(Map<String, String> paraMap)throws SQLException {
+				boolean ispasswdCheck2 = false;
+				
+				try {
+					
+					conn = ds.getConnection();
+					
+					String sql = " select userid "+
+								 " from tbl_member_test "+
+								 " where userid = ? and pwd = ? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, paraMap.get("userid"));
+					pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+					
+					rs = pstmt.executeQuery();
+					
+					ispasswdCheck2 = rs.next();
+
+				} finally {
+					close();
+				}
+				return ispasswdCheck2;
+			}
+
+			
+			// === 정보변경 메소드 === // 
+			@Override
+			public int myinfoUpdate(Map<String, String> paraMap) throws SQLException {
+				int n = 0;
+				
+				try {
+					conn = ds.getConnection();
+					
+					String sql = " update tbl_member_test set gender = ? , name = ?,  mobile = ? "+
+								 " where userid = ? ";
+					
+					pstmt = conn.prepareStatement(sql);
+					
+					pstmt.setString(1, paraMap.get("gender"));
+					pstmt.setString(2, paraMap.get("name"));
+					pstmt.setString(3, paraMap.get("mobile"));
+					pstmt.setString(4, paraMap.get("userid"));
+					
+					n = pstmt.executeUpdate();
+					
+				} finally {
+					close();
+				}
+				
+				return n;
+			} // end of public int myinfoUpdate(Map<String, String> paraMap) throws SQLException
+			
+			
+			
+			
 			// 회원목록을 보여주는 메소드 // 
 			@Override
 			public List<MemberVO> selectPagingMember(Map<String, String> paraMap)throws SQLException {
@@ -293,12 +347,12 @@ public class PersonDAO implements InterPersonDAO {
 			          String colname = paraMap.get("searchType");
 					  String searchWord = paraMap.get("searchWord"); // 넘어온 검색어를 가지고 판단해야한다. 
 					  
-			          if("email".equals(colname)) { // get한 searchType값이 email라면 넘겨받은 값을 다시 암화하여 비교해야한다.
-			        	  							// 검색 대상이 email인 경우 검색어 이메일은 암호화 시켜서 조회해야한다. 
-			        	  
+					  if("email".equalsIgnoreCase(colname)) { // get한 searchType값이 email라면 넘겨받은 값을 다시 암화하여 비교해야한다.
+													// 검색 대상이 email인 경우 검색어 이메일은 암호화 시켜서 조회해야한다. 
+
 							 searchWord = aes.encrypt(searchWord);
-							 
-			          }
+						}
+
 						 
 					 if(searchWord != null && !searchWord.trim().isEmpty()) { // 검색어는 null이 아니면서 공백이 없고 비어있지 않아야한다.
 							 												  // searchWord가 null이 아니여야만 nullpointException이 떨어지지않는다
@@ -420,64 +474,57 @@ public class PersonDAO implements InterPersonDAO {
 			} // end of public int getTotalPage(Map<String, String> paraMap) throws SQLException ------------------------
 
 			
-			// 비밀번호가 맞는지 확인하는 메소드
+
+			
+			// == 회원한명에 대한 정보를 알아오는 메소드 ===
 			@Override
-			public boolean ispasswdCheck2(Map<String, String> paraMap)throws SQLException {
-				boolean ispasswdCheck2 = false;
+			public MemberVO memberOneDetail(String userid) throws SQLException {
+				
+				MemberVO member = null;
 				
 				try {
 					
 					conn = ds.getConnection();
-					
-					String sql = " select userid "+
-								 " from tbl_member_test "+
-								 " where userid = ? and pwd = ? ";
+					String sql = " select userid, name, email, mobile, postcode, address, detailaddress, extraaddress, gender "+
+							 "      , substr(birthday,1,4) AS birthyyyy, substr(birthday,6,2) AS birthmm, substr(birthday,9) AS birthdd "+
+							 "      , coin, point, to_char(registerday, 'yyyy-mm-dd') AS registerday "+
+							 " from tbl_member_test "+
+							 " where userid = ? "; 
 					
 					pstmt = conn.prepareStatement(sql);
-					pstmt.setString(1, paraMap.get("userid"));
-					pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd")) );
+					pstmt.setString(1, userid);
 					
 					rs = pstmt.executeQuery();
 					
-					ispasswdCheck2 = rs.next();
-
-				} finally {
-					close();
-				}
-				return ispasswdCheck2;
-			}
-
-			
-			// 정보변경 메소드
-			@Override
-			public int myinfoUpdate(Map<String, String> paraMap) throws SQLException {
-				int n = 0;
-				
-				try {
-					conn = ds.getConnection();
-					
-					String sql = " update tbl_member_test set name = ?, gender = ? , mobile = ? "+
-								 " where userid = ? ";
-					
-					pstmt = conn.prepareStatement(sql);
-					
-					pstmt.setString(1, paraMap.get("name"));
-					pstmt.setString(1, paraMap.get("gender"));
-					pstmt.setString(1, paraMap.get("mobile"));
-					pstmt.setString(1, paraMap.get("userid"));
-					
-					n = pstmt.executeUpdate();
-					
+					if(rs.next()) {
+						// 성공한 경우
+						
+						// select해서 나온 값을 new MemberVO()에 정보를 담아야한다.
+						member = new MemberVO();
+						
+						member.setUserid(rs.getString(1));
+						member.setName(rs.getString(2));
+						member.setEmail( aes.decrypt(rs.getString(3)) );  // 복호화 
+						member.setMobile( aes.decrypt(rs.getString(4)) ); // 복호화  
+						member.setPostcode(rs.getString(5));
+						member.setAddress(rs.getString(6));
+						member.setDetailaddress(rs.getString(7));
+						member.setExtraaddress(rs.getString(8));
+						member.setGender(rs.getString(9));
+						member.setBirthday(rs.getString(10) + rs.getString(11) + rs.getString(12));
+						member.setCoin(rs.getInt(13));
+						member.setPoint(rs.getInt(14));
+						member.setRegisterday(rs.getString(15));
+					}
+				} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+					e.printStackTrace();	
 				} finally {
 					close();
 				}
 				
-				return n;
-			} // end of public int myinfoUpdate(Map<String, String> paraMap) throws SQLException
+				return member;
+			} // end of public MemberVO memberOneDetail(String userid) throws SQLException
 
-			
 		
-	
-	
 
 }

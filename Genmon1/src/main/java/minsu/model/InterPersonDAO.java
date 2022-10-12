@@ -8,7 +8,7 @@ import common.model.MemberVO;
 
 public interface InterPersonDAO {
 
-	// 회원가입을 해주는 매소드(tbl_member 테이블 insert)
+	// 회원가입을 해주는 매소드(tbl_member_test 테이블 insert)
 	int registerMember(MemberVO member)throws SQLException;
 
 	// 아이디가 중복되었는지 알아오는 메소드
@@ -28,6 +28,13 @@ public interface InterPersonDAO {
 
 	// 비밀번호를 변경해주는 메소드
 	int passwdUpdate(Map<String, String> paraMap)throws SQLException;
+	
+	// 비밀번호가 맞는지 확인하는 메소드
+	boolean ispasswdCheck2(Map<String, String> paraMap)throws SQLException;
+
+	// 정보변경 메소드
+	int myinfoUpdate(Map<String, String> paraMap)throws SQLException;
+
 
 	// 회원목록을 보여주는 메소드 // 
 	List<MemberVO> selectPagingMember(Map<String, String> paraMap)throws SQLException;
@@ -35,11 +42,9 @@ public interface InterPersonDAO {
 	// 페이징처리를 위해 검색이 있는 회원 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
 	int getTotalPage(Map<String, String> paraMap)throws SQLException;
 
-	// 비밀번호가 맞는지 확인하는 메소드
-	boolean ispasswdCheck2(Map<String, String> paraMap)throws SQLException;
-
-	// 정보변경 메소드
-	int myinfoUpdate(Map<String, String> paraMap)throws SQLException;
+	
+	// 회원한명에 대한 정보를 알아오는 메소드
+	MemberVO memberOneDetail(String userid)throws SQLException;
 
 	
 

@@ -23,6 +23,8 @@ public class InfoUpdateEndCommit extends AbstractController {
 		
 		String userid = loginuser.getUserid();
 		
+		/* System.out.println("개인정보 수정 확인용 userid" + userid); */
+		
 		if(!super.checkLogin(request)) {
 			// 로그인 안했으면 
 		    String message = " 먼저 로그인을 하세요.!!";
@@ -53,43 +55,44 @@ public class InfoUpdateEndCommit extends AbstractController {
 				// 개인정보를 변경하는 값을 알아와야한다.
 				
 
-				String email = request.getParameter("emial");
 				String gender = request.getParameter("gender");
 				String name = request.getParameter("name");
-				String mobile = request.getParameter("mobile");
-				String birthday = request.getParameter("birthday");
+				String hp1 = request.getParameter("hp1"); 
+		        String hp2 = request.getParameter("hp2"); 
+		        String hp3 = request.getParameter("hp3"); 
+		        String birthyyyy = request.getParameter("birthyyyy"); 
+		        String birthmm = request.getParameter("birthmm"); 
+		        String birthdd = request.getParameter("birthdd");
+		         
+				String mobile = hp1 + hp2 + hp3;
+				String birthday = birthyyyy+"-"+birthmm+"-"+birthdd;  
 				
-				
-
 				System.out.println("개인정보 수정 확인용 name" + name);
+				System.out.println("개인정보 수정 확인용 gender" + gender);
+				System.out.println("개인정보 수정 확인용 mobile" + mobile);
 				
-				
-				InterPersonDAO pdao = new PersonDAO();
 				Map<String,String> paraMap = new HashMap<>();
 				
 				paraMap.put("userid", userid);
-				paraMap.put("email", email);
 				paraMap.put("gender", gender);
 				paraMap.put("name", name);
 				paraMap.put("mobile", mobile);
 				paraMap.put("birthday", birthday);
 				
+				InterPersonDAO pdao = new PersonDAO();
 				// 정보변경 메소드
 				int n =  pdao.myinfoUpdate(paraMap);
 				
-				
 				System.out.println("##### 개인정보 변경 성공 ###");
-				if(n==1) {
+				if(n == 1) {
 					// 변경 성공한 경우
 					
 					 loginuser.setName(name);
 					 loginuser.setGender(gender);
-		        	 loginuser.setMobile(mobile);
-		        	 loginuser.setUserid(userid);
-		        	 loginuser.setEmail(email);
-		        	 loginuser.setUserid(userid);
-		        	 
-	        	/*	String message = "개인정보 변경되었습니다.";
+					 loginuser.setMobile(mobile);
+					 
+			/*		 
+	        		String message = "개인정보 변경되었습니다.";
 			        String loc = "myinfo/infoUpdate.sun";
 			            
 		            request.setAttribute("message", message);
@@ -97,9 +100,7 @@ public class InfoUpdateEndCommit extends AbstractController {
 			            
 		       //   super.setRedirect(false);
 		            super.setViewPage("/WEB-INF/common/msg.jsp");
-		            
 		        */
-		        	 
 		        	 
 		         // super.setRedirect(false);
 		 			super.setViewPage("/WEB-INF/minsu/infoUpdate.jsp");
