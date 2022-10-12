@@ -438,9 +438,26 @@
         	location.href="<%= ctxPath%>/myinfo/myinfoDetail.sun";
 			
 		}); // end of $("button#btn_logout").click() --------------
+		
+		
+		// 장바구니 개수 알아오기
+        $.ajax({
+			url:"<%= ctxPath%>/order/cartCount.sun",
+		//	type: "GET",  
+		    dataType:"JSON",
+		    success:function(json) {
+		    	// console.log("cartcnt"+json.cartCnt);
+		    	
+		    	$("#cartCnt").text(json.cartCnt);
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
         
         
-    });
+    }); // end of $(document).ready() =====================================================
 
 </script>
 
@@ -532,7 +549,7 @@
 		<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
 			<a type="button" class="link-secondary me-3 " href="<%=ctxPath %>/order/cart.sun">
           		<i class="fas fa-shopping-cart"></i>
-          		<span class="badge rounded-pill badge-notification bg-danger">1</span>
+          		<span class="badge rounded-pill badge-notification bg-danger" id="cartCnt"></span>
         	</a>
         </c:if>
 		

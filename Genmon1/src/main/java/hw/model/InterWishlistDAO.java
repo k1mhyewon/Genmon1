@@ -24,4 +24,7 @@ public interface InterWishlistDAO {
 	// 이미 위시리스트에 있는 상품인지 확인
 	int isWishExist(String userid, String pnum) throws SQLException;
 
+	// 리뷰페이지에서 하트 개수 알아오기
+	int wishCount(String pnum) throws SQLException;
+
 }

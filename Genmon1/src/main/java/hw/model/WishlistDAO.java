@@ -279,4 +279,47 @@ public class WishlistDAO implements InterWishlistDAO {
 		
 		return n;
 	} // end of public int isWishExist(String userid, String pnum) throws SQLException {} ------------------------------
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 리뷰페이지에서 하트 개수 알아오기 -------------------------------
+	@Override
+	public int wishCount(String pnum) throws SQLException {
+
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(fk_pnum)\n"+
+					"from tbl_wishlist_test\n"+
+					"where fk_pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery(); // 돌려라!
+			
+			if(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			// System.out.println("cnt : "+cnt);
+			
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	}
 }
