@@ -657,4 +657,48 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	// 상품상세페이지에서 리뷰 개수 알아오기 --------------------------------------------------------------
+	@Override
+	public int getReviewCnt(String pnum) throws SQLException {
+		
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(R.reviewid)\n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"where d.fk_pnum = ?";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+			
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	} // end of public int getReviewCnt(String pnum) throws SQLException {} ---------------------
+
+	
+	
+	
+	
+	
 }

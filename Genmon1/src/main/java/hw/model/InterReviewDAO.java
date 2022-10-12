@@ -39,6 +39,9 @@ public interface InterReviewDAO {
 	// 리뷰 페이지 수 알아오기
 	int getTotalPage(String pnum) throws SQLException;
 
+	// 상품상세페이지에서 리뷰 개수 알아오기
+	int getReviewCnt(String pnum) throws SQLException;
+
 	
 
 
