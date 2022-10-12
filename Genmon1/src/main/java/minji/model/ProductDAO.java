@@ -407,14 +407,14 @@ public class ProductDAO implements InterProductDAO {
 						+ " from tbl_all_product_test\r\n "
 						+ " JOIN tbl_product_test\r\n "
 						+ " ON fk_pid = pid\r\n "
-						+ " where PANMAESTATE = ?\r\n "
+						+ " where panmaestate = 1 \r\n "
 						+ " )\r\n "
 						+ " where RNO between ? and ? ";
 		
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("panmaestate"));
-			pstmt.setString(2, paraMap.get("start"));
-			pstmt.setString(3, paraMap.get("end"));
+//			pstmt.setString(1, paraMap.get("panmaestate"));
+			pstmt.setString(1, paraMap.get("start"));
+			pstmt.setString(2, paraMap.get("end"));
 			
 			rs = pstmt.executeQuery();
 			

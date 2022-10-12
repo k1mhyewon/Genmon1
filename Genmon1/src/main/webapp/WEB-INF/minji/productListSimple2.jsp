@@ -241,160 +241,7 @@
    			
 </style>
 
-<script type="text/javascript">
 
-
-	let	lenDisplay = 12; 
-	// 상품 스크롤 할 때 보여줄 상품의 개수(단위)크기
-	
-	let start = 1; // 아래서 문서로딩되자마자 호출되는 디폴트가 1이다.
-
-
-	$(document).ready(function () {
-			
-			// HIT상품 게시물을 더보기 위하여 스크롤 이벤트에 대한 초기값 호출
-		    // 즉, 맨처음에는 스크롤을 하지 않더라도 클릭한 것 처럼 8개의 HIT상품을 게시해주어야 한다는 말이다. 
-			display(start); // 문서로딩 되자마자 이거 호출하면 아래 함수 start 는 1이 된다.
-			
-	//		$("span#totalHITCount").hide();  // 상품수 보여지는 건 숨기면 된다.
-	//		$("span#countHIT").hide();
-			
-			// == 스크롤 이벤트 발생시키기 시작 === 
-			$(window).scroll(function () {
-				// 스크롤탑 위치값
-				//  console.log("$(window).scrollTop() => " + $(window).scrollTop()) ;
-				
-				// 보여줘야할 문서 높이값(도보기 해주므로 append 되어져서 높이 계쏙 증가될 것이다.)
-				// console.log( "$(document).height() =>" + $(document).height() );
-				
-				// 웹브라우저창의 높이값(디바이스마다 다르게 표현되는 고정값) 
-		        // console.log( "$(window).height() => " + $(window).height() );
-		        // 또는
-		        // console.log( "web_browser_height => " + web_browser_height );
-		        		
-		        // 만약 위의 콘솔로그를 실행했을 때 개발자 도구 콘솔창에 스크롤 위치값 안나올 경우
-		        // 아래는 이벤트가 발생되는 숫자를 만들기 위해서 스크롤탑의 위치값에 +1 을 더해서 보정해준 것이다.
-		           console.log( "$(window).scrollTop() + 1  => " + ( $(window).scrollTop() + 1  ) );
-		           console.log( "$(document).height() - $(window).height() => " + ( $(document).height() - $(window).height() ) );
-		        // 또는 
-		        // console.log( "$(document).height() - web_browser_height => " + ( $(document).height() - web_browser_height ) ); 		
-		        
-		        // if( $(window).scrollTop() == $(document).height() - $(window).height() ) {
-		           // 만약 위의 콘솔로그를 실행했을 때 개발자 도구 콘솔창에 스크롤 값 차이나면 아래의 것으로 한다.(보정)
-		           	  if( $(window).scrollTop() + 1 >= $(document).height() - $(window).height() ) {
-		        	  //  alert("확인용");
-		        	   
-		        	   const totalHITCount = Number($("span#countHIT").text() );
-		        	   const countHIT =  Number( $("span#totalHITCount").text() ); 
-		        	   
-		        	   if( totalHITCount != countHIT ) { // 같지 않다면 상품 더 보여줄 게 있다는 뜻이다.
-		        		   start += lenDisplay;
-		        	 	   display(start); // 9부터 또 더해라
-		        	   }
-		           }
-		           
-		           if( $(window).scrollTop() == 0 ) { // 상품 다 보여줬다면 위로 올라가야 한다 스크롤탑이 0, 처음으로 버튼의 end 는 초기화
-		        		// 다시 처음부터 시작하도록 한다.   
-		        		$("div#display").empty();
-		        		$("span#end").empty();// 메세지도 삭제
-		        		$("span#totalHITCount").text("0"); // 지금까지 보여진 것도 0으로
-		        		
-		        		start = 1;
-		        		display(start);
-		           }
-		           
-			});
-					
-			// == 스크롤 이벤트 발생시키기 끝 === 	
-	}); // end of ready
-	
-
-
-		// Function Declaration
-
-		function display(start) { 	 // start 가 1이라면 (페이징 처리 하는 것 rownum) 1~8까지 상품 8개 보여준다. 
-									 // start 가 9이라면 (페이징 처리 하는 것 rownum) 9~16까지 상품 8개 보여준다. 	
-									 // start 가 17이라면 (페이징 처리 하는 것 rownum) 17~24까지 상품 8개 보여준다. 	
-									 // start 가 25이라면 (페이징 처리 하는 것 rownum) 25~32까지 상품 8개 보여준다. 	
-									 // start 가 33이라면 (페이징 처리 하는 것 rownum) 33~36까지 나머지 상품 4개 보여준다.(마지막상품) 	
-									 // 이게 로넘이다. 1~8    9~16,...
-		
-			$.ajax({
-				url:"<%= request.getContextPath()%>/product/mallDisplayJSON.sun",
-			//	type: "GET", 디폴트 겟방식
-				data:{
-					 "start":start // "1"   "9"   "17"   "25"   "33" 
-					 ,"len":lenDisplay}, //  8	  8		8		8		8
-				dataType:"JSON",
-				success:function(json){
-				
-		        /*     console.log(json);
-		               console.log(typeof json); // object
-		             
-		             
-		               var str_json = JSON.stringify(json); // JSON 객체를 string 타입으로 변경시켜주는 것.
-		                console.log(typeof str_json);  // string
-		                console.log(str_json);
-		                 
-		         	
-		                var obj_json = JSON.parse(str_json); // JSON 모양으로 되어진 string 을 실제  JSON 객체로 변경시켜주는 것.
-		                console.log(typeof obj_json);  // object
-		                console.log(obj_json);
-		         */
-		            
-					let html = ""; // html에 꽂는 작업
-					
-					if(start == "1" && json.length == 0) {
-						// 스타트 1인데 상품본 개수는 0
-						// 처음부터 데이터가 존재하지 않는 경우
-		                // !!! 주의 !!!
-		                // if(json == null) 이 아님!!!
-		                // if(json.length == 0) 으로 해야함!!
-		                html += "현재 상품 준비중....";
-		                
-		                // HIT 상품 결과를 출력하기
-		                $("div#display").html(html); // 덮어씌운다
-					}
-							
-					else if(json.length > 0) {
-						// 데이터가 존재하는 경우 
-						$.each(json,function(index, item){
-							
-					 	html += "<div class='col-md-6 mt-3 p-2 col-lg-2' >"+
-									"<img src='../images/common/products/"+item.pimage1+"' class='card-img-top' style='width: 250px; heigh: 70px;' />" +
-										"<div class='card-body' style='padding: 5px;'>"+
-										"</div>"+
-								"</div>";	 
-							
-						}); // end of $.each(json, function(index, item) foreach도 있고 그냥 each도 있다.
-									
-									
-						// HIT 상품 결과 출력하기
-						$("div#display").append(html); //append  prepend   html=append 보여주고 또 보여주고 ...
-						
-						// span#countHIT 에 지금까지 출력된 상품 개수 누적해서 기록한다.
-						$("span#countHIT").text(Number($("span#countHIT").text()) + json.length); // 처음은 0 인데 타입이 문자다. 웹은 기본적으로 문자가 디폴트 문자열 결합은 숫자로 바꿔야 한다. parse int 또는 number 사용
-																				// json 에서 지금까지 읽어온 상품 개수 알 수 있다. 8개씩 보여주다 맨마지막은 4개 더보기 버튼 옆 36 36이 된다.(오른쪽 36이 원래는 0 : 읽어온 개수 의미)
-																				
-						// 스크롤을 계속 움직여 countHIT 값과 totalHITCount 값 일치하는 경우 => 더보기버튼 없애고 처음으로 버튼 생성해준다.													
-						if( $("span#countHIT").text() == $("span#totalHITCount").text()) {
-							$("span#end").html("더이상 조회할 제품이 없습니다.");
-						}
-				
-				} // end of  else if(json.lengh>0
-
-				},
-				error: function(request, status, error){
-		            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-		         }
-		      
-			});
-								 
-						 
-		}//end of function display()---		
-
-</script>			
-		
 <%-- 인덱스 시작 --%>
 
  <%-- 아이템 카테고리 --%>
@@ -486,7 +333,7 @@
 
 
 
-    <%-- 상품 리스트 이미지 나열 
+    <%-- 상품 리스트 이미지 나열 --%>
     <div class="row" style="text-align: center; margin: 1% 1%;">
  		<c:if  test="${not empty requestScope.proSimple }">
  			<c:forEach var="simplevo" items="${requestScope.proSimple}">
@@ -498,24 +345,9 @@
  			</c:forEach>
  		</c:if>
 	</div>
-	--%>	
 		
-	<%--  상품 모두 가져와서 디스플레이( 스크롤 방식으로 페이징 처리한 것) --%>
-		<div >
-			
-			<div class="row" style="text-align: center; margin: 1% 1%;" id="display"></div>
-			
-			
-			<div>
-				<p class="text-center">
-					<span id="end" style="display:block; margin:20px; font-size: 14pt; font-weight: bold; color: red;"></span>
-			<span id="totalHITCount">${requestScope.totalHITCount}</span>
-					<span id="countHIT">0</span>
-				</p>
-			</div>
-		</div>	
 	
-	<%-- footer 하단bar 고정 
+	<%-- footer 하단bar 고정 --%>
 	
 	<nav class="footer-navbar fixed-bottom navbar-light bg-light ml-auto ">
 	  <div class="container-fluid">
@@ -527,7 +359,7 @@
 		</span>
 	  </div>
 	</nav>
-	--%>
+	
 
 <%-- 인덱스 끝 --%>
 

@@ -366,6 +366,7 @@
 			--%>
 			
 			/////////////////////////////////////////////////
+	
 			
 			// 필터 검색 기능
 			$("button#resultFilter").click(() => {
@@ -453,68 +454,21 @@
 							html += " &nbsp; 해당되는 상품이 없습니다.";
 						
 						}
-						else if( json.length > 0 ){ // 해당되는 상품이 존재하는 경우   
+						else if( json.length > 0) { // 해당되는 상품이 존재하는 경우   
 							
 							$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
 								
-							html += `<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" >
-								<div class="col-md-3 mt-3">
-									<div style="width:340px;">
-							
-										<c:choose>
-											<c:when test="`+item.pqty+` == 0">
-												<a href="<%= ctxPath %>/product/productDetail.sun?pnum=`+item.pnum+`" class="pqty"><img
-														style="width:340px;" src="<%= ctxPath %>/images/common/products/${item.pimage1}"></a>
-											</c:when>
-							
-											<c:when test="`+item.pqty+` != 0">
-												<a href="<%= ctxPath %>/product/productDetail.sun?pnum=`+item.pnum+` class="product"><img
-														style="width:340px;" src="<%= ctxPath %>/images/common/products/${item.pimage1}"></a>
-											</c:when>
-										</c:choose>
-							
-										<a href="<%= ctxPath %>/product/productDetail.sun?pnum=`+item.pnum+` class="product">
-							
-											<c:if test="`+item.pqty+` == 0">
-												<span class="grid-item-qty" style="display: inline-block; color: #449ce8;"
-													class="grid-item-pqty"><i>out of stock</i></span>
-											</c:if>
-							
-											<span class="grid-item-name">`+item.parentProvo.pname+` `+item.colorName+`</span>
-							
-											<c:choose>
-												<c:when test="`+item.salePcnt+` > 0">
-													<span style="text-decoration:line-through; color:gray;" class="grid-item-price">
-														<fmt:formatNumber value="`+item.parentProvo.price+`" pattern="#,###" />
-													</span>
-												</c:when>
-							
-												<c:when test="`+item.salePcnt+` <= 0">
-													<span class="grid-item-price">
-														<fmt:formatNumber value="`+item.parentProvo.price+`" pattern="#,###" />
-													</span>
-												</c:when>
-											</c:choose>
-							
-											<c:choose>
-												<c:when test="`+item.salePcnt+` > 0">
-													<span class="grid-item-price">
-														<fmt:formatNumber
-															value="`+item.parentProvo.price - (((item.parentProvo.price) * item.salePcnt)/100)+`"
-															pattern="#,###" />
-													</span>
-												</c:when>
-												</c:choose>
-							
-											<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
-										</a>
-							
-										<button class="item-wish-btn"
-											style="border:none; background-color: white; float: right; display: inline-block;"
-											onclick="addWish()"> &#10084;</button>
-									</div>
-								</div>
-							</div>`;
+							html += '<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;">'+
+										'<div class="col-md-3 mt-3">'+
+											'<div style="width:340px;">';
+					
+											
+													'<a href="Genmon1/product/productDetail.sun?pnum='+item.pnum+'" class="product"></a>'+
+												'<span class=\"grid-item-color\" style=\"color: red;\"> +  </span><span>Colors</span>'+
+										'</div>'+
+									'</div>'+
+								'</div>';	
+			
 							});// end of $.each -------------------------
 				    	}
 				    	
@@ -755,7 +709,7 @@
 	
 		<!-- 상품목록 -->
 		
-		<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" >
+		<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" id="display">
 		<c:if test="${ not empty requestScope.proList}">
 		<c:forEach var="pvo" items="${requestScope.proList }">
 			<div class="col-md-3 mt-3">
@@ -763,13 +717,13 @@
 		
 					<c:choose>
 						<c:when test="${pvo.pqty == 0}">
-							<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="pqty"><img
-									style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a>
+							<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="pqty">
+							<img id="image1"  style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a>
 						</c:when>
 		
 						<c:when test="${pvo.pqty != 0}">
 							<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${pvo.pnum}" class="product"><img
-									style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a>
+									id="image1" style="width:340px;" src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a>
 						</c:when>
 					</c:choose>
 		
@@ -806,12 +760,8 @@
 							</c:when>
 							</c:choose>
 		
-						<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
+						<span class="grid-item-color"><span style="color: red;"> + </span> Colors</span>
 					</a>
-		
-					<button class="item-wish-btn"
-						style="border:none; background-color: white; float: right; display: inline-block;"
-						onclick="addWish()"> &#10084;</button>
 				</div>
 			</div>
 		</c:forEach>
@@ -824,7 +774,7 @@
 		<div>
 			<p class="h3 my-3 text-center">- 전체 상품 -</p>
 			
-			<div  id="display"></div>
+			<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" id="display"></div>
 			
 			<div>
 				<p class="text-center">
@@ -836,7 +786,7 @@
 		</div>
 		
 		
-		<%-- footer 하단bar 고정 --%>
+		<%-- footer 하단bar 고정 
 		
 		<nav class="footer-navbar fixed-bottom navbar-light bg-light ml-auto ">
 			<div class="container-fluid">
@@ -850,7 +800,7 @@
 				</span>
 			</div>
 		</nav>
-		
+		--%>
 		
 		
 		<%-- 인덱스 끝 --%>
