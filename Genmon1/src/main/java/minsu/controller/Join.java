@@ -40,7 +40,7 @@ public class Join extends AbstractController {
 			String mobile = hp1 + hp2 + hp3; // "01081092728"
 
 			// VO(==DTO)에서 받아온 생년월일 3개를 DB컬럼과 같은 이름으로 하나의 생년월일로 합친다
-			String birthday = birthyyyy + "-" + birthmm + "-" + birthdd; // "1998-12-12"
+			String birthday = birthyyyy + "-" + birthmm +  "-" + birthdd; // "1998-12-12"
 
 			// 폼태그에서 전송되져 나온것을 MemberVO에서 담아온것이다
 			

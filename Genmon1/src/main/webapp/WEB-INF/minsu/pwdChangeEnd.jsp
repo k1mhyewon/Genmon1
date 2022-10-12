@@ -81,7 +81,7 @@
 		
 			$("#notSame_msg").hide();
 			
-			$("#pwd").on("propertychange change keyon paste input", function(){
+			$("input#pwd").on("propertychange change keyon paste input", function() {
 				
 				const pwd = $(this).val();
 				$(".chk").css({"color":"red"});
@@ -144,14 +144,17 @@
 				else{
 					chk_bool = false;
 				}
+				$(".error_msg").show();
+				
 				
 				$("#notPassed").css({"color": "", "font-weight": ""});
 				
-			}); // end of $("#pwd").on() ----------------------------------------
+				console.log(pwd)
+			}); // end of $("#pwd1").on() ----------------------------------------
 		
 			
 			
-			$("#pwd2").on("propertychange change keyon paste input", function(){
+			$("#pwd2").blur(function(e){
 				const pwd = $("input#pwd").val();
 				const pwd2 = $("input#pwd2").val();
 				

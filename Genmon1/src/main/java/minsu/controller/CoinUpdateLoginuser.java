@@ -3,7 +3,7 @@ package minsu.controller;
 import java.util.*;
 import javax.servlet.http.*;
 import common.controller.AbstractController;
-import common.model.*;
+import common.model.MemberVO;
 import minsu.model.InterPersonDAO;
 import minsu.model.PersonDAO;
 
@@ -20,13 +20,13 @@ public class CoinUpdateLoginuser extends AbstractController {
 			String coinmoney = request.getParameter("coinmoney");
 			
 			
-			System.out.println("확인용 userid" + userid + ",coinmoney " + coinmoney);
+		//	System.out.println("확인용 userid" + userid + ",coinmoney " + coinmoney);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);
 			paraMap.put("coinmoney", coinmoney);
 			
-			InterPersonDAO pdao = new PersonDAO();
+			InterPersonDAO pdao  = new PersonDAO();
 			int n = pdao.coinUpdate(paraMap); // DB에 코인 및 포인트 증가하기(MemberDAO에 sql 오버라이딩하기)
 			
 			String message = "";

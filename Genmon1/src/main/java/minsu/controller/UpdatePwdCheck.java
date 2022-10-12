@@ -13,7 +13,7 @@ import common.model.MemberVO;
 import minsu.model.InterPersonDAO;
 import minsu.model.PersonDAO;
 
-public class PwdCheck extends AbstractController {
+public class UpdatePwdCheck extends AbstractController {
 
 	// 비밀번호 변경을 위해 비밀번호를 올바르게 입력했는지 
 	@Override
@@ -62,14 +62,14 @@ public class PwdCheck extends AbstractController {
 				
 				// 유저의 비밀번호가 맞는지 확인하는 매소드
 				InterPersonDAO pdao = new PersonDAO();
-				boolean ispasswdCheck = pdao.ispasswdCheck(paraMap);
+				boolean ispasswdCheck2 = pdao.ispasswdCheck2(paraMap);
 				
-				if(ispasswdCheck) {
+				if(ispasswdCheck2) {
 					// 올바른 경우
-					request.setAttribute("ispasswdCheck", ispasswdCheck);
+					request.setAttribute("ispasswdCheck2", ispasswdCheck2);
 					
 					// super.setRedirect(false);
-					super.setViewPage("/WEB-INF/minsu/pwdChangeEnd.jsp");
+					super.setViewPage("/WEB-INF/minsu/infoUpdateEnd.jsp");
 				}
 				else {
 					 String message = "비밀번호가 다릅니다.!!";
