@@ -31,6 +31,7 @@ public interface InterCartDAO {
 
 	// 카트 개수 구하기
 	int countCart(String userid) throws SQLException;
+
 	
 	
 

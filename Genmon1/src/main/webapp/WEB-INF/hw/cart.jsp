@@ -271,7 +271,7 @@
 				html += "<div style='padding-left: 5%; font-size: 14pt; font-weight: bold; display: inline-block;'>장바구니(0)</div>"
 					  + "<div style='width: 400px; height: 400px; padding-top: 150px; text-align: center;'>"
 				      + "<div style='margin-bottom: 20px;'>장바구니에 담긴 상품이 없습니다.</div>"
-				      + "<button type='button' class='btn btn-dark' class='go_shopping' style='width: 200px; font-size: 11pt;'>쇼핑하러가기</button>"
+				      + "<button type='button' class='btn btn-dark' class='go_shopping' style='width: 200px; font-size: 11pt;' onClick='goShopping()'>쇼핑하러가기</button>"
 				      + "</div>";
 				
 				$("div#show").html(html);
@@ -279,9 +279,14 @@
 			
 		}// end of 비회원이라면???
 				
-				
-				
-		
+		<%--		
+		// ### 쇼핑하러가기 버튼 누르면 상품페이지로 이동 ### // --------------------
+		$(".go_shopping").click(function(){
+			
+			goShopping();
+			
+		}); // end of $(".go_shopping").click() --------------------------.
+		--%>
 				
 		
 		// ==== 체크박스 전체선택/전체해제 ==== //
@@ -496,7 +501,12 @@
 		
 	}// end of 선택상품 주문 하기 함수
 	
-	
+	// 쇼핑하러가기 
+	function goShopping(){
+		
+		location.href="<%= ctxPath%>/product/productList.sun";
+		
+	}
 	
 </script>
     <!-- 인덱스 시작 -->
@@ -567,7 +577,7 @@
     	
 		<div class="empty_wishlist">
 			<div style="margin-bottom: 20px;">장바구니에 담긴 상품이 없습니다.</div>
-			<button type="button" class="btn btn-dark" class="go_shopping" style="width: 200px; font-size: 11pt;">쇼핑하러가기</button>
+			<button type="button" class="btn btn-dark" class="go_shopping" style="width: 200px; font-size: 11pt;" onClick="goShopping()">쇼핑하러가기</button>
 		</div>
     </c:if>
 	<div style="height: 50px;"></div>

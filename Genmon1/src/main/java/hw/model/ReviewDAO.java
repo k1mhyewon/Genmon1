@@ -249,6 +249,11 @@ public class ReviewDAO implements InterReviewDAO {
 	            String uploaddate = rs.getString(4);
 	            String reply = rs.getString(5);
 	            String fk_userid = rs.getString(6);
+	            
+	            
+	            String maskedUserid = fk_userid.replaceAll("(?<=.{"+String.valueOf(fk_userid.length()-3)+"}).", "*");
+	            // System.out.println("maskedUserid: "+maskedUserid);
+	            
 	            String reviewid = rs.getString(7);
 	            
 	            ReviewVO rvo = new ReviewVO();
@@ -266,6 +271,7 @@ public class ReviewDAO implements InterReviewDAO {
 	            MemberVO mvo = new MemberVO();
 	            
 	            mvo.setUserid(fk_userid);
+	            mvo.setUseridMasked(maskedUserid);
 	            
 	            rvo.setMvo(mvo);
 	            
@@ -569,7 +575,7 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			
-			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply, R.reviewid \n"+
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , NVL(R.img_orginfilename, '없음') as img_orginfilename, R.star, R.reply, R.reviewid \n"+
 					"from tbl_review_test R\n"+
 					"JOIN tbl_order_detail_test D\n"+
 					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
