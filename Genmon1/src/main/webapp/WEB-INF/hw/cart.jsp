@@ -237,11 +237,11 @@
 				    	
 				    	const checkboxChoice = "<span type='button' class='btn btn-light btn_chkbox' id='btn_chkAll' ><input type='checkbox' class='chk_wishprod' id='chkAll' value='all' /><label for='chkAll'>&nbsp;전체선택/해제</label></span>"
 				    						 + "<button type='button' class='btn btn-dark btn_chkbox' onclick='chooseThings()'>선택상품결제</button>"
-				    						 + "<button type='button' class='btn btn-dark btn_chkbox' onclick='chooseThings()'>선택상품삭제</button>";
+				    						 + "<button type='button' class='btn btn-dark btn_chkbox' onclick='nonUserSelectDel()'>선택상품삭제</button>";
 				    	$("div#checkbox_choice").html(checkboxChoice);
 				    	
 				    	$.each(json, function(index, item){
-									html+= "<div class='col'><label><input type='checkbox' class='chk_wishprod' name='chk_each_prod'/><div class='card_body mx-1 my-3'>"+
+									html+= "<div class='col'><label><input type='checkbox' class='chk_wishprod' name='chk_each_prod'  value='"+item.pnum+"' /><div class='card_body mx-1 my-3'>"+
 														"<img src='../images/common/products/"+item.image+"' class='product_img' /><br>"+
 													"<div class='productDesc'>"+
 														"<p class='productName' style='font-weight: bold;'>"+item.pname+" "+item.colname+"</p>"+
@@ -361,6 +361,31 @@
 	
 		
 	// #### Function Declaration #### //
+	
+	
+	function nonUserSelectDel(){
+		
+		const loginuser = '${sessionScope.loginuser.userid}';
+		
+		// 비회원이라면 세션스토리지에서 삭제
+		if(loginuser == ""){ 
+			
+			$("input:checkbox[name='chk_each_prod']:checked").each(function() {
+				
+				const pnum = $(this).val();
+				
+				if(sessionStorage.getItem("Key"+pnum)){
+					sessionStorage.removeItem('Key'+pnum);
+					sessionStorage.removeItem('Qty'+pnum);
+				}
+				
+				
+			});
+			
+			window.location.reload(true);
+		}
+			
+	}
 	
 	
 	function go_purchase(fk_pnum, qty){ // --------------------------------
@@ -508,6 +533,40 @@
 		
 	}
 	
+	// 선택상품 삭제
+	function selectDelete(){ // ------------------------
+		
+		const chkBoxArr = [];
+		
+		$("input:checkbox[name='chk_each_prod']:checked").each(function() {
+			chkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+			// console.log(chkBoxArr);
+		})
+		
+		
+		$.ajax({
+			url:"<%= request.getContextPath()%>/cart/cartSelectDel.sun",
+			data:{ "chkBoxArr":chkBoxArr },
+			type: "GET",
+			traditional: true,
+			dataType:"text",
+		    success:function(json) {
+		    	
+		    	alert('삭제되었습니다.');
+		    	window.location.reload(true);
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+			
+			
+		});
+	
+		
+	} // end of function goDelete() ----------------
+	
+	
 </script>
     <!-- 인덱스 시작 -->
  
@@ -529,7 +588,7 @@
 		        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
 		        <%-- <button type="button" class="btn btn-dark btn_chkbox" onclick="allThings()">전체상품결제</button> --%>
 		        <button type="button" class="btn btn-dark btn_chkbox" onclick="chooseThings()">선택상품결제</button>
-		        <button type="button" class="btn btn-dark btn_chkbox" onclick="">선택상품삭제</button>
+		        <button type="button" class="btn btn-dark btn_chkbox" onclick="selectDelete()">선택상품삭제</button>
 	    	</c:if>
 	    </div>
     
@@ -539,7 +598,7 @@
 				<c:forEach var="cvo" items="${requestScope.cartList}">
 					<div class="col">
 					<label>
-						<input type="checkbox" class="chk_wishprod" name='chk_each_prod'/>
+						<input type="checkbox" class="chk_wishprod" name='chk_each_prod' value="${cvo.fk_pnum}"/>
 						<div class="card_body mx-1 my-3 ">
 							<img src="../images/common/products/${cvo.allProdvo.pimage1}" class="product_img">
 							<div class="productDesc">
