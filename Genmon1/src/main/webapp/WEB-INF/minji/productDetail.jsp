@@ -9,11 +9,17 @@
 
 <link rel="stylesheet" type="text/css" href="<%=ctxPath %>/css/productDetail.css">
 
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+
 <!-- minji 아코디언 Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+
 
 <style>
 	span.boldtxt{
@@ -116,6 +122,111 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		
 	}
 
+
+
+	.whole-box { 
+	/* 	border: solid 1px green; */
+		position: static;
+		width: 97%;
+		margin-left: 2%;
+	}
+	
+	.item-info-box {
+	/* 	border: solid 1px blue; */
+		position: relative;
+		float: right;
+		/* padding: 3% 0 0 0; */
+		left: -1%;
+		margin-top: 10%;
+	}
+	
+	.item-info-cotent-box {
+		width: 100%;
+		margin-bottom: 5%;
+	}
+	.item-info-cotent {
+		width: 100%;
+	}
+	
+	.item-name {
+		width: 45%;
+		box-sizing: border-box;
+		float: left;
+		font-size: 15pt;
+		font-weight: bold;
+		margin-right: 5%; 
+		
+	}
+	
+	.item-price {
+		width: 50%;
+		box-sizing: border-box;
+		float: right;
+		text-align: center;
+		padding: 0;
+	}
+	
+	.item-info-color-box {
+		padding: 10% 0% 10% 0%;
+		width: 110%;
+	}
+	
+	.item-info-color {
+		clear: right;
+		width: 50%;
+		margin: 0%;
+		padding: 0%;
+	}
+	
+	.color-list {
+	/* 	border: 1px gray solid; */
+		list-style-type: none;
+		padding: 0;
+		margin: 0% 2% 10% 0%;
+	}
+	
+	.color-img {
+		display: inline;
+	}
+	
+	.admin-review {
+		text-align: center;
+	}
+	
+	.item-info-description-box {
+		width: 100%;
+	/* 	border: 1px gray solid; */
+	}
+	
+	.item-info-description {
+		font-size: 11pt;
+		letter-spacing: 10%;
+		word-spacing: 5%;
+	}
+	
+	.add-option-btn {
+	/* 	border: solid 1px gray; */
+		width: 85%;
+	}
+	
+	a:link, a:visited, a:hover, a:active { /* 안 먹는 것 같은데요?? */
+	  	color: inherit;
+	  	text-decoration: none;
+	}
+	
+	input, button{
+		border:none;
+	  /*border-radius:4px 가능 */
+	}
+	
+	input:focus, input:active,
+	button:focus, button:active {
+		outline: none;
+		box-shadow: none;
+		color: inherit;
+	}
+
+
 </style>
 
 <script>
@@ -186,7 +297,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			
 			$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
 	    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
-		
+	    		location.reload();
+	    		
 		} else { // 로그인 한 경우
 			$.ajax({
 				url : "<%= ctxPath%>/order/addCart.sun?pnum="+pnum+"&qty="+qty , 
@@ -196,7 +308,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			    	
 			    	$("#cart_added_comment").show();  <%--장바구니에 상품이 추가되면 뜨는 메시지 보여주기 --%>
 			    	$('#addCart').modal('hide');      <%--장바구니 모달 숨기기 --%>
-					
+			    		location.reload();
 			    },
 			    error: function(request, status, error){
 					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -315,8 +427,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		 	
 		 	<%-- 제품 색상 및 설명 --%>
 		 	<div class="item-info-color-box">
-			 	<div class="item-info-color">
-			 		<ul class="color-list">
+			 	<div class="item-info-color" style="width: 80%;">
+			 		<ul class="color-list" style="width: 100%; inline-heignt: 100px;">
 			 			<c:if test="${not empty requestScope.proList}">
 			 				<c:forEach var="pvo" items="${requestScope.proList}" varStatus="status" >
 			 					<li class="color-img" ><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:80px; height: 70px; object-fit: cover;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
@@ -406,7 +518,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		   	   				• 젠틀몬스터 공식 온라인 스토어에서 구매하는<br>
 		   	   				모든 분들께 선물 포장 서비스를 제공해 드립니다.<br>
 		   	   				<br>
-		   	   				<img alt="" src="<%= ctxPath %>/images/minji/포장.jpg">
+		   	   				<img alt="" src="images/포장.jpg">
 					   		</div>
 					   </div>
 				  </div>
@@ -472,7 +584,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
        	 </div>	
       </div>
 	  
-	  	
+	
 	  <%-- 제품 상세 이미지 박스 --%>
 	  <div class="img-row-box"> 
 	    <div class="img-row">
@@ -499,8 +611,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 							<div class="related-item-info-box">
 								<ul class="related-go">
 								<li class="sun-title"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">${recomvo.parentProvo.pname} ${recomvo.colorName }</a></li>
-								<li class="sun-price"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link" style="margin: 0;">${recomvo.parentProvo.price}</a></li>
-								<li class="sun-color"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link">+<span class="color-count">5</span> Colors</a></li>
+								<li class="sun-price"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link" style="margin: 0;"><fmt:formatNumber value="${recomvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</a></li>
+								<li class="sun-color"><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${recomvo.pnum}" class="link"><span class="color-count">+</span> Colors</a></li>
 								</ul>
 							</div>
 							</div>
@@ -513,7 +625,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
        		
 	 
 	 
-	<%-- footer 하단bar 고정 --%>
+	<%-- footer 하단bar 고정 
 	
 	<nav class="footer-navbar fixed-bottom navbar-light bg-light ml-auto ">
 	  <div class="container-fluid">
@@ -525,7 +637,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		</span>
 	  </div>
 	</nav>
-	
+	--%>
 	 
 <%-- //////////////////////////////////////////////////////////////////////////////////////////// --%>
 

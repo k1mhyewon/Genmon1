@@ -256,8 +256,8 @@
 		    // 즉, 맨처음에는 스크롤을 하지 않더라도 클릭한 것 처럼 8개의 HIT상품을 게시해주어야 한다는 말이다. 
 			display(start); // 문서로딩 되자마자 이거 호출하면 아래 함수 start 는 1이 된다.
 			
-	//		$("span#totalHITCount").hide();  // 상품수 보여지는 건 숨기면 된다.
-	//		$("span#countHIT").hide();
+			$("span#totalHITCount").hide();  // 상품수 보여지는 건 숨기면 된다.
+			$("span#countHIT").hide();
 			
 			// == 스크롤 이벤트 발생시키기 시작 === 
 			$(window).scroll(function () {
@@ -361,7 +361,7 @@
 						$.each(json,function(index, item){
 							
 					 	html += "<div class='col-md-6 mt-3 p-2 col-lg-2' >"+
-									"<img src='../images/common/products/"+item.pimage1+"' class='card-img-top' style='width: 250px; heigh: 70px;' />" +
+									"<a href='Genmon1/product/productList.sun?pnum="+item.pnum+"'><img src='../images/common/products/"+item.pimage1+"' class='card-img-top' style='width: 250px; heigh: 70px;' /></a>" +
 										"<div class='card-body' style='padding: 5px;'>"+
 										"</div>"+
 								"</div>";	 

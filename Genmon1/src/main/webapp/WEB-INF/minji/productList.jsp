@@ -173,7 +173,7 @@
 		
 		.overlay {
 			position: fixed;
-			top: 40%;
+			top: 43%;
 			bottom: 0;
 			left: 0;
 			right: 0;
@@ -193,7 +193,7 @@
 			position: fixed;
 			width: 100%;
 			height: 50%;
-			top: 65%;
+			top: 67%;
 			left: 50%;
 			transform: translate(-50%, -50%);
 			background: white;
@@ -461,10 +461,10 @@
 							html += '<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;">'+
 										'<div class="col-md-3 mt-3">'+
 											'<div style="width:340px;">';
-					
+					  8시....   안 도ㅐㅐㅐㅐ엉엉 ㅠㅠㅠㅠㅠㅠㅠ 
 											
 													'<a href="Genmon1/product/productDetail.sun?pnum='+item.pnum+'" class="product"></a>'+
-												'<span class=\"grid-item-color\" style=\"color: red;\"> +  </span><span>Colors</span>'+
+												'<span class="grid-item-color" style="color: red;"> +  </span><span>Colors</span>'+
 										'</div>'+
 									'</div>'+
 								'</div>';	
