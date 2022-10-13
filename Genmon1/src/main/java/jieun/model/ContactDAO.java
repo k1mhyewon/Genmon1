@@ -142,15 +142,17 @@ public class ContactDAO implements InterContactDAO {
 			conn = ds.getConnection();
 			
 			if(!mgflag) {// 회원글이라면 
-				sql=" select acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email, fk_userid, name "
+				sql=" select contactfile_systemFileName , contactfile_orginFileName, fk_orderid, "
+					+ " acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email, fk_userid, name "
 					+ " from tbl_member_contact c left join tbl_member_test m "
 					+ " on c.fk_userid = m.userid "
 					+ " left join tbl_member_contact_answer a "
-					+ "on a.fk_contactid = c.contactid "
+					+ " on a.fk_contactid = c.contactid "
 					+ " where contactid = ? ";
 			}
 			else { // 비회원글이라면  
-				sql=" select acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email "
+				sql=" select contactfile_systemFileName , contactfile_orginFileName, fk_orderid, "
+					+ " acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email "
 					+ " from tbl_guest_contact c"
 					+ " left join tbl_guest_contact_answer a "
 					+ " on a.fk_contactid = c.contactid "
@@ -162,19 +164,22 @@ public class ContactDAO implements InterContactDAO {
 			
 			rs.next();
 			    
-			cvo.setAcontents(rs.getString(1));
-			cvo.setContactid(rs.getString(2));
-			cvo.setCtype(rs.getString(3));
-			cvo.setContents(rs.getString(4));
-			cvo.setCregisterday(rs.getString(5));
+			cvo.setContactfile_systemFileName(rs.getString(1));
+			cvo.setContactfile_orginFileName(rs.getString(2));
+			cvo.setFk_orderid(rs.getInt(3));
+			cvo.setAcontents(rs.getString(4));
+			cvo.setContactid(rs.getString(5));
+			cvo.setCtype(rs.getString(6));
+			cvo.setContents(rs.getString(7));
+			cvo.setCregisterday(rs.getString(8));
 // 첨부파일 
-			cvo.setEmail(aes.decrypt(rs.getString(6)));
+			cvo.setEmail(aes.decrypt(rs.getString(9)));
 			
 			if(!mgflag) {// 회원글이라면
-				cvo.setFk_userid(rs.getString(7));
+				cvo.setFk_userid(rs.getString(10));
 				
 				MemberVO mvo = new MemberVO();
-				mvo.setName(rs.getString(8));
+				mvo.setName(rs.getString(11));
 				cvo.setMvo(mvo);
 			}
 			
@@ -488,11 +493,11 @@ public class ContactDAO implements InterContactDAO {
 				
 				if(!mgflag) { // 회원일경우 
 					sql = "update tbl_member_contact_answer set acontents = ? "
-						+ "where contactid = ? ";
+						+ "where fk_contactid = ? ";
 				}
 				else {// 비회원일경우 
 					sql = "update tbl_guest_contact_answer set acontents = ? "
-						+ "where contactid = ? ";
+						+ "where fk_contactid = ? ";
 				}
 				
 				pstmt = conn.prepareStatement(sql);
@@ -501,7 +506,7 @@ public class ContactDAO implements InterContactDAO {
 				pstmt.setString(2, contactid);
 
 				result = pstmt.executeUpdate();
-			
+ 			
 			} finally {
 				close();
 			}

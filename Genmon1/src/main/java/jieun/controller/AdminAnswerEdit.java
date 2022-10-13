@@ -25,7 +25,6 @@ public class AdminAnswerEdit extends AbstractController {
 		
 		String contactid = request.getParameter("contactid");
 		String contents = request.getParameter("contents");
-		
 		//Map<String,String> paraMap = new HashMap<>();
 		//paraMap.put("pname", pname);
 		
