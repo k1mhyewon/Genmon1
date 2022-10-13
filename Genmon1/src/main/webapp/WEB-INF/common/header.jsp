@@ -456,6 +456,24 @@
 		});
 		
         
+		
+		$("#search").click(function(){ // -----------------------------
+			
+			$.ajax({
+				url:"<%= ctxPath%>/product/popularProduct.sun",
+			//	type: "GET",  
+			    dataType:"JSON",
+			    success:function(json) {
+			    	// console.log("cartcnt"+json.cartCnt);
+			    	
+			    	$("#cartCnt").text(json.cartCnt);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			});
+			
+		}); // end of $("#search").click() ----------------------------
         
     }); // end of $(document).ready() =====================================================
 
@@ -577,10 +595,12 @@
 					<div id="popular_box">
 						<ul class="navbar-popular" >
 							<div id="popular_title">인기검색어</div>
-							<li><a class="popular-link" href="#">릴리트 01</a></li>
-							<li><a class="popular-link" href="#">로지 01</a></li>
-							<li><a class="popular-link" href="#">르 01</a></li>
-							<li><a class="popular-link" href="#">로셀 01</a></li> 
+							<div id="popular_item">
+								<li><a class="popular-link" href="#">릴리트 01</a></li>
+								<li><a class="popular-link" href="#">로지 01</a></li>
+								<li><a class="popular-link" href="#">르 01</a></li>
+								<li><a class="popular-link" href="#">로셀 01</a></li> 
+							</div>
 						</ul>
 					</div>
 					<div id="collection_box">

@@ -354,7 +354,7 @@
     <!-- 위시리스트 목록 -->
 
 	<c:if test="${not empty requestScope.wishList }">
-    	<div id="wishText">위시리스트()</div>
+    	<div id="wishText">위시리스트(${wishSize})</div>
 	    <div id="checkbox_choice">
 	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
 	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()")>선택삭제</button><br>
@@ -374,7 +374,7 @@
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
 									<c:if test="${ wishvo.cpvo.salePcnt > 0}">
 										<div class="productPrice" style="text-decoration:line-through; color:gray;"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</div>
-										<div>
+										<div style="margin-bottom: 22px;">
 											<fmt:formatNumber value="${wishvo.cpvo.parentProvo.price - ((wishvo.cpvo.parentProvo.price * wishvo.cpvo.salePcnt)/100) }"
 																		pattern="#,###" /> 원
 										</div>
