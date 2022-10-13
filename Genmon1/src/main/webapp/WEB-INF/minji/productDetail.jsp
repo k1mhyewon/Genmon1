@@ -393,11 +393,11 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	<div class="whole-box">
 		
 		<%-- 제품 정보 --%>
-     	<div class="item-info-box">
+     	<div class="item-info-box" style="width: 400px;">
      		<div class="item-info-cotent-box">
 	      		<div class="item-info-cotent">
 	      			<c:if test="${not empty requestScope.proList}">
-		      			<div class="item-name">${pvo.parentProvo.pname } ${pvo.colorName }</div>
+		      			<div class="item-name" style="width: 40%;">${pvo.parentProvo.pname } ${pvo.colorName }</div>
 				      		  <c:choose >
 				      				<c:when test="${pvo.salePcnt > 0}">
 				    		   			 <div style="text-decoration: line-through; font-style: italic; font-size: 11pt; color: gray;"  class="item-price"><fmt:formatNumber value="${ pvo.parentProvo.price}" pattern="#,###"></fmt:formatNumber> 원</div>
@@ -426,24 +426,25 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			 </div>
 		 	
 		 	<%-- 제품 색상 및 설명 --%>
-		 	<div class="item-info-color-box">
-			 	<div class="item-info-color" style="width: 80%;">
-			 		<ul class="color-list" style="width: 100%; inline-heignt: 100px;">
+		 	<div class="item-info-color-box" style="max-width: 250%; height: 350px; border:solid 1px purple;">
+			 	<div class="item-info-color" style="width: 100%; border:solid 1px green;">
+			 		<ul class="color-list" style="width: 400px; height: 150px; display: inline-block; border:solid 1px blue; margin: 0px 0px 10px 0px;">
 			 			<c:if test="${not empty requestScope.proList}">
 			 				<c:forEach var="pvo" items="${requestScope.proList}" varStatus="status" >
-			 					<li class="color-img" ><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:80px; height: 70px; object-fit: cover;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
+			 					<li class="color-img" style="border:solid 1px red; height:100px;" ><a href="<%= ctxPath%>/product/productDetail.sun?pnum=${pvo.pnum}" class="color-link"><img style="width:80px; height: 70px;  padding:0;  margin-bottom: 10px;  object-fit: cover;" class="color-real-img"  src="<%= ctxPath %>/images/common/products/${pvo.pimage1}"></a></li>
 			 				</c:forEach>
 		 				</c:if>
 			 		</ul>
 		 		</div>
-			</div>
+			
 				
-			<div class="item-info-description-box">
-	   	 		<div class="item-info-description" style="width: 300px;">
+			<div class="item-info-description-box" style=" clear:both; position: relative; border:solid 1px orange;">
+	   	 		<div class="item-info-description" style="width: 250px; border:solid 1px pink;">
 	    	 	   ${pvo.parentProvo.pcontent}
 	   	 		</div>
    	 		</div>
-      	 	<br>
+   	 	</div>	
+      	<br>
 	      	 	
 	      	 	
 	      	<%-- 리뷰 --%> 	
