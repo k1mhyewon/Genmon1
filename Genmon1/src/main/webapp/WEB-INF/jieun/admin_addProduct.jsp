@@ -241,6 +241,10 @@ $(document).ready(function() {
 	$("div#View_area").hide();
 	$("#selDirect").hide();
 	$("span.error").hide();
+	var pnameval = $("select#pname").val();
+	
+	
+	
 	$("select.select").change(function() {
 		if($(this).val() == "direct"){
 			$("#selDirect").show();
@@ -253,12 +257,15 @@ $(document).ready(function() {
 
 	 // 상품 등록 버튼을 누르면 	
 	$("button#btnRegister").click(function(){
-			let flag = false;
+		let flag = false;
+			
 		if(confirm("상품등록을 하시겠습니까?")){
 			
-			$(".infoData").each(function(){// 하나하나 검사한다.
-			
-				$(".infoData").keydown(function(){
+			const pnameClass = pnameval =="plus" ? $(".infoData"):$(".othercolor");
+				
+			pnameClass.each(function(){// 하나하나 검사한다.
+				
+				pnameClass.keydown(function(){
 					$("span.error").hide();
 					return;
 				});
@@ -268,11 +275,9 @@ $(document).ready(function() {
 					$(this).focus();
 					$(this).parent().find("span.error").show();
 					flag = true;
-					
 					return false; // 일반 for 문의 break와 같은 것 
 				}
-			});
-			
+			});// end of pnameClass.each(function(){}--------------
 			
 		 if(!flag){ // 필수입력사항을 다 선택했으면 
 			  const frm = document.prodInputFrm;
@@ -281,7 +286,7 @@ $(document).ready(function() {
 		  }
 		}
 		else{
-			history.go(-1);
+			return false; 
 		}
 		
 		
@@ -293,7 +298,7 @@ $(document).ready(function() {
 	  $("span.error").hide();
 	  $("div#divfileattach").html(""); // 또는 $("div#divfileattach").empty()
 	  if(confirm("상품등록을 취소하시겠습니까?")){
-
+		window.close();
 	  };
   });
   
@@ -333,10 +338,6 @@ $(document).ready(function() {
 	  $("input#attachCount").val(cnt);
 	  
   });// end of $("input#divfileattach").bind("spinstop",function(){}--------
-  
-		  
-	
-		  
 
 });// end of $(document).ready(function() {}------------------[]
 
@@ -345,12 +346,15 @@ $(document).ready(function() {
 // pname 직접입력을 선택했을경우 
 	function changepname(obj){
 		$("span.error").hide();
-		var val = $("select#pname").val();
-		alert(val);
+		// alert(val);
 		let html1 = "";
 		let html2 = "";
-		if(val !="plus"){
+		if($("select#pname").val !="plus"){
 			$("div.existhide").hide();
+			$("div#divPlusPname1").html("");
+			$("div#divPlusPname2").html("");
+			// console.log(pnameval);
+			// displayPnameInfo(val);
 		}
 		else{
 			$("div.existhide").show();
@@ -362,6 +366,67 @@ $(document).ready(function() {
 	};
 
 
+	<%-- 
+	// 선택한 탭에 따른 다른 타입 나오기 
+	function displayPnameInfo(pname){
+		$.ajax({
+			url:"<%= request.getContextPath()%>/admin/contactPnameJSON.sun",
+			data:{"pname":pname
+			},
+			dataType:"JSON",
+			success:function(json){
+				console.log(json);
+ 				console.log(typeof json); // object     ** json의 타입은 object(객체)모양임 
+				let html = "";
+				if(json.length == 0){// 글이 없는경우.
+					// !!! 주의 !!!
+	                // if(json == null) 이 아님!!!
+	                // if(json.length == 0) 으로 해야함!!
+					html += "";
+				
+					// $("div#displayHIT").html(html);
+				}
+				else if( json.length > 0 ){ // 데이터가 존재하는 경우   
+					
+					$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
+						html += '<div class="form-group existhide">'+
+							'<label for="price" class="col-form-label">가격(₩) *</label>'+
+							'<input type="text" class="form-control infoData" name="price" id="price" value="'+item.price+'">'+
+						'</div>'+
+						'<div class="form-group">'+
+							'<label for="salePcnt" class="col-form-label">할인율(%)</label>'+
+							'<input type="text" class="form-control" name="salePcnt" id="salePcnt" placeholder="예) 30%">'+
+						'</div>'+
+						'<div class="form-group">'+
+							'<label for="pqty" class="col-form-label">상품재고량 *</label><span class="error">상품재고를 입력해주세요</span>'+
+							'<input type="number" name="pqty" class="table-editor__input form-control infoData" value="1" min="1">'+
+						'</div>'+
+						'<div class="form-group existhide">'+
+							'<label for="pcontent" class="col-form-label">상품상세정보 *</label>'+
+							'<textarea class="form-control infoData" name="pcontent" id="pcontent" cols="30" rows="8" >"'+item.pcontent+'"</textarea>'+
+						'</div>'+
+			         	'<div class="form-group ">'+
+			         	  '<label for="preleasedate" class="col-form-label">상품출시일 *</label><span class="error">상품출시일을 입력해주세요</span>'+
+			              '<input type="text" id="preleasedate" name="preleasedate" class="infoData">'+
+						'</div>'+
+			         	'<div class="form-group existhide" style="width: 50%;display:inline-block;">'+
+			         		'<label for="pmaterial" class="col-form-label" >상품 재질*</label><span class="error">상품색상을 모두 선택해주세요</span><br>'+
+							'<select class="" name="pmaterial" id="pmaterial" >'+
+							  '<option selected value="'+item.pmaterial+'">'+item.pmaterial+'</option>'+
+							'</select>'+
+						'</div>';
+					});// end of $.each -------------------------
+					$("div#existPnameInfo").html(html); 
+				}				
+				
+			},
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+	
+	 --%>
+	
 
 	//   ======== 미리보기 이미지 ========= // 
 	function previewImage(targetObj, View_area) {
@@ -459,8 +524,8 @@ $(document).ready(function() {
 				<c:if test="${requestScope.pnameList.size()>0}">
 					<select class="infoData" name="pname" id="pname" onchange="changepname(this)" >
 					  <option value="">선택해주세요</option>
-					<c:forEach var="map"  items="${requestScope.pnameList}">
-					  <option value="${map.pname}">${map.pname}</option>
+					<c:forEach var="pname"  items="${requestScope.pnameList}">
+					  <option value="${pname}">${pname}</option>
 					</c:forEach>
 					  <option value="plus">상품추가</option>
 					</select>
@@ -475,51 +540,53 @@ $(document).ready(function() {
 			
          	<div class="form-group ">
 				<label class="form-label" for="pimage1">상품썸네일사진 *</label><span class="error">상품사진을 등록해주세요</span>
-				<input type="file" class="form-control infoData" name="pimage1" id="pimage1" onchange="previewImage(this,'View_area')"/>
+				<input type="file" class="form-control infoData othercolor" name="pimage1" id="pimage1" onchange="previewImage(this,'View_area')"/>
 				<div id='View_area' style='position:relative; width: 100px; height: 100px; color: black; border: 0px solid black; dispaly: inline; '></div>
 			</div>
-        
-			<div class="form-group existhide">
-				<label for="price" class="col-form-label">가격(₩) *</label><span class="error">가격을 입력해주세요</span>
-				<input type="text" class="form-control infoData" name="price" id="price" placeholder="Product price">
-			</div>
-			<div class="form-group existhide">
-				<label for="salePcnt" class="col-form-label">할인율(%)</label>
-				<input type="text" class="form-control" name="salePcnt" id="salePcnt" placeholder="예) 30%">
-			</div>
-			<div class="form-group">
-				<label for="pqty" class="col-form-label">상품재고량 *</label><span class="error">상품재고를 입력해주세요</span>
-				<input type="number" name="pqty" class="table-editor__input form-control infoData" value="1" min="1">
-			</div>
-			<div class="form-group existhide">
-				<label for="pcontent" class="col-form-label">상품상세정보 *</label><span class="error">상품상세정보를 입력해주세요</span>
-				<textarea class="form-control infoData" name="pcontent" id="pcontent" cols="30" rows="8" placeholder="내용을 입력해주세요."></textarea>
-			</div>
-
-         	<div class="form-group ">
-         	  <label for="preleasedate" class="col-form-label">상품출시일 *</label><span class="error">상품출시일을 입력해주세요</span>
-              <input type="text" id="preleasedate" name="preleasedate" class="infoData">
-			</div>
-			
-        
-         	<!-- <div class="form-group mb-5">
-	        	<label for="imgfilename" class="col-form-label" >상품상세사진</label>
-				<input class="form-control" name="imgfilename" type="file" id="imgfilename" multiple max="4"/>
-			</div> -->
-        
-         	<div class="form-group existhide" style="width: 50%;display:inline-block;">
-         		<label for="pmaterial" class="col-form-label" >상품 재질*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
-				<select class="" name="pmaterial" id="pmaterial" >
-				  <option value="">선택해주세요</option>
-				<c:forEach var="map" items="${requestScope.materialList}">
-				  <option value="${map.pmaterial}">${map.pmaterial}</option>
-				</c:forEach>
-				</select>
+        	
+        	<div id="existPnameInfo">
+				<div class="form-group existhide">
+					<label for="price" class="col-form-label">가격(₩) *</label><span class="error">가격을 입력해주세요</span>
+					<input type="text" class="form-control infoData" name="price" id="price" placeholder="Product price">
+				</div>
+				<div class="form-group">
+					<label for="salePcnt" class="col-form-label">할인율(%)</label>
+					<input type="text" class="form-control" name="salePcnt" id="salePcnt" placeholder="예) 30%">
+				</div>
+				<div class="form-group">
+					<label for="pqty" class="col-form-label">상품재고량 *</label><span class="error">상품재고를 입력해주세요</span>
+					<input type="number" name="pqty" class="table-editor__input form-control infoData othercolor" value="1" min="1">
+				</div>
+				<div class="form-group existhide">
+					<label for="pcontent" class="col-form-label">상품상세정보 *</label><span class="error">상품상세정보를 입력해주세요</span>
+					<textarea class="form-control infoData" name="pcontent" id="pcontent" cols="30" rows="8" placeholder="내용을 입력해주세요."></textarea>
+				</div>
+	
+	         	<div class="form-group ">
+	         	  <label for="preleasedate" class="col-form-label">상품출시일 *</label><span class="error">상품출시일을 입력해주세요</span>
+	              <input type="text" id="preleasedate" name="preleasedate" class="infoData othercolor" placeholder="예) 2022-01-01">
+				</div>
+				
+	        
+	         	<!-- <div class="form-group mb-5">
+		        	<label for="imgfilename" class="col-form-label" >상품상세사진</label>
+					<input class="form-control" name="imgfilename" type="file" id="imgfilename" multiple max="4"/>
+				</div> -->
+	        
+	         	<div class="form-group existhide" style="width: 50%;display:inline-block;">
+	         		<label for="pmaterial" class="col-form-label" >상품 재질 *</label><span class="error">상품색상을 모두 선택해주세요</span><br>
+					<select class="infoData" name="pmaterial" id="pmaterial" >
+					  <option value="">선택해주세요</option>
+					<c:forEach var="map" items="${requestScope.materialList}">
+					  <option value="${map.pmaterial}">${map.pmaterial}</option>
+					</c:forEach>
+					</select>
+				</div>
 			</div>
 			
          	<div class="form-group  " style="width: 50%;display:inline-block;">
-         		<label for="pcolor" class="col-form-label" >상품 색상*</label><span class="error">상품색상을 모두 선택해주세요</span><br>
-				<select class="" name="pcolor" id="pcolor" >
+         		<label for="pcolor" class="col-form-label " >상품 색상 *</label><span class="error">상품색상을 모두 선택해주세요</span><br>
+				<select class="othercolor infoData" name="pcolor" id="pcolor" >
 				  <option value="">선택해주세요</option>
 				<c:forEach var="map" items="${requestScope.colorList}">
 				  <option value="${map.pcolor}">${map.pcolor}</option>
