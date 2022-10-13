@@ -15,10 +15,20 @@ public class AdminProdSellStop extends AbstractController {
 		String pnum = request.getParameter("pnum");
 		
 		InterProductDAO pdao = new ProductDAO(); 
-		pdao.updateProdStopState(pnum);
+		int result = pdao.updateProdStopState(pnum);
 		
+		String message = "";
+		String loc = "";
+		
+		message = result==1 ? "해당 제품 성공적으로 판매중단 되었습니다.":"해당 제품 판매중단에 실패했습니다.";
+
+		loc = request.getContextPath()+"/admin/adminProduct.sun";
+		
+		request.setAttribute("message", message);
+		request.setAttribute("loc", loc);
 //		super.setRedirect(false); 
-		super.setViewPage("/WEB-INF/jieun/admin_productTable.jsp"); // 
+		super.setViewPage("/WEB-INF/common/msg.jsp"); // 
+		
 	}
 
 }

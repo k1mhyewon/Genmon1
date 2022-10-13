@@ -33,7 +33,7 @@ public interface InterProductDAO {
 	int insetProdDetailimage(String imgfilename, int pnum) throws SQLException;
 
 	// pname 뿌려주기 
-	List<HashMap<String, String>> isExistPname() throws SQLException;
+	List<String> isExistPname() throws SQLException;
 
 	// pname 으로 pid 찾기
 	String findPidParentProduct(String pname) throws SQLException;
@@ -45,7 +45,10 @@ public interface InterProductDAO {
 	List<String> getImagesByPnum(String pnum) throws SQLException;
 
 	// 상품 판매상태 중지로 변경 update
-	void updateProdStopState(String pnum)throws SQLException;
+	int updateProdStopState(String pnum)throws SQLException;
+
+	// pname 으로 부모상품테이블에서 정보 select 
+	ParentProductVO selectPnameInfo(String pname) throws SQLException;
 
 
 
