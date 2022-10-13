@@ -27,9 +27,9 @@ public class ProducListFilterJSON extends AbstractController {
 		String material = request.getParameter("checked_filter2");
 		String order = request.getParameter("checked_filter3");
 		
-		System.out.println(color);
-		System.out.println(material);
-		System.out.println(order);
+//		System.out.println(color);
+//		System.out.println(material);
+//		System.out.println(order);
 		
 		Map<String,String> paraMap = new HashMap<>();
 		paraMap.put("color", color);
@@ -43,8 +43,7 @@ public class ProducListFilterJSON extends AbstractController {
 		
 		// JSONArray => []
 		JSONArray jsonArr = new JSONArray(); // []   ==> simple로 import 하면 안됨!!! (import org.json.simple.JSONArray;)
-		
-		
+
 		if( selectList.size() > 0 ) { // 글이 있으면 넣어두기 
 			for( ChildProductVO cpvo : selectList) {
 				// JSONObject => {}
@@ -63,13 +62,17 @@ public class ProducListFilterJSON extends AbstractController {
 			}// end of for -----------------
 			
 			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
-				System.out.println("~~~ 확인용 json =>"+json);
+			//System.out.println("~~~ 확인용 json =>"+json);
 			request.setAttribute("json", json);
-			
 //					super.setRedirect(false);
 			super.setViewPage("/WEB-INF/common/jsonview.jsp");
 		} else {
-			System.out.println("집에갈래");
+			//System.out.println("집에갈래");
+			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
+			//System.out.println("~~~ 확인용 json =>"+json);
+			request.setAttribute("json", json);
+//					super.setRedirect(false);
+			super.setViewPage("/WEB-INF/common/jsonview.jsp");
 		}
 		
 	}

@@ -303,7 +303,6 @@
 						border: none;
 					}
 
-					/* 체크박스 : 라디오 동그라미
 				</style>
 
 				<script>
@@ -359,9 +358,9 @@
 
 							} // end of if($("input:checkbox[name='filter3']:checked").length >0)
 
-							console.log(chk_array1);
+							/* console.log(chk_array1);
 							console.log(chk_array2);
-							console.log(chk_array3);
+							console.log(chk_array3); */
 								
 								
 							var checked_filter1 = chk_array1.join();
@@ -369,49 +368,71 @@
 							var checked_filter3 = chk_array3.join();
 								
 							
-							console.log(checked_filter1);
+							/* console.log(checked_filter1);
 							console.log(checked_filter2);
-							console.log(checked_filter3);
+							console.log(checked_filter3); */
 							
 							
 							$.ajax({
 								url:"<%= ctxPath%>/product/producListFilterJSON.sun",
-							//	type: "GET",  
+							//	type: "GET", 
+								async: true,						
 								data: {"checked_filter1":checked_filter1,
 								  	  "checked_filter2":checked_filter2,
 									  "checked_filter3":checked_filter3},
 							    dataType:"JSON",
 							    success:function(json) {
-							    	alert("하하");
-							    	console.log(json);
-					 				console.log(typeof json);
+							    	//$("div#original").hide();
+							    	//console.log(json);
+					 				//console.log(typeof json);
 							    	let html = '';
-							    	<%--
+							    	$("div#original").hide();
 							    	if(json.length == 0){// 글이 없는경우.
-										// !!! 주의 !!!
-						                // if(json == null) 이 아님!!!
-						                // if(json.length == 0) 으로 해야함!!
-										html += "등록된 문의글이 없습니다.";
-									
-										// $("div#displayHIT").html(html);
+							    		//$("div#original").html('');
+										html += "<div style='text-align:center;font-size:20pt'>해당되는 상품이 없습니다.</div>";
+								    	$("div#show").html(html);
 									}
-									else if( json.length > 0 ){ // 데이터가 존재하는 경우   
-										
-										$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
-											html += '';
-										});// end of $.each -------------------------
 							    	
+									else { // 데이터가 존재하는 경우   
+										//alert("하하");
+										$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
+											const price = Number(item.price).toLocaleString('en');
+											const total = Number(item.price-( item.price * item.salePcnt/100 ) ).toLocaleString('en');
+											const color = item.pcolor.substr(0,2).toUpperCase();
+											html += '<div class="col-md-3 mt-3">'+
+						                              '<div style="width:340px;">';
+				                             if(Number(item.pqty) == 0){
+				                            	html+= '<a href="Genmon1/product/productDetail.sun?pnum='+item.pnum+'" class="pqty"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/'+item.pimage1+'"></a>'+
+				                            			'<span class="grid-item-qty" style="display: inline-block; color: #449ce8;" class="grid-item-pqty"><i>out of stock</i></span>';
+				                             }    
+				                             else {
+				                            	html+= '<a href="Genmon1/product/productDetail.sun?pnum='+item.pnum+'" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/'+item.pimage1+'"></a>';
+				                             }    
+
+				                             html += '<span class="grid-item-name">'+item.pname+' '+color+'"</span>';
+				                            	
+				                             if(Number(item.salePcnt) > 0){
+				                            	html+= '<span style="text-decoration:line-through; color:gray;" class="grid-item-price">'+price+'</span>'+
+		                                             '<span class="grid-item-price">'+total+'</span>';
+				                             }
+				                             else{
+		                                         html += '<span class="grid-item-price">'+price+'</span>';
+				                             }
+				                             
+				                             html +=  '<span class="grid-item-color" style="color: red;"></span><span>Colors</span>'+
+				                             		 '</div></div>';
+										});// end of $.each -------------------------
+								    	$("div#show").html(html);
+										location.href("#none");
+										//$("a.close").click();
 							    	}
-							    	$("div#original").html('');
-							    	$("div#show").html(html);
-							    	--%>
+							    	
 							    },
 							    error: function(request, status, error){
 									alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 								}
 							});
-
-							
+							return false;
 						}); // end of $("button#resultFilter()").click(()
 
 						
@@ -542,8 +563,9 @@
 						<br>
 
 						<%-- 위에 필터 숨기고 아래 div로 결과값 보여주기 --%>
-							<div id="show">
+							<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" ><div id="show">
 
+							</div>
 							</div>
 
 
@@ -636,4 +658,4 @@
 
 								<%-- 인덱스 끝 --%>
 
-									<jsp:include page="../common/footer.jsp" />
+		<jsp:include page="../common/footer.jsp" />

@@ -235,9 +235,25 @@ $(document).ready(function () {
  		$("a").removeClass("active");
  		$(this).addClass("active");
  		$("tbody#contactList").html("");
- 		const ctype = $(this).text();
- 		// alert(ctype);
- 		
+ 		let ctype = $(this).text();
+		
+ 		switch (ctype) {
+		case "배송":
+			ctype = "delivery";
+			break;
+		case "환불":
+			ctype = "refund";
+			break;
+		case "상품":
+			ctype = "product";
+			break;
+		case "기타":
+			ctype = "other";
+			break;
+		default:
+			ctype = "전체";
+			break;
+		}
  		// 목록불러오는 함수 
  		displayTypeTab(ctype);
  	});
@@ -331,6 +347,7 @@ $(document).ready(function () {
 	
 	// 선택한 탭에 따른 다른 타입 나오기 
 	function displayTypeTab(ctype){
+//		alert(ctype);
 		$.ajax({
 			url:"<%= request.getContextPath()%>/admin/contactDisplayJSON.sun",
 			data:{"ctype":ctype
@@ -359,11 +376,11 @@ $(document).ready(function () {
 						
 						html += '<tr scope="row" class="tr_data" >'+
 									'<td scope="row" >'+
-										'<label class="control control--checkbox">'+
+										/* '<label class="control control--checkbox">'+
 											'<input type="checkbox" class="chkbox">'+
 											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
-										'</label>'+
-									'</td>'+
+										'</label>'+ */
+									'</td>'+ 
 									'<td class="under contactid">'+item.contactid+'</td>'+
 									'<td>'+
 //										'<p class="fw-bold mb-1">'+item.name+'</p>'+
@@ -418,7 +435,7 @@ $(document).ready(function () {
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">교환/반품</a>
+    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">환불</a>
   </li>
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="etc tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >기타</a>
@@ -470,11 +487,8 @@ $(document).ready(function () {
 		<thead>
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
 				<th scope="col">
-				<label class="control control--checkbox">
-					<input type="checkbox" class="js-check-all chkbox" id="allCheckOrNone">
-					<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-				</th>
+				 
+				</th> 
 				<th scope="col">no</th>
 				<th scope="col">Email</th>
 				<th scope="col">Contents</th>

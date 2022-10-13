@@ -33,7 +33,7 @@ public class AdminAnswer extends AbstractController {
 				System.out.println(contactid);
 				InterContactDAO cdao = new ContactDAO();
 				ContactVO cvo= cdao.contactOneDetail(contactid);
-				// System.out.println("contents=> "+cvo.getEmail()+" "+ cvo.getContents()+" "+ cvo.getAcontents());
+				//System.out.println("contents=> "+cvo.getEmail()+" "+ cvo.getContents()+" "+ cvo.getAcontents()+" "+ cvo.getContactfile_orginFileName());
 				request.setAttribute("cvo", cvo);
 				
 //				super.setRedirect(false); 

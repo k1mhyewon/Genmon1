@@ -95,7 +95,7 @@ public class MemberGoContact extends AbstractController {
 	            contents = contents.replaceAll("<", "&lt;");
 	            contents = contents.replaceAll(">", "&gt;");
  	            // 입력한 내용에서 엔터는 <br> 로 변환시키기
-	            contents = contents.replaceAll("\r\n", "<br>");
+	            //contents = contents.replaceAll("\r\n", "<br>");
 		           
 	            
 				String password = mtrequest.getParameter("password");
