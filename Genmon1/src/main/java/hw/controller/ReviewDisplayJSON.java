@@ -46,6 +46,7 @@ public class ReviewDisplayJSON extends AbstractController {
 				jsonObj.put("star", rvo.getStar_text());
 				jsonObj.put("reply", rvo.getReply());
 				jsonObj.put("userid", rvo.getOdvo().getOvo().getFk_userid());
+				jsonObj.put("reviewid", rvo.getReviewid());
 				
 				jsonArr.put(jsonObj);
 				

@@ -176,24 +176,26 @@ div, span{
 	function goUpdateReply(reviewid){
 		
 		const replyFrm = $("form[name=replyFrm]").serialize() ;
-	
-		$.ajax({
-			url:"<%= request.getContextPath()%>/member/review.sun",
-			data:replyFrm,
-			type: "post",
-			dataType:"text",
-		    success:function(json) {
-		    	// console.log("t성공");
-		    	refresh();
-		    	
-		    },
-		    error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-			
-			
-		});
 		
+		const bool = confirm("리뷰 댓글을 수정하시겠습니까?");
+		if(bool){
+			$.ajax({
+				url:"<%= request.getContextPath()%>/member/review.sun",
+				data:replyFrm,
+				type: "post",
+				dataType:"text",
+			    success:function(json) {
+			    	alert("리뷰 댓글이 수정되었습니다.");
+			    	refresh();
+			    	
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+				
+				
+			});
+		}
 	}
 	
 	function godeleteReply(reviewid){
@@ -277,14 +279,7 @@ div, span{
 	         		<div>
 		         		<img src="../images/reviewImg/${rvo.img_orginFileName}" style="width: 80px; height: auto;" data-toggle="modal" data-target="#imgModal" />
 		         	</div>
-		         	<div class="modal fade" id="imgModal">
-						<div class="modal-dialog">
-							<div class="modal-content modals-fullsize" style="width: 500px; height: auto;">
-								<img src="../images/reviewImg/${rvo.img_orginFileName}" />
-							</div>
-						</div>
-					</div>
-				</c:if>
+		        </c:if>
 	         </div>
 	         <br>
          </div>
@@ -306,7 +301,7 @@ div, span{
 			</div>
 			
          	<div class="col">
-         		<button onClick="goDeleteReview(${rvo.reviewid})" class="column btn" style="color: #ff3333; background-color: white; border: solid 1px #ff8080;">리뷰삭제</button>
+         		<button onClick="goDeleteReview(${rvo.reviewid})" class="column btn" style="color: #ff3333; background-color: white; font-weight: bold; border: solid 1px #ff8080;">리뷰삭제</button>
 	         	<c:if test="${ empty rvo.reply}">
 	         		<button onClick="goUpdateReply(${rvo.reviewid})" class="column btn">댓글등록</button>
 	         	</c:if>
