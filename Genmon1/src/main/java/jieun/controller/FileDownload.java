@@ -39,7 +39,8 @@ public class FileDownload extends AbstractController {
 			InterContactDAO cdao = new ContactDAO();
 			Map<String,String> map = cdao.getContactFileName(contactid);
 			
-			String filePath = uploadFileDir + "/" + map.get("Contactfile_systemFileName"); 
+			String filePath = uploadFileDir + "/" + map.get("contactfile_systemFileName"); 
+			System.out.println(filePath);
 			// map.get("prdmanual_systemFileName") 은 파일서버에 업로드 되어진 제품설명서 파일명임.
 			// filePath ==> /Users/gimjieun/NCS/workspace(jsp)/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/MyMVC/images/Electrolux냉장고_사용설명서2.pdf
 			
@@ -60,7 +61,7 @@ public class FileDownload extends AbstractController {
 			response.setContentType(mimeType); // 응답해주는데 파일의 확장자를 알려준다.
 			
 			// 다운로드 되어질 파일명 알아와서 설정해주기
-	        String prdmanual_orginFileName = map.get("Contactfile_orginFileName");
+	        String contactfile_orginFileName = map.get("contactfile_orginFileName");
 	        // map.get("prdmanual_orginFileName")이 웹클라이언트의 웹브라우저에서 파일을 업로드 할때 올리는 제품설명서 파일명임.
 	  
 	        // prdmanual_orginFileName(다운로드 되어지는 파일명)이 한글일때  
@@ -69,19 +70,19 @@ public class FileDownload extends AbstractController {
 	        String header = request.getHeader("User-Agent");
 			
 	        if (header.contains("Edge")){
-	            downloadFileName = URLEncoder.encode(prdmanual_orginFileName, "UTF-8").replaceAll("\\+", "%20");
+	            downloadFileName = URLEncoder.encode(contactfile_orginFileName, "UTF-8").replaceAll("\\+", "%20");
 	             response.setHeader("Content-Disposition", "attachment;filename=" + downloadFileName);
 	          } else if (header.contains("MSIE") || header.contains("Trident")) { // IE 11버전부터는 Trident로 변경됨.
-	             downloadFileName = URLEncoder.encode(prdmanual_orginFileName, "UTF-8").replaceAll("\\+", "%20");
+	             downloadFileName = URLEncoder.encode(contactfile_orginFileName, "UTF-8").replaceAll("\\+", "%20");
 	             response.setHeader("Content-Disposition", "attachment;filename=" + downloadFileName);
 	         } else if (header.contains("Chrome")) {
-	            downloadFileName = new String(prdmanual_orginFileName.getBytes("UTF-8"), "ISO-8859-1");
+	            downloadFileName = new String(contactfile_orginFileName.getBytes("UTF-8"), "ISO-8859-1");
 	             response.setHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
 	         } else if (header.contains("Opera")) {
-	            downloadFileName = new String(prdmanual_orginFileName.getBytes("UTF-8"), "ISO-8859-1");
+	            downloadFileName = new String(contactfile_orginFileName.getBytes("UTF-8"), "ISO-8859-1");
 	             response.setHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
 	         } else if (header.contains("Firefox")) {
-	            downloadFileName = new String(prdmanual_orginFileName.getBytes("UTF-8"), "ISO-8859-1");
+	            downloadFileName = new String(contactfile_orginFileName.getBytes("UTF-8"), "ISO-8859-1");
 	             response.setHeader("Content-Disposition", "attachment; filename=" + downloadFileName);
 	         }
 	        

@@ -341,7 +341,6 @@ btn{
 <script>
 
 $(document).ready(function(){
-	
 	$("span.error").hide();
 	const fixcomment = "안녕하세요. ${cvo.mvo.name}(${cvo.email})님, 젠틀몬스터 입니다.";
 /* 
@@ -423,7 +422,7 @@ $(document).ready(function(){
 				return;
 			}
 			
-			// 작성한 문의내용이 있을시 비회원인지 회원인지 구분하고 문의번호, 작성내용 넘겨주기  => 메일로 작성한 답변내용 발송
+			// 작성한 문의내용이 있을시 비회원인지 회원인지 구분하고 문의번호, 작성내용 넘겨주기  
 			 $.ajax({
 				   url:"<%= request.getContextPath()%>/admin/adminAnswerEdit.sun",
 				   type:"POST",
@@ -432,7 +431,7 @@ $(document).ready(function(){
 				   dataType:"JSON",
 				   success:function(json) {
 					   alert(json.message);
-					   
+					   window.close();
 				   },
 				   error: function(request, status, error){
 						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -480,16 +479,23 @@ $(document).ready(function(){
 				<label for="email" class="col-form-label">이메일</label>
 				<input class="must"value="${cvo.email}"type="text" class="form-control" name="email" id="email" readonly>
 			</div>
+			<c:if test="${cvo.fk_orderid != null}">
+			<div class="form-group existhide">
+				<label for="orderid" class="col-form-label">주문번호</label>
+				<input class="must" value="${cvo.fk_orderid}" type="text" class="form-control infoData" name="orderid" id="orderid">
+			</div>
+			</c:if>
 			
 			<div class="form-group existhide">
 				<label for="contents" class="col-form-label">상담내용</label>
-				<textarea class="form-control must" name="contents" id="contents" cols="30" rows="7" placeholder="내용을 입력해주세요" readonly>${cvo.contents}</textarea>
+				<textarea class="form-control must" name="contents" id="contents" cols="30" rows="7"  readonly>${cvo.contents}</textarea>
 			</div>
 			 
          	<div class="form-group existhide">
 				<label class="col-form-label" for="file">첨부파일</label>&nbsp;&nbsp;
 				<c:if test="${cvo.contactfile_orginFileName != null}">
-	                 <a name="file" id="file" href="<%= ctxPath%>/admin/fileDownload.up?contactid=${cvo.contactid}">${cvo.prdmanual_orginFileName}</a>
+	                 <a href="<%= ctxPath%>/admin/fileDownload.sun?contactid=${cvo.contactid}">${cvo.contactfile_orginFileName}</a>
+	                 <img src="/Genmon1/images/contact/${cvo.contactfile_systemFileName}" class="img-fluid" style="width:50%;" />
 	             </c:if>
 	             <c:if test="${cvo.contactfile_orginFileName == null}">
 	                <span style="font-size: 10pt;">첨부파일없음</span>
