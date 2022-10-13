@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
     
 <% String ctxPath = request.getContextPath(); %>
 
@@ -83,18 +86,18 @@
     }
     
 	div#prod_info {
-        /* border: solid 1px gray; */
+        /* border: solid 1px gray;  */
         width: 250px;
         height: 340px;
         float: left;
         font-weight: bold;
-        padding: 250px 0 0 25px;
+        padding: 270px 0 0 30px;
 
     }
 
     div#prod_photo {
-        /* border: solid 1px pink; */
-        width: 220px;
+        /* border: solid 1px pink; */ 
+        width: 240px;
         height: 280px;
         float: left;
         margin-top: 20px;
@@ -228,7 +231,7 @@
     }
     
     #pagebar {
-    	border: solid 1px pink;
+    	/* border: solid 1px pink; */
     	font-size: 9pt;
     	padding-left: 700px;
     }
@@ -259,10 +262,12 @@
 
 </style>
 
-
+<script src="https://kit.fontawesome.com/48fed31cce.js" crossorigin="anonymous"></script>
 <script>
 	
 	$(document).ready(function(){ //  =============================================================
+		
+		const pnum = '${requestScope.pnum}';
 		
 		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
 		$('.reply_content').keyup(function (e) {
@@ -315,8 +320,46 @@
 			
 		}); // end of $("#select_category").change(} -------------------
 		
+		
+		// 위시리스트 개수 알아오기(하트)
+		$.ajax({
+			url:"<%= ctxPath%>/wish/wishCount.sun",
+		//	type: "GET", 
+			data: {"pnum":pnum},
+		    dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	$("#wishCount").text(json.wishCnt);
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
 	}); // end of $(document).ready() =============================================================
 
+	
+	/////////////////////////////////////////
+	// 아이디 마스킹 - 굳이 뷰단에서 마스킹하는 이유는 온전한 userid 값을 다른곳에서도 써야해서ㅜㅜ
+	
+	function masking(useridMasking) {
+		
+		let useridLength = useridMasking.length;
+		
+	    if (useridMasking == undefined || useridLength < 3 ) {
+	        return useridMasking;
+	    }
+	    else{
+		    const regExp = /.{3}$/; // 정규식
+		    return useridMasking.replace(regExp, "***");
+	    }
+	}
+	
+	
+	
+	
 	// 리뷰 수정하기
 	function rev_modify(reviewid){ // ---------------------------
 		
@@ -410,6 +453,8 @@
 	}
 	
 	
+	
+	
 
 </script>
 
@@ -425,13 +470,14 @@
         
        	<div class="containers">
 	        <div id="prod_photo">
-	            <img src="../images/common/products/${requestScope.pimage1}" style="width:230px; height:auto;">
+	            <img src="../images/common/products/${requestScope.pimage1}" style="width:250px; border-radius: 7px; height:auto;">
 	        </div>
 	        <div id="prod_info">
-	        	<div style="font-size: 11pt;">${requestScope.pname}</div>
-	            <div style="font-size: 10pt;">${requestScope.price}</div>
-	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</span>&nbsp;
-	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(${requestScope.replyCnt})</span>
+	        	<div style="font-size: 12pt; margin-bottom: 5px;">${requestScope.pname}</div>
+	            <div style="font-size: 11pt; margin-bottom: 2px;" ><fmt:formatNumber value="${requestScope.price}" pattern="#,###" />원</div>
+	            <span style="font-size: 10pt; color: #666666; margin-top: 5px; text-decoration: underline;">리뷰(${requestScope.replyCnt})</span>&nbsp;
+	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;"><i class="fa-solid fa-heart"></i>&nbsp;<span id="wishCount"></span></span>
+	            
 	        </div>
 	        <input type="hidden" id="pnum" value="${requestScope.pnum}"/>
 		</div>
@@ -453,11 +499,10 @@
        			<c:forEach var="reviewList" items="${requestScope.reviewList}">
 			        <div class="each_box">
 			            <div class="rate_content_1">
-			                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">${reviewList.mvo.userid}</div>
+			                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">${reviewList.mvo.useridMasked}</div>
 			                <div style="font-size: 9pt;">${reviewList.uploaddate}</div>
 			                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">${reviewList.star}</div>
 			                <div class="content_desc" style="font-size: 10pt;">${reviewList.content}</div>
-			              
 			            </div>
 			            <c:if test="${reviewList.img_orginFileName != '없음'}">
 				            <div class="rate_content_2">

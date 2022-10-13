@@ -398,7 +398,7 @@ $(document).ready(function () {
     <div class="table-responsive custom-table-responsive" style="width:80%; margin:auto;">
     	<!-- <h3 style="color:#212121; font-size: 15pt; font-weight: normal;">Q&A</h3> -->
 	    	<div class="input-group mb-4">
-			  <input type="text" class="form-control" id="advanced-search-input" placeholder="검색하고 싶은 회원의 전화번호,이메일,이름을 입력해주세요." />
+			  <input type="text" class="form-control" id="advanced-search-input" placeholder="검색하고 싶은 리뷰번호 또는 리뷰를 작성한 유저의 ID를 입력해주세요." />
 			  <button class="btn btn-primary" id="advanced-search-button" type="button" style="border:none; background-color: #45494c">
 			    <i class="fa fa-search"></i>
 			  </button>

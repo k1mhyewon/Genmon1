@@ -271,7 +271,7 @@
 				html += "<div style='padding-left: 5%; font-size: 14pt; font-weight: bold; display: inline-block;'>장바구니(0)</div>"
 					  + "<div style='width: 400px; height: 400px; padding-top: 150px; text-align: center;'>"
 				      + "<div style='margin-bottom: 20px;'>장바구니에 담긴 상품이 없습니다.</div>"
-				      + "<button type='button' class='btn btn-dark' class='go_shopping' style='width: 200px; font-size: 11pt;'>쇼핑하러가기</button>"
+				      + "<button type='button' class='btn btn-dark' class='go_shopping' style='width: 200px; font-size: 11pt;' onClick='goShopping()'>쇼핑하러가기</button>"
 				      + "</div>";
 				
 				$("div#show").html(html);
@@ -279,9 +279,14 @@
 			
 		}// end of 비회원이라면???
 				
-				
-				
-		
+		<%--		
+		// ### 쇼핑하러가기 버튼 누르면 상품페이지로 이동 ### // --------------------
+		$(".go_shopping").click(function(){
+			
+			goShopping();
+			
+		}); // end of $(".go_shopping").click() --------------------------.
+		--%>
 				
 		
 		// ==== 체크박스 전체선택/전체해제 ==== //
@@ -364,11 +369,31 @@
 		
 		if(!userid){
 			
-			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+			let all_qty ="";
+			let all_pnum = "";
+
+			$("input[name='all_qty']").val(qty);
+			$("input[name='all_pnum']").val(fk_pnum);
+
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/cartToPurchase.sun";
+			frm.submit();
 			
 		}
 		else{
-			location.href="<%= ctxPath%>/order/cartToPurchase.sun?pnum="+fk_pnum+"&qty="+qty;
+			let all_qty ="";
+			let all_pnum = "";
+
+			$("input[name='all_qty']").val(qty);
+			$("input[name='all_pnum']").val(fk_pnum);
+
+			const frm = document.hiddenFrm;
+			
+			frm.method = "post";
+			frm.action ="<%= ctxPath%>/order/cartToPurchase.sun";
+			frm.submit();
 		}
 		
 		
@@ -444,10 +469,10 @@
 	// 선택상품 주문 하기 함수
 	function chooseThings(){
 		
-		if($("input:checkbox[name='sun']:checked").length >0){ // 선택된 것이 하나라도 존재하면
+		if($("input:checkbox[name='chk_each_prod']:checked").length >0){ // 선택된 것이 하나라도 존재하면
 			
 			let arr_check = [];
-			arr_check = $("input:checkbox[name='sun']:checked");
+			arr_check = $("input:checkbox[name='chk_each_prod']:checked");
 			let all_qty ="";
 			let all_pnum = "";
 			
@@ -476,7 +501,12 @@
 		
 	}// end of 선택상품 주문 하기 함수
 	
-	
+	// 쇼핑하러가기 
+	function goShopping(){
+		
+		location.href="<%= ctxPath%>/product/productList.sun";
+		
+	}
 	
 </script>
     <!-- 인덱스 시작 -->
@@ -533,6 +563,7 @@
 							<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
 							<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 							<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
+							
 						</div>
 					</label>
 					</div>
@@ -546,7 +577,7 @@
     	
 		<div class="empty_wishlist">
 			<div style="margin-bottom: 20px;">장바구니에 담긴 상품이 없습니다.</div>
-			<button type="button" class="btn btn-dark" class="go_shopping" style="width: 200px; font-size: 11pt;">쇼핑하러가기</button>
+			<button type="button" class="btn btn-dark" class="go_shopping" style="width: 200px; font-size: 11pt;" onClick="goShopping()">쇼핑하러가기</button>
 		</div>
     </c:if>
 	<div style="height: 50px;"></div>

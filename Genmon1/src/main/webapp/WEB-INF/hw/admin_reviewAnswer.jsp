@@ -113,6 +113,14 @@ textarea {
 .row {
   display: flex;
 }
+
+#imgBox {
+	/* border: 1px solid pink; */
+	display: inline-block;
+	margin-left: 150px;
+	width: 100px;
+}
+
 <%--
 a.btn{
 		background-color: #2c2c2c; 
@@ -215,9 +223,36 @@ div, span{
 		}
 	}
 	
+	function goDeleteReview(reviewid){
+		
+		if (confirm("리뷰를 삭제하시겠습니까?")) {
+			$.ajax({
+				url:"<%= request.getContextPath()%>/member/review.sun",
+				data:{"reviewid":reviewid, "purpose":"reviewDelete"},
+				type: "post",
+				dataType:"text",
+			    success:function(json) {
+			    	alert("리뷰가 삭제되었습니다.");
+			    	popClose();
+			    	
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+				
+				
+			});
+		}
+		else {
+			// 취소(아니오) 버튼 클릭 시 이벤트
+	        
+	        return false;
+		}
+		
+	}
+	
 	function popClose(){
-		
-		
+		opener.parent.location.reload();
 		window.close();
 		
 	}
@@ -226,14 +261,32 @@ div, span{
 
         <div class="contents margin_t10" >
         <div class="row" style="margin-left: 2%">
-	        <div class="column ft10 " >
+	        <div class="column ft10 " style="display: inline-block;" >
 	         <!-- <h3 style="font-size:14pt; " class="margin_b10">상품 문의</h3> -->
-	         	<div id="question orderNo"><span class="bld">주문상세번호</span><span>&nbsp;${rvo.fk_pk_order_detail_id}</span></div>
-	         	<div id="question memName"><span class="bld">유저아이디</span> <span>&nbsp;${rvo.odvo.ovo.fk_userid}</span></div>
-	         	<div id="question memEmail"><span class="bld">내용</span> <span>&nbsp;${rvo.content}</span></div>
+	         	<div id="question orderNo"><span class="bld">주문상세번호:</span><span>&nbsp;${rvo.fk_pk_order_detail_id}</span></div>
+	         	<div id="question memName"><span class="bld">유저아이디:</span> <span>&nbsp;${rvo.odvo.ovo.fk_userid}</span></div>
+	         	<div id="question memEmail">
+	         		<span class="bld">내용</span> 
+	         		<div style="margin-top: 10px; margin-bottom: 15px;">&nbsp;${rvo.content}</div>
+	         	</div>
 	         	<div id="question memContext"><span class="bld">별점</span> <span style="color: rgba(250, 208, 0, 0.99)">&nbsp;${rvo.star}</span></div>
 	         	<img class="column" width="" height="" src="" style="/* position:fixed; */  /*  border: 0.5px solid black; */">
-	         </div><br>
+	         </div>
+	         <div id="imgBox">
+	         	<c:if test="${rvo.img_orginFileName != '없음'}">
+	         		<div>
+		         		<img src="../images/reviewImg/${rvo.img_orginFileName}" style="width: 80px; height: auto;" data-toggle="modal" data-target="#imgModal" />
+		         	</div>
+		         	<div class="modal fade" id="imgModal">
+						<div class="modal-dialog">
+							<div class="modal-content modals-fullsize" style="width: 500px; height: auto;">
+								<img src="../images/reviewImg/${rvo.img_orginFileName}" />
+							</div>
+						</div>
+					</div>
+				</c:if>
+	         </div>
+	         <br>
          </div>
          	<!-- <a href="#" class="btn delete">문의삭제</a> -->
          	<div class="divider margin_b10 margin_t10"></div>
@@ -253,14 +306,15 @@ div, span{
 			</div>
 			
          	<div class="col">
-         	<c:if test="${ empty rvo.reply}">
-         		<button onClick="goUpdateReply(${rvo.reviewid})" class="column btn">댓글등록</button>
-         	</c:if>
-         	<c:if test="${ not empty rvo.reply}">
-	         	<button onClick="goUpdateReply(${rvo.reviewid})" class="column btn">댓글수정</button>
-	         	<button onClick="godeleteReply(${rvo.reviewid})" class="column btn">댓글삭제</button>
-         	</c:if>
-         	<button onClick="popClose()" class="column btn" style="float:right;">닫기</button>
+         		<button onClick="goDeleteReview(${rvo.reviewid})" class="column btn" style="color: #ff3333; background-color: white; border: solid 1px #ff8080;">리뷰삭제</button>
+	         	<c:if test="${ empty rvo.reply}">
+	         		<button onClick="goUpdateReply(${rvo.reviewid})" class="column btn">댓글등록</button>
+	         	</c:if>
+		        <c:if test="${ not empty rvo.reply}">
+			         <button onClick="goUpdateReply(${rvo.reviewid})" class="column btn">댓글수정</button>
+			         <button onClick="godeleteReply(${rvo.reviewid})" class="column btn">댓글삭제</button>
+	         	</c:if>
+		        <button onClick="popClose()" class="column btn" style="float:right;">닫기</button>
          	</div>
         </div>
         </div>
