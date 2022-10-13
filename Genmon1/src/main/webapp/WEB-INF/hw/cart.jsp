@@ -253,7 +253,7 @@
 													  "<button onclick=\"this.parentNode.querySelector('input[type=number]').stepUp()\" class='plus'></button>"+
 													"</div>"+
 													"<input type='hidden' class='pnum' value='"+item.pnum+"' />"+
-													"<button onClick=\"go_purchase('"+item.pnum+"')\" type='button' class='btnWish btn btn-dark'>결제하기</button>"+
+													"<button onClick=\"go_purchase('"+item.pnum+"','"+item.qty+"')\" type='button' class='btnWish btn btn-dark'>결제하기</button>"+
 													"<button onClick=\"deleteOne('"+item.pnum+"')\" type='button' class='btnWish btn btn-light'>삭제</button>"+
 												"</div></label></div>";
 				    	}); // end of each
@@ -357,6 +357,8 @@
 		
 		
 		
+		
+		
 	}); // end of $(document).ready() =========================================================
 	
 		
@@ -388,14 +390,17 @@
 	}
 	
 	
-	function go_purchase(fk_pnum, qty){ // --------------------------------
+	function go_purchase(qty, fk_pnum){ // --------------------------------
 		
 		const userid = '${sessionScope.loginuser.userid}';
+		
+		// alert("qty: "+ qty);
 		
 		if(!userid){
 			
 			let all_qty ="";
 			let all_pnum = "";
+			
 
 			$("input[name='all_qty']").val(qty);
 			$("input[name='all_pnum']").val(fk_pnum);
@@ -413,7 +418,7 @@
 
 			$("input[name='all_qty']").val(qty);
 			$("input[name='all_pnum']").val(fk_pnum);
-
+			
 			const frm = document.hiddenFrm;
 			
 			frm.method = "post";
@@ -620,7 +625,7 @@
 							  <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
 							</div>
 							<input type="hidden" class="pnum" value="${cvo.fk_pnum}" />
-							<button onClick="go_purchase('${cvo.fk_pnum}, ${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
+							<button onClick="go_purchase('${cvo.fk_pnum}', '${cvo.qty}')" type="button" class="btnWish btn btn-dark">결제하기</button>
 							<button onClick="deleteOne('${cvo.fk_pnum}')" type="button" class="btnWish btn btn-light">삭제</button>
 							
 						</div>
