@@ -182,6 +182,7 @@ thover{
     border: none;
     cursor: pointer;
 }
+
 .fa, .fas {
     font-weight: 550;
 }
@@ -317,12 +318,12 @@ $(document).ready(function () {
 		<table class="table custom-table datatable ">
 		<thead>
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
-				<th scope="col" >
+				<!-- <th scope="col" >
 					<label class="control control--checkbox">
 						<input type="checkbox">
 						<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
 					</label>
-				</th>
+				</th> -->
 				<th scope="col" name="pimage1" style="margin-left: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image</th>
 				<th scope="col" name="pname">Name</th>
 				<th scope="col" name="pnum">Product Code</th> 
@@ -351,12 +352,12 @@ $(document).ready(function () {
 			<tr class="spacer"><td colspan="100"></td></tr>
 			
 			<tr scope="row" class="hover">
-				<th scope="row">
+				<!-- th scope="row">
 					<label class="control control--checkbox">
 						<input type="checkbox">
 						<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
 					</label>
-				</th>
+				</th> -->
     			<td>
     				<img
 		              src="<%= ctxPath%>/images/common/products/${cpvo.pimage1}"
@@ -376,13 +377,13 @@ $(document).ready(function () {
 	   					<c:when test="${cpvo.panmaestate eq '0'}"><span class="badge badge-warning rounded-pill d-inline">Disenable</span></c:when>
 	   					<c:when test="${cpvo.panmaestate eq '1'}"><span class="badge badge-primary rounded-pill d-inline">Enable</span></c:when>
 	   					<c:when test="${cpvo.panmaestate eq '2'}"><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:when>
-	   					<%-- <c:otherwise><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:otherwise> --%>
 	   				</c:choose>
     			</td> 
-				<td>&nbsp;<a class="prodEdit" style="display: inline-block;color:#4e4e4e"><i class="fas fa-edit "></i></a>&nbsp;&nbsp;
-				<c:if test="${cpvo.panmaestate ne '0'}">
-					<a class="prodStop"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>
-				</c:if>
+				<td>&nbsp;<a class="prodEdit" style="display: inline-block;color:#4e4e4e"><i class="fas fa fa-edit "></i></a>&nbsp;&nbsp;
+					<c:if test="${cpvo.panmaestate ne '0'}">
+						<a class="prodStop"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a>
+					</c:if>
+				</td>
     		</tr>
     	</c:forEach> 
 

@@ -134,6 +134,30 @@
 	        	
 	        }
 	    }); // end of  $("input#name").blur((e) => {} --------------------------------
+	    		
+	   	
+	   	
+	    // 이메일에서 엔터 눌렀을때
+	    $("input#email").bind("keyup",(e)=>{
+	         if(e.keyCode == 13){ // 엔터를 누르면
+	        	 
+	        	 const name = $("input#name").val();
+	 			if(name.length > 1 ){
+	 				name_bool == true;
+	 			}
+	 			
+	 			if(name_bool == true && email_bool == true ){
+	 				const frm = document.useridFindFrm;
+	 				frm.action = "<%= ctxPath%>/guest/goOrderDetail.sun";
+	 				frm.method = "post";
+	 				frm.submit();
+	 			}
+	 			else {
+	 				$("#error_msg").show();
+	 				return;
+	 			}
+	         }
+	    });
 	   			   
 	   	
 		$("button#btn_find").click(function(){

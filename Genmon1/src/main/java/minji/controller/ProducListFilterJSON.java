@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 import common.controller.AbstractController;
 import common.model.ChildProductVO;
-
+import common.model.ContactVO;
+import jieun.model.ContactDAO;
+import jieun.model.InterContactDAO;
 import minji.model.InterProductDAO;
 import minji.model.ProductDAO;
 

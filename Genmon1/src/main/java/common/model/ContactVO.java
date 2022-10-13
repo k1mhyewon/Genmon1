@@ -9,12 +9,16 @@ public class ContactVO {
 	private int fk_orderid; // 주문번호에 대한 문의
 	private String ctype; //문의 분류
 	private String contents; //문의 내용
-//	private String filename; // 첨부파일 
 	private String contactfile_systemFileName; //파일서버에 업로드되어지는 실제 제품설명서 파일명 (파일명이 중복되는 것을 피하기 위해서 중복된 파일명이 있으면 파일명뒤에 숫자가 자동적으로 붙어 생성됨)
 	private String contactfile_orginFileName; //웹클라이언트의 웹브라우저에서 파일을 업로드 할때 올리는 제품설명서 파일명 
+	
 	private String cregisterday; // 문의글등록일(sysdate)
+	
+	private int status; // 문의 답변상태 
+	private String acontents; // 문의글 답변내용 
 
 
+	
 	private String pwd; // 문의글비밀번호
 	
 
@@ -108,7 +112,7 @@ public class ContactVO {
 			ctype = "배송";
 			break;
 		case "refund":
-			ctype = "교환/환불";
+			ctype = "환불";
 			break;
 		case "product":
 			ctype = "상품";
@@ -168,7 +172,24 @@ public class ContactVO {
 
 	public ContactVO() {}
 
-	
-	
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+
+
+	public String getAcontents() {
+		return acontents;
+	}
+
+	public void setAcontents(String acontents) {
+		this.acontents = acontents;
+	}
+
 	
 }

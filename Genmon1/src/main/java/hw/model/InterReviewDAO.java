@@ -42,6 +42,9 @@ public interface InterReviewDAO {
 	// 상품상세페이지에서 리뷰 개수 알아오기
 	int getReviewCnt(String pnum) throws SQLException;
 
+	// 리뷰 댓글 수정하기
+	int editReply(String reviewid, String reply_content) throws SQLException;
+
 	
 
 

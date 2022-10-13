@@ -1,6 +1,7 @@
 package jieun.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class AdminAddProduct extends AbstractController {
 			else { // 로그인을 한경우 
 				HttpSession session = request.getSession();
 				MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+				List<String> pnameList= null;
 				
 				if(!"admin".equals(loginuser.getUserid())) {
 					// === 관리자(admin)가 아닌 일반사용자로 로그인 했을 때는 조회가 불가능하도록 한다. === //
@@ -61,11 +63,10 @@ public class AdminAddProduct extends AbstractController {
 						
 						List<HashMap<String, String>> colorList = pdao.selectAllColors();
 						List<HashMap<String, String>> materialList = pdao.selectAllMaterials();
-
+ 
 						// pname 뿌려주고 있는걸 선택하면 부모테이블에있는 내용뿌려주기 pname 부모테입블에 insert 안하고
-						List<HashMap<String,String>> pnameList = pdao.isExistPname();
-						
-						
+						pnameList = pdao.isExistPname();
+						 
 						
 						request.setAttribute("colorList", colorList);
 						request.setAttribute("materialList", materialList);
@@ -128,23 +129,29 @@ public class AdminAddProduct extends AbstractController {
 						System.out.println("pcolor => "+pcolor);
 //						String imgfiles = mtrequest.getFilesystemName("imgfilename");
 //						System.out.println("imgfiles => "+imgfiles);
-				        
-						
-
-						
-						
-						
 						
 						ChildProductVO cpvo = new ChildProductVO();
 						ParentProductVO ppvo = new ParentProductVO();
-
 						String pid="";
-						if(!"plus".equals(pname)) { // 기존상품 다른컬러추가가 아니라면
+						
+						pnameList = pdao.isExistPname();
+						boolean pnameExist = false;
+						
+						for(String prodname :pnameList ) {
+							if(pname.equals(prodname)) { // 테이블에 있는 pname 
+								pnameExist = true;
+								break;
+							}
+						}
+						
+						if(pnameExist) { // 기존상품 (다른컬러추가)
 							pid = pdao.findPidParentProduct(pname);
+							System.out.println("1pid=>"+pid);
 						}
 						else {
 							// 제품 부모테이블 pid 채번해오기 
 							pid = pdao.getPidParentProduct();
+							System.out.println("2pid=>"+pid);
 							ppvo.setPid(pid);
 							ppvo.setPmaterial(pmaterial);
 							ppvo.setPname(pname);
@@ -154,10 +161,10 @@ public class AdminAddProduct extends AbstractController {
 							pdao.insertParentProduct(ppvo);
 
 						}
+						
 						int n2= 0;
-						
+						System.out.println("3pid=>"+pid);
 						cpvo.setFk_pid(pid);
-						
 						// 제품 자식테이블 pnum 채번해오기 
 						int pnum = pdao.getPnumChildProduct();// 제품번호 채번 해오기 => 제품번호는 시퀀스를 쓰므로 먼저 제품번호를 채번하고 제품테이블과 이미지테이블에 제품번호를 넣는다
 						cpvo.setPnum(pnum);
@@ -208,7 +215,7 @@ public class AdminAddProduct extends AbstractController {
 							
 						System.out.println("n2 => "+n2);
 						String message = n2==1? "상품 등록에 성공했습니다.":"상품 등록에 실패했습니다.";
-						String loc = "<%= request.getContextPath%>/WEB-INF/admin/adminProduct.sun";
+						String loc = request.getContextPath()+"/admin/adminProduct.sun";
 						
 						request.setAttribute("message", message);
 						request.setAttribute("loc", loc);

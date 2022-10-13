@@ -45,6 +45,7 @@ public class ContactDisplayJSON extends AbstractController {
 				jsonObj.put("ctype", cvo.getCtype());
 				jsonObj.put("contents", cvo.getContents());
 				jsonObj.put("cregisterday", cvo.getCregisterday());
+				jsonObj.put("status", cvo.getStatus());
 				
 				jsonArr.put(jsonObj);
 			}// end of for -----------------

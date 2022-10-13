@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
@@ -11,8 +12,14 @@
 <title>주문 상세</title>
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+
+<!-- 폰트 -->
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
+
 <style type="text/css">
+
+	* {font-family: 'Pretendard', sans-serif; !important}
 
 	span.boldtxt{
 		display: block;
@@ -35,7 +42,7 @@
 	
 	div.tbl_box{
 		width: 100%;
-		height: 180px;
+		height: 145px;
 	}
 	
 	table {
@@ -130,18 +137,11 @@
 		margin: auto;
 	}
 	
-	button {
-		margin-bottom: 30px;
-		width: 45%;
-		height: 35px;
-		font-size: 10pt;
-		border: 1px solid black;
-		background: white;
-		color: black;
-	}
 	
-	button#btn_2 {
-		margin-left : 15px;
+	
+	button {
+		width: 60%;
+		margin: 5px 20%;
 		background: black;
 		color: white;
 		font-weight: bold;
@@ -152,137 +152,242 @@
 </style>
 
 <!-- Optional JavaScript -->
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
+	$(document).ready(function(){
+		
+		// 배송완료만 배송정보 조회해오기
+		var  total_status = "${total_status}" ;
+		
+		if(total_status==5 ||  total_status==8){
+			
+			var orderid = "${odervo.pk_orderid }" ;
+			
+			$.ajax({
+				url : "<%= ctxPath%>/myinfo/deliInfo.sun" , 
+				type: "POST",  
+				data: {"orderid":orderid},
+			    dataType:"JSON",
+			    success:function(json) {
+			    	// alert(json.deliv_company);
+			    	html ='<li>배송완료 ('+json.deliv_date+')</li><li>'+json.deliv_company+' '+json.tracking_number+' </li>';
+			    	$("ul#tracking").html(html);
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			}); 
+		}
+		
+		//console.log('ㅎㅎ');
+		// 운송장 입력 유효성 검사
+		$("input:text.input_style").blur(function(e){
+			const $target = $(e.target);
+			const regExp = new RegExp(/^[0-9]{10,13}$/g);
+			
+			const bool = regExp.test($target.val()); // 정규 표현식에 값을 집어넣음
+			
+			if(!bool){ 
+				$target.val('');
+				$target.css('border', '1px solid red');
+				return;
+				
+			} else { // 제대로 입력했다면
+				// 자동으로 체크
+				$target.css('border', '1px solid gray');
+			}
+		}); //end of  운송장 입력 유효성 검사
+		
+		
+		
+		// 운송장 일괄등록 버튼 클릭이벤트
+		$("button#btn_tracking_num").click(function(){
+			
+			let arr = [];
+			let arr2 = [];
+			let arr3 = [];
+			let arr4 = [];
+			
+			if( $("input:text.input_style").val()!= "") { 
+
+				const track = $("input:text.input_style").val();
+				const company = $("select").val();
+				const orderstatus = "${total_status}";
+				var ck_val = "${odervo.pk_orderid }" ;
+				
+				arr.push(ck_val);
+				arr2.push(track);
+				arr3.push(company);
+				arr4.push(orderstatus);
+					
+				const arrjoin = arr.join(",");
+				const arrjoin2 = arr2.join(",");
+				const arrjoin3 = arr3.join(",");
+				const arrjoin4 = arr4.join(",");
+				
+				console.log(arrjoin);
+				console.log(arrjoin2);
+				console.log(arrjoin3);
+				console.log(arrjoin4);
+				
+				$.ajax({
+					url : "<%= ctxPath%>/admin/adminRegisterTracking.sun" , 
+					type: "POST",  
+					data: {"orderidjoin":arrjoin,
+							"trackjoin":arrjoin2,
+							"companyjoin":arrjoin3,
+							"orderstatusjoin":arrjoin4},
+							
+				    dataType:"text",
+				    success:function(json) {
+				    	
+				    	alert('운송장이 등록되었습니다');
+				    	window.location.reload(true);
+				    },
+				    error: function(request, status, error){
+						//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+					}
+				}); 
+				
+			} else { // 체크박스 선택 안한 경우
+				alert('운송장번호를 비워둘 수 없습니다');
+				return;
+			}
+		}); // end of 운송장 일괄등록 버튼 클릭이벤트
+		
+		
+		
+		// 입급확인 클릭 이벤트 
+		$("button#btn_check_money").click(function(){
+			
+			var orderid = "${odervo.pk_orderid }" ;
+			
+			let arr = [];
+			
+			$("td.pnum").each(function () {
+				
+				arr.push($(this).text());
+			});
+			
+			const arrjoin = arr.join(",");
+			
+			
+			$.ajax({
+				url : "<%= ctxPath%>/admin/adminCheckMoneyIn.sun" , 
+				type: "POST",  
+				data: {"orderid":orderid,
+					"pnumjoin":arrjoin},
+			    dataType:"JSON",
+			    success:function(json) {
+			    	
+			    	if(json.result!=0){
+			    		alert('입금을 확인했습니다.');
+				    	window.location.reload(true);
+			    	}
+			    	
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			}); 
+			
+			
+		});// end of 입급확인 클릭 이벤트 
+		
+		
+	}); // end of ready 
 
 </script>
 
 </head>
 <body>
 	<div style="width: 80%; margin: 0 auto;">
-		<span class="boldtxt my-4">주문상세</span>
-		<span class="boldtxt2 mb-2">주문상품</span>
+		<span class="boldtxt my-3">주문상세 ${odervo.pk_orderid }</span>
+		<span class="boldtxt2 mb-2">주문상품 (${totalqty })</span>
 		<%-- 반복 시작 --%>
-		<div class="border tbl_box mb-2" >
+		<c:forEach var="orddtailvo" items="${orddtailList }">
+		<div class="border tbl_box mb-1" >
 			<table>
 				<tbody>
 					<tr>
-						<td rowspan="5" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
+						<td rowspan="5" class="image"><img src="<%=ctxPath %>/images/common/products/${orddtailvo.cpvo.pimage1 }" class="image"></td>
 						<td class="myright"></td>
 						<td class="myleft"></td>
 					</tr>
 					<tr>
 						<td>상품명</td>
-						<td class="myleft">젠몬01</td>
+						<td class="myleft">${orddtailvo.cpvo.parentProvo.pname } ${orddtailvo.cpvo.colorName }</td>
 					</tr>
 					<tr>
-						<td>품명</td>
-						<td class="myleft">00004</td>
+						<td>품번</td>
+						<td class="myleft pnum" >${orddtailvo.fk_pnum }</td>
 						
-					</tr>
-					<tr>
-						<td>출고수량</td>
-						<td class="myleft">3</td>
 					</tr>
 					<tr>
 						<td class="myright"></td>
 						<td class="myleft"></td>
 					</tr>
 				</tbody>
-				<tfoot>
-					<tr style="height: 30px;">
-						<td colspan="3" style="vertical-align: bottom ;"><span class="tf_span border">재고 수량 : 30</span></td>
-					</tr>
-				</tfoot>
 			</table>
 		</div>
+		</c:forEach>
 		<%-- 반복 끝 --%>
-		<div class="border tbl_box mb-2">
-			<table>
-				<tbody>
-					<tr>
-						<td rowspan="5" class="image"><img src="<%=ctxPath %>/images/sun_img.png" class="image"></td>
-						<td class="myright"></td>
-						<td class="myleft"></td>
-					</tr>
-					<tr>
-						<td>상품명</td>
-						<td class="myleft">젠몬01</td>
-					</tr>
-					<tr>
-						<td>품명</td>
-						<td class="myleft">00004</td>
-						
-					</tr>
-					<tr>
-						<td>출고수량</td>
-						<td class="myleft">3</td>
-					</tr>
-					<tr>
-						<td class="myright"></td>
-						<td class="myleft"></td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr style="height: 30px;">
-						<td colspan="3" style="vertical-align: bottom ;"><span class="tf_span border">재고 수량 : 30</span></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
+		
+		
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-3">주문 정보</span>
 		<ul>
-			<li><span class="list_span">결제일 </span> 2022-09-19 14:20:08</li>
-			<li><span class="list_span">받는분 </span> 김지현</li>
-			<li><span class="list_span">휴대폰번호 </span> 010-2345-6789</li>
-			<li><span class="list_span">배송메모 </span> 빠른배송 해주세요</li>
-			<li style="margin-bottom: 2px;"><span class="list_span">배송지 </span> 서울특별시 관악구 청림3마길 28-8</li>
-			<li style="margin-bottom: 2px;"><span class="list_span"> </span> 101동 101호</li>
-			<li><span class="list_span"> </span> 08732</li>
+			<li><span class="list_span">결제일 </span> ${purvomap.purvo.purchaseDate }</li>
+			<li><span class="list_span">받는분 </span> ${odervo.name }</li>
+			<li><span class="list_span">휴대폰번호 </span> ${odervo.mobile }</li>
+			<li style="margin-bottom: 2px;"><span class="list_span">배송지 </span> ${odervo.address }</li>
+			<li style="margin-bottom: 2px;"><span class="list_span"> </span> ${odervo.detailaddress }</li>
+			<li><span class="list_span"> </span> ${odervo.extraaddress } ${odervo.postcode }</li>
 		</ul>
 		
 		<%-- 구분선 --%>
+		<c:if test="${total_status eq 6}">
+		<div class="border-bottom mt-4"></div>
+		<span class="boldtxt2 my-3">입금예정금액</span>
+		<span class="puretxt ml-3"><fmt:formatNumber>${purvomap.purvo.paymentAmount -(purvomap.purvo.usedCoin + purvomap.purvo.usedPoint) }</fmt:formatNumber>원</span>
+		<button type="button" id="btn_check_money" class="mb-4">입금확인</button>
+		</c:if>
 		
+		
+		<c:if test="${total_status eq 1}">
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-3">배송등록</span>
 		<span class="puretxt ml-3">운송장 등록</span>
 		<select id="sort">
-			<option value="cj" selected>CJ대한통운</option> 
-	        <option value="lozen">로젠</option>
-	        <option value="lotte">롯데</option>
-	        <option value="hanjin">한진</option>
-	        <option value="post_office">우체국택배</option>
+			<option selected>CJ대한통운</option> 
+	        <option >로젠</option>
+	        <option >롯데</option>
+	        <option >한진</option>
+	        <option >우체국택배</option>
 		</select>
-		<input type="text"  placeholder="송장번호를 입력하세요" />
+		<input type="text" class="input_style" placeholder="송장번호를 입력하세요" />
 		
 		<div id="btn" class="mt-3 mb-4">
-			<button type="button" id="btn_1">판매취소</button>
-			<button type="button" id="btn_2">배송등록</button>
+			<button type="button" id="btn_tracking_num">배송등록</button>
 		</div>
-		
+		</c:if>
 		<%-- 구분선 --%>
 		
+		<c:if test="${total_status eq 5 or  total_status eq 8}">
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-3">배송정보</span>
-		<ul class="mb-5">
-			<li>배송중 / 또는 배송완료</li>
-			<li>CJ 대한통운 047648304569 / 또는 2022.09.17</li>
+		<ul class="mb-5" id='tracking'>
+			
 		</ul>
 		
 		<%-- 구분선 --%>
 		
 		<div class="border-bottom mt-4"></div>
-		<span class="boldtxt2 my-3">주문완료</span>
-		<ul class="mb-5">
-			<li>주문확정</li>
-			<li>2022.09.17</li>
-		</ul>
 		
 		<%-- 구분선 --%>
-		
+		</c:if>
 		
 	</div>
 </body>

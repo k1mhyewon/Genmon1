@@ -367,6 +367,9 @@ where userid = 'kimms' and pwd= '29b204ad54a353a4709554362574a889be32d92f801500c
 update tbl_member_test set name = '김민뚜', gender = 1, mobile = 'PCeQglXJLsipPrmUdN1X/w=='  
 where userid = 'kimms'
 
-update tbl_member_test
+select userid, name, email, mobile ,postcode, address, detailaddress, extraaddress, gender
+        ,birthday
+from tbl_member_test
+where userid = 'kimhw'
 
 

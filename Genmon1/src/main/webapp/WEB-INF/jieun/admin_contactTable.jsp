@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <% String ctxPath = request.getContextPath(); %>
     
 <jsp:include page="../common/adminSidebar.jsp" />
@@ -7,10 +9,11 @@
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<link rel="stylesheet" href="../css/bootstrap-datepicker.css" type="text/css">
-<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap-datepicker.css" type="text/css">
+<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 <!-- Style -->
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="<%= ctxPath%>/css/style.css">
+
 <style>
 .form-outline {
     position: relative;
@@ -182,10 +185,23 @@ th{
 	text-decoration:underline;
 	cursor: pointer;
 }
+.fa, .fas {
+    font-weight: 550;
+}
+a.prod  {
+    opacity: .5;
+}
+a.prod:hover {
+    opacity: 1;
+}
+.fa:hover{
+	cursor:pointer;
+}
+
 </style>
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
 	
@@ -220,21 +236,22 @@ $(document).ready(function () {
  		$(this).addClass("active");
  		$("tbody#contactList").html("");
  		let ctype = $(this).text();
-		switch (ctype) {
+		
+ 		switch (ctype) {
 		case "배송":
-			ctype="delivery";
+			ctype = "delivery";
+			break;
+		case "환불":
+			ctype = "refund";
 			break;
 		case "상품":
-			ctype="product";
+			ctype = "product";
 			break;
-		case "교환/반품":
-			ctype="refund";
-			break;
-		case "전체":
-			ctype="전체";
+		case "기타":
+			ctype = "other";
 			break;
 		default:
-			ctype="other";
+			ctype = "전체";
 			break;
 		}
  		// 목록불러오는 함수 
@@ -264,10 +281,32 @@ $(document).ready(function () {
  	
  	
  	
- 	
+ 	// 폼을 누를시
  	$(document).on("click", ".under", function(e){
  		const contactid = $(this).parent().children(".contactid").text();
 		goAnswerForm(contactid);
+		
+ 	});
+
+ 	
+ 	// 문의글 삭제버튼을 누를시 
+ 	$(document).on("click", ".delete", function(e){
+ 		const contactid = $(this).parent().parent().children(".contactid").text();
+ 		if(confirm("해당 문의글을 삭제하시겠습니까?")){
+ 			$.ajax({
+ 				url:"<%= request.getContextPath()%>/admin/contactDelete.sun",
+ 				data:{"contactid":contactid},
+ 				dataType:"JSON",
+ 				success:function(json){
+ 					alert(json.message);
+ 					location.reload();
+ 				},
+ 				error: function(request, status, error){
+ 					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+ 				}
+ 				
+ 			});
+ 		}
  	});
 	
 });
@@ -308,6 +347,7 @@ $(document).ready(function () {
 	
 	// 선택한 탭에 따른 다른 타입 나오기 
 	function displayTypeTab(ctype){
+//		alert(ctype);
 		$.ajax({
 			url:"<%= request.getContextPath()%>/admin/contactDisplayJSON.sun",
 			data:{"ctype":ctype
@@ -328,14 +368,19 @@ $(document).ready(function () {
 				else if( json.length > 0 ){ // 데이터가 존재하는 경우   
 					
 					$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
-						let contents = item.contents.substr(0,20)+"...";
+						let status = item.status==1? '<span class="badge badge-success rounded-pill d-inline">Done</span>': '<span class="badge badge-warning rounded-pill d-inline">Not done</span>';
+						let contents = item.contents;
+						if(item.contents.length>20){
+							contents = item.contents.substr(0,20)+"...";
+						}
+						
 						html += '<tr scope="row" class="tr_data" >'+
 									'<td scope="row" >'+
-										'<label class="control control--checkbox">'+
+										/* '<label class="control control--checkbox">'+
 											'<input type="checkbox" class="chkbox">'+
 											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
-										'</label>'+
-									'</td>'+
+										'</label>'+ */
+									'</td>'+ 
 									'<td class="under contactid">'+item.contactid+'</td>'+
 									'<td>'+
 //										'<p class="fw-bold mb-1">'+item.name+'</p>'+
@@ -346,8 +391,9 @@ $(document).ready(function () {
 										'<p class=" text-muted mb-0">'+contents+'</p>'+
 									'</td>'+
 									'<td>'+item.cregisterday+'</td>'+
-									'<td>&nbsp;<p href="#" style="display: inline-block"><i class="fas fa-envelope-square"></i></p>&nbsp;&nbsp;'+
-										'<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>'+
+									'<td>'+status+'</td>'+	
+									'<td>&nbsp;<a class="prod" style="display: inline-block"><i class="fas fa fa-envelope-square"></i></a>&nbsp;&nbsp;'+
+										'<a class="prod delete"  style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>'+
 								'</tr>'+
 								'<tr class="spacer"><td colspan="100"></td></tr>';
 								
@@ -381,15 +427,15 @@ $(document).ready(function () {
     <a class="nav-link active" id="all tab-1" aria-controls="tabs-1" href="#tabs-1" role="tab">전체</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="product tab-2" aria-controls="tabs-2" href="#tabs-2" role="tab" >상품</a
+    <a class="nav-link" id="product tab-2" aria-controls="tabs-2" href="#tabs-2" role="tab">상품</a
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="delivery tab-3" aria-controls="tabs-3" href="#tabs-3" role="tab">배송</a
+    <a class="nav-link" id="delivery tab-3" aria-controls="tabs-3" href="#tabs-3" role="tab" >배송</a
     >
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab" >교환/반품</a>
+    <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">환불</a>
   </li>
   <li class="nav-item" role="presentation">
     <a class="nav-link" id="etc tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >기타</a>
@@ -441,15 +487,13 @@ $(document).ready(function () {
 		<thead>
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
 				<th scope="col">
-				<label class="control control--checkbox">
-					<input type="checkbox" class="js-check-all chkbox" id="allCheckOrNone">
-					<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
-				</label>
-				</th>
+				 
+				</th> 
 				<th scope="col">no</th>
 				<th scope="col">Email</th>
 				<th scope="col">Contents</th>
 				<th scope="col">Date</th>
+				<th scope="col">Status</th>
 				<th scope="col"></th>
 			</tr>
 		</thead>
@@ -467,4 +511,5 @@ $(document).ready(function () {
 </script>
 
 <%-- 인덱스 끝 --%>
+
 
