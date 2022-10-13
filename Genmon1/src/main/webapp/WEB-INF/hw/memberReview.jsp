@@ -71,7 +71,7 @@
         /* border: solid 1px gray; */
         color: orange; 
         font-weight: bold; 
-        font-size: 15pt;
+        font-size: 13pt;
         margin-left: 5%;
     }
 
@@ -430,10 +430,12 @@
 	}
 	
 	
+	
+	
 	// 리뷰 댓글 달기
 	function reply(reviewid){
 		
-		purpose = "insertReply";
+		$("input#purpose").val("insertReply");
 		
 		const replyFrm = $("form[name=replyFrm]").serialize() ;
 		
@@ -460,7 +462,8 @@
 
 	<div id="review_container" >
         <div id="review_desc" class="containers">
-        	<p style="font-weight: bold; font-size: 13pt;">PRODUCT REVIEW<p>
+        	<p style="font-weight: bold; font-size: 13pt;">
+            	<i class="fa fa-pencil" style="width: 28px; font-size: 15pt;"></i>PRODUCT REVIEW<p>
             <ul style="font-size: 10pt;">
                 <li>상품에 대한 후기를 남기는 공간입니다.</li>
                 <li>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 문의글에 남겨주세요.</li>
@@ -491,7 +494,7 @@
 		           </select>
 		           <span id="avgStar">${requestScope.avg_star_shape}</span>
 		           <div id="avgStar_text">
-		               <span id="star_avgRate">${requestScope.avg_star}</span>
+		               <span id="star_avgRate" >${requestScope.avg_star}</span>
 		               <span id="star_full">/ 5.0</span>
 		           </div>
 		      	</div>
@@ -501,7 +504,7 @@
 			            <div class="rate_content_1">
 			                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">${reviewList.mvo.useridMasked}</div>
 			                <div style="font-size: 9pt;">${reviewList.uploaddate}</div>
-			                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">${reviewList.star}</div>
+			                <div class="content_desc" style="font-size: 11pt; color: orange; font-weight: bold;">${reviewList.star}</div>
 			                <div class="content_desc" style="font-size: 10pt;">${reviewList.content}</div>
 			            </div>
 			            <c:if test="${reviewList.img_orginFileName != '없음'}">
@@ -531,7 +534,7 @@
 											<form name="replyFrm">
 								                <textarea class="col-auto form-control reply_content" name="reply_content" type="text" 
 								                          placeholder="댓글내용을 작성해주세요." ></textarea>
-							                <input type="hidden" name="purpose" value="insertReply" />
+							                <input type="hidden" name="purpose" id="purpose" />
 							                <input type="hidden" name="reviewid" value="${reviewList.reviewid}" />
 							                </form>
 							                <div align="right" style="padding-right: 10px;">
