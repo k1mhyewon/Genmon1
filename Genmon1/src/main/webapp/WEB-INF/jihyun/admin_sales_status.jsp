@@ -55,6 +55,10 @@
 	
 	$(document).ready(function(){
 		
+		
+		// 메뉴창 효과
+		$("li.chart").addClass('active');
+		
 		// 그래프 시작
 		// 우선 컨텍스트를 가져옵니다. 
 		var ctx = document.getElementById("myChart").getContext('2d');
@@ -135,25 +139,94 @@
 	
 	function goSearch(){
 		
+		$("div#show").html('');
+		
+		const startday = $("input#fromDate").val();
+		const endday =$("input#toDate").val();
+		
 		  // 종료일이 시작일보다 앞섰을때
-		  if($("input#fromDate").val()>$("input#toDate").val()){
+		  if(startday>endday){
 			  
 			  alert('조회 시작일은 조회 종료일과 같거나 작아야 합니다');
-			  $('input#fromDate').datepicker('setDate', '-1D');
               $('input#toDate').datepicker('setDate', '-1D'); 
 			  return;
 		  }
 		  
 		  
-		 
+		  $.ajax({
+				url : "<%= ctxPath%>/admin/adminSearchChart.sun" , 
+				type: "get",  
+				data: {"startday":startday,
+						"endday":endday},
+			    dataType:"JSON",
+			    success:function(json) {
+			    	let html = '';
+			    	
+			    	if(json.length>0){
+			    		
+			    		html+= '<table class="table table-sm mt-2 mb-5 border" style="border-radius: 1rem;">'+
+			    			  '<thead class="table-active">'+
+					    '<tr>'+
+					      '<th>날짜</th>'+
+					      '<th>주문</th>'+
+					      '<th>취소</th>'+
+					      '<th>환불</th>'+
+					     '<th>매출</th>'+
+					    '</tr>'+
+					  '</thead>'+
+					  '<tbody>';
+			    		
+					  let sumorder = 0;
+					  let sumcancel = 0;
+					  let sumrefund = 0;
+					  let sumtotal = 0;
+					  
+					  $.each(json, function(index, item){
+						  
+						  html += '<tr>'+
+						      '<th>'+item.date+'</th>'+
+						      '<td>'+item.order+'</td>'+
+						      '<td>'+item.cancel+'</td>'+
+						      '<td>'+item.refund+'</td>'+
+						      '<td>'+Number(item.total).toLocaleString('en')+'원</td>'+
+						    '</tr>';
+						    
+						  sumorder += Number(item.order);
+						  sumcancel += Number(item.cancel);
+						  sumrefund += Number(item.refund);
+						  sumtotal += Number(item.total);
+
+					  }); // end of each
+			    		
+					  html+= '<tr>'+
+					      '<th>조회기간 합계</th>'+
+					      '<td>'+sumorder+'</td>'+
+					      '<td>'+sumcancel+'</td>'+
+					      '<td>'+sumrefund+'</td>'+
+					      '<td>'+Number(sumtotal).toLocaleString('en')+'원</td>'+
+					    '</tr>'+
+					  '</tbody>'+
+					'</table>';
+					
+					
+			    	} else {
+			    		html += '해당기간에 검색된 결과가 없습니다.';
+			    	}
+			    	
+			    	$("div#show").html(html);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			}); 
+		  
 	  }
 	
-	  
-	  
+	
 </script>
 
 
-<body style="background: #f4f4f4;">   
+<body style="background: #f4f4f4; margin-bottom: 30px;">   
 <section class="py-4 px-2 " style="width:60%; margin:0 auto; ">
  
 	 &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 5% 6%;">Sales status</h3> 

@@ -25,10 +25,11 @@ public class DeliInfoJASON extends AbstractController {
 			if(super.checkAdmin(request)) { // 관리자 페이지용
 				
 				String orderid = request.getParameter("orderid");
-				// System.out.println(orderid);
+				String deliv_class = request.getParameter("deliv_class");
+				// System.out.println(orderid); 
 				
 				InterOrderDAO odao = new OrderDAO();
-				HashMap<String, String> delimap = odao.selectOneDeliInfo(orderid);
+				HashMap<String, String> delimap = odao.selectOneDeliInfo(orderid, deliv_class);
 				
 				JSONObject jsonObj = new JSONObject();
 				
@@ -52,7 +53,7 @@ public class DeliInfoJASON extends AbstractController {
 				
 				if("5".equals(total_status) || "4".equals(total_status)) {
 					InterOrderDAO odao = new OrderDAO();
-					HashMap<String, String> delimap = odao.selectOneDeliInfo(orderid);
+					HashMap<String, String> delimap = odao.selectOneDeliInfo(orderid, "1");
 					
 					JSONObject jsonObj = new JSONObject();
 					

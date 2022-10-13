@@ -168,7 +168,8 @@
 			$.ajax({
 				url : "<%= ctxPath%>/myinfo/deliInfo.sun" , 
 				type: "POST",  
-				data: {"orderid":orderid},
+				data: {"orderid":orderid,
+						"deliv_class":1},
 			    dataType:"JSON",
 			    success:function(json) {
 			    	// alert(json.deliv_company);
