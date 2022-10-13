@@ -303,18 +303,21 @@ public class PersonDAO implements InterPersonDAO {
 				try {
 					conn = ds.getConnection();
 					
-					String sql = " update tbl_member_test set gender = ? , name = ?,  mobile = ? "+
+					String sql = " update tbl_member_test set gender = ? , name = ?,  mobile = ? , birthday = ? "+
 								 " where userid = ? ";
 					
 					pstmt = conn.prepareStatement(sql);
 					
 					pstmt.setString(1, paraMap.get("gender"));
 					pstmt.setString(2, paraMap.get("name"));
-					pstmt.setString(3, paraMap.get("mobile"));
-					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(3, aes.encrypt(paraMap.get("mobile")) );
+					pstmt.setString(4, paraMap.get("birthday"));
+					pstmt.setString(5, paraMap.get("userid"));
 					
 					n = pstmt.executeUpdate();
 					
+				} catch(GeneralSecurityException | UnsupportedEncodingException e) { // |는 OR(또는)
+					e.printStackTrace();
 				} finally {
 					close();
 				}

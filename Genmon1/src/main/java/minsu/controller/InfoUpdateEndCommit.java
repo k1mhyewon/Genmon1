@@ -54,26 +54,29 @@ public class InfoUpdateEndCommit extends AbstractController {
 			else {
 				// 개인정보를 변경하는 값을 알아와야한다.
 				
-
+				String email = request.getParameter("email");
 				String gender = request.getParameter("gender");
 				String name = request.getParameter("name");
 				String hp1 = request.getParameter("hp1"); 
 		        String hp2 = request.getParameter("hp2"); 
 		        String hp3 = request.getParameter("hp3"); 
-		        String birthyyyy = request.getParameter("birthyyyy"); 
-		        String birthmm = request.getParameter("birthmm"); 
-		        String birthdd = request.getParameter("birthdd");
+		        String birthyyyy = request.getParameter("year"); 
+		        String birthmm = request.getParameter("month"); 
+		        String birthdd = request.getParameter("day");
 		         
-				String mobile = hp1 + hp2 + hp3;
+				String mobile = hp1 + "-"+ hp2 +"-"+ hp3;
 				String birthday = birthyyyy+"-"+birthmm+"-"+birthdd;  
 				
+				System.out.println("개인정보 수정 확인용 email" + email);
 				System.out.println("개인정보 수정 확인용 name" + name);
 				System.out.println("개인정보 수정 확인용 gender" + gender);
 				System.out.println("개인정보 수정 확인용 mobile" + mobile);
+				System.out.println("개인정보 수정 확인용 birthday" + birthday);
 				
 				Map<String,String> paraMap = new HashMap<>();
 				
 				paraMap.put("userid", userid);
+				paraMap.put("email", email);
 				paraMap.put("gender", gender);
 				paraMap.put("name", name);
 				paraMap.put("mobile", mobile);
@@ -87,9 +90,11 @@ public class InfoUpdateEndCommit extends AbstractController {
 				if(n == 1) {
 					// 변경 성공한 경우
 					
+					 loginuser.setEmail(email);
 					 loginuser.setName(name);
 					 loginuser.setGender(gender);
 					 loginuser.setMobile(mobile);
+					 loginuser.setBirthday(birthday);
 					 
 			/*		 
 	        		String message = "개인정보 변경되었습니다.";

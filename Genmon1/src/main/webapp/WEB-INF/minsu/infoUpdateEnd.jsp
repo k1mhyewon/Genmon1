@@ -42,7 +42,7 @@
   		display: block;
   	}
   
-	div#birthday > select {
+	div#birthday > input {
 		 /*border: solid 1px purple; */
 		width: 92px;
 		padding: 8px;
@@ -129,25 +129,9 @@
   		   }
   	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------	   	   
   			   
+  		
   			   
-  	/* 		   
-   
-	  // === 생년월일 === //
-   	   $("select#birthday").each((e) => {
-   	
-   		const $target = $(e.target);
-        
-        if($target.ischecked) {
-        	// 생년월일을 입력한경우
-   			  $target.parent().find("div.error").hide();
-        }
-        else {
-        	// 생년월일 입력칸이 공백인 경우
-   			 $("div.first_error").show();
-        	 $target.focus();
-   		   }
-   	   }); //  $("select#birthday").each((e)  --------------------------------	   	   */
- 			   
+  			   
   			   
   	// === 전화번호2 === //
 		$("input#hp2").blur( (e)=>{
@@ -208,9 +192,9 @@
 		
 		
 		
-	       
+  
 	    // === 생년월일 === //
-	        
+	       
 	    var dt = new Date();
 	    var com_year = dt.getFullYear();
 	    var year = "";
@@ -249,7 +233,7 @@
 	    }
 		$("#day").html(day);
 		
-	
+
 	
 	}); // end of $(document).ready(function() ------------------------------------
 			
@@ -288,7 +272,7 @@
 	      	<li>
 	           <label >성별</label>
 	           <select type="text" id="gender" name="gender" style="color: gray;" class="t_input requiredInfo"  value="${sessionScope.loginuser.gender}" required > 
-	           		<option value="1" selected>여성</option>
+	           		<option value="1">여성</option>
 		         	<option value="2">남성</option>
 	           </select>
 	        	<div class="first_error">필수 입력란입니다.</div>
@@ -316,12 +300,12 @@
 	      
 	      <ul>
 	      	<li>
-		         <span>생년월일</span>
-		         <div style="text-align: left;" id="birthday" name="birthday"  value="${sessionScope.loginuser.birthday}"  readonly>
-				    	<input name="year" id="year" title="년도" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly></input>
-						<input name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 5, 6)}" ></input>
-						<input name="day" id="day" title="일" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 7, 8)}"></input>
-						<div class="first_error">필수 입력란입니다.</div>
+		        <%-- <span>생년월일</span>--%>
+		         <div  >
+		         		<label for="birthday" style="text-align: left;" id="birthday" name="birthday"  value="${sessionScope.loginuser.birthday}" >생년월일</label>
+				    	<input name="year" id="year" title="년도" class="custom-select requiredInfo"  value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly> </input>
+						<input name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 4, 6)}" readonly></input>
+						<input name="day" id="day" title="일" class="custom-select requiredInfo"  value="${fn:substring(sessionScope.loginuser.birthday, 6, 8)}"readonly></input>
 				</div>
 			 </li>
      	  </ul>

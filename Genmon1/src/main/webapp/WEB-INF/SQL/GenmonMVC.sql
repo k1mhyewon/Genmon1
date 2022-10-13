@@ -361,15 +361,19 @@ select userid
 from tbl_member_test
 where userid = 'kimms' and pwd= '29b204ad54a353a4709554362574a889be32d92f801500cd9abf32a2bb2954ed'
 
-
+select *
+from tbl_member_test
 
 -- 개인정보 변경
-update tbl_member_test set name = '김민뚜', gender = 1, mobile = 'PCeQglXJLsipPrmUdN1X/w=='  
+update tbl_member_test set email = 'auVP5krbbTdu2eoQ2jFOnA==', gender = 1, mobile = 'PCeQglXJLsipPrmUdN1X/w=='  
 where userid = 'kimms'
 
 select userid, name, email, mobile ,postcode, address, detailaddress, extraaddress, gender
         ,birthday
 from tbl_member_test
 where userid = 'kimhw'
+
+
+
 
 

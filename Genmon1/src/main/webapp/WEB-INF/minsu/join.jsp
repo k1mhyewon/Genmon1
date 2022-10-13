@@ -411,7 +411,7 @@ b_flag_idDuplicate_click = false;
 	    var com_year = dt.getFullYear();
 	    var year = "";
 	    
-	    // 년도 뿌려주기
+	 // 년도 뿌려주기
 	    $("#year").append("<option value=''>년도</option>");
 	    // 올해 기준으로 -50년부터 +1년을 보여준다.
 	    for (var i = (com_year - 50); i <= (com_year); i++) {
@@ -614,7 +614,7 @@ b_flag_idDuplicate_click = false;
 		         <div style="text-align: left;" id="birthday" name="birthday">
 				    	<select name="year" id="year" title="년도" class="custom-select requiredInfo" ></select>
 						<select name="month" id="month" title="월" class="custom-select requiredInfo" ></select>
-						<select name="day" id="day" title="일" class="custom-select requiredInfo" ></select>
+						<select name="day" id="day" title="일" class="custom-select requiredInfo"></select>
 						<div class="first_error">필수 입력란입니다.</div>
 				</div>
 			 </li>

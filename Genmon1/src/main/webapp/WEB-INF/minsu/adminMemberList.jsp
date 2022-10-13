@@ -70,6 +70,7 @@ a.nav-link{
 
 
 
+
 /* 테이블 */
     
 .custom-table thead tr, .custom-table thead th {
@@ -212,6 +213,8 @@ tr.spacer > td {
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
+	
+	$("li.member").addClass('active');
 	
 	/* 행호버효과 */
 	$("tr[scope='row']>td").hover(function() {
