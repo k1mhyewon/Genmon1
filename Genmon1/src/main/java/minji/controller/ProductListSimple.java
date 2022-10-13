@@ -31,7 +31,7 @@ public class ProductListSimple extends AbstractController {
 		//ajax 를 통해 스크롤 방식으로 페이징 처리
 		int totalHITCount = pdao.totalPspecCount(pnum); // 상품 전체 개수 알아온다.
 		
-		// 상품 전체 개수 알아온다.
+		// 상품 전체 개수 알아온다
 		request.setAttribute("totalHITCount", totalHITCount);
 		
 	//		super.setRedirect(false);
