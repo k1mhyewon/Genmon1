@@ -56,10 +56,17 @@ div#container {
 	background-color: white;
 }
 
-button.btn {
+
+div#div_btn > button {
 	display: flex;
 	margin: auto;
 }
+
+button.btn {
+	display: inline-block;
+}
+
+
 
 
 
@@ -97,7 +104,7 @@ $(document).ready(function () {
  	// 문서가 로딩될때 goMemberList 함수를 받아와야한다.  
 	// 공백이 포함된 url을 가져온다.
 	goBackURL = "${requestScope.goBackURL}";
-	// System.out.println("~~~ 확인용 뷰단 goBackURL =>" + goBackURL);
+	System.out.println("~~~ 확인용 뷰단 goBackURL =>" + goBackURL);
 	
 	
 	
@@ -130,8 +137,6 @@ $(document).ready(function () {
 	<form name="memberDetailFrm">
 	    <div class="table-responsive custom-table-responsive" style="width:80%; margin:auto;">
 		    <div id="container">
-		    		<table class="table custom-table datatable ">
-				
 			    	
 				<%-- 회원정보 보여주기 시작 --%>	    	
 				<c:if test="${empty requestScope.mvo}">
@@ -163,13 +168,15 @@ $(document).ready(function () {
 				</c:if>
 				<%-- 회원정보 보여주기 끝 --%>	   	    	
 					    
+					    
+					    
 				<%-- 전체회원 목록보기로 이동 --%>
-				<div>
+				<div id="div_btn">
 					<%-- 함수를 사용하여 내가 검색한 페이지가 그대로 나오도록 유지하는 방법.1페이지로 돌아가지 않고   --%>
 					<button type="button" class="btn btn-secondary mt-5" onclick="goMemberList()">회원목록</button>
 					
 					<%-- 상대경로 사용.(무조건 1페이지로이동. 새로 로딩된 페이지로 이동) --%>
-				<%-- 	<button type="button" class="btn btn-secondary mt-5" onclick="javascript:location.href='adminMemberList.up'">회원목록[처음으로]</button> --%>
+					<button type="button" class="btn btn-secondary mt-5" onclick="javascript:location.href='adminMemberList.sun'">처음으로</button> 
 				</div>
 			    	
 		    	
@@ -181,11 +188,6 @@ $(document).ready(function () {
 </section>
   
 </body>
-
-
-
-
-
 
 
 <%-- 인덱스 끝 --%>

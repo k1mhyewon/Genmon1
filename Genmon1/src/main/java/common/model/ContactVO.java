@@ -6,10 +6,9 @@ public class ContactVO {
 	// 회원 member
 	private String contactid; // 회원문의글일련번호(Primary Key)   "M"||to_char(cregisterday,'yyyymmdd')||seq   "G"||to_char(cregisterday,'yyyymmdd')||seq
 	private String fk_userid; // 회원id(Foreign Key)
-	private int fk_orderid; // 주문번호에 대한 문의
+	private String fk_orderid; // 주문번호에 대한 문의
 	private String ctype; //문의 분류
 	private String contents; //문의 내용
-//	private String filename; // 첨부파일 
 	private String contactfile_systemFileName; //파일서버에 업로드되어지는 실제 제품설명서 파일명 (파일명이 중복되는 것을 피하기 위해서 중복된 파일명이 있으면 파일명뒤에 숫자가 자동적으로 붙어 생성됨)
 	private String contactfile_orginFileName; //웹클라이언트의 웹브라우저에서 파일을 업로드 할때 올리는 제품설명서 파일명 
 	
@@ -50,11 +49,11 @@ public class ContactVO {
 	}
 	
 	
-	public int getFk_orderid() {
+	public String getFk_orderid() {
 		return fk_orderid;
 	}
 
-	public void setFk_orderid(int fk_orderid) {
+	public void setFk_orderid(String fk_orderid) {
 		this.fk_orderid = fk_orderid;
 	}
 
@@ -113,7 +112,7 @@ public class ContactVO {
 			ctype = "배송";
 			break;
 		case "refund":
-			ctype = "교환/환불";
+			ctype = "환불";
 			break;
 		case "product":
 			ctype = "상품";

@@ -91,11 +91,12 @@ public class MemberGoContact extends AbstractController {
 
 				// !!!! 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어코드) 작성하기 !!!! // 
 	            String contents = mtrequest.getParameter("contents");
+	            String orderid = mtrequest.getParameter("orderid");
 	            
 	            contents = contents.replaceAll("<", "&lt;");
 	            contents = contents.replaceAll(">", "&gt;");
  	            // 입력한 내용에서 엔터는 <br> 로 변환시키기
-	            contents = contents.replaceAll("\r\n", "<br>");
+	            //contents = contents.replaceAll("\r\n", "<br>");
 		           
 	            
 				String password = mtrequest.getParameter("password");
@@ -109,6 +110,7 @@ public class MemberGoContact extends AbstractController {
 				cvo.setPwd(password);
 				cvo.setContactfile_orginFileName(Contactfile_orginFileName);
 				cvo.setContactfile_systemFileName(Contactfile_systemFileName);
+				cvo.setFk_orderid( orderid );
 
 				String message = "";
 		        String loc = "";

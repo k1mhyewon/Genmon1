@@ -232,8 +232,8 @@
 	         <select id="type" name="type">
 	             <option value="delivery">배송문의</option>
 	             <option value="product">상품문의</option>
-	             <option value="refund">환불/교환문의</option>
-	             <option value="cancel">취소문의</option>
+	             <option value="refund">환불문의</option>
+	             <option value="cancel">기타문의</option>
 	         </select>
 			</div>
 		</div>

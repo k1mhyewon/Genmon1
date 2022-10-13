@@ -188,87 +188,101 @@ th{
 <script src="../js/bootstrap-datepicker.js" type="text/javascript"></script>
 <script  type="text/javascript">
 
-let type;
-$(document).ready(function () {
+	let type;
+	$(document).ready(function () {
+		
+	 	
+	 	/* 행호버효과 */
+	 	$(document).on("mouseover", "tr.tr_data", function(){
+	 		//$(this).children().addClass('MYhover');
+	    	//$(this).children().siblings().addClass('MYhover');
+	    	// alert($(this).html());
+	    	// $(this).css({'color':'blue', 'background-color':'red'});
+	 		$(this).children('td').css({'background-color':'#f4f4f4'});
+	    });  
+	    $(document).on("mouseout", "tr.tr_data", function(){
+	    	// $(this).children().removeClass('MYhover');
+	    	// $(this).children().siblings().removeClass('MYhover');
+	    	$(this).children('td').css({'background-color':'#fff'});
+	    });   
+		/* 행호버효과 */
 	
- 	
- 	/* 행호버효과 */
- 	$(document).on("mouseover", "tr.tr_data", function(){
- 		//$(this).children().addClass('MYhover');
-    	//$(this).children().siblings().addClass('MYhover');
-    	// alert($(this).html());
-    	// $(this).css({'color':'blue', 'background-color':'red'});
- 		$(this).children('td').css({'background-color':'#f4f4f4'});
-    });  
-    $(document).on("mouseout", "tr.tr_data", function(){
-    	// $(this).children().removeClass('MYhover');
-    	// $(this).children().siblings().removeClass('MYhover');
-    	$(this).children('td').css({'background-color':'#fff'});
-    });   
-	/* 행호버효과 */
+	    
+	 	
+	 	
+	 	
+	 	// 문서가 로딩되자마자 전체 목록이 보여져야 하므로 
+	 	$("a#all").addClass("active");
+	 	displayTypeTab("전체");
+	 	
+	 	
+	 	// ----탭분류를 클릭했을때----- 
+	 	$("a.nav-link").click(function(){
+	 		$("a").removeClass("active");
+	 		$(this).addClass("active");
+	 		$("tbody#contactList").html("");
+	 		type = $(this).text();
+	 		// alert(ctype);
+	 		
+	 		// 목록불러오는 함수 
+	 		displayTypeTab(type);
+	 	});
+	 	// ----탭분류를 클릭했을때----- 
+	 	
+	 	
+	 	 // 제품번호의 모든 체크박스가 체크가 되었다가 그 중 하나만 이라도 체크를 해제하면 전체선택 체크박스에도 체크를 해제하도록 한다.
+	      $(".chkbox").click(function(){
+	         var bFlag = false;
+	         $(".chkbox").each(function(){
+	            var bChecked = $(this).prop("checked");
+	            if(!bChecked) { // 체크해제했다면 
+	               $("#allCheckOrNone").prop("checked",false);
+	               bFlag = true;
+	               return false;
+	            }
+	         });
+	         if(!bFlag) {
+	            $("#allCheckOrNone").prop("checked",true);
+	         }
+	      });
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	$(document).on("click", ".under", function(e){
+	 		const orderDetailId = $(this).parent().children(".orderDetailId").text();
+			goAnswerForm(orderDetailId, type);
+	 	});
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	$("input:checkbox[id='allCheckOrNone']").click( function(e) {
+	 		
+			const target = $(e.target);
+			
+			// selected checked disabled => prop
+			//                      나머지  => attr
+			const bool = target.prop("checked");
 
-    
- 	
- 	
- 	
- 	// 문서가 로딩되자마자 전체 목록이 보여져야 하므로 
- 	$("a#all").addClass("active");
- 	displayTypeTab("전체");
- 	
- 	
- 	// ----탭분류를 클릭했을때----- 
- 	$("a.nav-link").click(function(){
- 		$("a").removeClass("active");
- 		$(this).addClass("active");
- 		$("tbody#contactList").html("");
- 		type = $(this).text();
- 		// alert(ctype);
- 		
- 		// 목록불러오는 함수 
- 		displayTypeTab(type);
- 	});
- 	// ----탭분류를 클릭했을때----- 
- 	
- 	
- 	 // 제품번호의 모든 체크박스가 체크가 되었다가 그 중 하나만 이라도 체크를 해제하면 전체선택 체크박스에도 체크를 해제하도록 한다.
-      $(".chkbox").click(function(){
-         var bFlag = false;
-         $(".chkbox").each(function(){
-            var bChecked = $(this).prop("checked");
-            if(!bChecked) { // 체크해제했다면 
-               $("#allCheckOrNone").prop("checked",false);
-               bFlag = true;
-               return false;
-            }
-         });
-         if(!bFlag) {
-            $("#allCheckOrNone").prop("checked",true);
-         }
-      });
- 	
- 	
- 	
- 	
- 	
- 	
- 	
- 	$(document).on("click", ".under", function(e){
- 		const orderDetailId = $(this).parent().children(".orderDetailId").text();
-		goAnswerForm(orderDetailId, type);
- 	});
+			$("input:checkbox[name='chk_each_prod']").prop("checked", bool);
+			// "name 이 person 인 모든 체크박스" 의 체크유무를 "전체선택/전체해제 체크박스" 와 동일하게 한다.
+	 		
+	 		
+	 	}); // end of $("input:checkbox[id='allCheckOrNone']").click() --------------------------------
+	 	
+	 	
+	 	
+	 	
+	}); // end of $(document).ready() ================================================================
 	
-});
 		 
-	// 모두 체크되는 체크박스가 체크되었을떄 모두 체크되고 체크해제되면 모두 체크해제되도록  
-	function allCheckBox() {
-	    var bool = $("#allCheckOrNone").is(":checked");
-	    /*
-	       $("#allCheckOrNone").is(":checked"); 은
-	         선택자 $("#allCheckOrNone") 이 체크되어지면 true를 나타내고,
-	         선택자 $("#allCheckOrNone") 이 체크가 해제되어지면 false를 나타내어주는 것이다.
-	    */
-	    $(".chkbox").prop("checked", bool);
-	 }// end of function allCheckBox()-------------------------
+	
 	
 	
 	// === 답변폼창 나오기 === //
@@ -290,6 +304,33 @@ $(document).ready(function () {
 	
 
 	
+	function review_delete(reviewid){
+		
+		if (confirm("리뷰를 삭제하시겠습니까?")) {
+			$.ajax({
+				url:"<%= request.getContextPath()%>/member/review.sun",
+				data:{"reviewid":reviewid, "purpose":"reviewDelete"},
+				type: "post",
+				dataType:"text",
+			    success:function(json) {
+			    	alert("리뷰가 삭제되었습니다.");
+			    	location.reload();
+			    	
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+				
+				
+			});
+		}
+		else {
+			// 취소(아니오) 버튼 클릭 시 이벤트
+	        
+	        return false;
+		}
+		
+	}
 	
 	
 	// 선택한 탭에 따른 다른 타입 나오기 
@@ -312,7 +353,7 @@ $(document).ready(function () {
 						html += '<tr scope="row" class="tr_data">'+
 									'<td scope="row" >'+
 										'<label class="control control--checkbox">'+
-											'<input type="checkbox" class="chkbox">'+
+											'<input type="checkbox" class="chkbox" name="chk_each_prod">'+
 											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
 										'</label>'+
 									'</td>'+
@@ -325,8 +366,8 @@ $(document).ready(function () {
 										'<p class=" text-muted mb-0">'+item.content.substr(0,20)+'</p>'+
 									'</td>'+
 									'<td>'+item.uploaddate+'</td>'+
-									'<td>&nbsp;<p href="#" style="display: inline-block"><i class="fas fa-envelope-square"></i></p>&nbsp;&nbsp;'+
-										'<a href="#" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>'+
+									'<td>&nbsp;<p href="#" style="display: inline-block"></p>&nbsp;&nbsp;'+
+										'<a onclick="review_delete('+item.reviewid+')" style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>'+
 								'</tr>'+
 								'<tr class="spacer"><td colspan="100"></td></tr>';
 								
@@ -343,6 +384,9 @@ $(document).ready(function () {
 		});
 		
 	}
+	
+	
+	
 
 	
 </script>

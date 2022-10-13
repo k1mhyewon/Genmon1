@@ -62,19 +62,19 @@ public class ReviewDAO implements InterReviewDAO {
 	public String star_shape(String star) {
 		switch (star) {
 		case "1":
-			star = "★☆☆☆☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "2":
-			star = "★★☆☆☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "3":
-			star = "★★★☆☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "4":
-			star = "★★★★☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "5":
-			star = "★★★★★";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
 			break;
 		}
 		
@@ -386,7 +386,7 @@ public class ReviewDAO implements InterReviewDAO {
 	         
 	         if(result == 1) {
 	        	 
-	        	 sql = "update tbl_order_detail_test set order_status = '6'\n"+
+	        	 sql = "update tbl_order_detail_test set order_status = '8'\n"+
 	        			 "where pk_order_detail_id = ?";
 	        	 
 	        	 pstmt = conn.prepareStatement(sql);
@@ -513,7 +513,7 @@ public class ReviewDAO implements InterReviewDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply \n"+
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply, R.reviewid \n"+
 					"from tbl_review_test R\n"+
 					"JOIN tbl_order_detail_test D\n"+
 					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
@@ -541,6 +541,7 @@ public class ReviewDAO implements InterReviewDAO {
 				rvo.setImg_orginFileName(rs.getString(5));
 				rvo.setStar(rs.getString(6));
 				rvo.setReply(rs.getString(7));
+				rvo.setReviewid(rs.getString(8));
 				
 				OrderDetailVO odvo = new OrderDetailVO();
 				OrderVO ovo = new OrderVO();
@@ -701,6 +702,36 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return cnt;
 	} // end of public int getReviewCnt(String pnum) throws SQLException {} ---------------------
+
+	
+	
+	
+	
+	
+	// 리뷰 댓글 수정하기 ---------------------------------------------------------------------------------
+	@Override
+	public int editReply(String reviewid, String reply_content) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " update tbl_review_test set reply = ? where reviewid = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, reply_content);
+			 pstmt.setString(1, reviewid);
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of public int editReply(String reviewid, String reply_content) throws SQLException {} -----------
 
 	
 	
