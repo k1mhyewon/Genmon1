@@ -343,20 +343,7 @@ btn{
 $(document).ready(function(){
 	$("span.error").hide();
 	const fixcomment = "안녕하세요. ${cvo.mvo.name}(${cvo.email})님, 젠틀몬스터 입니다.";
-/* 
-	
-	let answerval="";
-	
-	if("${cvo.acontents}" != ""){
 
-		answerval=fixcomment; 
-		$("textarea#answer").val(answerval); 
-		console.log('${cvo.acontents}')
-	} 
-*/
-	
-	
-	
 	$("textarea#answer").focus();
 	//$(".must").prop("disabled", true);
 	const fixlen = fixcomment.length;
@@ -479,10 +466,10 @@ $(document).ready(function(){
 				<label for="email" class="col-form-label">이메일</label>
 				<input class="must"value="${cvo.email}"type="text" class="form-control" name="email" id="email" readonly>
 			</div>
-			<c:if test="${cvo.fk_orderid != null}">
+			<c:if test="${cvo.fk_orderid != 0}">
 			<div class="form-group existhide">
 				<label for="orderid" class="col-form-label">주문번호</label>
-				<input class="must" value="${cvo.fk_orderid}" type="text" class="form-control infoData" name="orderid" id="orderid">
+				<input class="must" value="${cvo.fk_orderid}" type="text" class="form-control infoData" name="orderid" id="orderid" readonly>
 			</div>
 			</c:if>
 			

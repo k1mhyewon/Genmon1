@@ -142,7 +142,7 @@ public class ContactDAO implements InterContactDAO {
 			conn = ds.getConnection();
 			
 			if(!mgflag) {// 회원글이라면 
-				sql=" select contactfile_systemFileName , contactfile_orginFileName, fk_orderid, "
+				sql=" select contactfile_systemFileName , contactfile_orginFileName, nvl(fk_orderid,0), "
 					+ " acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email, fk_userid, name "
 					+ " from tbl_member_contact c left join tbl_member_test m "
 					+ " on c.fk_userid = m.userid "
@@ -151,7 +151,7 @@ public class ContactDAO implements InterContactDAO {
 					+ " where contactid = ? ";
 			}
 			else { // 비회원글이라면  
-				sql=" select contactfile_systemFileName , contactfile_orginFileName, fk_orderid, "
+				sql=" select contactfile_systemFileName , contactfile_orginFileName, nvl(fk_orderid,0), "
 					+ " acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email "
 					+ " from tbl_guest_contact c"
 					+ " left join tbl_guest_contact_answer a "
@@ -166,7 +166,7 @@ public class ContactDAO implements InterContactDAO {
 			    
 			cvo.setContactfile_systemFileName(rs.getString(1));
 			cvo.setContactfile_orginFileName(rs.getString(2));
-			cvo.setFk_orderid(rs.getInt(3));
+			cvo.setFk_orderid(rs.getString(3));
 			cvo.setAcontents(rs.getString(4));
 			cvo.setContactid(rs.getString(5));
 			cvo.setCtype(rs.getString(6));
@@ -201,8 +201,8 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "insert into tbl_member_contact(contactid, fk_userid, ctype, contents, pwd, contactfile_systemFileName, contactfile_orginFileName)  "
-						+ "values ('M'||to_char(sysdate,'yyyymmdd')||seq_tbl_member_contact_ctid.nextval, ?, ?, ?, ?,?,?) ";
+			String sql = "insert into tbl_member_contact(contactid, fk_userid, ctype, contents, pwd, contactfile_systemFileName, contactfile_orginFileName,fk_orderid)  "
+						+ "values ('M'||to_char(sysdate,'yyyymmdd')||seq_tbl_member_contact_ctid.nextval, ?, ?, ?, ?,?,?,?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -210,8 +210,9 @@ public class ContactDAO implements InterContactDAO {
 			pstmt.setString(2, cvo.getCtype());
 			pstmt.setString(3, cvo.getContents());
 			pstmt.setString(4, Sha256.encrypt(cvo.getPwd())); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
-			pstmt.setString(5, cvo.getContactfile_systemFileName()); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
-			pstmt.setString(6, cvo.getContactfile_orginFileName()); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+			pstmt.setString(5, cvo.getContactfile_systemFileName()); 
+			pstmt.setString(6, cvo.getContactfile_orginFileName()); 
+			pstmt.setString(7, cvo.getFk_orderid()); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
 
 			pstmt.executeUpdate();
 		
