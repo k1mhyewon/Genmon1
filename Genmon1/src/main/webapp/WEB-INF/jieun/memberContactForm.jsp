@@ -92,7 +92,7 @@
 		$("input#name").val(name);
 		$("input#email").val(email);
 		$("input#orderid").val(orderid);
-		$("div.logined :input").prop("disabled", true);
+		//$("div.logined :input").prop("disabled", true);
 		
 		
 		
@@ -200,7 +200,7 @@
 		if( (name_flag && email_flag && textarea_flag) && pwd_flag ){
 			// 정말 제출하시겠습니까?
 			if(confirm("정말로 문의작성을 제출하시겠습니까?")){
-				$("div.logined :input").prop("disabled", false);
+				// $("div.logined :input").prop("disabled", false);
 				
 				// 문의 제출
 				const frm = document.conInputFrm;
@@ -255,18 +255,18 @@
 		<div class="row logined">
 			<div class="col-md-6 form-group mb-3">
 				<label for="name" class="col-form-label">이름 *</label><span class="error">이름을 입력해주세요</span>
-				<input type="text" class="form-control must" name="name" id="name" placeholder="Your name" >
+				<input type="text" class="form-control must" name="name" id="name" placeholder="Your name" readonly="readonly">
 			</div>
 			<div class="col-md-6 form-group mb-3">
 				<label for="email" class="col-form-label">이메일 *</label><span class="error">이메일을 입력해주세요</span>
-				<input type="text" class="form-control must" name="email" id="email" placeholder="Your email">
+				<input type="text" class="form-control must" name="email" id="email" placeholder="Your email" readonly="readonly">
 			</div>
 		</div>
 		<c:if test="${orderid != null}">
 			<div class="row logined">
 				<div class="col-md-12 form-group mb-3">
 				<label for="order" class="col-form-label">주문번호</label>
-				<input type="text" class="form-control must" name="orderid" id="orderid">
+				<input type="text" class="form-control must" name="orderid" id="orderid" readonly="readonly">
 				</div>
 			</div>
 		</c:if>
