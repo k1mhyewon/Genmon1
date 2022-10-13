@@ -349,8 +349,8 @@ public class ProductDAO implements InterProductDAO {
 	
 	// pname 뿌려주기 
 	@Override
-	public List<HashMap<String, String>> isExistPname() throws SQLException {
-		List<HashMap<String, String>> pnameList = new ArrayList<>();
+	public List<String> isExistPname() throws SQLException {
+		List<String> pnameList = new ArrayList<>();
 		try {
 			
 			conn = ds.getConnection();
@@ -362,9 +362,8 @@ public class ProductDAO implements InterProductDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				HashMap<String, String> paraMap = new HashMap<>();
-				paraMap.put("pname", rs.getString(1));
-				pnameList.add(paraMap);
+				String pname = rs.getString(1);
+				pnameList.add(pname);
 			}
 		} finally {
 			close();
@@ -382,7 +381,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " select pname "
+			String sql = " select pid "
 						+ " from tbl_product_test "
 						+ " where pname = ? ";
 			
@@ -391,8 +390,9 @@ public class ProductDAO implements InterProductDAO {
 			pstmt.setString(1, pname);
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			pid = rs.getString(1);
+			if(rs.next()) {
+				pid = rs.getString(1);
+			}
 			
 		} finally {
 			close();
@@ -489,25 +489,79 @@ public class ProductDAO implements InterProductDAO {
 		return imgList;
 	}// end of public List<String> getImagesByPnum(String pnum) throws SQLException {}-------------------
 
-	// 상품 판매상태 판매중지로 변경 
-	public void updateProdStopState(String pnum) throws SQLException {
+	// 상품 판매상태 판매중지로 변경 ( 재고를 0으로 바꾸고 판매상태를 판매중지로 바꾼다)  
+	public int updateProdStopState(String pnum) throws SQLException {
+		int n1=0,n2=0,result = 0;
 		
 		try {
 			conn = ds.getConnection();
+			conn.setAutoCommit(false); // 수동커밋
 			
-			String sql = " update tbl_all_product_test set panmaestate = 0 "
-						+ " where pnum = ? ";
+			
+			String sql = " update tbl_all_product_test set pqty = 0 "
+					   + " where pnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,Integer.parseInt(pnum)); // 공식 
 
-			rs = pstmt.executeQuery();
+			n1 = pstmt.executeUpdate();
 			
+			if(n1==1) { // 재고업댓이 성공했을시 
+				
+				sql = " update tbl_all_product_test set panmaestate = 0 "
+						+ " where pnum = ? ";
+			
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1,Integer.parseInt(pnum)); // 공식 
+	
+				n2 = pstmt.executeUpdate();
+			}
+			
+			if(n2==1) { // 모두 성공했을경우 커밋
+				conn.commit();
+				conn.setAutoCommit(true); // 자동커밋으로 전환
+				result = 1;
+			}
+			
+		} catch(SQLException e) {
+			conn.rollback();
+			conn.setAutoCommit(true); // 자동커밋으로 전환 
+			result = 0;
 		} finally {
 			close();
 		}
 		
-	}
+		return result;
+		
+	}// end of public int updateProdStopState(String pnum) throws SQLException {}-----
+
+	// pname 으로 부모상품테이블에서 정보 select 
+	@Override
+	public ParentProductVO selectPnameInfo(String pname) throws SQLException {
+		ParentProductVO pvo = new ParentProductVO();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select price, pcontent, pmaterial "
+					   + " from tbl_product_test "
+					   + " where pname = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pname);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			pvo.setPrice(rs.getInt(1));
+			pvo.setPcontent(rs.getString(2));
+			pvo.setPmaterial(rs.getString(3));
+		
+		} finally {
+			close();
+		}
+		
+		return pvo;
+	}//end of public ParentProductVO selectPnameInfo(String pname) throws SQLException {
 	
 	
 	

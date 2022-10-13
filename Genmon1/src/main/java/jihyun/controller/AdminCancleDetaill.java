@@ -14,11 +14,12 @@ import jihyun.model.InterPurchaseDAO;
 import jihyun.model.OrderDAO;
 import jihyun.model.PurchaseDAO;
 
-public class AdminOrderDetail extends AbstractController {
+public class AdminCancleDetaill extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		
 		String orderid = request.getParameter("orderid");
 		
 		InterOrderDAO odao = new OrderDAO();
@@ -58,8 +59,7 @@ public class AdminOrderDetail extends AbstractController {
 		request.setAttribute("total_status",total_status);
 		
 		
-		
-		super.setViewPage("/WEB-INF/jihyun/admin_order_detail.jsp");
+		super.setViewPage("/WEB-INF/jihyun/admin_cancel_detail.jsp");
 		
 	}
 

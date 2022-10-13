@@ -8,6 +8,40 @@
 <style>
 	
     
+    /* CSS 로딩화면 구현 시작 
+		$("div.loader").css({'position': 'fixed'}, {'top':Math.ceil((window.screen.height)/2)},{'left':Math.ceil((window.screen.width)/2)}) */
+   
+   .loader {
+   
+   	position:fixed;
+   	top:450px;
+   	left:900px;
+     border: 16px solid #f3f3f3;
+     border-radius: 50%;
+     border-top: 16px dotted gray;
+     border-right: 16px dotted gray;
+     border-bottom: 16px dotted gray;
+     border-left: 16px dotted gray;
+     width: 80px;
+     height: 80px;
+     -webkit-animation: spin 2s linear infinite;
+     animation: spin 2s linear infinite;
+   }
+   
+   @-webkit-keyframes spin {
+     0% { -webkit-transform: rotate(0deg); }
+     100% { -webkit-transform: rotate(360deg); }
+   }
+   
+   @keyframes spin {
+     0% { transform: rotate(0deg); }
+     100% { transform: rotate(360deg); }
+   }
+   
+   /* CSS 로딩화면 구현 끝 */
+   
+   
+   
 	span.boldtxt{
 		display: block;
 		font-weight: bold;
@@ -157,6 +191,10 @@
 
 <script>
 	$(document).ready(function(){
+		
+		
+		// css 로딩화면 감춰주기
+		   $("div.loader").hide();
 		
 		// 무통장 감추기
 		$("div#account").hide();
@@ -412,6 +450,9 @@
 	    			return;
 				}
 	    		
+	    		// css 로딩화면 보여주기
+	    		$("div.loader").show();
+	    		
 	    		// 총결제 금액 넘겨줘여함
 	    		// 총결제 금액 넘겨줘여함
 				let result = $("span#result").text().slice(0,-1).split(",").join("");
@@ -475,6 +516,10 @@
 	
 	// 카드결제 완료시 페이지 이동함수
 	function goPurchaseEnd(){
+		
+		
+		// css 로딩화면 보여주기
+		$("div.loader").show();
 		
 		const usePoint = $("input[name='usePoint']").val();
 		
@@ -674,6 +719,9 @@
 	</div>
 	<%-- 장바구니 끝 --%>
 </div>
+
+<div class="loader"></div>
+
 
 <%-- ================== --%>
 <form name="frm_usePoint">

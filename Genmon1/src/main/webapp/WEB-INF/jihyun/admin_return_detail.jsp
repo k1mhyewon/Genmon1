@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +11,14 @@
 <title>주문 상세</title>
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+
+<!-- 폰트 -->
+<link href="https://webfontworld.github.io/pretendard/Pretendard.css" rel="stylesheet">
+
 <style type="text/css">
+
+	* {font-family: 'Pretendard', sans-serif; !important}
 
 	span.boldtxt{
 		display: block;
@@ -155,8 +163,8 @@
 </style>
 
 <!-- Optional JavaScript -->
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 

@@ -8,8 +8,15 @@ public class PurchaseVO {
 	private int method; //null  -- 카드 1, 무통장 2
 	private int usedCoin ;
 	private int usedPoint;
+	private String purchaseDate;
 	
 	
+	public String getPurchaseDate() {
+		return purchaseDate;
+	}
+	public void setPurchaseDate(String purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
 	public int getPk_purchaseid() {
 		return pk_purchaseid;
 	}

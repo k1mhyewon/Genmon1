@@ -23,6 +23,9 @@ public interface InterPurchaseDAO {
 	// 주문 상품에 대해 결제 내역 조회해오기 (현금결제라면 환불내역까지 가져와야함)
 	HashMap<String, Object> SelectOnePurch(String orderid) throws SQLException;
 
+	// 입금확인된 주문 결제상태 변경해주기
+	int updatePurStatus(String orderid) throws SQLException;
+
 	
 
 }
