@@ -100,6 +100,21 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		color: red;
 		margin: 5px 0 0 40px;
 	}
+	
+	<%--
+	.wishModalBtn {
+		width: 300px;
+		font-size: 10pt;
+		display: block;
+	}
+	--%>
+	
+	#wishModalBody {
+		padding-top: 40px;
+		padding-bottom: 40px;
+		padding-left: 100px;
+		
+	}
 
 </style>
 
@@ -124,6 +139,27 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 			
 		}); // end of $("#addGoCart").click() -----------------
 		
+		
+		const pnumrv = '${pvo.pnum}';
+		
+		console.log("pnum: "+ pnumrv);
+		
+		
+		$.ajax({
+			url : "<%= ctxPath%>/product/reviewCount.sun?pnum="+pnumrv , 
+			type: "GET",  
+		    dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	const revcnt = json.cnt;
+		    	
+		    	$("a#review_cnt").text("리뷰보기 ("+json.cnt+")");
+		    	
+		    },
+		    error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
 		
 		
 	}); // end of $(document).ready() ==============================================================
@@ -214,7 +250,28 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	// 관심상품 추가 이벤트
 	function addtoWish(){
 		
-		location.href="<%=ctxPath%>/member/wishlist.sun?pnum=${pvo.pnum}";
+		const pnum = ${pvo.pnum};
+		
+		$.ajax({
+			url : "<%= ctxPath%>/member/addToWish.sun?pnum="+pnum , 
+			type: "GET",  
+		    dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	// alert("is: " + json.isExist);
+		    	if(json.isExist){ // 이미 위시리스트에 있는 상품일때
+		    		$("#modalComment").html("이미 장바구니에 존재하는 상품입니다.");
+		    	}
+		    	else if(!json.isExist){ // 이미 위시리스트에 있는 상품일때
+		    		$("#modalComment").html("선택하신 상품이 위시리스트에 추가되었습니다.");
+		    	}
+		    	
+		    	$("#addWish").modal('show');
+		    },
+		    error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
 	}
 
 
@@ -279,7 +336,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	      	 	
 	      	<%-- 리뷰 --%> 	
 	      	<div class="review">
-		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}">리뷰보기 (5) </a></span>
+		 		<span id="review" data-toggle="modal" data-target="#goReview" style="text-decoration: underline;" ><a id="review_cnt" href="<%= ctxPath%>/member/memberReview.sun?pnum=${pvo.pnum}"></a></span>
 		 	</div>
 	      	<br><br>
 	      	 	
@@ -298,10 +355,11 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 		 			</c:if>
 	 			</div>
 	 			<br>
-		 			
-	 			<div class="wish-btn" >
-	 				<button type="button" class="btn btn-dark btn-block"  id="wish-cart-btn" onclick="addtoWish()" style="background-color: #000000;">관심상품에 추가</button>
-	 			</div>
+		 		<c:if test="${ not empty sessionScope.loginuser && sessionScope.loginuser.userid != 'admin' }">	
+		 			<div class="wish-btn" >
+		 				<button type="button" class="btn btn-dark btn-block" onclick="addtoWish()" id="wish-cart-btn" style="background-color: #000000;">관심상품에 추가</button>
+		 			</div>
+	 			</c:if>
 	 	   </div>
  	       <br>
  	    	
@@ -505,6 +563,20 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 	  </div>
 	</div>
  <%-- 장바구니 모달 끝 --%>
+ 
+ <%-- 위시 모달 시작 --%>
+	<div class="modal fade" id="addWish">
+		<div class="modal-dialog  modal-dialog-centered">
+			<div class="modal-content" style="background-color: #f2f2f2;">
+			<div id="modalComment" style="font-size: 12pt; margin: 0 auto; padding-top: 50px;"></div>
+				<div class="modal-body" id="wishModalBody">
+	      			<button class="wishModalBtn" style="border:1px solid black; background-color: white; font-size: 10pt; width:300px;  height: 35px; border-radius: 0.4rem;" data-dismiss="modal">계속 쇼핑하기</button>
+	      			<button class="wishModalBtn" style="background-color: black; color:white; font-size: 10pt; width:300px; height: 35px;  margin-top: 10px; border-radius: 0.4rem;" onclick = "location.href = '<%= ctxPath%>/member/wishlist.sun' ">위시리스트로 가기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+ <%-- 위시 모달 끝 --%>
 
 
 <%-- 인덱스 끝 --%>

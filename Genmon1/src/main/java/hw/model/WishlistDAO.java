@@ -73,7 +73,7 @@ public class WishlistDAO implements InterWishlistDAO {
 		try {
 			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
 			
-			String sql = " select W.fk_userid, W.fk_pnum, A.pimage1, P.pname, P.price, A.pcolor "+
+			String sql = " select W.fk_userid, W.fk_pnum, A.pimage1, P.pname, P.price, A.pcolor, A.salepcnt "+
 						 " from tbl_wishlist_test W "+
 						 " JOIN tbl_all_product_test A "+
 						 " on W.fk_pnum = A.pnum "+
@@ -100,6 +100,8 @@ public class WishlistDAO implements InterWishlistDAO {
 				
 				ppvo.setPname(rs.getString(4)+"("+rs.getString(6).substring(0, 2).toUpperCase()+")");
 				ppvo.setPrice(rs.getInt(5));
+				
+				cpvo.setSalePcnt(rs.getInt(7));
 				
 				cpvo.setParentProvo(ppvo);
 				wishvo.setCpvo(cpvo);
@@ -246,4 +248,78 @@ public class WishlistDAO implements InterWishlistDAO {
 		return result;
 	} // end of public int addToWish(String userid, String pnum) throws SQLException {} -------------------------------
 
+	
+	
+	
+	
+	// 이미 위시리스트에 있는 상품인지 확인 --------------------------------------------------------------------------------------
+	@Override
+	public int isWishExist(String userid, String pnum) throws SQLException {
+		
+		int n = 0;
+		
+		try {
+			conn = ds.getConnection(); // 풀장에 둥둥 떠있던 conn 하나를 가져옴
+			
+			String sql = " select * from tbl_wishlist_test where fk_userid = ? and fk_pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			pstmt.setString(2, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) {
+				n = 1;
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return n;
+	} // end of public int isWishExist(String userid, String pnum) throws SQLException {} ------------------------------
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 리뷰페이지에서 하트 개수 알아오기 -------------------------------
+	@Override
+	public int wishCount(String pnum) throws SQLException {
+
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(fk_pnum)\n"+
+					"from tbl_wishlist_test\n"+
+					"where fk_pnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery(); // 돌려라!
+			
+			if(rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			// System.out.println("cnt : "+cnt);
+			
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	}
 }

@@ -14,12 +14,16 @@ public class ReviewVO {
 	
 	private String star_text;
 	
+	private OrderDetailVO odvo;
 	
 	
 	private MemberVO mvo;
 	
+	private ChildProductVO cpvo;
+	
 	
 	///////////////////////////////////////////////////////////////////////////////
+	
 	
 	
 	
@@ -124,5 +128,22 @@ public class ReviewVO {
 		this.mvo = mvo;
 	}
 	
+	
+	public OrderDetailVO getOdvo() {
+		return odvo;
+	}
+	public void setOdvo(OrderDetailVO odvo) {
+		this.odvo = odvo;
+	}
+	
+	
+	/////////////////////////////////////////
+	
+	public ChildProductVO getCpvo() {
+		return cpvo;
+	}
+	public void setCpvo(ChildProductVO cpvo) {
+		this.cpvo = cpvo;
+	}
 	
 }

@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
     
 <% String ctxPath = request.getContextPath(); %>
 
@@ -38,6 +41,7 @@
         background-color: #f2f2f2;
         height: 35px;
         margin-bottom: 50px;
+        border-radius: 10px;
     }
 
 
@@ -67,7 +71,7 @@
         /* border: solid 1px gray; */
         color: orange; 
         font-weight: bold; 
-        font-size: 15pt;
+        font-size: 13pt;
         margin-left: 5%;
     }
 
@@ -82,18 +86,18 @@
     }
     
 	div#prod_info {
-        /* border: solid 1px gray; */
+        /* border: solid 1px gray;  */
         width: 250px;
         height: 340px;
         float: left;
         font-weight: bold;
-        padding: 250px 0 0 25px;
+        padding: 270px 0 0 30px;
 
     }
 
     div#prod_photo {
-        /* border: solid 1px pink; */
-        width: 220px;
+        /* border: solid 1px pink; */ 
+        width: 240px;
         height: 280px;
         float: left;
         margin-top: 20px;
@@ -158,6 +162,7 @@
     
     .container_boxes {
     	border-left: solid 1px #e6e6e6;
+    	
     	width: 610px;
     	float:left;
     	padding-left: 25px;
@@ -225,14 +230,44 @@
     	margin: 7px 0 0 7px;
     }
     
+    #pagebar {
+    	/* border: solid 1px pink; */
+    	font-size: 9pt;
+    	padding-left: 700px;
+    }
+    
+    
+    .page-link {
+	  color: #000; 
+	  background-color: #fff;
+	  border: 1px solid #ccc; 
+	  font-size: 8pt;
+	}
+	
+	.page-item.active .page-link {
+	 z-index: 1;
+	 color: #555;
+	 font-weight:bold;
+	 background-color: #f1f1f1;
+	 border-color: #ccc;
+	 
+	}
+	
+	.page-link:focus, .page-link:hover {
+	  color: #000;
+	  background-color: #fafafa; 
+	  border-color: #ccc;
+	}
     
 
 </style>
 
-
+<script src="https://kit.fontawesome.com/48fed31cce.js" crossorigin="anonymous"></script>
 <script>
 	
 	$(document).ready(function(){ //  =============================================================
+		
+		const pnum = '${requestScope.pnum}';
 		
 		// 리뷰내용 글자수 50자 제한 -------------------------------------------------
 		$('.reply_content').keyup(function (e) {
@@ -258,8 +293,73 @@
 		
 		
 		
+		///////////////////////////////////////////////////
+		
+		let putSearchType = "${requestScope.searchType}";
+		// alert("putSearchType: "+ putSearchType);
+		
+		$("#select_category").val(putSearchType).prop("selected", true);
+		
+		/////////////////////////////////////////////////// 
+		
+		
+		
+		// 카테고리를 바꿀때마다 ---------------------------------------------
+		$("#select_category").change(function(){
+			// searchType: t searchType = $("#select_category option:selected").attr('value');
+			
+			let searchType = this.value;
+			// alert("searchType : "+searchType);
+			// alert(searchType);
+			
+			const pnum = $("input#pnum").val();
+			// alert("pnum: "+pnum);
+			
+			
+			location.href= "<%= ctxPath%>/member/memberReview.sun?pnum="+pnum+"&searchType="+searchType;
+			
+		}); // end of $("#select_category").change(} -------------------
+		
+		
+		// 위시리스트 개수 알아오기(하트)
+		$.ajax({
+			url:"<%= ctxPath%>/wish/wishCount.sun",
+		//	type: "GET", 
+			data: {"pnum":pnum},
+		    dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	$("#wishCount").text(json.wishCnt);
+		    	
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
+		
 	}); // end of $(document).ready() =============================================================
 
+	
+	/////////////////////////////////////////
+	// 아이디 마스킹 - 굳이 뷰단에서 마스킹하는 이유는 온전한 userid 값을 다른곳에서도 써야해서ㅜㅜ
+	
+	function masking(useridMasking) {
+		
+		let useridLength = useridMasking.length;
+		
+	    if (useridMasking == undefined || useridLength < 3 ) {
+	        return useridMasking;
+	    }
+	    else{
+		    const regExp = /.{3}$/; // 정규식
+		    return useridMasking.replace(regExp, "***");
+	    }
+	}
+	
+	
+	
+	
 	// 리뷰 수정하기
 	function rev_modify(reviewid){ // ---------------------------
 		
@@ -330,10 +430,12 @@
 	}
 	
 	
+	
+	
 	// 리뷰 댓글 달기
 	function reply(reviewid){
 		
-		purpose = "insertReply";
+		$("input#purpose").val("insertReply");
 		
 		const replyFrm = $("form[name=replyFrm]").serialize() ;
 		
@@ -353,12 +455,15 @@
 	}
 	
 	
+	
+	
 
 </script>
 
 	<div id="review_container" >
         <div id="review_desc" class="containers">
-        	<p style="font-weight: bold; font-size: 13pt;">PRODUCT REVIEW<p>
+        	<p style="font-weight: bold; font-size: 13pt;">
+            	<i class="fa fa-pencil" style="width: 28px; font-size: 15pt;"></i>PRODUCT REVIEW<p>
             <ul style="font-size: 10pt;">
                 <li>상품에 대한 후기를 남기는 공간입니다.</li>
                 <li>배송관련, 주문(취소/교환/환불)관련 문의 및 요청사항은 문의글에 남겨주세요.</li>
@@ -368,26 +473,28 @@
         
        	<div class="containers">
 	        <div id="prod_photo">
-	            <img src="../images/common/products/${requestScope.pimage1}" style="width:230px; height:auto;">
+	            <img src="../images/common/products/${requestScope.pimage1}" style="width:250px; border-radius: 7px; height:auto;">
 	        </div>
 	        <div id="prod_info">
-	        	<div style="font-size: 11pt;">${requestScope.pname}</div>
-	            <div style="font-size: 10pt;">${requestScope.price}</div>
-	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;">♥ 13</span>&nbsp;
-	            <span style="font-size: 11pt; color: #666666; margin-top: 5px;">리뷰(${requestScope.replyCnt})</span>
+	        	<div style="font-size: 12pt; margin-bottom: 5px;">${requestScope.pname}</div>
+	            <div style="font-size: 11pt; margin-bottom: 2px;" ><fmt:formatNumber value="${requestScope.price}" pattern="#,###" />원</div>
+	            <span style="font-size: 10pt; color: #666666; margin-top: 5px; text-decoration: underline;">리뷰(${requestScope.replyCnt})</span>&nbsp;
+	            <span style="font-size: 11pt; color: #ff6666; margin-top: 5px;"><i class="fa-solid fa-heart"></i>&nbsp;<span id="wishCount"></span></span>
+	            
 	        </div>
+	        <input type="hidden" id="pnum" value="${requestScope.pnum}"/>
 		</div>
         <c:if test="${ not empty requestScope.reviewList}">
 			<div class="container_boxes">
 				<div id="rate_title">
 		           <select id="select_category" name="select_category">
-		               <option value ="recent">최신순</option>
-		               <option value ="star">별점순</option>
+		               <option value ="uploaddate">최신순</option>
+		               <option value ="starhigh">별점높은순</option>
+		               <option value ="starlow">별점낮은순</option>
 		           </select>
-		           
 		           <span id="avgStar">${requestScope.avg_star_shape}</span>
 		           <div id="avgStar_text">
-		               <span id="star_avgRate">${requestScope.avg_star}</span>
+		               <span id="star_avgRate" >${requestScope.avg_star}</span>
 		               <span id="star_full">/ 5.0</span>
 		           </div>
 		      	</div>
@@ -395,16 +502,22 @@
        			<c:forEach var="reviewList" items="${requestScope.reviewList}">
 			        <div class="each_box">
 			            <div class="rate_content_1">
-			                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">${reviewList.mvo.userid}</div>
+			                <div class="content_desc" style="font-weight: bold; font-size: 11pt;">${reviewList.mvo.useridMasked}</div>
 			                <div style="font-size: 9pt;">${reviewList.uploaddate}</div>
-			                <div class="content_desc" style="font-size: 12pt; color: orange; font-weight: bold;">${reviewList.star}</div>
+			                <div class="content_desc" style="font-size: 11pt; color: orange; font-weight: bold;">${reviewList.star}</div>
 			                <div class="content_desc" style="font-size: 10pt;">${reviewList.content}</div>
-			              
 			            </div>
 			            <c:if test="${reviewList.img_orginFileName != '없음'}">
 				            <div class="rate_content_2">
-			                	<img src="../images/reviewImg/${reviewList.img_orginFileName}" style="width: 80px;">
+			                	<img src="../images/reviewImg/${reviewList.img_orginFileName}" style="width: 80px;" data-toggle="modal" data-target="#imgModal_${reviewList.reviewid}" >
 				            </div>
+				            <div class="modal fade" id="imgModal_${reviewList.reviewid}">
+								<div class="modal-dialog">
+									<div class="modal-content modals-fullsize" style="width: 500px; height: auto;">
+										<img src="../images/reviewImg/${reviewList.img_orginFileName}" />
+									</div>
+								</div>
+							</div>
 			            </c:if>
 			            <div class="toggle_box">
 			            	<c:if test="${reviewList.reply == '없음'}">
@@ -421,7 +534,7 @@
 											<form name="replyFrm">
 								                <textarea class="col-auto form-control reply_content" name="reply_content" type="text" 
 								                          placeholder="댓글내용을 작성해주세요." ></textarea>
-							                <input type="hidden" name="purpose" value="insertReply" />
+							                <input type="hidden" name="purpose" id="purpose" />
 							                <input type="hidden" name="reviewid" value="${reviewList.reviewid}" />
 							                </form>
 							                <div align="right" style="padding-right: 10px;">
@@ -439,9 +552,11 @@
 					            <span class="toggle_btn" type="button" data-toggle="collapse" data-target="#reply_${reviewList.reviewid}">
 									댓글(1)
 								</span>
-								<span id="delete_reply_${reviewList.reviewid}" class="toggle_btn write_reply_btn" type="button" onClick="reply_delete('${reviewList.reviewid}')">
-									댓글 삭제
-								</span>
+								<c:if test="${ sessionScope.loginuser.userid eq 'admin' }">
+									<span id="delete_reply_${reviewList.reviewid}" class="toggle_btn write_reply_btn" type="button" onClick="reply_delete('${reviewList.reviewid}')">
+										댓글 삭제
+									</span>
+								</c:if>
 								<div class="toggle_content collapse" id="reply_${reviewList.reviewid}">
 									<div style="font-weight: bold;">Gentle Monster</div>
 									<div style="font-size: 10pt; margin-top: 10px;">${reviewList.reply}</div>
@@ -480,7 +595,17 @@
         
         <div style="clear: both;"></div>
         
+        <nav class="my-5" id="pagebar">
+			<div style="display: flex; width: 80%;">
+				<ul class="pagination pagination-sm" style="margin: auto;">${requestScope.pageBar}</ul>
+			</div>
+		</nav>
+	
     </div>
     <div id="empty"></div>
+    
+    
+    
+    
 
 <jsp:include page="../common/footer.jsp" />

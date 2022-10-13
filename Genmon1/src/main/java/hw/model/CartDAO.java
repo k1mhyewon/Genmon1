@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -192,7 +193,7 @@ public class CartDAO implements InterCartDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price, A.pcolor, qty\n"+
+			String sql = "select B.fk_userid, B.fk_pnum, P.pid, A.pimage1, P.pname, P.price, A.pcolor, qty, A.salepcnt\n"+
 					"						 from tbl_basket_test B \n"+
 					"						 JOIN tbl_all_product_test A \n"+
 					"						 on B.fk_pnum = A.pnum\n"+
@@ -217,11 +218,13 @@ public class CartDAO implements InterCartDAO {
 
 				apvo.setFk_pid(rs.getString(3));
 				apvo.setPimage1(rs.getString(4));
+				apvo.setSalePcnt(rs.getInt(9));
 				
 				pvo.setPname(rs.getString(5) + " " + rs.getString(7).substring(0, 2).toUpperCase());
 				pvo.setPrice(rs.getInt(6));
 
 				apvo.setParentProvo(pvo);
+				
 				cart.setAllProdvo(apvo);
 				
 				cart.setQty(rs.getInt(8));
@@ -302,7 +305,11 @@ public class CartDAO implements InterCartDAO {
 				 cvo.setAllProdvo(cpvo);
 			 }
 			 
-		} finally {
+		} catch(NumberFormatException e ) {
+			
+		} catch(SQLSyntaxErrorException e ){
+			
+		}finally {
 			close();
 		}
 		return cvo;

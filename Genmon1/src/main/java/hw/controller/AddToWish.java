@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import common.controller.AbstractController;
 import common.model.MemberVO;
 import hw.model.InterWishlistDAO;
@@ -17,7 +19,7 @@ public class AddToWish extends AbstractController {
 		if( !super.checkLogin(request)) {
 			
 			// 로그인을 안 했으면
-	         String message = "잘못된 접근입니다.";
+	         String message = "로그인이 필요합니다.";
 	         String loc = "javascript:history.back()";
 	         
 	         request.setAttribute("message", message);
@@ -34,13 +36,34 @@ public class AddToWish extends AbstractController {
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			// System.out.println("확인용 loginuser.userid : " + loginuser.getUserid());
 			
-			String userid = request.getParameter("userid");
+			String userid = loginuser.getUserid();
 			// System.out.println("확인용 userid_request : " + userid_request);
 			String pnum = request.getParameter("pnum");
 			
 			InterWishlistDAO wdao = new WishlistDAO();
 			
-			int n = wdao.addToWish(userid, pnum);
+			int n = wdao.isWishExist(userid, pnum); // 이미 위시리스트에 있는 상품인지 확인, 있으면 1 없으면 0
+			boolean isExist = false;
+			
+			if(n == 1) {
+				isExist = true;
+			}
+			if( n == 0 ) { // 위시리스트에 없을때만 넣어줌
+				n = wdao.addToWish(userid, pnum);
+			}
+			
+			JSONObject jsonObj = new JSONObject();
+			
+			// System.out.println("isExist: "+isExist);
+			
+			jsonObj.put("isExist", isExist);
+			
+			String json = jsonObj.toString();
+			
+			request.setAttribute("json", json);
+			
+			super.setRedirect(false);
+			super.setViewPage("/WEB-INF/common/jsonview.jsp");
 			
 			
 			

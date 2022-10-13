@@ -407,6 +407,9 @@
 				<label class="link_tag"><input type="checkbox" id="useAdd" class="mr-2 "/>회원정보와 동일한 배송주소 사용하기</label>
 			</c:if>
 			<span class="puretxt mt-4">이메일</span>
+			<c:if test="${empty sessionScope.loginuser }">
+				<span class="puretxt">비회원 주문조회시 주문번호와 이메일이 필요하므로 신중하게 입력해주세요</span>
+			</c:if>
 			<input type="text" name="email" id="email" class="input_style requiredInfo" autocomplete='off' placeholder="이메일"/>
 			<span class="error">입력하신 이메일이 형식에 맞지 않습니다</span>
 			

@@ -13,7 +13,7 @@ public interface InterReviewDAO {
 	Map<String, String> getProdInfo(String pnum) throws SQLException;
 
 	// 리뷰보기 페이지에서 리뷰목록 데이터 얻어오기
-	List<ReviewVO> getReviews(String pnum) throws SQLException;
+	List<ReviewVO> getReviews(String pnum, String currentShowPageNo, String searchType) throws SQLException;
 
 	// 로그인된 회원의 작성가능 리뷰 상품 목록 얻어오기
 	List<OrderDetailVO> getUnwrittenReviews(String userid) throws SQLException;
@@ -29,6 +29,21 @@ public interface InterReviewDAO {
 
 	// 리뷰 댓글 달기
 	int insertReply(String reviewid, String reply_content) throws SQLException;
+
+	// 관리자용 리뷰 리스트 select 해오기
+	List<ReviewVO> selectReviewListforAdmin(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자용 팝업창 단일 리뷰 select 해오기
+	ReviewVO getOneReview(String orderDetailId) throws SQLException;
+
+	// 리뷰 페이지 수 알아오기
+	int getTotalPage(String pnum) throws SQLException;
+
+	// 상품상세페이지에서 리뷰 개수 알아오기
+	int getReviewCnt(String pnum) throws SQLException;
+
+	// 리뷰 댓글 수정하기
+	int editReply(String reviewid, String reply_content) throws SQLException;
 
 	
 

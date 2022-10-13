@@ -38,12 +38,57 @@ public interface InterOrderDAO {
 
 	// 상품 재고 줄어들게 하기
 	int decreaseProdQty(Map<String, Object> map1) throws SQLException;
+	
+	// 상품 재고 줄이거나 늘리기
+	int decreaOrIncreaProdQty(String pnumjoin, int plusminus) throws SQLException;
 
-	// 관리자에게 전제 주문내역을 보여주는 것
-	List<HashMap<String,String>> adminSelectOnlyOrder() throws SQLException;
+	// 관리자에게 주문, 취소, 완료내역을 보여주는 것
+	List<HashMap<String,String>> adminSelectOrderS(String select) throws SQLException;
+	
+	// 관리자에게 환불 내역을 보여주는것 
+	List<HashMap<String, String>> adminSelectRefundOrder() throws SQLException;
 
 	// 주문번호랑 이메일을 가지고 비회원 주문을 조회하는 메소드
 	OrderVO findGuestOrder(String input_orderid, String input_email) throws SQLException;
+
+	// 주문상세에서 주문 취소 했을때
+	void myinfoCancelOrder(String orderid) throws SQLException;
+
+	// 주문 상세에서 환불 신청 했을때
+	int myinfoRefundOrder(String rev_content, String arrjoin, String orderid) throws SQLException;
+
+	// 관리자 페이지에서 배송지등록이 필요한 목록을 띄워주는 것
+	List<HashMap<String, String>> selectAllNeedShipOrder() throws SQLException;
+
+	// 관리자 페이지에서 배송지일괄등록 하기
+	void insertManyTrack(Map<String, String> paraMap) throws SQLException;
+
+	// 주문상세에서 배송정보 알아오기
+	HashMap<String, String> selectOneDeliInfo( String orderid) throws SQLException;
+
+	// 관리자 페이지에서 판매 현황 조회하기
+	List<Map<String, String>> selectSaleTable() throws SQLException;
+
+	// 관리자 페이지에서 이번주 판매 현황 조회하기
+	Map<String, String> selectWeekSale() throws SQLException;
+		
+	// 관리자 페이지에서 이번달 판매 현황 조회하기
+	Map<String, String> selectMonthSale() throws SQLException;
+
+	// 관리자 페이지에서 6개월 매출 차트 그리기
+	Map<String, String> sixmonthChart() throws SQLException;
+
+	// 관리자 페이지에서 무통장 주문건 입금 확인하기
+	void checkMoneyIn(String orderid) throws SQLException;
+
+	// 관리자 페이지에서 주문 취소건 환불완료 해주기
+	void checkOrderCancel(String orderid) throws SQLException;
+
+	
+
+	
+
+	
 
 
 	

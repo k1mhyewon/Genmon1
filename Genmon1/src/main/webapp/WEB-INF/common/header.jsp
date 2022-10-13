@@ -438,9 +438,26 @@
         	location.href="<%= ctxPath%>/myinfo/myinfoDetail.sun";
 			
 		}); // end of $("button#btn_logout").click() --------------
+		
+		
+		// 장바구니 개수 알아오기
+        $.ajax({
+			url:"<%= ctxPath%>/order/cartCount.sun",
+		//	type: "GET",  
+		    dataType:"JSON",
+		    success:function(json) {
+		    	// console.log("cartcnt"+json.cartCnt);
+		    	
+		    	$("#cartCnt").text(json.cartCnt);
+		    },
+		    error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		});
+		
         
         
-    });
+    }); // end of $(document).ready() =====================================================
 
 </script>
 
@@ -491,7 +508,7 @@
       <div class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="#">브랜드</a>
+          <a class="nav-link" href="<%=ctxPath %>/introGM.sun">브랜드</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<%=ctxPath %>/product/productList.sun">선글라스</a>
@@ -532,7 +549,7 @@
 		<c:if test="${ sessionScope.loginuser.userid != 'admin' }">
 			<a type="button" class="link-secondary me-3 " href="<%=ctxPath %>/order/cart.sun">
           		<i class="fas fa-shopping-cart"></i>
-          		<span class="badge rounded-pill badge-notification bg-danger">1</span>
+          		<span class="badge rounded-pill badge-notification bg-danger" id="cartCnt"></span>
         	</a>
         </c:if>
 		

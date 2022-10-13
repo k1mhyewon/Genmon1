@@ -31,8 +31,13 @@ public class MemberVO {
 	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
 	// 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
 	
+	
+	private String useridMasked; // 마스킹한 유저아이디
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	
+
+
 	public MemberVO() {}
 	
 	
@@ -199,6 +204,16 @@ public class MemberVO {
 	this.requirePwdChange = requirePwdChange;
 	}
 
+	
+	
+	public String getUseridMasked() {
+		return useridMasked;
+	}
+
+
+	public void setUseridMasked(String useridMasked) {
+		this.useridMasked = useridMasked;
+	}
 
 }
 

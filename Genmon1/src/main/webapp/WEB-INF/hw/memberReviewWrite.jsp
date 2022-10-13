@@ -126,7 +126,7 @@ div#reviewTbl {
 
 	$(document).ready(function(){
 		
-		let pimage1 = "";
+		loadImg();
 		
 		if('${requestScope.orderDetailid}'){
 			const orderDetailid = '${requestScope.orderDetailid}';
@@ -158,47 +158,46 @@ div#reviewTbl {
 		// --------------------------------------------------------------------------
 		
 		let odid_pnum_pimage = $("#rev_category option:selected").val();
-		console.log(odid_pnum_pimage);
-		
+
 		let odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
 		
 		let orderDetailId = odid_pnum_pimage_arr[0];
-		let pnum = odid_pnum_pimage_arr[1];
-		pimage1 = "../images/common/products/"+ odid_pnum_pimage_arr[2];
 		
-		console.log(pimage1);
+		let pnum = odid_pnum_pimage_arr[1];
+		
 		
 		$("#orderDetailId").val(orderDetailId);
 		$("#pnum").val(pnum);
 		
-		// select 의 상품이름을 바꿀 때마다 이벤트
-		$("#rev_category").click(function(){
-			
-			odid_pnum_pimage = $("#rev_category option:selected").val();
-			console.log(odid_pnum_pimage);
-			
-			odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
-			
-			orderDetailId = odid_pnum_pimage_arr[0];
-			pnum = odid_pnum_pimage_arr[1];
-			pimage1 = "../images/common/products/"+ odid_pnum_pimage_arr[2];
-			
-			console.log(pimage1);
-			
-			$("#orderDetailId").val(orderDetailId);
-			$("#pnum").val(pnum);
-			
-			
-		});
-		
 		// -----------------------------------------------------------------------------
 		
+		// select 의 상품이름을 바꿀 때마다 이벤트
+		$("#rev_category").change(function(){
+			loadImg();
+		});
 		
-		$("#prodImg").src = pimage1;
 		
 		
 	}); // end of $(document).ready() ---------------
 	
+	// 상품사진 띄우기
+	function loadImg(){
+		
+		let odid_pnum_pimage = $("#rev_category option:selected").val()
+
+		// console.log(odid_pnum_pimage);
+		
+		let odid_pnum_pimage_arr = odid_pnum_pimage.split("_");
+		
+		// console.log("odid_pnum_pimage_arr[2]:"+odid_pnum_pimage_arr[2]);
+		
+		$("img#prodImg").attr("src", "../images/common/products/"+ odid_pnum_pimage_arr[2]);
+		
+		
+		
+		
+		
+	}
 	
 	function go_revWrite() { // --------------------------------------------------
 		
@@ -206,6 +205,12 @@ div#reviewTbl {
 	    
 	    if(rev_content == "") {
 	    	alert("리뷰내용을 입력해주세요.");
+	    	$("textarea#rev_content").val("");
+	    	$("textarea#rev_content").focus();
+	    	return; // goLogin() 함수 종료
+	    }
+	    else if(rev_content < 20) {
+	    	alert("리뷰내용을 20자 이상으로 입력해주세요.");
 	    	$("textarea#rev_content").val("");
 	    	$("textarea#rev_content").focus();
 	    	return; // goLogin() 함수 종료
@@ -258,11 +263,11 @@ div#reviewTbl {
 	            <input type="text" id="userid" name="userid" value="${requestScope.userid}" />
             </div>
             <div id="review_prod">
-            	<img src="" id="prodImg" style="width:200px; height:auto;" />
+            	<img id="prodImg" style="width:200px; height:auto;" />
             </div>
             <div>
                 <textarea class="col-auto form-control" type="text" id="rev_content" name="rev_content"
-                          placeholder="리뷰내용을 입력해주세요."></textarea>
+                          placeholder="리뷰내용을 20자 이상으로 입력해주세요."></textarea>
             </div>
             
             <div style="clear: both;"></div>

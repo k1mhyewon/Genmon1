@@ -73,6 +73,13 @@ public class AdrDelete extends AbstractController {
 					System.err.println("~~~ 확인용 userid: " + userid);
 					if(n == 1) {
 						// 주소를 null로 변경한경우 
+						
+						 loginuser.setPostcode(postcode);
+			        	 loginuser.setAddress(address);
+			        	 loginuser.setDetailaddress(detailaddress);
+			        	 loginuser.setExtraaddress(extraaddress);
+			        	 loginuser.setUserid(userid);
+			        	 
 						String message = "주소를 삭제하였습니다.";
 				        String loc = "adrView.sun";
 				            

@@ -57,7 +57,7 @@ public class WishlistOneDelete extends AbstractController {
 					request.setAttribute("loc", loc);
 					
 					super.setRedirect(false);
-					super.setViewPage("/WEB-INF/msg.jsp");
+					super.setViewPage("/WEB-INF/common/msg.jsp");
 				}
 				
 				

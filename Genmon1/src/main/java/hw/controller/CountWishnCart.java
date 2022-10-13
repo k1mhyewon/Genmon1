@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import common.controller.AbstractController;
@@ -37,12 +38,11 @@ public class CountWishnCart extends AbstractController {
 				JSONObject jsonObj = new JSONObject();
 				jsonObj.put("cnt", str_cnt);
 				
-				String json_obj = jsonObj.toString();;
-				
-				request.setAttribute("json_obj", json_obj);
+				String json = jsonObj.toString();
+				request.setAttribute("json", json);
 
 				super.setRedirect(false);
-				super.setViewPage("/WEB-INF/jsonview.jsp");
+				super.setViewPage("/WEB-INF/common/jsonview.jsp");
 				
 			}
 			else if("wish".equals(count)) {

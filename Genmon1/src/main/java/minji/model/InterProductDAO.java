@@ -25,6 +25,13 @@ public interface InterProductDAO {
 	// 필터에서 선택한 사항들에 해당하는 상품 보여주기 
 	List<ChildProductVO> selectProductList(Map<String, String> paraMap) throws SQLException;
 
+	// Ajax(JSON) 사용하여 HIT 상품목록을 "스크롤" 방식으로 페이징처리하기
+	// 상품 전체 개수 알아오기 메소드
+	int totalPspecCount(String pnum) throws SQLException;
+
+	// 상품 8개씩 잘라서 스크롤 방식으로 띄워주는 메소드
+	List<ChildProductVO> selectDisplay(Map<String, String> paraMap) throws SQLException;
+
 	
 
 	

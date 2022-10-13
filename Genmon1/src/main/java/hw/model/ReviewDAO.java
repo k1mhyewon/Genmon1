@@ -1,5 +1,7 @@
 package hw.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +17,10 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import common.model.ChildProductVO;
+import common.model.ContactVO;
 import common.model.MemberVO;
 import common.model.OrderDetailVO;
+import common.model.OrderVO;
 import common.model.ParentProductVO;
 import common.model.ReviewVO;
 
@@ -58,19 +62,19 @@ public class ReviewDAO implements InterReviewDAO {
 	public String star_shape(String star) {
 		switch (star) {
 		case "1":
-			star = "★☆☆☆☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "2":
-			star = "★★☆☆☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "3":
-			star = "★★★☆☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "4":
-			star = "★★★★☆";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star-o\"></i>";
 			break;
 		case "5":
-			star = "★★★★★";
+			star = "<i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i><i class=\"fa fa-star\"></i>";
 			break;
 		}
 		
@@ -91,11 +95,13 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			// 상품정보 이름, 가격, 사진 알아오기
-			String sql = "select P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname, P.price, A.pimage1\n"+
+			String sql = "select P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname, P.price, A.pimage1, A.pnum\n"+
 						 "from tbl_all_product_test A\n"+
 						 "JOIN tbl_product_test P\n"+
 						 "ON A.fk_pid = P.pid\n"+
 						 "where A.pnum = ?";
+			
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pnum);
@@ -107,6 +113,7 @@ public class ReviewDAO implements InterReviewDAO {
 				prodMap.put("pname", rs.getString(1));
 				prodMap.put("price", rs.getString(2));
 				prodMap.put("pimage1", rs.getString(3));
+				prodMap.put("pnum", rs.getString(4));
 				
 			}
 			
@@ -128,7 +135,7 @@ public class ReviewDAO implements InterReviewDAO {
 				
 				
 				// 리뷰 평균 별점 알아오기
-				sql = "select avg(R.star) as avg_star\n"+
+				sql = "select trunc(avg(R.star),1) as avg_star\n"+
 						"from tbl_review_test R\n"+
 						"JOIN tbl_order_detail_test D\n"+
 						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
@@ -176,7 +183,7 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// 리뷰보기 페이지에서 리뷰목록 데이터 얻어오기 ------------------------------------------------------------
 	@Override
-	public List<ReviewVO> getReviews(String pnum) throws SQLException {
+	public List<ReviewVO> getReviews(String pnum, String currentShowPageNo, String searchType) throws SQLException {
 		
 		List<ReviewVO> reviewList = new ArrayList<>();
 		
@@ -184,20 +191,53 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = "select R.content, NVL(R.img_orginFileName, '없음'), R.star,\n"+
-						"       to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, \n"+
-						"       O.fk_userid, R.reviewid\n"+
-						"from tbl_review_test R\n"+
-						"JOIN tbl_order_detail_test D\n"+
-						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
-						"JOIN tbl_order_test O\n"+
-						"ON D.fk_orderid  = O.pk_orderid\n"+
-						"JOIN tbl_all_product_test A\n"+
-						"ON D.fk_pnum = A.pnum\n"+
-						"where A.pnum = ?";
+			String sql = "select content, NVL(img_orginfilename, '없음') as img_orginfilename , star, uploaddate, reply, fk_userid, reviewid, pnum\n"+
+					"from\n"+
+					"(\n"+
+					"    select rownum as rno, content, img_orginfilename, star, uploaddate, reply, fk_userid, reviewid, pnum\n"+
+					"    from\n"+
+					"    (\n"+
+					"        select R.content, r.img_orginfilename, R.star, "+
+					"               to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, O.fk_userid, R.reviewid, A.pnum \n"+
+					"        from tbl_review_test R\n"+
+					"        JOIN tbl_order_detail_test D\n"+
+					"        ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"        JOIN tbl_order_test O\n"+
+					"        ON D.fk_orderid  = O.pk_orderid\n"+
+					"        JOIN tbl_all_product_test A\n"+
+					"        ON D.fk_pnum = A.pnum\n"+
+					"        JOIN tbl_product_test P\n"+
+					"        ON A.fk_pid = P.pid\n"+
+					"        where A.pnum = ? ";
+			
+				
+			
+			if(searchType != null && "uploaddate".equalsIgnoreCase(searchType)) {
+				sql += "order by uploaddate desc";
+			}
+			else if(searchType != null && "starhigh".equalsIgnoreCase(searchType)) {
+				sql += "order by star desc";
+			}
+			else if(searchType != null && "starlow".equalsIgnoreCase(searchType)) {
+				sql += "order by star asc";
+			}
+			else { 
+				sql += "order by uploaddate desc";
+			}
+			
+			
+			
+			sql +="    ) V\n"+
+					") T\n"+
+					"where rno between ? and ?";
+			
+			int int_currentShowPageNo = Integer.parseInt(currentShowPageNo);
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pnum);
+			
+			pstmt.setString(1, pnum);	
+			pstmt.setInt(2, (int_currentShowPageNo*5) - (5 - 1) );
+			pstmt.setInt(3, (int_currentShowPageNo*5) );
 			
 			rs = pstmt.executeQuery();
 			
@@ -209,9 +249,16 @@ public class ReviewDAO implements InterReviewDAO {
 	            String uploaddate = rs.getString(4);
 	            String reply = rs.getString(5);
 	            String fk_userid = rs.getString(6);
+	            
+	            
+	            String maskedUserid = fk_userid.replaceAll("(?<=.{"+String.valueOf(fk_userid.length()-3)+"}).", "*");
+	            // System.out.println("maskedUserid: "+maskedUserid);
+	            
 	            String reviewid = rs.getString(7);
 	            
 	            ReviewVO rvo = new ReviewVO();
+	            
+	            ChildProductVO cpvo = new ChildProductVO();
 	            
 	            rvo.setContent(content);
 	            rvo.setImg_orginFileName(img);
@@ -220,9 +267,11 @@ public class ReviewDAO implements InterReviewDAO {
 	            rvo.setUploaddate(uploaddate);
 	            rvo.setReviewid(reviewid);
 	            
+	            
 	            MemberVO mvo = new MemberVO();
 	            
 	            mvo.setUserid(fk_userid);
+	            mvo.setUseridMasked(maskedUserid);
 	            
 	            rvo.setMvo(mvo);
 	            
@@ -337,7 +386,7 @@ public class ReviewDAO implements InterReviewDAO {
 	         
 	         if(result == 1) {
 	        	 
-	        	 sql = "update tbl_order_detail_test set order_status = '6'\n"+
+	        	 sql = "update tbl_order_detail_test set order_status = '8'\n"+
 	        			 "where pk_order_detail_id = ?";
 	        	 
 	        	 pstmt = conn.prepareStatement(sql);
@@ -447,6 +496,242 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return result;
 	} // end of public int insertReply(String reviewid) throws SQLException {} -----------------------
+
+	
+	
+	
+	// 관리자용 리뷰 리스트 select 해오기
+	@Override
+	public List<ReviewVO> selectReviewListforAdmin(Map<String, String> paraMap) throws SQLException {
+		
+		List<ReviewVO> reviewList = new ArrayList<>();
+		
+		String type = paraMap.get("type");
+		
+		// System.out.println("dao 확인용 type: "+ type);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply, R.reviewid \n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
+					"JOIN tbl_order_test O\n"+
+					"ON D.fk_orderid = O.pk_orderid ";
+			
+			if("미답변".equalsIgnoreCase(type)) {// 미답변 목록이라면
+				sql +=  " where R.reply is null ";
+			}
+			else if("답변".equalsIgnoreCase(type)) {// 답변 목록이라면
+				sql +=  " where R.reply is not null ";
+			}
+			sql += " order by uploaddate desc ";
+						
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReviewVO rvo = new ReviewVO();
+				
+				rvo.setFk_pk_order_detail_id(rs.getString(2));
+				rvo.setContent(rs.getString(3));
+				rvo.setUploaddate(rs.getString(4));
+				rvo.setImg_orginFileName(rs.getString(5));
+				rvo.setStar(rs.getString(6));
+				rvo.setReply(rs.getString(7));
+				rvo.setReviewid(rs.getString(8));
+				
+				OrderDetailVO odvo = new OrderDetailVO();
+				OrderVO ovo = new OrderVO();
+				
+				ovo.setFk_userid(rs.getString(1));
+				odvo.setOvo(ovo);
+				rvo.setOdvo(odvo);
+				
+				reviewList.add(rvo);
+				
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return reviewList;
+	}
+
+	
+	
+	
+	
+	
+	// 관리자용 팝업창 단일 리뷰 select 해오기
+	@Override
+	public ReviewVO getOneReview(String orderDetailId) throws SQLException {
+		
+		ReviewVO rvo = new ReviewVO();
+		
+		try {
+			conn = ds.getConnection();
+			
+			
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , NVL(R.img_orginfilename, '없음') as img_orginfilename, R.star, R.reply, R.reviewid \n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
+					"JOIN tbl_order_test O\n"+
+					"ON D.fk_orderid = O.pk_orderid\n"+
+					"where R.fk_pk_order_detail_id = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderDetailId);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				
+				rvo.setFk_pk_order_detail_id(rs.getString(2));
+				rvo.setContent(rs.getString(3));
+				rvo.setUploaddate(rs.getString(4));
+				rvo.setImg_orginFileName(rs.getString(5));
+				
+				String star_shape = star_shape(rs.getString(6));
+				
+				rvo.setStar(star_shape);
+				rvo.setReply(rs.getString(7));
+				rvo.setReviewid(rs.getString(8));
+				
+				OrderDetailVO odvo = new OrderDetailVO();
+				OrderVO ovo = new OrderVO();
+				ovo.setFk_userid(rs.getString(1));
+				odvo.setOvo(ovo);
+				rvo.setOdvo(odvo);
+				
+			}
+			
+			
+		} finally {
+			close();
+		}
+		
+		return rvo;
+	}
+
+	
+	
+	
+	
+	
+	
+	// 리뷰 페이지수 알아오기 ------------------------------------------------------------------------
+	@Override
+	public int getTotalPage(String pnum) throws SQLException {
+		
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select ceil(count(reviewid)/5)\n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"on R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"where fk_pnum = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			
+			totalPage = rs.getInt(1);
+			
+			// System.out.println("리뷰 dao 645 totalPage: "+totalPage);
+			
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+	} // end of public int getTotalPage(String pnum) throws SQLException {} --------------------
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 상품상세페이지에서 리뷰 개수 알아오기 --------------------------------------------------------------
+	@Override
+	public int getReviewCnt(String pnum) throws SQLException {
+		
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(R.reviewid)\n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"where d.fk_pnum = ?";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+			
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	} // end of public int getReviewCnt(String pnum) throws SQLException {} ---------------------
+
+	
+	
+	
+	
+	
+	// 리뷰 댓글 수정하기 ---------------------------------------------------------------------------------
+	@Override
+	public int editReply(String reviewid, String reply_content) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " update tbl_review_test set reply = ? where reviewid = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setString(1, reply_content);
+			 pstmt.setString(1, reviewid);
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of public int editReply(String reviewid, String reply_content) throws SQLException {} -----------
 
 	
 	
