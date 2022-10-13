@@ -247,7 +247,7 @@
  <%-- 아이템 카테고리 --%>
  <div class="all-List-page">
  
-    <ul class="item-category">
+     <ul class="item-category">
         <li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span class="category-font">2022년 컬렉션</span></a></li>
         <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a></li>
         <li><a href="#"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span class="category-font">베스트셀러</span></a></li>
@@ -256,7 +256,7 @@
         <li><a href="#"><img src="<%= ctxPath %>/images/common/category/tintedLense.jpg"><span class="category-font">틴트렌즈</span></a></li>
         <li class="item-category-next">
             <a class="category-link" href="#"><i class="fa-solid fa-circle-chevron-right"></i></a>
-        </li>
+      </li>
     </ul>
     <br><br>
 

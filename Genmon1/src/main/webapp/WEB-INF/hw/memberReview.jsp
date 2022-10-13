@@ -152,6 +152,7 @@
     .btn_modify {
     	font-size: 10pt;
         font-weight: bold;
+        margin-left: 50px;
     }
     
     .each_box {
@@ -360,13 +361,6 @@
 	
 	
 	
-	// 리뷰 수정하기
-	function rev_modify(reviewid){ // ---------------------------
-		
-		// window.location.href = 'review_write.jsp';
-		
-	} // end of function go_rev_modify() -------------------
-	
 	
 	let purpose = "";
 	// 리뷰 삭제하기
@@ -569,7 +563,6 @@
 			        <div style="margin-left: 410px;">
 			        	<c:if test="${not empty requestScope.userid && requestScope.userid == reviewList.mvo.userid}">
 							<div class="modify">
-								<button type="button" class="btn btn-light btn_modify" onClick="rev_modify('${reviewList.reviewid}')">리뷰수정</button>
 								<button type="button" class="btn btn-light btn_modify" onClick="reviewDelete('${reviewList.reviewid}')">리뷰삭제</button>
 							</div>
 						</c:if>

@@ -460,11 +460,10 @@
 					<div class="all-List-page">
 
 						<ul class="item-category">
-							<li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span
-										class="category-font">2022년 컬렉션</span></a></li>
-							<li><a href="<%= ctxPath %>/product/productList.sun"><img
-										src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a>
-							</li>
+							<li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg">
+								<span class="category-font">2022년 컬렉션</span></a></li>
+							<li><a href="<%= ctxPath %>/product/productList.sun">
+								<img src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a></li>
 							<li><a href="#"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span
 										class="category-font">베스트셀러</span></a></li>
 							<li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span
