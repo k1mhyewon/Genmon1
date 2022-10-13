@@ -95,11 +95,13 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			// 상품정보 이름, 가격, 사진 알아오기
-			String sql = "select P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname, P.price, A.pimage1\n"+
+			String sql = "select P.pname|| ' ' || upper(substr(A.pcolor,1,2)) as pname, P.price, A.pimage1, A.pnum\n"+
 						 "from tbl_all_product_test A\n"+
 						 "JOIN tbl_product_test P\n"+
 						 "ON A.fk_pid = P.pid\n"+
 						 "where A.pnum = ?";
+			
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pnum);
@@ -111,6 +113,7 @@ public class ReviewDAO implements InterReviewDAO {
 				prodMap.put("pname", rs.getString(1));
 				prodMap.put("price", rs.getString(2));
 				prodMap.put("pimage1", rs.getString(3));
+				prodMap.put("pnum", rs.getString(4));
 				
 			}
 			
@@ -132,7 +135,7 @@ public class ReviewDAO implements InterReviewDAO {
 				
 				
 				// 리뷰 평균 별점 알아오기
-				sql = "select avg(R.star) as avg_star\n"+
+				sql = "select trunc(avg(R.star),1) as avg_star\n"+
 						"from tbl_review_test R\n"+
 						"JOIN tbl_order_detail_test D\n"+
 						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
@@ -180,7 +183,7 @@ public class ReviewDAO implements InterReviewDAO {
 	
 	// 리뷰보기 페이지에서 리뷰목록 데이터 얻어오기 ------------------------------------------------------------
 	@Override
-	public List<ReviewVO> getReviews(String pnum) throws SQLException {
+	public List<ReviewVO> getReviews(String pnum, String currentShowPageNo, String searchType) throws SQLException {
 		
 		List<ReviewVO> reviewList = new ArrayList<>();
 		
@@ -188,20 +191,53 @@ public class ReviewDAO implements InterReviewDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = "select R.content, NVL(R.img_orginFileName, '없음'), R.star,\n"+
-						"       to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, \n"+
-						"       O.fk_userid, R.reviewid\n"+
-						"from tbl_review_test R\n"+
-						"JOIN tbl_order_detail_test D\n"+
-						"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
-						"JOIN tbl_order_test O\n"+
-						"ON D.fk_orderid  = O.pk_orderid\n"+
-						"JOIN tbl_all_product_test A\n"+
-						"ON D.fk_pnum = A.pnum\n"+
-						"where A.pnum = ?";
+			String sql = "select content, NVL(img_orginfilename, '없음') as img_orginfilename , star, uploaddate, reply, fk_userid, reviewid, pnum\n"+
+					"from\n"+
+					"(\n"+
+					"    select rownum as rno, content, img_orginfilename, star, uploaddate, reply, fk_userid, reviewid, pnum\n"+
+					"    from\n"+
+					"    (\n"+
+					"        select R.content, r.img_orginfilename, R.star, "+
+					"               to_char(R.uploaddate, 'yyyy-mm-dd hh24:mi') as uploaddate, NVL(R.reply, '없음') as reply, O.fk_userid, R.reviewid, A.pnum \n"+
+					"        from tbl_review_test R\n"+
+					"        JOIN tbl_order_detail_test D\n"+
+					"        ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"        JOIN tbl_order_test O\n"+
+					"        ON D.fk_orderid  = O.pk_orderid\n"+
+					"        JOIN tbl_all_product_test A\n"+
+					"        ON D.fk_pnum = A.pnum\n"+
+					"        JOIN tbl_product_test P\n"+
+					"        ON A.fk_pid = P.pid\n"+
+					"        where A.pnum = ? ";
+			
+				
+			
+			if(searchType != null && "uploaddate".equalsIgnoreCase(searchType)) {
+				sql += "order by uploaddate desc";
+			}
+			else if(searchType != null && "starhigh".equalsIgnoreCase(searchType)) {
+				sql += "order by star desc";
+			}
+			else if(searchType != null && "starlow".equalsIgnoreCase(searchType)) {
+				sql += "order by star asc";
+			}
+			else { 
+				sql += "order by uploaddate desc";
+			}
+			
+			
+			
+			sql +="    ) V\n"+
+					") T\n"+
+					"where rno between ? and ?";
+			
+			int int_currentShowPageNo = Integer.parseInt(currentShowPageNo);
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, pnum);
+			
+			pstmt.setString(1, pnum);	
+			pstmt.setInt(2, (int_currentShowPageNo*5) - (5 - 1) );
+			pstmt.setInt(3, (int_currentShowPageNo*5) );
 			
 			rs = pstmt.executeQuery();
 			
@@ -213,9 +249,16 @@ public class ReviewDAO implements InterReviewDAO {
 	            String uploaddate = rs.getString(4);
 	            String reply = rs.getString(5);
 	            String fk_userid = rs.getString(6);
+	            
+	            
+	            String maskedUserid = fk_userid.replaceAll("(?<=.{"+String.valueOf(fk_userid.length()-3)+"}).", "*");
+	            // System.out.println("maskedUserid: "+maskedUserid);
+	            
 	            String reviewid = rs.getString(7);
 	            
 	            ReviewVO rvo = new ReviewVO();
+	            
+	            ChildProductVO cpvo = new ChildProductVO();
 	            
 	            rvo.setContent(content);
 	            rvo.setImg_orginFileName(img);
@@ -224,9 +267,11 @@ public class ReviewDAO implements InterReviewDAO {
 	            rvo.setUploaddate(uploaddate);
 	            rvo.setReviewid(reviewid);
 	            
+	            
 	            MemberVO mvo = new MemberVO();
 	            
 	            mvo.setUserid(fk_userid);
+	            mvo.setUseridMasked(maskedUserid);
 	            
 	            rvo.setMvo(mvo);
 	            
@@ -473,7 +518,7 @@ public class ReviewDAO implements InterReviewDAO {
 					"JOIN tbl_order_detail_test D\n"+
 					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
 					"JOIN tbl_order_test O\n"+
-					"ON D.fk_orderid = O.pk_orderid";
+					"ON D.fk_orderid = O.pk_orderid ";
 			
 			if("미답변".equalsIgnoreCase(type)) {// 미답변 목록이라면
 				sql +=  " where R.reply is null ";
@@ -481,6 +526,7 @@ public class ReviewDAO implements InterReviewDAO {
 			else if("답변".equalsIgnoreCase(type)) {// 답변 목록이라면
 				sql +=  " where R.reply is not null ";
 			}
+			sql += " order by uploaddate desc ";
 						
 			pstmt = conn.prepareStatement(sql);
 			
@@ -529,7 +575,7 @@ public class ReviewDAO implements InterReviewDAO {
 			conn = ds.getConnection();
 			
 			
-			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , R.img_orginfilename, R.star, R.reply, R.reviewid \n"+
+			String sql = "select O.fk_userid, R.fk_pk_order_detail_id, R.content, to_char(R.uploaddate,'yyyy-mm-dd hh24:mi') as uploaddate , NVL(R.img_orginfilename, '없음') as img_orginfilename, R.star, R.reply, R.reviewid \n"+
 					"from tbl_review_test R\n"+
 					"JOIN tbl_order_detail_test D\n"+
 					"ON D.pk_order_detail_id = R.fk_pk_order_detail_id\n"+
@@ -569,6 +615,92 @@ public class ReviewDAO implements InterReviewDAO {
 		
 		return rvo;
 	}
+
+	
+	
+	
+	
+	
+	
+	// 리뷰 페이지수 알아오기 ------------------------------------------------------------------------
+	@Override
+	public int getTotalPage(String pnum) throws SQLException {
+		
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select ceil(count(reviewid)/5)\n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"on R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"where fk_pnum = ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			
+			totalPage = rs.getInt(1);
+			
+			// System.out.println("리뷰 dao 645 totalPage: "+totalPage);
+			
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+	} // end of public int getTotalPage(String pnum) throws SQLException {} --------------------
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 상품상세페이지에서 리뷰 개수 알아오기 --------------------------------------------------------------
+	@Override
+	public int getReviewCnt(String pnum) throws SQLException {
+		
+		int cnt = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "select count(R.reviewid)\n"+
+					"from tbl_review_test R\n"+
+					"JOIN tbl_order_detail_test D\n"+
+					"ON R.fk_pk_order_detail_id = D.pk_order_detail_id\n"+
+					"where d.fk_pnum = ?";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pnum);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+			
+		} finally {
+			close();
+		}
+		
+		return cnt;
+	} // end of public int getReviewCnt(String pnum) throws SQLException {} ---------------------
 
 	
 	

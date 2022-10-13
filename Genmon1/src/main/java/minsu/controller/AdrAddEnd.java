@@ -17,12 +17,7 @@ public class AdrAddEnd extends AbstractController {
 	// 주소추가 및 기본 배송지를 보여주는 곳 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		HttpSession session = request.getSession();
-		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-		
-		String userid = loginuser.getUserid();
-		
+	
 		if(!super.checkLogin(request)) {
 				// 로그인 안했으면 
 			    String message = "회원정보를 수정하려면 먼저 로그인을 하세요.!!";
@@ -52,6 +47,10 @@ public class AdrAddEnd extends AbstractController {
 				}
 				else {
 					
+					HttpSession session = request.getSession();
+					MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+					String userid = loginuser.getUserid();
+					
 					String postcode = request.getParameter("postcode");
 					String address = request.getParameter("address");
 					String detailaddress = request.getParameter("detailaddress");
@@ -69,6 +68,12 @@ public class AdrAddEnd extends AbstractController {
 				
 			         if(n == 1) {
 			        	 
+			        	 loginuser.setPostcode(postcode);
+			        	 loginuser.setAddress(address);
+			        	 loginuser.setDetailaddress(detailaddress);
+			        	 loginuser.setExtraaddress(extraaddress);
+			        	 loginuser.setUserid(userid);
+			        	 
 			        		String message = "주소등록 성공!!";
 					        String loc = "adrView.sun";
 					            
@@ -82,7 +87,7 @@ public class AdrAddEnd extends AbstractController {
 			         else {
 			        	 
 
-			        		String message = "주소등록 성공!!";
+			        		String message = "주소등록 실패!!";
 					        String loc = "javascript:history.back()";
 					            
 				            request.setAttribute("message", message);
@@ -93,6 +98,8 @@ public class AdrAddEnd extends AbstractController {
 			         }
 			   
 				}
+				
+				
 			}
 	}
 }

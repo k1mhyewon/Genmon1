@@ -23,26 +23,41 @@ public class CartToPurchase extends AbstractController {
 			String all_qty = request.getParameter("all_qty");
 			String all_pnum = request.getParameter("all_pnum");
 
-			//System.out.println(all_qty);
-			//System.out.println(all_pnum);
+			// System.out.println("all_qty 타입 : "+all_qty.getClass().getName());
+			// System.out.println("all_pnum 타입 : "+all_pnum.getClass().getName());
 			
-			String[] arr_qty = all_qty.split(",");
-			String[] arr_pnum = all_pnum.split(",");
 			
-			List<CartVO> ordertList = new ArrayList<>();
+			HttpSession session =  request.getSession(); 
 			
 			InterCartDAO cdao = new CartDAO();
 			
-			for(int i =0; i<arr_qty.length; i++) {
+			List<CartVO> ordertList = new ArrayList<>();
+			
+			if(all_qty.contains(",")) {
 				
-				//System.out.println(arr_pnum[i]+ arr_qty[i]);
-				CartVO cvo = cdao.selectOneOrder(arr_pnum[i], arr_qty[i]);
-				//cvo.setFk_pnum( Integer.parseInt(arr_pnum[i]) );
-				//cvo.setQty(Integer.parseInt(arr_qty[i]));
+				// System.out.println("cartToPurchase 컨트롤러 30 allqty 에 , 있음");
+				
+				String[] arr_qty = all_qty.split(",");
+				String[] arr_pnum = all_pnum.split(",");
+				
+				for(int i =0; i<arr_qty.length; i++) {
+					
+					//System.out.println(arr_pnum[i]+ arr_qty[i]);
+					CartVO cvo = cdao.selectOneOrder(arr_pnum[i], arr_qty[i]);
+					//cvo.setFk_pnum( Integer.parseInt(arr_pnum[i]) );
+					//cvo.setQty(Integer.parseInt(arr_qty[i]));
+					ordertList.add(cvo);
+				}
+			}
+			else {
+				// System.out.println("cartToPurchase 컨트롤러 53 allqty 에 , 없음");
+				
+				CartVO cvo = cdao.selectOneOrder(all_pnum, all_qty);
+				
 				ordertList.add(cvo);
 			}
 			
-			HttpSession session =  request.getSession(); 
+			
 			session.setAttribute("ordertList", ordertList);
 			
 			if(super.checkLogin(request)) { // 로그인 한 상태라면 바로 주문으로 가면 안대고 ㅎㅎ

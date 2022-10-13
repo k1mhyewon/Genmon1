@@ -84,9 +84,10 @@
 	}
 	
 	li#telNum > input {
-		width: 120px;
+		width: 85px;
 		line-height: 30px;
 		margin: 10px 0;
+		display: inline-block;
 	}
   	
 </style>
@@ -421,16 +422,28 @@ b_flag_idDuplicate_click = false;
 	    var month;
 	    $("#month").append("<option value=''>월</option>");
 	    for (var i = 1; i <= 12; i++) {
-	      $("#month").append("<option value='" + i + "'>" + i + " 월" + "</option>");
+	    	
+	    	if(i<10){
+	    		month += "<option>0"+i+"</option>";
+			}
+			else{
+				month += "<option>"+i+"</option>";
+			}
 	    } 
+		$("#month").html(month);
 	    
 	    // 일 뿌려주기(1일부터 31일)
 	    var day;
 	    $("#day").append("<option value=''>일</option>");
 	    for (var i = 1; i <= 31; i++) {
-	      $("#day").append("<option value='" + i + "'>" + i + " 일" + "</option>");
+	    	if(i<10){
+	    		day += "<option>0"+i+"</option>";
+			}
+			else{
+				day += "<option>"+i+"</option>";
+			}
 	    }
-	    
+		$("#day").html(day);
 	    
    }); // end of document ready----------------------------
 	   			

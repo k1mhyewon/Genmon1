@@ -70,8 +70,6 @@ public class PwdCheck extends AbstractController {
 					
 					// super.setRedirect(false);
 					super.setViewPage("/WEB-INF/minsu/pwdChangeEnd.jsp");
-					
-					return;
 				}
 				else {
 					 String message = "비밀번호가 다릅니다.!!";
@@ -83,15 +81,10 @@ public class PwdCheck extends AbstractController {
 					   super.setViewPage("/WEB-INF/common/msg.jsp");
 			           return;
 				}
-				// super.setRedirect(false);
-				/* super.setViewPage("/WEB-INF/minsu/pwdCheck.jsp"); */
+
 
 			}
 		}
-		
-
-		
-		
 		
 	}
 }

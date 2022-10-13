@@ -19,8 +19,11 @@ public class ReviewVO {
 	
 	private MemberVO mvo;
 	
+	private ChildProductVO cpvo;
+	
 	
 	///////////////////////////////////////////////////////////////////////////////
+	
 	
 	
 	
@@ -133,5 +136,14 @@ public class ReviewVO {
 		this.odvo = odvo;
 	}
 	
+	
+	/////////////////////////////////////////
+	
+	public ChildProductVO getCpvo() {
+		return cpvo;
+	}
+	public void setCpvo(ChildProductVO cpvo) {
+		this.cpvo = cpvo;
+	}
 	
 }

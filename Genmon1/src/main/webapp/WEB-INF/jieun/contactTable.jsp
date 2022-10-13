@@ -3,6 +3,9 @@
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/myinfo_mainMenu.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+
 <% String ctxPath = request.getContextPath(); %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Font Awesome 5 Icons -->
@@ -138,7 +141,7 @@ td:hover{
 <script src="../bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script>
 	
-	$(document).ready(function(){
+	$(document).ready(function(){ 
 		 // panel-faq-container
 		  const panelFaqContainer = document.querySelectorAll(".panel-faq-container"); // NodeList 객체
 		  
@@ -153,10 +156,10 @@ td:hover{
 		    panelFaqContainer[i].addEventListener('click', function() { // 클릭시 처리할 일
 		      // FAQ 제목 클릭시 -> 본문이 보이게끔 -> active 클래스 추가
 		      panelFaqAnswer[i].classList.toggle('active');
-		      if(panelFaqAnswer[i].classList.contains('active')){
+		    /*   if(panelFaqAnswer[i].classList.contains('active')){
 		    	  const conatactid = $(this).parent().find('div#contactid').text()
 		    	  displayDetailContact(contactid);
-		      }
+		      } */
 		    });
 		  };
 		  
@@ -166,85 +169,47 @@ td:hover{
 		        panelFaqAnswer[i].classList.remove('active');
 		    };
 		  });
-	});
+		  
+		  
+		<%--   $(".panel-faq-container").click(function(e){
+			  const contactid = $(e.target).siblings("input.contactid").val();
+			  const exist = $(e.target).next("input.replyExist").val();
+			    if(!$(e.target).children('.panel-faq-answer').hasClass('active') && exist =="완료"){
+			    	
+			    	$.ajax({
+						url:"<%= request.getContextPath()%>/admin/contactDetailJSON.sun?contactid="+contactid,
+						type:"GET",
+						dataType:"JSON",
+						success:function(json){
+							let html = "";
+							
+							html = '<p class="mt-5"style="font-size: 18pt; font-weight: bold">A. </p>'+
+									'<p>'+json.acontents+'</p>';
+							$("#answer").html(html); 
+								
+						},
+						error: function(request, status, error){
+							alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+						
+						
+					});
+			   	}
+		  });
+		   --%>
+		  
+	});// end of $(document).ready(function(){ }------------------------------
 	
 	
 	
 	
 	
 	
-	
-	// 선택한 문의 상세 정보 
-	function displayDetailContact(contactid){
-		$.ajax({
-			url:"<%= request.getContextPath()%>/admin/contactDetailJSON.sun&goBackURL=${requestScope.goBackURL}",
-			data:{"contactid":contactid
-			},
-			dataType:"JSON",
-			success:function(json){
-				let html = "";
-				if(json.length == 0){// 글이 없는경우.
-					// !!! 주의 !!!
-	                // if(json == null) 이 아님!!!
-	                // if(json.length == 0) 으로 해야함!!
-					html += "등록된 문의글이 없습니다.";
-				
-					// $("div#displayHIT").html(html);
-				}
-				else if( json.length > 0 ){ // 데이터가 존재하는 경우   
-					html += '<p class="mt-5"style="font-size: 15pt; font-weight: bold">A. </p>'+
-							'<p>'+json.rcontent+'</p>';
-					$("p#answer").html(html); 
-				}				
-			},
-			error: function(request, status, error){
-				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-			}
-			
-			
-		});
-		
-	}
 	
 </script>
 <%-- 인덱스 시작 --%>
-<div class="container">
-	<!-- <div class="row justify-content-center">
-		<div class="col-md-6 text-center mb-4">
-<h2 class="heading-section">문의관리</h2> 
-		</div>
-	</div> -->
+	<div class="container">
 	<div class="row panel-group" id="accordion">
-		<div class="col-md-12 panel panel-default">
-			<!-- <h3 class="h5 mb-4 text-center">Collapsible Table</h3> -->
-			<!-- <div class="checkbox">
-				<label class="container">
-				  <input type="checkbox" checked="checked">
-				  <span class="checkmark"></span>전체
-				</label>
-							
-				<label class="container">
-				  <input type="checkbox">
-				  <span class="checkmark"></span>미응답
-				</label>
-				
-				<label class="container">
-				  <input type="checkbox">
-				  <span class="checkmark"></span>응답완료
-				</label>
-			</div>
-			
-			<form action="">
-     		<div class="input-group">
-		        <div class="input-group-prepend">
-		          <div class="input-group-text"><i class="fa fa-search"></i></div>
-		        </div>
-		        <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="주문번호, 상품명, 고객 핸드폰번호로 검색 가능합니다.">
-		      	<div id="recentUpdate" style="color:#e0e0e0; padding: 8px 10px; font-size:10pt; text-align: center;">최근수집 16:10 <p href="#"><i class="fas fa-refresh"></i></p></div>
-		      </div>
-   			</form> -->
-   	
-		  
 	
 	<div class="container mb-5 mt-5">
     <h3 style="text-align: left; ">
@@ -259,7 +224,7 @@ td:hover{
 		향후 멤버쉽 단계별 혜택 및 선정기준은 사전공지 후 변경될 수 있습니다.</p>
      <br><br>
      <button id="btn-all-close" class="">ALL Close</button> &nbsp;
-     <button id="" class="btn" style="background-color: #212529; color:#fff;float: right;">문의쓰기</button> &nbsp;
+     <button id="" class="btn" style="background-color: none;border:none; color:#212529;float: right;" onclick="location.href='/Genmon1/customerCare/contact/memberGoContact.sun';">문의쓰기</button> &nbsp;
     <br>
     <table class="table myaccordion ">
       <%-- <caption>FAQ List of Articles</caption> --%>
@@ -286,48 +251,27 @@ td:hover{
 	          
 	          <td class="text-left" width="50%" >
 	            <div class="panel-faq-container">
-	              <p class="panel-faq-title" style="margin:auto;">제목</p>
-	              <div id="contactid" style="display:none;">${cvo.contactid}</div>
+	            	 <c:set var="cont" value="${cvo.contents}" />
+	              <p class="panel-faq-title" style="margin:auto;">${fn:substring(cont,0,10) }</p>
+	              <input class="contactid" hidden="" value="${cvo.contactid}">
 	              <div class="panel-faq-answer" >
-	                <p style="font-size: 15pt; font-weight: bold">Q. </p>
-	                <p>${cvo.contents}</p>
-	                <p id="answer"><p>
+		                <p style="font-size: 18pt; font-weight: bold"><br>Q. </p>
+		                <p>${cvo.contents}</p>
+		                <c:if test="${cvo.acontents != null}">
+			                <p class="mt-5 " style="font-size: 18pt; font-weight: bold">A. </p>
+							<p class="mb-5 ">${cvo.acontents}</p>
+		                </c:if>
 	              </div>
 			     </div>
 	          </td>
 	          <td style="margin:auto;">${cvo.cregisterday}</td>
-	          <td style="margin:auto;">${cvo.replyExist}</td>
+	          <td class="exist" style="margin:auto;">${cvo.replyExist}</td>
 	          <td><button type="button" class="btn button" style="border: 1px solid #dee2e6; color: #adadad">삭제</button></td>
 	        </tr>
 	        
-	        <%-- <tr class="panel-faq-answer">
-	        	<td>
-		        	<span class="contents" >Q.</span>
-		        </td>
-	        	<td>
-					<span class="contents" >
-				        <span id="question memContext">${cvo.contents}</span>
-			        </span>
-			    </td>
-			    <td>    
-		        	<span class="contents" ></span>
-		        </td>
-			    <td>    
-		        	<span class="contents" ></span>
-		        </td>
-			    <td>    
-		        	<span class="contents" ></span>
-		        </td>
-	        </tr> --%>
 	            
         </c:forEach>
-        
 
-
-        <!-- <tr class="bg-info">
-          <td colspan=4 class="text-left">자주 묻는 질문 총 합계</td>
-          <td>429</td>
-        </tr> --> 
       </tbody>
     </table>
   </div>

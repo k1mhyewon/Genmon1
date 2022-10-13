@@ -32,6 +32,20 @@ public interface InterContactDAO {
 	// 문의글 쓸때 파일명 알아오기
 	Map<String, String> getContactFileName(String contactid) throws SQLException;
 
+	// 관리자 멤버테이블에 답변입력 
+	int insertMemberAnswer(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자 비회원테이블에 답변입력 
+	int insertGuestAnswer(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자 문의페이지에서 전체 한 페이지에 나오는 상품갯수에 따른 총 상품페이지 갯수
+	int getContactTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자 문의 답변 업데이트
+	int updateContactAnswer(String contactid, String contents) throws SQLException;
+
+	// 관리자 문의 삭제 
+	int deleteContact(String contactid) throws SQLException;
 
 
 }

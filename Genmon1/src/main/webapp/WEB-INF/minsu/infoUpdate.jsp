@@ -29,27 +29,9 @@
 		line-height: 100%;
 		margin: 10% 0 -5% 10%;
 	}
-	
-	 /* === 모달 CSS === */
-    
-    .modal-dialog.modals-fullsize_accountDropout {
-    width: 1000px;
-    height: 50%;
-    }
-    
-    .modals-fullsize {
-    	width: 700px;
-    	height: 1000px;
-    }
-    
-    
-    .modal-content.modals-fullsize {
-	    height: auto;
-	    min-height:50%;
-	    border-radius: 0;
-    }
-	
-	
+
+
+
 </style>
 
 
@@ -59,25 +41,17 @@
 			
 			$("span#info_detail").css("font-weight","bold");
 			
-			
-			
-			
-			
-			// 내정보수정하기에서 수정버튼을 누르면  
+			// 수정하기 버튼을 누르면
 	        $("button#btn_update").click(function(){
-	        	location.href="<%= ctxPath%>/myinfo/pwdInput.sun";
+	        	location.href="<%= ctxPath%>/myinfo/updatepwdInput.sun";
 				
-			}); // end of $("button#btn_logout").click() --------------
-			
-			
+			}); // end of $("button#btn_pwdcheck").click(function() --------------
+			    
 		});// end of $(document).ready(function() ------------------------------------------
 
-
-
-
+		
 </script>
 
-	
 <div id="container" align="center">
 	<div id="menu_myinfoupdate">
 		<ul  align="left">
@@ -89,33 +63,16 @@
         		</c:choose>
 			</li>
 			
-			<li id="name" name="name">성명&nbsp;&nbsp;: ${loginuser.name}</li>
+			<li id="name" name="name" >성명&nbsp;&nbsp;: ${loginuser.name}</li>
 			<li id="birth" name="birthday">생년월일&nbsp;&nbsp;: ${loginuser.birthday}</li>
 			<li id="email" name="email">이메일&nbsp;&nbsp;: ${loginuser.email}</li>
+			<li id="mobile" name="mobile">전화번호&nbsp;&nbsp;: ${loginuser.mobile}</li>
 		</ul>
 		<div>
-			<button type="button" id="btn_update" class="btn" >수정하기</button>
-			<button type="button" id="btn_accountDrop" class="btn"  data-toggle="modal" data-target="#accountDropout">회원 탈퇴하기</button>
+			<button type="button" id="btn_update" class="btn" onclick="goupdate()" >수정하기</button>
 		</div>
 	</div>
 </div>
 
-
-
-<%--*** 회원탈퇴하기 찾기 Modal(부트스트랩기능) *** --%>
-   <div class="modal fade" id="accountDropout">
-       	<div class="modal-dialog modals-fullsize_accountDropout">
-
-       		<div class="modal-content modals-fullsize">
-     
-               <!-- Modal body -->
-                <div class="cancel_modal-body">
-                	<iframe id="iframe_emailFind" style="border: none; width: 700px; height: 650px;" src="<%= ctxPath%>/myinfo/accountDropout.sun">
-             		</iframe>
-                </div>
-       		</div>
-       	</div>
-   </div>
-   
    
    <jsp:include page="/minsu/footer.jsp" />

@@ -55,8 +55,6 @@ public class CoinPurchaseEnd extends AbstractController {
 			
 			}
 			
-			
-			
 		}
 		else {
 			// 로그인을 안 했으면 

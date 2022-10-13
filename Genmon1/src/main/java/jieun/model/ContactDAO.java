@@ -78,20 +78,24 @@ public class ContactDAO implements InterContactDAO {
 			
 			String sql = "with v as "
 					+ " ( "
-					+ " select contactid, ctype, contents, cregisterday, email "
-					+ " from tbl_member_contact_test c left join tbl_member_test m "
-					+ " on c.fk_userid = m.userid ";
+					+ " select contactid, ctype, contents, cregisterday, email, nvl2(answerid,1,0) as status "
+					+ " from tbl_member_contact c left join tbl_member_test m "
+					+ " on c.fk_userid = m.userid "
+					+ " left join tbl_member_contact_answer a "
+					+ " on a.fk_contactid = c.contactid ";
 			if(!"전체".equalsIgnoreCase(ctype)) {// 전체가 아니면
 				sql +=  " where ctype = ? ";
 			}
 			sql += " UNION ALL "
-					+ " select contactid, ctype, contents, cregisterday, email "
-					+ " from tbl_guest_contact_test ";
+					+ " select contactid, ctype, contents, cregisterday, email, nvl2(answerid,1,0) as status "
+					+ " from tbl_guest_contact c "
+					+ " left join tbl_guest_contact_answer a "
+					+ " on a.fk_contactid = c.contactid ";
 			if(!"전체".equalsIgnoreCase(ctype)) {// 전체가 아니면
 				sql +=  " where ctype = ? ";
 			}
 			sql += "  ) "
-				+ " select contactid, email, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday " 
+				+ " select contactid, email, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday, status " 
 				+ " from v "	
 				+ " order by cregisterday desc ";
 			
@@ -112,6 +116,7 @@ public class ContactDAO implements InterContactDAO {
 				cvo.setCtype(rs.getString(3));
 				cvo.setContents(rs.getString(4));
 				cvo.setCregisterday(rs.getString(5));
+				cvo.setStatus(rs.getInt(6));
 				
 				contactList.add(cvo);
 			}
@@ -137,33 +142,39 @@ public class ContactDAO implements InterContactDAO {
 			conn = ds.getConnection();
 			
 			if(!mgflag) {// 회원글이라면 
-				sql=" select  contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email, fk_userid, name "
-					+ " from tbl_member_contact_test c left join tbl_member_test m "
+				sql=" select acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email, fk_userid, name "
+					+ " from tbl_member_contact c left join tbl_member_test m "
 					+ " on c.fk_userid = m.userid "
+					+ " left join tbl_member_contact_answer a "
+					+ "on a.fk_contactid = c.contactid "
 					+ " where contactid = ? ";
 			}
 			else { // 비회원글이라면  
-				sql=" select contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email "
-					+ " from tbl_guest_contact_test "
+				sql=" select acontents, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd hh24:mi:ss') as cregisterday , email "
+					+ " from tbl_guest_contact c"
+					+ " left join tbl_guest_contact_answer a "
+					+ " on a.fk_contactid = c.contactid "
 					+ " where contactid = ? ";
 			} 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, contactid);
 			rs = pstmt.executeQuery();
-			rs.next();
 			
-			cvo.setContactid(rs.getString(1));
-			cvo.setCtype(rs.getString(2));
-			cvo.setContents(rs.getString(3));
-			cvo.setCregisterday(rs.getString(4));
+			rs.next();
+			    
+			cvo.setAcontents(rs.getString(1));
+			cvo.setContactid(rs.getString(2));
+			cvo.setCtype(rs.getString(3));
+			cvo.setContents(rs.getString(4));
+			cvo.setCregisterday(rs.getString(5));
 // 첨부파일 
-			cvo.setEmail(aes.decrypt(rs.getString(5)));
+			cvo.setEmail(aes.decrypt(rs.getString(6)));
 			
 			if(!mgflag) {// 회원글이라면
-				cvo.setFk_userid(rs.getString(6));
+				cvo.setFk_userid(rs.getString(7));
 				
 				MemberVO mvo = new MemberVO();
-				mvo.setName(rs.getString(7));
+				mvo.setName(rs.getString(8));
 				cvo.setMvo(mvo);
 			}
 			
@@ -185,8 +196,8 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "insert into tbl_member_contact_test(contactid, fk_userid, ctype, contents, pwd, contactfile_systemFileName, contactfile_orginFileName)  "
-						+ "values ('M'||to_char(sysdate,'yyyymmdd')||seq_tbl_member_contact_ctid.nextval, ?, ?, ?, ?) ";
+			String sql = "insert into tbl_member_contact(contactid, fk_userid, ctype, contents, pwd, contactfile_systemFileName, contactfile_orginFileName)  "
+						+ "values ('M'||to_char(sysdate,'yyyymmdd')||seq_tbl_member_contact_ctid.nextval, ?, ?, ?, ?,?,?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -213,7 +224,7 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = "insert into tbl_guest_contact_test(contactid, email, ctype, contents, pwd) "
+			String sql = "insert into tbl_guest_contact(contactid, email, ctype, contents, pwd) "
 						+ "values ('G'||to_char(sysdate,'yyyymmdd')||seq_tbl_guest_contact_ctid.nextval, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -242,11 +253,11 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select contactid, fk_userid, ctype, contents, cregisterday, exist "
+			String sql = " select contactid, fk_userid, ctype, contents, cregisterday, exist, acontents  "
 						+ " from  "
 						+ " ( "
-						+ " select row_number() over(order by cregisterday desc) AS RNO, contactid, fk_userid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd') as cregisterday, nvl2(rpid, 1,0) as exist "
-						+ " from tbl_member_contact_test a left join tbl_member_contact_reply_test b "
+						+ " select row_number() over(order by cregisterday desc) AS RNO, contactid, fk_userid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd') as cregisterday, nvl2(answerid, 1,0) as exist, acontents "
+						+ " from tbl_member_contact a left join tbl_member_contact_answer b "
 						+ " on a.contactid = b.fk_contactid  "
 						+ " where fk_userid = ? "
 						+ " ) "
@@ -275,6 +286,7 @@ public class ContactDAO implements InterContactDAO {
 				cvo.setContents(rs.getString(4));
 				cvo.setCregisterday(rs.getString(5));
 				cvo.setReplyExist(String.valueOf(rs.getInt(6)));
+				cvo.setAcontents(rs.getString(7));
 				
 				contactList.add(cvo);
 			}
@@ -292,8 +304,8 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select fk_contactid, rcontent, to_char(rpregisterday,'yyyy-mm-dd') "
-						+ " from tbl_member_contact_reply_test "
+			String sql = " select fk_contactid, acontents, to_char(registerday,'yyyy-mm-dd') "
+						+ " from tbl_member_contact_answer "
 						+ " where fk_contactid = ? " ;
 			
 			pstmt = conn.prepareStatement(sql);
@@ -305,8 +317,8 @@ public class ContactDAO implements InterContactDAO {
 			rs.next();
 			
 			paraMap.put("contactid", rs.getString(1));
-			paraMap.put("rcontent", rs.getString(2));
-			paraMap.put("rpregisterday", rs.getString(3));
+			paraMap.put("acontents", rs.getString(2));
+			paraMap.put("registerday", rs.getString(3));
 			
 		} finally {
 			close();
@@ -314,14 +326,14 @@ public class ContactDAO implements InterContactDAO {
 		return paraMap;
 	}
 
-	// 전체 한 페이지에 나오는 상품갯수에 따른 총 상품페이지 갯수 
+	// 한 멤버의 총 문의내역 (한페이지에 나오는 문의갯수에 따른 총 상품페이지 갯수 
 	@Override
 	public int getTotalPage(Map<String, String> paraMap) throws SQLException {
 		int totalPage = 0; 
 		try {
 			
 			conn = ds.getConnection();
-			String sql = " select ceil(count(*)/?) from tbl_member_contact_test where fk_userid = ? ";
+			String sql = " select ceil(count(*)/?) from tbl_member_contact where fk_userid = ? ";
 			
 			// 서치단어 , 필터 넣기 
 			pstmt = conn.prepareStatement(sql);
@@ -344,6 +356,9 @@ public class ContactDAO implements InterContactDAO {
 	}
 
 	
+	
+	
+	
 	// 문의글 업로드한 사진 파일명 알아오기
 	@Override
 	public Map<String, String> getContactFileName(String contactid) throws SQLException {
@@ -354,7 +369,7 @@ public class ContactDAO implements InterContactDAO {
 			conn = ds.getConnection();
 			
 			String sql = " select contactfile_systemFileName, contactfile_orginFileName "
-						+ " from tbl_member_contact_test "
+						+ " from tbl_member_contact "
 						+ " where contactid = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -377,8 +392,156 @@ public class ContactDAO implements InterContactDAO {
 
 	
 	
+	// 관리자 멤버테이블에 답변입력 
+	@Override
+	public int insertMemberAnswer(Map<String, String> paraMap) throws SQLException {
+		int result = 0 ;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = "insert into tbl_member_contact_answer(answerid, fk_contactid, acontents) "
+						+ "values (seq_tbl_admin_memberContact_reply_rpid.nextval, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("contactid"));	
+			pstmt.setString(2, paraMap.get("contents"));
+
+			result  = pstmt.executeUpdate();
+		
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
+	
+	// 관리자 비회원테이블에 답변입력
+	@Override
+	public int insertGuestAnswer(Map<String, String> paraMap) throws SQLException {
+		int result = 0 ;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_guest_contact_answer(answerid, fk_contactid, acontents) "
+					   + " values (seq_tbl_admin_nomemberContact_reply_rpid.nextval, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("contactid"));	
+			pstmt.setString(2, paraMap.get("contents"));
+
+			result  = pstmt.executeUpdate();
+		
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+
 	
 	
+	
+	// 관리자 문의페이지에서 전체 한 페이지에 나오는 상품갯수에 따른 총 상품페이지 갯수 
+		@Override
+		public int getContactTotalPage(Map<String, String> paraMap) throws SQLException {
+			int totalPage = 0; 
+			
+			try {
+				
+				conn = ds.getConnection();
+				String sql = " select ceil(count(*)/?) from tbl_all_product_test ";
+				
+				// 서치단어 , 필터 넣기 
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")) ); // 한 페이지에 나오는 상품갯수 
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next(); // 무조건 결과나온다. => if 할필요 없음 
+				
+				totalPage = rs.getInt(1);
+				
+			} finally {
+				close();
+			}
+			
+			
+			return totalPage;
+		}// public int getTotalPage(Map<String, String> paraMap) throws SQLException {}----------
+
+		
+		// 관리자 문의 답변 업데이트	
+		@Override
+		public int updateContactAnswer(String contactid, String contents) throws SQLException {
+			int result = 0;
+			String mg = contactid.substring(0,1);
+			boolean mgflag = "M".equalsIgnoreCase(mg)?  false : true; //  멤버문의글일경우 false 인 깃발   
+			String sql="";
+			try {
+				conn = ds.getConnection();
+				
+				if(!mgflag) { // 회원일경우 
+					sql = "update tbl_member_contact_answer set acontents = ? "
+						+ "where contactid = ? ";
+				}
+				else {// 비회원일경우 
+					sql = "update tbl_guest_contact_answer set acontents = ? "
+						+ "where contactid = ? ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, contents);
+				pstmt.setString(2, contactid);
+
+				result = pstmt.executeUpdate();
+			
+			} finally {
+				close();
+			}
+			return result;
+		}// end of public int updateContactAnswer(String contactid, String contents) throws SQLException {}----------
+
+		
+		// 관리자 문의 삭제 
+		@Override
+		public int deleteContact(String contactid) throws SQLException {
+			int result = 0;
+			String mg = contactid.substring(0,1);
+			System.out.println(mg);
+			boolean mgflag = "M".equalsIgnoreCase(mg)?  false : true; //  멤버문의글일경우 false 인 깃발   
+			String sql="";
+			try {
+				conn = ds.getConnection();
+				
+				if(!mgflag) { // 회원일경우 
+					sql = " delete from tbl_member_contact "
+						+ " where contactid = ? ";
+				}
+				else {// 비회원일경우 
+					sql = " delete from tbl_guest_contact "
+						+ " where contactid = ? ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, contactid);
+
+				result = pstmt.executeUpdate();
+			
+			} finally {
+				close();
+			}
+			return result;
+		}// end of public int deleteContact(String contactid) throws SQLException {}-------------
+
+			
 	
 	
 	
