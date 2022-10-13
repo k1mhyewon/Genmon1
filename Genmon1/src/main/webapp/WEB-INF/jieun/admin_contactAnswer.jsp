@@ -451,7 +451,7 @@ $(document).ready(function(){
 	      method="post"
 	      enctype="multipart/form-data">
 
-
+ 
 		<div class="row">
 			
 			<input hidden="" value="${cvo.contactid}" type="text"  name="contactid" id="contactid" readonly>
@@ -481,7 +481,7 @@ $(document).ready(function(){
          	<div class="form-group existhide">
 				<label class="col-form-label" for="file">첨부파일</label>&nbsp;&nbsp;
 				<c:if test="${cvo.contactfile_orginFileName != null}">
-	                 <a href="<%= ctxPath%>/admin/fileDownload.sun?contactid=${cvo.contactid}">${cvo.contactfile_orginFileName}</a>
+	                 <a href="<%= ctxPath%>/admin/fileDownload.sun?contactid=${cvo.contactid}">${cvo.contactfile_orginFileName}</a><br>
 	                 <img src="/Genmon1/images/contact/${cvo.contactfile_systemFileName}" class="img-fluid" style="width:50%;" />
 	             </c:if>
 	             <c:if test="${cvo.contactfile_orginFileName == null}">

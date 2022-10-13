@@ -204,8 +204,7 @@ a.prod:hover {
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
-	
- 	
+	$("li.contact").addClass('active');
  	/* 행호버효과 */
  	$(document).on("mouseover", "tr.tr_data", function(){
  		//$(this).children().addClass('MYhover');

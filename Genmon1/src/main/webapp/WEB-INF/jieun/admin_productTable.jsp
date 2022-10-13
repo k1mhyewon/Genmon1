@@ -190,10 +190,10 @@ tr.addPrd:hover{
 	cursor: pointer;
 }
 
-a{
+a.prod{
 	opacity: .5; 
 }
-a:hover{
+a.prod:hover{
 	opacity: 1; 
 }
 
@@ -206,7 +206,7 @@ a:hover{
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
-	
+	$("li.product").addClass('active');
 	/* 행호버효과 */
 	$("tr[scope='row']>td").hover(function() {
 		/* $(this).addclass('thover'); */
@@ -379,9 +379,9 @@ $(document).ready(function () {
 	   					<c:when test="${cpvo.panmaestate eq '2'}"><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:when>
 	   				</c:choose>
     			</td> 
-				<td>&nbsp;<a class="prodEdit" style="display: inline-block;color:#4e4e4e"><i class="fas fa fa-edit "></i></a>&nbsp;&nbsp;
+				<td>&nbsp;<a class="prodEdit prod" style="display: inline-block;color:#4e4e4e"><i class="fas fa fa-edit "></i></a>&nbsp;&nbsp;
 					<c:if test="${cpvo.panmaestate ne '0'}">
-						<a class="prodStop"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a>
+						<a class="prodStop prod"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a>
 					</c:if>
 				</td>
     		</tr>

@@ -126,9 +126,6 @@ h2.nav_title{
 				<a id="orderCancel" class="nav-link2 active" href="<%=ctxPath %>/customerCare/contact/ordercancel.sun">주문취소</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="order" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/order.sun">주문조회</a>
-			</li>
-			<li class="menu-nav-item menu nav-item">
 				<a id="productcare" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/productcare.sun">제품 사용 가이드</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
