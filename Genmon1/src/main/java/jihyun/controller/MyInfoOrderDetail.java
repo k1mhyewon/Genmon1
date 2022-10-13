@@ -55,6 +55,8 @@ public class MyInfoOrderDetail extends AbstractController {
 								total_status = orddtailList.get(i).getOrder_status();
 								break;
 								
+							} else if(orddtailList.get(i).getOrder_status()== 8){
+								continue;
 							} else {
 								total_status = orddtailList.get(i).getOrder_status();
 							}
@@ -133,6 +135,8 @@ public class MyInfoOrderDetail extends AbstractController {
 						total_status = orddtailList.get(i).getOrder_status();
 						break;
 						
+					} else if(orddtailList.get(i).getOrder_status()== 8){
+						continue;
 					} else {
 						total_status = orddtailList.get(i).getOrder_status();
 					}
@@ -149,10 +153,8 @@ public class MyInfoOrderDetail extends AbstractController {
 				request.setAttribute("total_status",total_status);
 				
 				
-				
-				
-				System.out.println("진입성공함");
-				System.out.println(orderid);
+				//System.out.println("진입성공함");
+				//System.out.println(orderid);
 				
 				
 				super.setViewPage("/WEB-INF/jihyun/guestOrderDetail.jsp");

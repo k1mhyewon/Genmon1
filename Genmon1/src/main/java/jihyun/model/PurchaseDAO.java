@@ -187,7 +187,7 @@ public class PurchaseDAO implements InterPurchaseDAO {
 			try {
 				conn = ds.getConnection();
 				
-				String sql = "select PURCHASE_STATUS, PAYMENTAMOUNT, USEDCOIN, USEDPOINT, BANK, ACCNUM, ACCNAME \n"+
+				String sql = "select PURCHASE_STATUS, PAYMENTAMOUNT, USEDCOIN, USEDPOINT, BANK, ACCNUM, ACCNAME, purchaseDate \n"+
 						"from tbl_purchase_test\n"+
 						"left join tbl_refund_account_test\n"+
 						" on PK_PURCHASEID = FK_PURCHASEID " +
@@ -204,6 +204,7 @@ public class PurchaseDAO implements InterPurchaseDAO {
 				purvo.setPaymentAmount(rs.getInt(2));
 				purvo.setUsedCoin(rs.getInt(3));
 				purvo.setUsedPoint(rs.getInt(4));
+				purvo.setPurchaseDate(rs.getString(8));
 				
 				purvomap.put("purvo", purvo);
 				
@@ -216,6 +217,31 @@ public class PurchaseDAO implements InterPurchaseDAO {
 			}
 			return purvomap;
 		} // end of 주문 상품에 대해 결제 내역 조회해오기 (현금결제라면 환불내역까지 가져와야함)
+
+		
+		// 입금확인된 주문 결제상태 변경해주기
+		@Override
+		public int updatePurStatus(String orderid) throws SQLException {
+			int result = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = "update tbl_purchase_test set PURCHASE_STATUS = 1 \n"+
+						" where FK_ORDERID = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, orderid);
+				
+				result = pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+			
+			return result;
+		}// end of  입금확인된 주문 결제상태 변경해주기
 
 		
 		

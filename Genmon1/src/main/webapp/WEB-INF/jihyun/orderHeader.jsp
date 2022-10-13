@@ -472,7 +472,7 @@
 	
 	 <%-- 상단바 시작 --%>
     <nav class="navbar navbar-expand-md border-bottom" >
-        <a class="navbar-brand" href="<%= ctxPath%>/index.sun"><img src="<%= ctxPath%>/images/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px; height:15px;"/></a>
+        <a class="navbar-brand" href="<%= ctxPath%>/index.sun"><img src="<%= ctxPath%>/images/common/Gentle_monster_logo.png" style="max-width: 200px; min-width: 175px; height:15px;"/></a>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <span style="font-weight: bold; font-size: 11pt;">결제</span>
           <ul class="navbar-nav" style="margin: auto 0 auto 30%;">

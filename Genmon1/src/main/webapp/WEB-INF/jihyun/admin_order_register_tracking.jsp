@@ -204,34 +204,36 @@
 					arr3.push(company);
 					arr4.push(orderstatus);
 					
+					const arrjoin = arr.join(",");
+					const arrjoin2 = arr2.join(",");
+					const arrjoin3 = arr3.join(",");
+					const arrjoin4 = arr4.join(",");
+					
+					$.ajax({
+						url : "<%= ctxPath%>/admin/adminRegisterTracking.sun" , 
+						type: "POST",  
+						data: {"orderidjoin":arrjoin,
+								"trackjoin":arrjoin2,
+								"companyjoin":arrjoin3,
+								"orderstatusjoin":arrjoin4},
+								
+					    dataType:"text",
+					    success:function(json) {
+					    	
+					    	alert('운송장이 등록되었습니다');
+					    	window.location.reload(true);
+					    },
+					    error: function(request, status, error){
+							//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+						}
+					});
+					
 				});
 				
-				const arrjoin = arr.join(",");
-				const arrjoin2 = arr2.join(",");
-				const arrjoin3 = arr3.join(",");
-				const arrjoin4 = arr4.join(",");
 				
-				$.ajax({
-					url : "<%= ctxPath%>/admin/adminRegisterTracking.sun" , 
-					type: "POST",  
-					data: {"orderidjoin":arrjoin,
-							"trackjoin":arrjoin2,
-							"companyjoin":arrjoin3,
-							"orderstatusjoin":arrjoin4},
-							
-				    dataType:"text",
-				    success:function(json) {
-				    	
-				    	alert('운송장이 등록되었습니다');
-				    	window.location.reload(true);
-				    },
-				    error: function(request, status, error){
-						//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-					}
-				});
 				
 			} else { // 체크박스 선택 안한 경우
-				alert('환불상품을 한개 이상 선택하여 주세요.');
+				alert('운송장을 하나 이상 입력해주세요');
 				return;
 			}// end of 운송장 일괄등록 버튼 클릭이벤트
 		});
@@ -280,7 +282,7 @@
 			<ul style="margin: 25px 0 0 0; padding-left: 0;">
 				<li><span class="boldtxt mb-2">주문번호 ${map.pk_orderid }</span></li>
 				<li>시리얼넘버 ${map.pk_order_detail_id }</li>
-				<li>${map.pname}</li>
+				<li style="font-weight: bold;">${map.pname}</li>
 			</ul>
 			<span class="puretxt my-1">운송장 입력</span>
 			<select id="sort" class="mb-3">

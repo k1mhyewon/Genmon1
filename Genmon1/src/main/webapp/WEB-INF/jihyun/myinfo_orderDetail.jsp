@@ -254,7 +254,7 @@
 		    	if(json.deliv_company == null){
 		    		
 		    	} else {
-		    		html += '<tr><td colspan="2"><strong>배송사</strong></td></tr>'+
+		    		html += '<tr><td colspan="2"><strong>배송</strong></td></tr>'+
 						'<tr><td><strong>'+json.deliv_company+'</strong></td><td>'+json.tracking_number+'</td></tr>'+
 						'<tr><td><strong>배송일</strong></td><td>'+json.deliv_date+'</td></tr>';
 		    	}
@@ -743,7 +743,7 @@
 								<br><span style="margin-left : 20px;">${orddtailvo.order_price }원</span></td>
 							</tr>
 							<tr>
-								<c:if test="${orddtailvo.order_status eq '5' or orddtailvo.order_status eq '4' and not empty sessionScope.loginuser}">
+								<c:if test="${ (orddtailvo.order_status eq '5' or orddtailvo.order_status eq '4' ) and not empty sessionScope.loginuser}">
 									<td><span class="link_tag" onclick="javascript:location.href='<%=ctxPath %>/member/memberReviewWrite.sun?orderDetailid=${orddtailvo.pk_order_detail_id}'">리뷰쓰기</span></td>
 								</c:if>
 								<c:if test="${orddtailvo.order_status ne '5' and orddtailvo.order_status ne '4'}">
