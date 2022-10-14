@@ -138,7 +138,7 @@ public class AdminOrderManageJSON extends AbstractController {
 						} else if("2".equals(map.get("status"))) {
 							jsonObj.put("status", "환불수거완료");
 						} else if("3".equals(map.get("status"))) {
-							jsonObj.put("status", "환불완료");
+							jsonObj.put("status", "금액환불완료");
 						}
 						jsonObj.put("date", map.get("date"));
 						

@@ -115,8 +115,8 @@ public class CashPurchaseEnd extends AbstractController {
 					loginuser.setPoint(point-usePoint);
 					loginuser.setCoin(Coin);
 				}
-				
-				smsContent = "[젠틀몬스터] \r\n 우리은행 1002-950-797783(예:김지현)으로 "+(total-usePoint)+"원 입금해주세요.";
+				 total = total-usePoint;
+				smsContent = "[젠틀몬스터] \r\n 우리은행 1002-950-797783(예:김지현)으로 "+total+"원 입금해주세요.";
 				
 				session.setAttribute("loginuser", loginuser);
 				

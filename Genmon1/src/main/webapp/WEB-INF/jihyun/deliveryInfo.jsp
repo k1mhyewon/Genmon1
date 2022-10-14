@@ -3,6 +3,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <% String ctxPath = request.getContextPath(); %>
 
@@ -125,7 +126,7 @@
 	}
 	
 	tr.empty_tr{
-		height: 70px;
+		height: 30px;
 	}
 	
 	tr.height_tr{
@@ -154,7 +155,7 @@
 	    
 	    
 	    
-	    // 장바구니 금액 계산
+	    // 장바구니 금액 계산 
 	    const price = $("span.price").text();
 	    const arr_price = price.split(" ");
 	    // console.log(arr_price);
@@ -165,7 +166,22 @@
 	    		sum_price += Number(element);
 	    	}
 	    });
+	    
+	    // 할인액 구하기
+	    const sale = $("span.sale").text();
+	    const arr_sale = sale.split(" ");
+	    // console.log(arr_price);
+	    let sum_sale = 0;
+	    
+	    arr_sale.forEach(element => {
+	    	if(element.trim() !=""){
+	    		sum_sale += Number(element);
+	    	}
+	    }); 
+	    	
+	    $("span#sum_sale").text("-"+sum_sale.toLocaleString('en')+"원");
 	    $("span#sum_price").text(sum_price.toLocaleString('en')+"원");
+	    $("span#sum_result").text((sum_price-sum_sale).toLocaleString('en')+"원");
 	 	// end of 장바구니 금액 계산
 	 	
 	 	
@@ -311,7 +327,14 @@
 					b_Flag_requiredInfo = true;
 					return false; // each 문을 break;
 				}
+				return;
 			}); // end of each
+			
+			
+			if(b_Flag_requiredInfo){
+				return; // 이 함수를 끝낸다
+			}
+			
 			
 			$("input.hiddenInfo").each((index, item)=>{
 				const data = $(item).val().trim();
@@ -321,11 +344,6 @@
 					return false; // each 문을 break;
 				}
 			}); // end of each
-			
-			
-			if(b_Flag_requiredInfo){
-				return; // 이 함수를 끝낸다
-			}
 			
 			if(let_b_Flag_postCode){
 				return; // 이 함수를 끝낸다
@@ -464,6 +482,14 @@
 							<td>수량:<span class="qty"> ${order.qty}</span></td>
 							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price * order.qty}</span>원</td>
 						</tr>
+						<tr>
+							<c:if test="${order.allProdvo.salePcnt ne '0' }">
+								<td  colspan="2" class="myright">할인금액<br><span class="sale"><fmt:parseNumber var="saleInt" value="${order.allProdvo.parentProvo.price * (order.allProdvo.salePcnt/100) * order.qty}" integerOnly="true" /> ${saleInt }</span>원</td>
+							</c:if>
+							<c:if test="${order.allProdvo.salePcnt eq '0' }">
+								<td  colspan="2" class="myright"> <br><span class="sale" style="display: none;" > ${order.allProdvo.parentProvo.price * (order.allProdvo.salePcnt/100) * order.qty}</span></td>
+							</c:if>
+						</tr>
 						<tr class="empty_tr">
 							<td colspan="3" class="empty_td"></td>
 						</tr>
@@ -478,17 +504,17 @@
 					<td colspan="2" class="myright"><span id="sum_price"></span></td>
 				</tr>
 				<tr class="height_tr">
-					<td>배송비</td>
-					<td colspan="2" class="myright">0원</td>
+					<td>할인금액</td>
+					<td colspan="2" class="myright"><span id="sum_sale"></span></td>
 				</tr>
 				<tr class="height_tr">
-					<td>할인금액</td>
+					<td>배송비</td>
 					<td colspan="2" class="myright">0원</td>
 				</tr>
 				<tr style="height: 50px;" class="top_line">
 					<td>총합계</td>
 					<td>수량: <span id="qty_sum"></span></td>
-					<td class="myright"><span>할인퍼센트 들어오면 고칠겨</span></td>
+					<td class="myright"><span id="sum_result"></span></td>
 				</tr>
 			</tfoot>
 		</table>

@@ -385,8 +385,17 @@ int result =0;
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()){
-					map.put("image", rs.getString(1));
-					map.put("order_status", rs.getString(2));
+					
+					if( "3".equals(rs.getString(2)) || "2".equals(rs.getString(2)) ) {
+						map.put("image", rs.getString(1));
+						map.put("order_status", rs.getString(2));
+						break;
+					} else if("8".equals(rs.getString(2))) {
+						continue;
+					} else {
+						map.put("image", rs.getString(1));
+						map.put("order_status", rs.getString(2));
+					}
 				}
 				
 			}

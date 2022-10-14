@@ -732,7 +732,7 @@
 							<c:if test="${total_status eq 5}"><td colspan="2"><strong> 배송완료 </strong></td></c:if>
 							<c:if test="${total_status eq 6}"><td colspan="2"><strong> 입금대기 </strong></td></c:if>
 							<c:if test="${total_status eq 7}"><td colspan="2"><strong> 미입금 주문취소 </strong></td></c:if>
-							
+							<c:if test="${total_status eq 9}"><td colspan="2"><strong> 주문취소 </strong></td></c:if>
 						</tr>
 						<%-- 반복시작 --%>
 						<c:forEach var="orddtailvo" items="${orddtailList }">
