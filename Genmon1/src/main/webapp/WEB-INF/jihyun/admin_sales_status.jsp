@@ -32,6 +32,10 @@
 		text-indent: 30px;
 	}
 	
+	input:hover{
+		cursor: pointer;
+	}
+	
 	*{
 		font-size: 11pt;
 	}
@@ -43,19 +47,17 @@
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
-<link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
+<!-- JQuery UI CSS 밒 js -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css" />
+<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<script src="resources/js/plugin/datepicker/bootstrap-datepicker.js"></script>
-
-
-<!--한국어  달력 쓰려면 추가 로드-->
- <script src="resources/js/plugin/datepicker/bootstrap-datepicker.ko.min.js"></script> 
-  
 <script>
 	
 	$(document).ready(function(){
+		
+		
+		// 메뉴창 효과
+		$("li.chart").addClass('active');
 		
 		// 그래프 시작
 		// 우선 컨텍스트를 가져옵니다. 
@@ -72,7 +74,7 @@
 		        datasets: [{
 		        	responsive: true,
 		            data: ['${sixmonthChartmap.data1}', '${sixmonthChartmap.data2}', '${sixmonthChartmap.data3}', '${sixmonthChartmap.data4}', '${sixmonthChartmap.data5}', '${sixmonthChartmap.data6}'],
-		            
+		            label: '매출',
 		            borderColor: [
 		                'gray'
 		            ],
@@ -92,45 +94,42 @@
 		}); // 그래프 끝
 		
 		
-		
-		// 데이터 피커
-		$('#datePicker1').datepicker({
-		    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-		    startDate: '180d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-		    endDate: '+0d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-		    autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-		    clearBtn : false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
-		    immediateUpdates: false,	//사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false 
-		    templates : {
-		        leftArrow: '&laquo;',
-		        rightArrow: '&raquo;'
-		    }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
-		    showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
-		    toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
-		    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
-		    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-		    
-		});//datepicker end
-		
-		
-		// 데이터 피커
-		$('#datePicker1').datepicker({
-		    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-		    startDate: '180d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-		    endDate: '+0d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-		    autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-		    clearBtn : false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
-		    immediateUpdates: false,	//사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false 
-		    templates : {
-		        leftArrow: '&laquo;',
-		        rightArrow: '&raquo;'
-		    }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
-		    showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
-		    toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
-		    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
-		    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-		    
-		});//datepicker end
+	     
+	     
+	     
+	  	// === 전체 datepicker 옵션 일괄 설정하기 ===  
+        //     한번의 설정으로 $("input#fromDate"), $('input#toDate')의 옵션을 모두 설정할 수 있다.
+        $(function() {
+            //모든 datepicker에 대한 공통 옵션 설정
+            $.datepicker.setDefaults({
+                dateFormat: 'yy-mm-dd' //Input Display Format 변경
+                ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+                ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+                ,changeYear: true //콤보박스에서 년 선택 가능
+                ,changeMonth: true //콤보박스에서 월 선택 가능                
+             // ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+             // ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+             // ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+             // ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+                ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+                ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+                ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+             // ,minDate: "-1M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+              ,maxDate: "-1D" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
+          });
+    
+               //input을 datepicker로 선언
+               $("input#fromDate").datepicker();                    
+               $("input#toDate").datepicker();
+               
+               //From의 초기값을 오늘 날짜로 설정
+               $('input#fromDate').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+               
+               //To의 초기값을 3일후로 설정
+               $('input#toDate').datepicker('setDate', '-1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+           });
 		
 	}); // end of ready
 
@@ -139,20 +138,95 @@
 	
 	
 	function goSearch(){
-		  alert('gkgkgk');
-		  console.log($("input#from").val());
-		  
-		  if($("input#from").val() == ""){
-			  alert('조회시작일을 지정해주세요');
+		
+		$("div#show").html('');
+		
+		const startday = $("input#fromDate").val();
+		const endday =$("input#toDate").val();
+		
+		  // 종료일이 시작일보다 앞섰을때
+		  if(startday>endday){
+			  
+			  alert('조회 시작일은 조회 종료일과 같거나 작아야 합니다');
+              $('input#toDate').datepicker('setDate', '-1D'); 
+			  return;
 		  }
+		  
+		  
+		  $.ajax({
+				url : "<%= ctxPath%>/admin/adminSearchChart.sun" , 
+				type: "get",  
+				data: {"startday":startday,
+						"endday":endday},
+			    dataType:"JSON",
+			    success:function(json) {
+			    	let html = '';
+			    	
+			    	if(json.length>0){
+			    		
+			    		html+= '<table class="table table-sm mt-2 mb-5 border" style="border-radius: 1rem;">'+
+			    			  '<thead class="table-active">'+
+					    '<tr>'+
+					      '<th>날짜</th>'+
+					      '<th>주문</th>'+
+					      '<th>취소</th>'+
+					      '<th>환불</th>'+
+					     '<th>매출</th>'+
+					    '</tr>'+
+					  '</thead>'+
+					  '<tbody>';
+			    		
+					  let sumorder = 0;
+					  let sumcancel = 0;
+					  let sumrefund = 0;
+					  let sumtotal = 0;
+					  
+					  $.each(json, function(index, item){
+						  
+						  html += '<tr>'+
+						      '<th>'+item.date+'</th>'+
+						      '<td>'+item.order+'</td>'+
+						      '<td>'+item.cancel+'</td>'+
+						      '<td>'+item.refund+'</td>'+
+						      '<td>'+Number(item.total).toLocaleString('en')+'원</td>'+
+						    '</tr>';
+						    
+						  sumorder += Number(item.order);
+						  sumcancel += Number(item.cancel);
+						  sumrefund += Number(item.refund);
+						  sumtotal += Number(item.total);
+
+					  }); // end of each
+			    		
+					  html+= '<tr>'+
+					      '<th>조회기간 합계</th>'+
+					      '<td>'+sumorder+'</td>'+
+					      '<td>'+sumcancel+'</td>'+
+					      '<td>'+sumrefund+'</td>'+
+					      '<td>'+Number(sumtotal).toLocaleString('en')+'원</td>'+
+					    '</tr>'+
+					  '</tbody>'+
+					'</table>';
+					
+					
+			    	} else {
+			    		html += '해당기간에 검색된 결과가 없습니다.';
+			    	}
+			    	
+			    	$("div#show").html(html);
+			    },
+			    error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			}); 
+		  
 	  }
 	
-	  
-	  
+	
 </script>
 
 
-<body style="background: #f4f4f4;">   
+<body style="background: #f4f4f4; margin-bottom: 30px;">   
 <section class="py-4 px-2 " style="width:60%; margin:0 auto; ">
  
 	 &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 5% 6%;">Sales status</h3> 
@@ -204,12 +278,13 @@
  	<span style="font-size: 12pt; font-weight: bolder;padding-top: 40px; display: block; ">기간별 조회</span> 
  	
  	<div style="display: flex;">
- 		<div style="margin: 0 auto 20px auto">
-		 	<label for="from">From</label>
-			<input type="text" id="datePicker1" class="form-control" name="from">
-			<label for="to"> to </label>
-			<input type="text" d="datePicker1" class="form-control" name="to">
-		 	<button class="btn btn-outline-dark  ml-3" onclick="goSearch()">조회하기</button>
+ 		<div style="margin: 10px auto 20px 0">
+			
+			<input type="text" id="fromDate">
+			<span style="display:inline-block; padding: 0 15px; font-size: 20pt;"> - </span>
+            <input type="text" id="toDate">
+            
+		 	<button class="btn btn-outline-dark  ml-3 mt-0" onclick="goSearch()" style="height: 38px; width: 120px;">조회하기</button>
  		</div>
  	</div>
  	

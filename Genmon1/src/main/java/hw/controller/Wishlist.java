@@ -86,7 +86,10 @@ public class Wishlist extends AbstractController {
 			}
 			*/
 			
+			// System.out.println("wishList 길이: "+ wishList.size());
+			
 			request.setAttribute("wishList", wishList);
+			request.setAttribute("wishSize", wishList.size());
 			
 			super.setRedirect(false);
 			super.setViewPage("/WEB-INF/hw/wishlist.jsp");

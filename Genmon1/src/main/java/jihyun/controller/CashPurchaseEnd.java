@@ -115,8 +115,8 @@ public class CashPurchaseEnd extends AbstractController {
 					loginuser.setPoint(point-usePoint);
 					loginuser.setCoin(Coin);
 				}
-				
-				smsContent = "[젠틀몬스터] \r\n 우리은행 1002-950-797783(예:김지현)으로 "+(total-usePoint)+"원 입금해주세요.";
+				 total = total-usePoint;
+				smsContent = "[젠틀몬스터] \r\n 우리은행 1002-950-797783(예:김지현)으로 "+total+"원 입금해주세요.";
 				
 				session.setAttribute("loginuser", loginuser);
 				
@@ -200,7 +200,7 @@ public class CashPurchaseEnd extends AbstractController {
 			String subject = "[젠틀몬스터] 무통장 입금 안내 메일입니다" ;
 			String title = ovo.getName() +"님의 주문번호 "+orderid+" 내역입니다.<br>"+ dateft.format(currentDate.getTime()) +" 밤 12시 이전까지 우리은행 1002-950-797783 (예금주: 김지현)으로 "+total+"원 입금해주셔야 주문이 완료 됩니다.";
 			
-			String content = "<div style='width:650px;'>"
+			String content = "<div style='width:750px;'>"
 					+ "<h1 style=\"padding: 10px 0; margin: 0px;\"><img src=\"http://127.0.0.1:9090/Genmon1/images/common/Gentle_monster_logo.png\" style=\"max-width: 200px; min-width: 175px; height:30px;\"/></h1>"
 					+ "<div style=\"width: 700px; color: #4e4e4e;margin: 0 auto; color: #cccccc; padding: 0;\"> \r\n"
 					+ "	 <div style=\"position: relative; margin: 0; padding:0;\"> \r\n"
@@ -208,7 +208,7 @@ public class CashPurchaseEnd extends AbstractController {
 					+ "		 <span> 젠틀몬스터 제품을 구매해주셔서 감사합니다.</span>\r\n"
 					+ "	</div> \r\n"
 					+ "	<div style=\"padding: 13px;border: 5px solid #eee; margin-top: 20px;\"> <div style=\"margin:0;margin-bottom:10px;padding: 0;font-family:NanumBarunGothic;, nbg, dotum,sans-serif;position: relative\"> \r\n"
-					+ "	<table style=\"padding: 0px; border: 0px currentColor;border-image: none;width:100%;\"> \r\n"
+					+ "	<table style=\"padding: 0px;color:black; border: 0px currentColor;border-image: none;width:100%;\"> \r\n"
 					+ "		<tbody>\r\n"
 					+ "			<tr>\r\n"
 					+ "				<td style=\"text-align:left;width:60%\"> \r\n"
@@ -223,7 +223,7 @@ public class CashPurchaseEnd extends AbstractController {
 					+ "		</tbody>\r\n"
 					+ "	</table> \r\n"
 					+ "</div>"
-					+ "<table style=\"width:100%; border-top-color: rgb(183, 183,183); border-top-width: 1px; border-top-style:solid; table-layout:fixed; border-collapse:collapse; \"> \r\n"
+					+ "<table style=\"width:100%;color:black; border-top-color: rgb(183, 183,183); border-top-width: 1px; border-top-style:solid; table-layout:fixed; border-collapse:collapse; \"> \r\n"
 					+ "	<colgroup><col style=\"width:20%\"><col style=\"width:80%\"></colgroup> \r\n"
 					+ "	<tbody>\r\n"
 					+ "		<tr><th colspan=\"1\" rowspan=\"1\" style=\"font-size:12px; font-family: Myriad SetPro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;font-weight: normal; border-bottom-color: rgb(222,222, 222); border-bottom-width: 1px;border-bottom-style: solid; color:#333;background:#f4f4f4; text-align:left;padding-top:7px; padding-left:10px;padding-bottom:5px;\">Name</th><td style=\"font-size:13px; font-family: Myriad SetPro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;border-bottom: 1px solid #dedede;padding-left:5px;\"><b>"+ovo.getName()+"</b></td></tr> \r\n"
@@ -232,7 +232,7 @@ public class CashPurchaseEnd extends AbstractController {
 					+ "	</tbody>\r\n"
 					+ "</table> "
 					+ "<div style=\"font-size:18px; font-family: MyriadSet Pro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;height:28px; padding-top:25px;\">Product Information</div> \r\n"
-					+ "	<table style=\"width:100%; border-top-color:rgb(183, 183, 183); border-top-width: 1px;border-top-style: solid; table-layout:fixed;border-collapse: collapse; \"> \r\n"
+					+ "	<table style=\"width:100%;color:black; border-top-color:rgb(183, 183, 183); border-top-width: 1px;border-top-style: solid; table-layout:fixed;border-collapse: collapse; \"> \r\n"
 					+ "		<colgroup><col style=\"width:20%\"><col style=\"width:40%\"><col style=\"width:10%\"><col style=\"width:30%\"></colgroup> \r\n"
 					+ "		\r\n"
 					+ "		<tbody>\r\n";
@@ -255,7 +255,7 @@ public class CashPurchaseEnd extends AbstractController {
 					+ "	</table>"
 					+ "<div style=\"font-size:18px; font-family: MyriadSet Pro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;height:28px; padding-top:25px;\">Purchase details</div>\r\n"
 					+ "\r\n"
-					+ "<table style=\"width:100%; border-top-color:rgb(183, 183, 183); border-top-width: 1px;border-top-style: solid; table-layout:fixed;border-collapse: collapse; \"> \r\n"
+					+ "<table style=\"width:100%;color:black; border-top-color:rgb(183, 183, 183); border-top-width: 1px;border-top-style: solid; table-layout:fixed;border-collapse: collapse; \"> \r\n"
 					+ "	<colgroup><col style=\"width:20%\"><col><col style=\"width:20%\"><col></colgroup> \r\n"
 					+ "	<tbody>\r\n"
 					+ "		<tr><th colspan=\"1\" rowspan=\"1\" style=\"font-size:12px;font-family: Myriad Set Pro,LucidaGrande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;font-weight: normal; border-bottom-color: rgb(222,222, 222); border-bottom-width: 1px;border-bottom-style: solid; color:#333;background:#f4f4f4; text-align:left;padding-top:7px;padding-left:10px;padding-bottom:5px;\">Purchase No</th>\r\n"
