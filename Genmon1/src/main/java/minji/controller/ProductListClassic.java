@@ -11,28 +11,23 @@ import common.model.ChildProductVO;
 import minji.model.InterProductDAO;
 import minji.model.ProductDAO;
 
-public class ProductListBestSeller extends AbstractController {
-	
-	
+public class ProductListClassic extends AbstractController {
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-	//	String pnum = request.getParameter("pnum");
-		
-		List<ChildProductVO> bestList = new ArrayList<>();
+		List<ChildProductVO> classicList = new ArrayList<>();
 		
 		InterProductDAO pdao = new ProductDAO();
 		
-		bestList = pdao.selectBestProduct(); 
+		classicList = pdao.selectClassicProduct(); 
 		
 		
-		request.setAttribute("bestList", bestList);
+		request.setAttribute("classicList", classicList);
 		
 		
 	//	super.setRedirect(false);
-		super.setViewPage("/WEB-INF/minji/productListBestSeller.jsp");
+		super.setViewPage("/WEB-INF/minji/productListClassic.jsp");
 	}
-		
+
 }
-
-

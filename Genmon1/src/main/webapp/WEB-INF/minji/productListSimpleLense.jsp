@@ -246,12 +246,6 @@
 <script type="text/javascript">
 
 
-	}); // end of ready
-	
-
-
-		
-
 </script>			
 		
 <%-- 인덱스 시작 --%>
@@ -260,7 +254,7 @@
  <div class="all-List-page">
  
     <ul class="item-category">
-        <li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span class="category-font">2022 릴리즈</span></a></li>
+        <li><a href="<%= ctxPath %>/product/productListPrelease.sun"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span class="category-font">2022 릴리즈</span></a></li>
         <li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a></li>
         <li><a href="<%= ctxPath %>/product/productListBestSeller.sun"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span class="category-font">베스트셀러</span></a></li>
         <li><a href="<%= ctxPath %>/product/productListClassic.sun"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span class="category-font">클래식디자인</span></a></li>
@@ -273,11 +267,11 @@
     	<div class="product-title" style="font-size: 13pt;">  		
 	        <span>선글라스</span>  
 	        <span>/</span>  
-	        <span>베스트셀러</span>
+	        <span>틴트렌즈</span>
         </div>
         
         <div class="product-filter"  style="padding: 0% 1%;">
-	       <a href="<%= ctxPath %>/product/productListBestSeller.sun"><button type="button" id="item-short">사단보기</button></a>
+	       <a href="<%= ctxPath %>/product/productListLense.sun"><button type="button" id="item-short">사단보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
 		   <a href="#pop01"><button class="popup_btn">필터</button></a>
 		</div>
@@ -343,8 +337,8 @@
 
     <%-- 상품 리스트 이미지 나열 --%>
     <div class="row" style="text-align: center; margin: 1% 1%;">
- 		<c:if  test="${not empty requestScope.bestSimple }">
- 			<c:forEach var="simplevo" items="${requestScope.bestSimple}">
+ 		<c:if  test="${not empty requestScope.lenseSimple }">
+ 			<c:forEach var="simplevo" items="${requestScope.lenseSimple}">
  					<div class="col-md-8 mt-3 p-0 col-lg-2"  >
 	 					<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${simplevo.pnum}">
 	 						<img style="width: 200px; heigh: 70px;" src="<%= ctxPath %>/images/common/products/${simplevo.pimage1}">

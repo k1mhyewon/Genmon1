@@ -32,7 +32,23 @@ public interface InterProductDAO {
 	// 상품 8개씩 잘라서 스크롤 방식으로 띄워주는 메소드
 	List<ChildProductVO> selectDisplay(Map<String, String> paraMap) throws SQLException;
 
-	
+	// 상품 목록 카테고리에서 베스트셀러 리스트 보여주는 메소드
+	List<ChildProductVO> selectBestProduct() throws SQLException;
+
+	// 상품 목록 카테고리에서 클래식디자인 리스트 보여주는 메소드
+	List<ChildProductVO> selectClassicProduct() throws SQLException;
+
+	// 상품 목록 카테고리에서 틴트렌즈 리스트 보여주는 메소드
+	List<ChildProductVO> selectLenseProduct() throws SQLException;
+
+	// 베스트 상품 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 메소드 
+	List<ChildProductVO> simpleBestProduct() throws SQLException;
+
+	// 클래식 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
+	List<ChildProductVO> simpleClassicProduct() throws SQLException;
+
+	// 틴트렌즈 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
+	List<ChildProductVO> simpleLenseProduct() throws SQLException;
 
 	
 }

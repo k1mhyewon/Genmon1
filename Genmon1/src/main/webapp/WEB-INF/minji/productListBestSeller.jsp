@@ -1,7 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<% String ctxPath=request.getContextPath();%>
+
+<% String ctxPath=request.getContextPath();%>    
 <jsp:include page="../common/header.jsp" />
 
 <style type="text/css">
@@ -88,6 +91,7 @@
 			a:active {
 				/* 클릭 후에도 색상 변경 없도록 함  */
 				color: inherit;
+				text-decoration: none;
 			}
 
 			.pqty {
@@ -160,8 +164,8 @@
 			}
 
 			/* button#heart:hover {
-  background: tomato; 
-} */
+			  background: tomato; 
+			} */
 
 
 			.popup_btn {
@@ -458,38 +462,26 @@ function addWish() {
 <!-- 아이템 카테고리 -->
 
 <div class="all-List-page">
-
 	<ul class="item-category">
-		<li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span
-				class="category-font">2022년 컬렉션</span></a></li>
-	<li><a href="<%= ctxPath %>/product/productList.sun"><img
-				src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a>
-	</li>
-	<li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span
-				class="category-font">베스트셀러</span></a></li>
-	<li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span
-				class="category-font">클래식디자인</span></a></li>
-	<li><a href="#"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span
-				class="category-font">선물추천</span></a></li>
-	<li><a href="#"><img src="<%= ctxPath %>/images/common/category/tintedLense.jpg"><span
-				class="category-font">틴트렌즈</span></a></li>
-	<li class="item-category-next">
-		<a class="category-link" href="#"><i class="fa-solid fa-circle-chevron-right"></i></a>
-	</li>
-</ul>
+		<li><a href="#"><img src="<%= ctxPath %>/images/common/category/collection.jpg"><span class="category-font">2022 릴리즈</span></a></li>
+		<li><a href="<%= ctxPath %>/product/productList.sun"><img src="<%= ctxPath %>/images/common/category/wholeSun.jpg"><span class="category-font">전체보기</span></a></li>
+		<li><a href="<%= ctxPath %>/product/productListBestSeller.sun"><img src="<%= ctxPath %>/images/common/category/bestseller.jpg"><span class="category-font">베스트셀러</span></a></li>
+		<li><a href="<%= ctxPath %>/product/productListClassic.sun"><img src="<%= ctxPath %>/images/common/category/classic.jpg"><span class="category-font">클래식디자인</span></a></li>
+		<li><a href="<%= ctxPath %>/product/productListLense.sun"><img src="<%= ctxPath %>/images/common/category/tintedLense.jpg"><span class="category-font">틴트렌즈</span></a></li>
+	</ul>
 <br><br>
 
 
 <%-- 상품 타이틀과 필터 --%>
 	<div class="title" style="padding:0.5%;	margin-bottom:none; ">
-		<div class="product-title">
-			<span>선글라스/</span>
-			<span>전체보기</span>
-			<span>(27)</span>
+		<div class="product-title" style="font-size: 13pt;">
+			<span>선글라스</span>
+			<span>/</span>
+			<span>베스트셀러</span>
 		</div>
 
 		<div class="product-filter" style="padding: 0% 1%;">
-			<a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short"><i
+			<a href="<%=ctxPath %>/product/productListSimpleBest.sun"><button type="button" id="item-short"><i
 						class="fa-thin fa-grid-4"></i>간략보기</button></a>
 			<%-- 검색 필터 버튼 --%>
 				<a href="#pop01"><button type="button" class="popup_btn"><i
@@ -572,8 +564,8 @@ function addWish() {
 	<!-- 상품목록 -->
 
 	<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" id="original" >
-		<c:if test="${ not empty requestScope.proList}">
-			<c:forEach var="pvo" items="${requestScope.proList }">
+		<c:if test="${ not empty requestScope.bestList}">
+			<c:forEach var="pvo" items="${requestScope.bestList }">
 				<div class="col-md-3 mt-3">
 					<div style="width:340px;">
 
@@ -626,12 +618,8 @@ function addWish() {
 									</c:otherwise>--%>
 							</c:choose>
 
-							<span class="grid-item-color"> +<span class="color-count">5</span> Colors</span>
+							<span class="grid-item-color"><span class="color-count">+</span> Colors</span>
 						</a>
-
-						<button class="item-wish-btn"
-							style="border:none; background-color: white; float: right; display: inline-block;"
-							onclick="addWish()"> &#10084;</button>
 					</div>
 				</div>
 			</c:forEach>
@@ -640,7 +628,7 @@ function addWish() {
 
 
 
-	<%-- footer 하단bar 고정 --%>
+	<%-- footer 하단bar 고정 
 
 		<nav class="footer-navbar fixed-bottom navbar-light bg-light ml-auto ">
 			<div class="container-fluid">
@@ -654,7 +642,8 @@ function addWish() {
 				</span>
 			</div>
 		</nav>
-
+		
+	--%>
 
 		<%-- 인덱스 끝 --%>
 

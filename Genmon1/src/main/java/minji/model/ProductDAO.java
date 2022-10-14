@@ -45,9 +45,11 @@ public class ProductDAO implements InterProductDAO {
 		}
 	}
 
+	
 	// 상품 전체를 셀렉해와서 리스트로 뿌려주는 메소드
 	@Override
 	public List<ChildProductVO> selectAllProduct() throws SQLException {
+		
 		List<ChildProductVO> productList = new ArrayList<>();
 		
 		try {
@@ -56,7 +58,8 @@ public class ProductDAO implements InterProductDAO {
 			String sql = "select pname, pnum, price, pcolor, pimage1, salePcnt, pqty \n"+
 					"from tbl_product_test\n"+
 					"JOIN tbl_all_product_test \n"+
-					"ON pid = fk_pid";
+					"ON pid = fk_pid \n"+
+					" order by sysdate desc ";
 			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
@@ -446,5 +449,249 @@ public class ProductDAO implements InterProductDAO {
 	}
 
 	
+	// 상품 목록 카테고리에서 베스트셀러 리스트 보여주는 메소드
+	@Override
+	public List<ChildProductVO> selectBestProduct() throws SQLException {
+		
+		List<ChildProductVO> bestList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pname, pnum, price, pcolor, pimage1, salePcnt, pqty \r\n "
+						+ " from tbl_product_test\r\n "
+						+ " JOIN tbl_all_product_test\r\n"
+						+ " ON pid = fk_pid\r\n "
+						+ " order by pqty asc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ChildProductVO cvo =new ChildProductVO();
+				
+				cvo.setPnum(rs.getInt("pnum"));
+				cvo.setSalePcnt(rs.getInt("salePcnt"));
+				cvo.setPqty(rs.getInt("pqty"));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString("pname"));
+				ppvo.setPrice(rs.getInt("price"));
+				
+				cvo.setParentProvo(ppvo); // JOIN
+				
+				cvo.setPcolor(rs.getString("pcolor")); 
+				cvo.setPimage1(rs.getString("pimage1"));
+				
+				bestList.add(cvo); 
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return bestList;
+	}// end of 상품 전체를 셀렉해와서 리스트로 뿌려주는 메소드
+
+	
+	// 상품 목록 카테고리에서 클래식디자인 리스트 보여주는 메소드
+	@Override
+	public List<ChildProductVO> selectClassicProduct() throws SQLException {
+		
+		List<ChildProductVO> classicList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pname, pnum, price, pcolor, pimage1, salePcnt, pqty \r\n "
+						+ " from tbl_product_test\r\n "
+						+ " JOIN tbl_all_product_test\r\n "
+						+ " ON pid = fk_pid\r\n"
+						+ " where pcolor = 'black'\r\n "
+						+ " order by sysdate desc\r\n ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ChildProductVO cvo =new ChildProductVO();
+				
+				cvo.setPnum(rs.getInt("pnum"));
+				cvo.setSalePcnt(rs.getInt("salePcnt"));
+				cvo.setPqty(rs.getInt("pqty"));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString("pname"));
+				ppvo.setPrice(rs.getInt("price"));
+				
+				cvo.setParentProvo(ppvo); // JOIN
+				
+				cvo.setPcolor(rs.getString("pcolor")); 
+				cvo.setPimage1(rs.getString("pimage1"));
+				
+				classicList.add(cvo); 
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return classicList;
+	}
+
+	// 상품 목록 카테고리에서 틴트렌즈 리스트 보여주는 메소드
+	@Override
+	public List<ChildProductVO> selectLenseProduct() throws SQLException {
+		
+		List<ChildProductVO> lenseList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pname, pnum, price, pcolor, pimage1, salePcnt, pqty \r\n "
+						+ " from tbl_product_test\r\n "
+						+ " JOIN tbl_all_product_test\r\n "
+						+ " ON pid = fk_pid\r\n "
+						+ " where pcolor != 'black'\r\n "
+						+ " order by sysdate desc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ChildProductVO cvo =new ChildProductVO();
+				
+				cvo.setPnum(rs.getInt("pnum"));
+				cvo.setSalePcnt(rs.getInt("salePcnt"));
+				cvo.setPqty(rs.getInt("pqty"));
+				
+				ParentProductVO ppvo = new ParentProductVO();
+				ppvo.setPname(rs.getString("pname"));
+				ppvo.setPrice(rs.getInt("price"));
+				
+				cvo.setParentProvo(ppvo); // JOIN
+				
+				cvo.setPcolor(rs.getString("pcolor")); 
+				cvo.setPimage1(rs.getString("pimage1"));
+				
+				lenseList.add(cvo); 
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return lenseList;
+	}
+
+	
+	// 베스트 상품 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 메소드 
+	@Override
+	public List<ChildProductVO> simpleBestProduct() throws SQLException {
+		
+		List<ChildProductVO> bestList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pnum, fk_pid, pimage1, pqty "
+						+ " from tbl_all_product_test  "
+						+ " order by pqty asc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ChildProductVO simpleCvo = new ChildProductVO();
+				
+				simpleCvo.setPnum(rs.getInt("pnum"));
+				simpleCvo.setFk_pid(rs.getString("fk_pid"));
+				simpleCvo.setPimage1(rs.getString("pimage1"));
+				simpleCvo.setPqty(rs.getInt("pqty"));
+				
+				bestList.add(simpleCvo); 
+			}
+			
+		} finally {
+			close();
+		}
+
+		return bestList;
+	}
+
+	
+	// 클래식 카테고리 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
+	@Override
+	public List<ChildProductVO> simpleClassicProduct() throws SQLException {
+		
+		List<ChildProductVO> classicList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pnum, fk_pid, pimage1 "
+						+ " from tbl_all_product_test "
+						+ " where pcolor = 'black'  "
+						+ " order by sysdate desc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ChildProductVO classicvo = new ChildProductVO();
+				
+				classicvo.setPnum(rs.getInt("pnum"));
+				classicvo.setFk_pid(rs.getString("fk_pid"));
+				classicvo.setPimage1(rs.getString("pimage1"));
+				
+				classicList.add(classicvo); 
+			}
+			
+		} finally {
+			close();
+		}
+
+		return classicList;
+		
+	}
+
+	
+	// 틴트렌즈 리스트 페이지에서 간략보기 누르면 전체 상품의 이미지들만 나오는 상픔심플리스트 메소드 
+	@Override
+	public List<ChildProductVO> simpleLenseProduct() throws SQLException {
+
+		List<ChildProductVO> lenseList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pnum, fk_pid, pimage1\r\n "
+						+ " from tbl_all_product_test\r\n "
+						+ " where pcolor != 'black' \r\n "
+						+ " order by sysdate desc ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				ChildProductVO lensevo = new ChildProductVO();
+				
+				lensevo.setPnum(rs.getInt("pnum"));
+				lensevo.setFk_pid(rs.getString("fk_pid"));
+				lensevo.setPimage1(rs.getString("pimage1"));
+				
+				lenseList.add(lensevo); 
+			}
+			
+		} finally {
+			close();
+		}
+
+		return lenseList;
+	}
+
 	
 }

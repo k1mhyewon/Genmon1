@@ -245,13 +245,6 @@
 
 <script type="text/javascript">
 
-
-	}); // end of ready
-	
-
-
-		
-
 </script>			
 		
 <%-- 인덱스 시작 --%>
@@ -277,7 +270,7 @@
         </div>
         
         <div class="product-filter"  style="padding: 0% 1%;">
-	       <a href="<%= ctxPath %>/product/productListBestSeller.sun"><button type="button" id="item-short">사단보기</button></a>
+	       <a href="<%= ctxPath %>/product/productListClassic.sun"><button type="button" id="item-short">사단보기</button></a>
 		   <%-- 검색 필터 버튼 --%>    
 		   <a href="#pop01"><button class="popup_btn">필터</button></a>
 		</div>
@@ -343,8 +336,8 @@
 
     <%-- 상품 리스트 이미지 나열 --%>
     <div class="row" style="text-align: center; margin: 1% 1%;">
- 		<c:if  test="${not empty requestScope.bestSimple }">
- 			<c:forEach var="simplevo" items="${requestScope.bestSimple}">
+ 		<c:if  test="${not empty requestScope.classicSimple }">
+ 			<c:forEach var="simplevo" items="${requestScope.classicSimple}">
  					<div class="col-md-8 mt-3 p-0 col-lg-2"  >
 	 					<a href="<%= ctxPath %>/product/productDetail.sun?pnum=${simplevo.pnum}">
 	 						<img style="width: 200px; heigh: 70px;" src="<%= ctxPath %>/images/common/products/${simplevo.pimage1}">
