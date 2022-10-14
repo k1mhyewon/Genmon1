@@ -470,7 +470,7 @@
 					                  	<div class="modal_footer modal_contents_size">
 					                  		<div>환불예정금액: ${purvomap.purvo.paymentAmount -(purvomap.purvo.usedCoin + purvomap.purvo.usedPoint) }원</div>
 					                  		<c:if test="${not empty purvomap.bank }">
-												<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+												<div>주문시 작성하신<br>${purvomap.bank } ${purvomap.accnum } ${purvomap.accname } 계좌로 환불됩니다.</div>
 											</c:if>
 					                  		<c:if test="${empty purvomap.bank }">
 												<div>주문시 결제하신 카드로 환불 됩니다.</div>
@@ -544,9 +544,9 @@
 					                  	
 					                  	<!-- .modal_footer: 밑에 글씨들 -->
 					                  	<div class="modal_footer modal_contents_size">
-					                  		<div>환불예정금액: ${purvomap.purvo.paymentAmount -(purvomap.purvo.usedCoin + purvomap.purvo.usedPoint) }원</div>
+					                  		<%-- <div>환불예정금액: ${purvomap.purvo.paymentAmount -(purvomap.purvo.usedCoin + purvomap.purvo.usedPoint) }원</div>--%>
 					                  		<c:if test="${not empty purvomap.bank }">
-												<div>주문시 작성하신<br>우리은행 1002-950-797783 김지현 계좌로 환불됩니다.</div>
+												<div>주문시 작성하신<br>${purvomap.bank } ${purvomap.accnum } ${purvomap.accname } 계좌로 환불됩니다.</div>
 											</c:if>
 					                  		<c:if test="${empty purvomap.bank }">
 												<div>주문시 결제하신 카드로 환불 됩니다.</div>
@@ -731,13 +731,13 @@
 						<tr style="height: 50px;">
 							<c:if test="${total_status eq 0}"><td colspan="2"><strong> 주문취소 </strong></td></c:if>
 							<c:if test="${total_status eq 1}"><td colspan="2"><strong> 결제완료 </strong></td></c:if>
-							<c:if test="${total_status eq 2}"><td colspan="2"><strong> 환불수거완료 </strong></td></c:if>
+							<c:if test="${total_status eq 2}"><td colspan="2"><strong> 환불완료 </strong></td></c:if>
 							<c:if test="${total_status eq 3}"><td colspan="2"><strong> 환불요청 </strong></td></c:if>
 							<c:if test="${total_status eq 4}"><td colspan="2"><strong> 구매확정 </strong></td></c:if>
 							<c:if test="${total_status eq 5}"><td colspan="2"><strong> 배송완료 </strong></td></c:if>
 							<c:if test="${total_status eq 6}"><td colspan="2"><strong> 입금대기 </strong></td></c:if>
 							<c:if test="${total_status eq 7}"><td colspan="2"><strong> 미입금 주문취소 </strong></td></c:if>
-							
+							<c:if test="${total_status eq 9}"><td colspan="2"><strong> 주문취소 </strong></td></c:if>
 						</tr>
 						<%-- 반복시작 --%>
 						<c:forEach var="orddtailvo" items="${orddtailList }">

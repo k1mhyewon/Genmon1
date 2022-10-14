@@ -151,7 +151,7 @@
 	}
 	
 	tr.empty_tr{
-		height: 70px;
+		height: 30px;
 	}
 	
 	tr.height_tr{
@@ -225,12 +225,26 @@
 	    	}
 	    });
 	    
+	 	// 할인액 구하기
+	    const sale = $("span.sale").text();
+	    const arr_sale = sale.split(" ");
+	    // console.log(arr_price);
+	    let sum_sale = 0;
+	    
+	    arr_sale.forEach(element => {
+	    	if(element.trim() !=""){
+	    		sum_sale += Number(element);
+	    	}
+	    }); 
+	    $("span#sum_sale").text("-"+sum_sale.toLocaleString('en')+"원");
+	    
+	    
 	    if($("input[name='usePoint']").val().trim() != null){
 	    	sum_price -= Number($("input[name='usePoint']").val());
 	    }
-	    $("span#sum_price").text(sum_price.toLocaleString('en')+"원");
+	    $("span#sum_price").text((sum_price-sum_sale).toLocaleString('en')+"원");
 	    // 나중에 식계산 바꿔야해!!
-	    $("span#result").text(sum_price.toLocaleString('en')+"원");
+	    $("span#result").text((sum_price-sum_sale).toLocaleString('en')+"원");
 	 	// end of 장바구니 금액 계산
 	 	
 	 	
@@ -282,7 +296,7 @@
 	    	
 	    	// 전체금액 구하기
 	    	if($("input[name='usePoint']").val().trim() != null){
-	    		n  =Number($("span#sum_price").text().slice(0,-1).split(",").join(""))- Number($("input[name='usePoint']").val());
+	    		n  =Number($("span#sum_price").text().slice(0,-1).split(",").join(""))- Number($("input[name='usePoint']").val()-sum_sale);
 		    }
 		    // 나중에 식계산 바꿔야해!!
 		    $("span#result").text(n.toLocaleString('en')+"원");                   // 할인 넣어줘야해
@@ -319,7 +333,7 @@
 	    	let n = 0;
 	    	// 전체금액 구하기
 	    	if($("input[name='usePoint']").val().trim() != null){
-	    		n =Number($("span#sum_price").text().slice(0,-1).split(",").join(""))- Number($("input[name='usePoint']").val());
+	    		n =Number($("span#sum_price").text().slice(0,-1).split(",").join(""))- Number($("input[name='usePoint']").val()-sum_sale);
 		    }
 		    // 나중에 식계산 바꿔야해!!
 		    $("span#result").text(n.toLocaleString('en')+"원");                     // 할인 넣어줘야해
@@ -684,6 +698,14 @@
 							<td>수량:<span class="qty"> ${order.qty}</span></td>
 							<td class="myright"><span class="price"> ${order.allProdvo.parentProvo.price * order.qty}</span>원</td>
 						</tr>
+						<tr>
+							<c:if test="${order.allProdvo.salePcnt ne '0' }">
+								<td  colspan="2" class="myright">할인금액<br><span class="sale"> ${order.allProdvo.parentProvo.price * (order.allProdvo.salePcnt/100) * order.qty}</span>원</td>
+							</c:if>
+							<c:if test="${order.allProdvo.salePcnt eq '0' }">
+								<td  colspan="2" class="myright"> <br><span class="sale"><fmt:parseNumber var="saleInt" value="${order.allProdvo.parentProvo.price * (order.allProdvo.salePcnt/100) * order.qty}" integerOnly="true" /> ${saleInt }</span></td>
+							</c:if>
+						</tr>
 						<tr class="empty_tr">
 							<td colspan="3" class="empty_td"></td>
 						</tr>
@@ -703,7 +725,7 @@
 				</tr>
 				<tr class="height_tr">
 					<td>할인금액</td>
-					<td colspan="2" class="myright">0원</td>
+					<td colspan="2" class="myright"><span id="sum_sale"></span></td>
 				</tr>
 				<tr class="height_tr">
 					<td>배송비</td>

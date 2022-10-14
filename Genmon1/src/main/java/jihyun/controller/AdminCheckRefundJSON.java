@@ -19,10 +19,10 @@ public class AdminCheckRefundJSON extends AbstractController {
 			String orderid = request.getParameter("orderid");
 			String pnumjoin = request.getParameter("pnumjoin");
 			
-			System.out.println(orderid);
-			System.out.println(pnumjoin);
+			//System.out.println(orderid);
+			//System.out.println(pnumjoin);
 			
-			InterOrderDAO odao = new OrderDAO();
+			 InterOrderDAO odao = new OrderDAO();
 			
 			// 환불 테이블 상태 바꿔주고 (status랑 endday)
 			odao.checkRefund(orderid);
