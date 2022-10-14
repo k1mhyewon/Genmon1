@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <% String ctxPath = request.getContextPath(); %>
 <!DOCTYPE html>
 <html>
@@ -136,7 +138,7 @@
 		margin: auto;
 	}
 	
-	button {
+	/* button {
 		margin-bottom: 30px;
 		width: 45%;
 		height: 35px;
@@ -144,9 +146,9 @@
 		border: 1px solid black;
 		background: white;
 		color: black;
-	}
+	} */
 	
-	button#btn_2 {
+	button {
 		width: 50%;
 		margin: 5px 20%;
 		background: black;
@@ -165,8 +167,159 @@
 <!-- Optional JavaScript -->
 <script src="<%= ctxPath%>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	// 환불 금액알아오기
+	let total_price = 0;
+	$("td.price").each(function () {
+			
+		total_price+=Number($(this).text());
+	});
+	$("span#refundTotal").text(total_price.toLocaleString('en'));
+	
+	// 배송완료만 배송정보 조회해오기
+	var  refund_status = "${refundOrderInfo.refund_status}" ;
+	
+	if(refund_status!=1){
+		
+		var orderid = "${refundOrderInfo.pk_orderid }" ;
+		
+		$.ajax({
+			url : "<%= ctxPath%>/myinfo/deliInfo.sun" , 
+			type: "POST",  
+			data: {"orderid":orderid,
+				"deliv_class":2},
+		    dataType:"JSON",
+		    success:function(json) {
+		    	// alert(json.deliv_company);
+		    	html ='<li>배송완료 ('+json.deliv_date+')</li><li>'+json.deliv_company+' '+json.tracking_number+' </li>';
+		    	$("ul#tracking").html(html);
+		    },
+		    error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		}); 
+	}
+	
+	//console.log('ㅎㅎ');
+	// 운송장 입력 유효성 검사
+	$("input:text.input_style").blur(function(e){
+		const $target = $(e.target);
+		const regExp = new RegExp(/^[0-9]{10,13}$/g);
+		
+		const bool = regExp.test($target.val()); // 정규 표현식에 값을 집어넣음
+		
+		if(!bool){ 
+			$target.val('');
+			$target.css('border', '1px solid red');
+			return;
+			
+		} else { // 제대로 입력했다면
+			// 자동으로 체크
+			$target.css('border', '1px solid gray');
+		}
+	}); //end of  운송장 입력 유효성 검사
+	
+	
+	
+	// 운송장 일괄등록 버튼 클릭이벤트
+	$("button#btn_tracking_num").click(function(){
+		
+		let arr = [];
+		let arr2 = [];
+		let arr3 = [];
+		let arr4 = [];
+		
+		if( $("input:text.input_style").val()!= "") { 
+
+			const track = $("input:text.input_style").val();
+			const company = $("select").val();
+			const orderstatus = "3";
+			var ck_val = "${refundOrderInfo.pk_orderid }";
+			
+			arr.push(ck_val);
+			arr2.push(track);
+			arr3.push(company);
+			arr4.push(orderstatus);
+				
+			const arrjoin = arr.join(",");
+			const arrjoin2 = arr2.join(",");
+			const arrjoin3 = arr3.join(",");
+			const arrjoin4 = arr4.join(",");
+			
+			console.log(arrjoin);
+			console.log(arrjoin2);
+			console.log(arrjoin3);
+			console.log(arrjoin4);
+			
+			$.ajax({
+				url : "<%= ctxPath%>/admin/adminRegisterTracking.sun" , 
+				type: "POST",  
+				data: {"orderidjoin":arrjoin,
+						"trackjoin":arrjoin2,
+						"companyjoin":arrjoin3,
+						"orderstatusjoin":arrjoin4},
+						
+			    dataType:"text",
+			    success:function(json) {
+			    	
+			    	alert('운송장이 등록되었습니다');
+			    	window.location.reload(true);
+			    },
+			    error: function(request, status, error){
+					//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				}
+			}); 
+			
+		} else { // 체크박스 선택 안한 경우
+			alert('운송장번호를 비워둘 수 없습니다');
+			return;
+		}
+	}); // end of 운송장 일괄등록 버튼 클릭이벤트
+	
+	
+	
+	// 주문환불 클릭 이벤트 
+	$("button#btn_check_refund").click(function(){
+		
+		var orderid = "${refundOrderInfo.pk_orderid }" ;
+		
+		let arr = [];
+		
+		$("td.pnum").each(function () {
+			
+			arr.push($(this).text());
+		});
+		
+		const arrjoin = arr.join(",");
+		
+		
+		$.ajax({
+			url : "<%= ctxPath%>/admin/adminCheckRefund.sun" , 
+			type: "POST",  
+			data: {"orderid":orderid,
+				"pnumjoin":arrjoin},
+		    dataType:"JSON",
+		    success:function(json) {
+		    	
+		    	if(json.result!=0){
+		    		alert('주문 환불을 완료했습니다.');
+			    	window.location.reload(true);
+		    	}
+		    	
+		    },
+		    error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		}); 
+		
+		
+	});// end of 입급확인 클릭 이벤트 
+	
+	
+}); // end of ready 
 
 </script>
 
@@ -174,81 +327,57 @@
 <body>
 	<div style="width: 80%; margin: 0 auto;">
 		<span class="boldtxt my-4">반품상세</span>
-		<a class="boldtxt2 mb-2">주문번호 47386543973</a>
+		<span class="boldtxt2 mb-2">주문번호 ${refundOrderInfo.pk_orderid }</span>
 		<%-- 반복 시작 --%>
+		<c:forEach var="orderRefundmap" items="${orderRefundMapList }">
 		<div class="border tbl_box mb-2" >
 			<table>
 				<tbody>
 					<tr>
-						<td rowspan="6" class="image"><img src="sun_img.png" class="image"></td>
+						<td rowspan="6" class="image"><img src="<%=ctxPath %>/images/common/products/${orderRefundmap.pimage1 }" class="image"></td>
 						<td colspan="2"></td>
 					</tr>
 					<tr>
 						<td>주문 상세번호</td>
-						<td class="myleft">32469236592</td>
+						<td class="myleft">${orderRefundmap.pk_order_detail_id }</td>
 					</tr>
 					<tr>
 						<td>상품명</td>
-						<td class="myleft">젠몬01</td>
+						<td class="myleft">${orderRefundmap.pname } ${orderRefundmap.pcolor }</td>
 					</tr>
 					<tr>
-						<td>품명</td>
-						<td class="myleft">00004</td>
+						<td>품번</td>
+						<td class="myleft pnum">${orderRefundmap.pnum }</td>
 					</tr>
 					<tr>
 						<td>가격</td>
-						<td class="myleft">235,000원</td>
+						<td class="myleft price">${orderRefundmap.order_price }</td>
 					</tr>
 					<tr></tr>
 				</tbody>
-				<tfoot>
-					<tr style="height: 30px;">
-						<td colspan="3" style="vertical-align: bottom ;"><span class="tf_span border">재고 수량 : 30</span></td>
-					</tr>
-				</tfoot>
 			</table>
 		</div>
+		</c:forEach>
 		<%-- 반복 끝 --%>
-		<div class="border tbl_box mb-2">
-			<table>
-				<tbody>
-					<tr>
-						<td rowspan="6" class="image"><img src="sun_img.png" class="image"></td>
-						<td colspan="2"></td>
-					</tr>
-					<tr>
-						<td>주문 상세번호</td>
-						<td class="myleft">32469236592</td>
-					</tr>
-					<tr>
-						<td>상품명</td>
-						<td class="myleft">젠몬01</td>
-					</tr>
-					<tr>
-						<td>품명</td>
-						<td class="myleft">00004</td>
-					</tr>
-					<tr>
-						<td>가격</td>
-						<td class="myleft">235,000원</td>
-					</tr>
-					<tr></tr>
-				</tbody>
-				<tfoot>
-					<tr style="height: 30px;">
-						<td colspan="3" style="vertical-align: bottom ;"><span class="tf_span border">재고 수량 : 30</span></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
+		
 		
 		<span class="boldtxt2 mt-4">반품사유</span>
 		<span class="puretxt border" style="display: inline-block; width: 80%; margin: 5px 10%; padding: 15px;">
-		저는 쿨톤인데 선글라스는 웜톤이에오 상품 사진을 개같이 찍었네 ㅡㅡ 아아아아아아아아아아아아아아아아아ㅏ아아아아아아아아아아아아아
+		${refundOrderInfo.reason }
 		</span>
+		<span class="boldtxt2 my-3">환불 정보</span>
+		<ul>
+			<li><span class="list_span">환불신청일 </span> ${refundOrderInfo.start_day }</li>
+			<li><span class="list_span">환불금 </span><span id="refundTotal"></span>원</li>
+			<li><span class="list_span">받는분 </span> ${refundOrderInfo.name }</li>
+			<li><span class="list_span">휴대폰번호 </span> ${refundOrderInfo.mobile }</li>
+			<li style="margin-bottom: 2px;"><span class="list_span">배송지 </span> ${refundOrderInfo.address }</li>
+			<li style="margin-bottom: 2px;"><span class="list_span"> </span> ${refundOrderInfo.detailaddress }</li>
+			<li><span class="list_span"> </span> ${refundOrderInfo.extraaddress } ${refundOrderInfo.postcode }</li>
+		</ul>
 		
 		<%-- 구분선 --%>
-		
+		<c:if test="${refundOrderInfo.refund_status eq 1}">
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-3">배송등록</span>
 		<select id="sort">
@@ -258,40 +387,45 @@
 	        <option value="hanjin">한진</option>
 	        <option value="post_office">우체국택배</option>
 		</select>
-		<input type="text" id="tracking" placeholder="송장번호를 입력하세요" />
+		<input type="text" id="tracking" class="input_style" placeholder="송장번호를 입력하세요" />
 		
 		<label class="puretxt ml-3 my-3"><input type="checkbox" /> 배송비 고객부담</label>
 		
-		<button type="button" id="btn_2">운송장 등록</button>
-		
+		<button type="button" id="btn_tracking_num">운송장 등록</button>
+		</c:if>
 		<%-- 구분선 --%>
-		
+		<c:if test="${refundOrderInfo.refund_status eq 2}">
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-3">배송정보</span>
-		<ul class="mb-5">
-			<li>배송중 / 또는 배송완료</li>
-			<li>CJ 대한통운 047648304569 / 또는 2022.09.17</li>
+		<ul class="mb-5" id="tracking">
 		</ul>
 		
 		<%-- 구분선 --%>
 		
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-4">환불 정보</span>
-		<ul class="mb-3">
-			<li>우리은행 1002-950-797783</li>
-			<li>김지현</li>
-		</ul>
-		<button type="button" id="btn_2" class="mb-3">환불 완료</button>
-		
+		<c:if test="${ empty purvomap.bank}">
+				<ul class="mb-3">
+					<li>카드사 환불</li>
+				</ul>
+			</c:if>
+			<c:if test="${ not empty purvomap.bank}">
+				<ul class="mb-3">
+					<li>${purvomap.bank} ${purvomap.accnum}</li>
+					<li>${purvomap.accname}</li>
+				</ul>
+			</c:if>
+		<button type="button" id="btn_check_refund" class="mb-3">환불 완료</button>
+		</c:if>
 		<%-- 구분선 --%>
-		
+		<c:if test="${refundOrderInfo.refund_status eq 3}">
 		<div class="border-bottom mt-4"></div>
-		<span class="boldtxt2 my-4">주문 취소 정보</span>
+		<span class="boldtxt2 my-4">주문환불 정보</span>
 		<ul class="mb-5">
-			<li>주문취소 완료</li>
-			<li>2022.09.17</li>
+			<li>환불완료일</li>
+			<li>${refundOrderInfo.end_day }</li>
 		</ul>
-		
+		</c:if>
 		<%-- 구분선 --%>
 		
 		

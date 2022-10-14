@@ -962,7 +962,7 @@ int result =0;
 	
 	// 주문상세에서 배송정보 알아오기
 	@Override
-	public HashMap<String, String> selectOneDeliInfo(String orderid) throws SQLException {
+	public HashMap<String, String> selectOneDeliInfo(String orderid, String deliv_class) throws SQLException {
 		
 		HashMap<String, String> delimap = new HashMap<String, String>();
 		
@@ -973,10 +973,11 @@ int result =0;
 				
 			String sql = "select DELIV_COMPANY, TRACKING_NUMBER, to_char(DELIV_DATE)\n"+
 						"from tbl_delivery_test\n"+
-						"where FK_ORDERID = ? and DELIV_CLASS = 1";
+						"where FK_ORDERID = ? and DELIV_CLASS = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, orderid);
+			pstmt.setString(2, deliv_class);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -1123,6 +1124,77 @@ int result =0;
 		}
 		return weeksalemap;
 	}// end of 관리자 페이지에서 이번주 판매 현황 조회하기
+	
+	
+	
+	
+	// 관리자 페이지에서 검색으로  판매 현황 조회하기
+		@Override
+		public List<Map<String, String>> seachSelectSaleTable(String startday, String endday) throws SQLException {
+			List<Map<String, String>> searchSalemapList = new ArrayList<>();
+			
+			try {
+				conn = ds.getConnection();
+			
+				String sql = "select S.orderdate , order_origin, order_cancel, order_refund , total\n"+
+						"from\n"+
+						"(\n"+
+						"    select V.orderdate, sum(order_origin) as order_origin , sum(order_cancel) as order_cancel, sum(order_refund) as order_refund\n"+
+						"    from \n"+
+						"    (\n"+
+						"    select to_char(orderdate,'yyyy-mm-dd') AS orderdate\n"+
+						"         , case when OD.order_status in(1,4,5,6,8) then 1 else 0 end AS order_origin\n"+
+						"         , case when OD.order_status in(0,7,9) then 1 else 0 end AS order_cancel\n"+
+						"         , case when OD.order_status in(2,3) then 1 else 0 end AS order_refund\n"+
+						"    from tbl_order_test O JOIN tbl_order_detail_test OD\n"+
+						"    ON O.pk_orderid = OD.fk_orderid\n"+
+						"    ) V\n"+
+						"    group by V.orderdate \n"+
+						") S\n"+
+						"join\n"+
+						"(\n"+
+						"     select to_char(ORDERDATE,'yyyy-mm-dd') AS orderdate , sum(PAYMENTAMOUNT - USEDCOIN - USEDPOINT) as total\n"+
+						"    from tbl_purchase_test\n"+
+						"    join\n"+
+						"    (\n"+
+						"    select pk_orderid , PK_ORDER_DETAIL_ID, ORDERDATE \n"+
+						"                , case when order_status in(1,4,5,6,8) then '주문' end as order_status\n"+
+						"        from tbl_order_test\n"+
+						"        join tbl_order_detail_test\n"+
+						"        on pk_orderid = fk_orderid\n"+
+						"        where order_status in(1,4,5,6,8)\n"+
+						"    )\n"+
+						"    on FK_ORDERID = pk_orderid\n"+
+						"    group by to_char(ORDERDATE,'yyyy-mm-dd')\n"+
+						")A\n"+
+						"on S.orderdate =  A.orderdate \n"+
+						"where  ? <= S.orderdate and  S.orderdate <= ? \n"+
+						"order by 1 desc";
+
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, startday);
+				pstmt.setString(2, endday);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					Map<String, String> map = new HashMap<>();
+					map.put("date", rs.getString(1));
+					map.put("order", rs.getString(2));
+					map.put("cancel", rs.getString(3));
+					map.put("refund", rs.getString(4));
+					map.put("total", rs.getString(5));
+					
+					searchSalemapList.add(map);
+				}
+				
+			} finally {
+				close();
+			}
+			return searchSalemapList;
+		}// end of 관리자 페이지에서 검색으로  판매 현황 조회하기
 	
 	
 	
@@ -1280,6 +1352,123 @@ int result =0;
 		}
 		
 	}// end of 관리자 페이지에서 주문 취소건 환불완료 해주기
+
+
+	
+	// 관리자 페이지에서 주문번호로 환불 리스트 가져오기 (반복)
+	@Override
+	public List<Map<String, String>> selectOneOrderRefundList(String orderid) throws SQLException {
+
+		List<Map<String, String>> orderRefundMapList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+		
+			String sql = "select pname, PCOLOR, PNUM ,ORDER_PRICE, pimage1 ,pk_order_detail_id, order_status\n"+
+					"from tbl_order_detail_test\n"+
+					"join\n"+
+					"(select pname, PCOLOR, PNUM ,pimage1\n"+
+					"    from tbl_product_test\n"+
+					"    join tbl_all_product_test\n"+
+					"    on PID = FK_PID )\n"+
+					"on PNUM = fk_pnum\n"+
+					"where FK_ORDERID = ? and order_status in (3, 2)";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderid);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				Map<String, String> map = new HashMap<>();
+				map.put("pname", rs.getString(1));
+				map.put("pcolor", rs.getString(2));
+				map.put("pnum", rs.getString(3));
+				map.put("order_price", rs.getString(4));
+				map.put("pimage1", rs.getString(5));
+				map.put("pk_order_detail_id", rs.getString(6));
+				
+				orderRefundMapList.add(map);
+			}
+			
+		} finally {
+			close();
+		}
+		return orderRefundMapList;
+		
+	}// end of 관리자 페이지에서 주문번호로 환불 리스트 가져오기 (반복)
+
+
+	
+	// 주문번호로 환불 주문의 주문자 정보 가져오기
+	@Override
+	public Map<String, String> selectrefundOrderInfo(String orderid) throws SQLException {
+		
+		Map<String, String> refundOrderInfo = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+		
+			String sql = "select NAME, MOBILE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, POSTCODE, " 
+					+ " REFUND_STATUS, START_DAY, end_day, REASON, pk_orderid\n"+
+					"from tbl_order_test\n"+
+					"join tbl_refund\n"+
+					"on fk_ORDERID = pk_orderid\n"+
+					"where fk_ORDERID = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, orderid);
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+				
+				
+			refundOrderInfo.put("name", rs.getString(1));
+			refundOrderInfo.put("mobile", aes.decrypt(rs.getString(2)) );
+			refundOrderInfo.put("address", rs.getString(3));
+			refundOrderInfo.put("detailaddress", rs.getString(4));
+			refundOrderInfo.put("extraaddress", rs.getString(5));
+			refundOrderInfo.put("postcode", rs.getString(6));
+			refundOrderInfo.put("refund_status", rs.getString(7));
+			refundOrderInfo.put("start_day", rs.getString(8));
+			refundOrderInfo.put("end_day", rs.getString(9));
+			refundOrderInfo.put("reason", rs.getString(10));
+			refundOrderInfo.put("pk_orderid", rs.getString(11));
+			
+		}  catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return refundOrderInfo;
+	}// end of  주문번호로 환불 주문의 주문자 정보 가져오기
+
+
+	
+	// 관리자페이지에서 환불완료 하기
+	@Override
+	public void checkRefund(String orderid) throws SQLException {
+		try {
+			conn = ds.getConnection();
+			// 프로시저를 실행한다
+			CallableStatement cstmt = conn.prepareCall("{call pcd_check_refund(?)}");
+			// ?에 값 바인딩
+			cstmt.setString(1, orderid);
+			// 프로시저 실행
+			cstmt.executeQuery();
+			
+			cstmt.close();
+			
+		}  finally {
+			
+			close();
+		}
+	}// end of  관리자페이지에서 환불완료 하기
+
+
+	
+	
 
 	
 	

@@ -248,6 +248,9 @@ public class CartDAO implements InterCartDAO {
 		
 		int result = 0;
 		
+		String userid = paraMap.get("loginUserid");
+		String pnum = paraMap.get("pnum");
+		
 		try {
 			 conn = ds.getConnection();
 			 
@@ -256,12 +259,14 @@ public class CartDAO implements InterCartDAO {
 			 
 			 pstmt = conn.prepareStatement(sql);
 			 
-			 pstmt.setString(1, paraMap.get("loginUserid"));
-			 pstmt.setString(2, paraMap.get("pnum"));
+			 pstmt.setString(1, userid);
+			 pstmt.setString(2, pnum);
 			 
 			 result = pstmt.executeUpdate();
 			 
-		} finally {
+		} catch(SQLSyntaxErrorException e){
+			
+		}finally {
 			close();
 		}
 		

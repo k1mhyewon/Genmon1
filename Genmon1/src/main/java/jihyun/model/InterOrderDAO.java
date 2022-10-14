@@ -64,10 +64,13 @@ public interface InterOrderDAO {
 	void insertManyTrack(Map<String, String> paraMap) throws SQLException;
 
 	// 주문상세에서 배송정보 알아오기
-	HashMap<String, String> selectOneDeliInfo( String orderid) throws SQLException;
+	HashMap<String, String> selectOneDeliInfo( String orderid, String deliv_class) throws SQLException;
 
 	// 관리자 페이지에서 판매 현황 조회하기
 	List<Map<String, String>> selectSaleTable() throws SQLException;
+	
+	// 관리자 페이지에서 검색으로  판매 현황 조회하기
+	List<Map<String, String>> seachSelectSaleTable(String startday, String endday) throws SQLException;
 
 	// 관리자 페이지에서 이번주 판매 현황 조회하기
 	Map<String, String> selectWeekSale() throws SQLException;
@@ -83,6 +86,17 @@ public interface InterOrderDAO {
 
 	// 관리자 페이지에서 주문 취소건 환불완료 해주기
 	void checkOrderCancel(String orderid) throws SQLException;
+
+	// 관리자 페이지에서 주문번호로 환불 리스트 가져오기 (반복)
+	List<Map<String, String>> selectOneOrderRefundList(String orderid) throws SQLException;
+
+	// 관리자페이지에서 주문번호로 환불 주문의 주문자 정보 가져오기 
+	Map<String, String> selectrefundOrderInfo(String orderid) throws SQLException;
+
+	// 관리자페이지에서 환불완료 하기
+	void checkRefund(String orderid) throws SQLException;
+
+	
 
 	
 

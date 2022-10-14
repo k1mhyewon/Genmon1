@@ -252,8 +252,8 @@
 			</c:if>
 			<c:if test="${ not empty purvomap.bank}">
 				<ul class="mb-3">
-					<li>우리은행 1002-950-797783</li>
-					<li>김지현</li>
+					<li>${purvomap.bank} ${purvomap.accnum}</li>
+					<li>${purvomap.accname}</li>
 				</ul>
 			</c:if>
 			<button type="button" id="btn_2" onclick="cancelOrder()" class="mb-3">환불 완료</button>
@@ -264,7 +264,7 @@
 			<div class="border-bottom mt-4"></div>
 			<span class="boldtxt2 my-4">주문 취소 정보</span>
 			<ul class="mb-5">
-				<li>주문취소 완료</li>
+				<li>주문취소 완료 </li>
 			</ul>
 		</c:if>
 		<%-- 구분선 --%>
