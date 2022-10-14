@@ -209,7 +209,7 @@ div#reviewTbl {
 	    	$("textarea#rev_content").focus();
 	    	return; // goLogin() 함수 종료
 	    }
-	    else if(rev_content < 20) {
+	    else if(rev_content.length < 20) {
 	    	alert("리뷰내용을 20자 이상으로 입력해주세요.");
 	    	$("textarea#rev_content").val("");
 	    	$("textarea#rev_content").focus();
