@@ -84,12 +84,53 @@
 	}
 	
 	li#telNum > input {
-		width: 85px;
+		width: 120px; 
 		line-height: 30px;
 		margin: 10px 0;
 		display: inline-block;
 	}
+	
+	<!-- 비밀번호 -->
+	button#btn_pwdUpdate {
+		background-color: black;
+		color: white;
+		line-height: 200%;
+		margin: 3% 0% 10% 0;
+		/* width: 99%; */
+		font-size: 13px;
+	}
+	
+	div#pwd_update {
+		display: inline-block;
+		font-size: 14px;
+		left: 15%;
+    	position: flex;
+    	/* width: 300px; */
+    	font-size: 12px;
+	}
+	
+	div.error_msg {
+		padding-bottom: 5%;
+	}
+	
+	ul {
+		list-style: none;
+		margin-left: -13%; 
+		margin-top: 5%;
+	}
+	
+	
+	.first_error, .error {
+  		font-size: 11px;
+  		color:red;
+  		
+  	}
   	
+  	.chk {
+    	display: inline-block;
+    	color: red;
+    }
+    
 </style>
 
 
@@ -108,6 +149,7 @@ b_flag_idDuplicate_click = false;
 	   $("div#pwderrormsg").hide();
 	   $("div.btn_Nocheck").hide();
 	   $("div#diffrent").hide();
+	   $("div.error_msg").hide();
 	   
 	   // === 아이디 === //
    	   $("input#userid").blur((e) => {
@@ -186,6 +228,114 @@ b_flag_idDuplicate_click = false;
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
    			   
    			   
+   			   
+   	let chk_bool = false;
+	let same_bool = false;
+
+	$("#notSame_msg").hide();
+	
+	$("input#pwd").on("propertychange change keyon paste input", function() {
+		
+		const pwd = $(this).val();
+		$(".chk").css({"color":"red"});
+		
+		const num = /[0-9]/g;  
+		const lower = /[a-z]/g;
+		const upper = /[A-Z]/g;
+		const spe = /[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi;
+		
+		let size_bool = false;
+		let num_bool = false;
+		let lower_bool = false;
+		let upper_bool = false;
+		let spe_bool = false;
+		
+		
+		if(pwd.length > 7 && pwd.length < 16){
+			$("div#size").css({"color":"green"});
+			size_bool = true;
+		}
+		else {
+			size_bool = false;
+		}
+		
+		if( num.test(pwd) ){
+			$("div#num").css({"color":"green"});
+			num_bool = true;
+		}
+		else {
+			num_bool = false;
+		}
+		
+		if( lower.test(pwd) ){
+			$("div#lower").css({"color":"green"});
+			lower_bool = true;
+		}
+		else{
+			lower_bool = false;
+		}
+		
+		if( upper.test(pwd) ){
+			$("div#upper").css({"color":"green"});
+			upper_bool = true;
+		}
+		else{
+			upper_bool = false;
+		}
+		
+		if( spe.test(pwd) ){
+			$("div#special").css({"color":"green"});
+			spe_bool = true;
+		}
+		else{
+			spe_bool = false;
+		}
+		
+		if(size_bool && num_bool && lower_bool && upper_bool && spe_bool){
+			chk_bool = true;
+		}
+		else{
+			chk_bool = false;
+		}
+		$(".error_msg").show();
+		
+		
+		$("#notPassed").css({"color": "", "font-weight": ""});
+		
+		console.log(pwd)
+	}); // end of $("#pwd1").on() ----------------------------------------
+
+	
+	
+	$("#pwd2").blur(function(e){
+		const pwd = $("input#pwd").val();
+		const pwd2 = $("input#pwd2").val();
+		
+		if(pwd != pwd2){ // 암호와 암호확인 값이 서로 다른 경우
+			$("#notSame_msg").show();
+			same_bool = false;
+		}
+		else{
+			$("#notSame_msg").hide();
+			same_bool = true;
+		}
+		
+		$("#notPassed").css({"color": "", "font-weight": ""});
+		
+	}); // end of $("#pwd2").on() ----------------------------------------
+	
+
+	// 엔터로 넘어가는 메소드 //
+	$("input[name='pwd2']").keydown(function(e){
+		     
+		if(e.keyCode == 13) {
+			submit_frm();
+		}
+	}); // end of $("input[name='pwd2']").keyup(function(e)
+	
+	
+   	/* 		   
+   			   
    	  // === 비밀번호 === //
    	$("input#pwd").blur( (e)=>{
 		
@@ -242,7 +392,7 @@ b_flag_idDuplicate_click = false;
 		 }
    	   }); // end of $("input#emailcheck").blur((e) => {} --------------------------------
    			   
-  
+   */
    			   
    	   // === 성명 === //
    	   $("input#name").blur((e) => {
@@ -345,29 +495,15 @@ b_flag_idDuplicate_click = false;
 	   			b_flag_idDuplicate_click = true;
 	   			
 	   		    $.ajax({ // { }모양은 객체의미
-	            	url:"<%= ctxPath%>/join/idDuplicateCheck.sun", // url: 은 항상 정해져있다. 키:"값" ==> 알고자하는 입력한 아이디가 ""경로로 보내서 아이디가 중복됐는지 알아봐주겠다
+	            	url:"<%= ctxPath%>/join/idDuplicateCheck.sun", 
 	            	data:{"userid":$("input#userid").val()}, 
 				            	
 	            	type:"post",  // object타입
-	          //	dataType:"json", 
-	          //  	async:true,		 // async:true 가 비동기 방식을 말한다. async을 생략하면 비동기방식인 기본값 async:true이다.		
-	            					 //  --> 일을 idDuplicateCheck.up에 넘겨주고 다른 일을 하다가 기존일이 다끝나면 돌아와서 하던거 마저함.
-	            					 // async:false 가 동기 방식이다.(지도를 사용할때는 반드시 동기방식인 async:false을 사용해야만 올바르게 사용가능하다.)
-	            					 // --> 일처리가 끝날때까지 하염없이 기다림
-	            					 
+	       
 	            	success:function(text) { 
-						//dataType:"json" 을 생략하면 
-						// text는 자바스크립트가 아닌 문자열이다. text은 "{"isExists":false}" 또는 "{"isExists":true}" 되어지는 String타입이다.
-						
-						//dataType:"json" 을 생략하지 않고 넣어주면
-						// text는 자바스크립트가 아닌 문자열이다. text은 {"{"isExists":false}"} 또는 {"{"isExists":true}"} 되어지는 Object타입이다.
-						
-						
+					
 						const json = JSON.parse(text);
-						// JSON.parse(text); 은 JSON.parse({"isExists":false}); 또는 JSON.parse({"isExists":true} ); 와 같은 것인데
-						// 그 결과물은 {"isExists":false}" 또는 {"isExists":true}와 같은 문자열을 자바스크립트 객체로 바꿔준것이다. 
-						// 조심할 것은 text는 반드시 JSON형식으로 된 문자열이어야 한다.
-						
+					
 	            		if(json.isExists) { // (점).isExists표기법이다.(대괄호)[isExists]표기법도 있다)
 	            			// 입력한 userid가 이미 사용중이라면
 	            			$("div#idcheckResult").html($("input#userid").val() + "은 중복된 ID이므로 사용불가합니다. ").css("color","red");
@@ -546,9 +682,27 @@ b_flag_idDuplicate_click = false;
 					<div class="error">이메일 주소가 일치하지 않습니다.</div>
 				</li>
 			</ul>
-			
-			
-		<section id="section_pwd">
+			<section id="section_pwd">
+			<ul><li>
+        		<label for="pwd">비밀번호</label>
+        		<input type="password" name="pwd" id="pwd" class="t_input requiredInfo" required/>
+        	</li></ul>
+        	<div class="error_msg"><div id="notPassed">비밀번호는 해당 조건을 모두 충족해야 합니다.</div>
+	        	<div class="chk" id="size">✔</div>&nbsp;최소 8자 이상 15글자 이하<br>
+	        	<div class="chk" id="upper">✔</div>&nbsp;최소 1개의 대문자 사용<br>
+	        	<div class="chk" id="lower">✔</div>&nbsp;최소 1개의 소문자 사용<br>
+	        	<div class="chk" id="num">✔</div>&nbsp;최소 1개의 숫자 사용<br>
+	        	<div class="chk" id="special">✔</div>&nbsp;최소 1개의 특수문자 사용
+	        </div>
+        	<ul><li>
+        		<label for="pwd2">비밀번호 확인</label>
+        		<input type="password" name="pwd2" id="pwd2" class="t_input requiredInfo"  required/>
+        	</li></ul>
+        	<div class="error_msg" id="notSame_msg" style="color: red; fot">비밀번호를 동일하게 입력해주세요.</div>
+        	</section>
+        	
+        	
+		<%-- <section id="section_pwd">
 			  <ul>
 			  	<li>
 			         <label >비밀번호</label>
@@ -577,7 +731,7 @@ b_flag_idDuplicate_click = false;
 		      </div>
 		      <div id="diffrent">비밀번호가 일치하지 않습니다.</div>
 	      </section>
-	      
+	      --%>
 	      
 	      <ul>
 	      	<li>
@@ -599,8 +753,8 @@ b_flag_idDuplicate_click = false;
 	      </ul>
 	      
 	      <ul style="list-style: none;">
-	         <li >연락처</li>
-	         <li style="width: 100%; text-align: left;" id="telNum" name="mobile">
+	         <li>연락처</li>
+	         <li style="text-align: left;" id="telNum" name="mobile">
 	             <input type="text" id="hp1" name="hp1" size="6" maxlength="3" value="010" class="requiredInfo" readonly />&nbsp;-&nbsp;
 	             <input type="text" id="hp2" name="hp2" size="6" maxlength="4" class="requiredInfo"/>&nbsp;-&nbsp;
 	             <input type="text" id="hp3" name="hp3" size="6" maxlength="4" class="requiredInfo"/>
@@ -627,7 +781,7 @@ b_flag_idDuplicate_click = false;
 					</div>	
 					
 					<div>
-						<iframe src="../minsu/agree_Join.html" width="100%" height="150px" class="box" ></iframe>
+						<iframe src="../iframeAgree/agree.html" width="100%" height="150px" class="box" ></iframe>
 		      		</div>
 				</li>
 	     	 </ul>  	

@@ -110,7 +110,7 @@
 	<div id="frm_shop">
 		<span>
 			<span style="margin-right: 3%;">매장찾기</span>
-			<span>스토어(4)</span>
+			<span>스토어(3)</span>
 			
 				<select name="shopSearch" id="shopSearch" >
 					<option>하남</option>  

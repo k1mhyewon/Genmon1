@@ -101,14 +101,16 @@ create table tbl_member_test
 );
 -- Table TBL_MEMBER이(가) 생성되었습니다.
 
-update tbl_member_test set pwd = 
-where userid = ''
+update tbl_member_test set pwd = '29b204ad54a353a4709554362574a889be32d92f801500cd9abf32a2bb2954ed'
+where userid = 'kimgenmon'
 
+select *
+from tbl_member_test
 
+commit
 
-
-
-
+update tbl_member_test set postcode='03900', address='서울 마포구 가양대로 3', detailaddress='1001동',extraaddress=' (상암동)'
+where userid= 'kimhw'
 
 create table tbl_login_history
 ( fk_userid      varchar2(40)         not null  -- 회원아이디
@@ -365,7 +367,7 @@ select *
 from tbl_member_test
 
 -- 개인정보 변경
-update tbl_member_test set email = 'auVP5krbbTdu2eoQ2jFOnA==', gender = 1, mobile = 'PCeQglXJLsipPrmUdN1X/w=='  
+update tbl_member_test set gender = 1, mobile = 'PCeQglXJLsipPrmUdN1X/w=='  
 where userid = 'kimms'
 
 select userid, name, email, mobile ,postcode, address, detailaddress, extraaddress, gender
@@ -374,6 +376,51 @@ from tbl_member_test
 where userid = 'kimhw'
 
 
+update tbl_member_test set birthday = 19981210
+where userid = 'kimms'
+
+ update tbl_member_test set birthday = '2001-01-02'
+ where userid = 'jinmj'
+
+select * 
+from tbl_shop_test
 
 
 
+-- 코멘트
+select * from all_tab_comments
+
+select * from user_tab_comments
+
+select * from user_tab_columns --접속계정 테이블 컬럼 조회
+
+select * from user_col_comments --접속계정 컬럼 코멘트 조회
+
+select *
+from TBL_MEMBER_TEST
+
+comment on table TBL_SHOP_INFO_TEST
+   is '매장정보를 보여주는 테이블';
+
+comment on column TBL_MEMBER_TEST.userid is '아이디  Primary Key';
+comment on column TBL_MEMBER_TEST.pwd is '비밀번호';
+comment on column TBL_MEMBER_TEST.name is '이름';
+comment on column TBL_MEMBER_TEST.email is '이메일';
+comment on column TBL_MEMBER_TEST.mobile is '연락처';
+comment on column TBL_MEMBER_TEST.postcode is '우편번호';
+comment on column TBL_MEMBER_TEST.address is '주소';
+comment on column TBL_MEMBER_TEST.detailaddress is '상세주소';
+comment on column TBL_MEMBER_TEST.extraaddress is '추가주소';
+comment on column TBL_MEMBER_TEST.gender is '성별';
+comment on column TBL_MEMBER_TEST.birthday is '생년월일';
+comment on column TBL_MEMBER_TEST.coin is '코인';
+comment on column TBL_MEMBER_TEST.point is '포인트';
+comment on column TBL_MEMBER_TEST.registerday is '가입일';
+comment on column TBL_MEMBER_TEST.lastpwdchangedate is '마지막으로 암호를 변경한 날짜  ';
+comment on column TBL_MEMBER_TEST.status is '회원탈퇴유무';
+comment on column TBL_MEMBER_TEST.idle is '휴면유무';
+
+
+,lastpwdchangedate  date default sysdate     -- 마지막으로 암호를 변경한 날짜  
+,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
+,idle 

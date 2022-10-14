@@ -83,13 +83,9 @@ public class ShopDAO implements InterShopDAO {
 			showShop.put("stel", rs.getString(4));
 			showShop.put("stime", rs.getString(5));
 			showShop.put("sdesc", rs.getString(6));
-			
-			
-			
 		} finally {
 			close();
 		}
-		
 		
 		return showShop;
 	}

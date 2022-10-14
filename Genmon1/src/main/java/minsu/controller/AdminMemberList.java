@@ -123,12 +123,11 @@ public class AdminMemberList extends AbstractController {
 				
 			
 				  // === DAO에서 넘어왔는지 확인용 시작 === //
-				   
-				    if(memberList.size() > 0) { 
-					    for(MemberVO mvo:memberList) { 
-					    System.out.println(mvo.getUserid() + "" + mvo.getName() + mvo.getEmail()); } 
-				    }// end of if()--------------
-				    
+					/*
+					 * if(memberList.size() > 0) { for(MemberVO mvo:memberList) {
+					 * System.out.println(mvo.getUserid() + "" + mvo.getName() + mvo.getEmail()); }
+					 * }// end of if()--------------
+					 */
 				  // === DAO에서 넘어왔는지 확인용 끝 === //
 					
 

@@ -15,6 +15,20 @@
 <!-- Style -->
   <link rel="stylesheet" href="<%= ctxPath%>/css/style.css">
 <style>
+
+@font-face {
+		font-family: 'Noto Sans';
+		font-style: normal;
+		font-weight: 100;
+		font-display: swap;
+		src: local("NotoSansCjkKr-thin"), url("https://www.gentlemonster.com/kr/assets/fonts/notoSans/NotoSansKR-Thin.woff") format("woff"), url("https://www.gentlemonster.com/kr/assets/fonts/notoSans/NotoSansKR-Thin.woff2") format("woff2");
+	}
+	
+.font--kr {
+		font-family: "Unica77LLWeb","SDGothicNeo", sans-serif;
+		word-break: keep-all;
+	}
+
 .form-outline {
     position: relative;
 }
@@ -51,8 +65,7 @@
 
 
 div#container {
-	width: 80%;
-	height: 100%;
+	width: 70%;
 	background-color: white;
 }
 
@@ -66,7 +79,22 @@ button.btn {
 	display: inline-block;
 }
 
+div#mvoInfo {
+	/* border: solid 1px gray; */
+	width: 50%;
+	margin: 5% 10%;
+	color: #a6a6a6;
+}
 
+li {
+	list-style: none;
+	padding: 1%;
+}
+
+ol > li > span{
+	font-size: 13pt;
+	
+}
 
 
 
@@ -101,17 +129,6 @@ $(document).ready(function () {
 	}); */
 	
 
- 	// 문서가 로딩될때 goMemberList 함수를 받아와야한다.  
-	// 공백이 포함된 url을 가져온다.
-	goBackURL = "${requestScope.goBackURL}";
-	System.out.println("~~~ 확인용 뷰단 goBackURL =>" + goBackURL);
-	
-	
-	
-      // 변수 goBackURL 에 공백 " " 을 모두 "&" 로 변경하도록 한다.
-	goBackURL = goBackURL.replace(/ /gi,"&");
-	
-
 	
 });// end of $(document).ready(function () {}--------------------------
 		
@@ -130,12 +147,12 @@ $(document).ready(function () {
 
 
  <body style="background: #f4f4f4;">   
-<section class="py-4 px-2 " style="width:95%; margin:0 auto; ">
+<section class="py-4 px-2 " style="width:85%; margin:0 auto; ">
  
  &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 5% 10%;">Member Profile</h3> 
 		
 	<form name="memberDetailFrm">
-	    <div class="table-responsive custom-table-responsive" style="width:80%; margin:auto;">
+	    <div class="table-responsive custom-table-responsive" style="width:80%; margin: auto;" >
 		    <div id="container">
 			    	
 				<%-- 회원정보 보여주기 시작 --%>	    	
@@ -147,22 +164,21 @@ $(document).ready(function () {
 					<c:set var="mobile" value="${requestScope.mvo.mobile}" />
 					<c:set var="birthday" value="${requestScope.mvo.birthday}" />
 					
-					<h3>${requestScope.mvo.name}님 회원정보 </h3>
+					<div style="margin-left: 10%; padding-top:5%; font-size: 24px; font-weight: bold; color: #808080;">${requestScope.mvo.name} 님 회원정보 </div>
 				
-					<div id="mvoInfo">
+					<div id="mvoInfo" class='font--kr'>
 					   <ol>
-					       <li><span class="myli">아이디 : </span>${requestScope.mvo.userid}</li>
-					       <li><span class="myli">회원명 : </span>${requestScope.mvo.name}</li>
-					       <li><span class="myli">이메일 : </span>${requestScope.mvo.email}</li>
-					       <li><span class="myli">휴대폰 : </span>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</li> 
-					       <li><span class="myli">우편번호 : </span>${requestScope.mvo.postcode}</li>
-					       <li><span class="myli">주소 : </span>${requestScope.mvo.address}&nbsp;${requestScope.mvo.detailaddress}&nbsp;${requestScope.mvo.extraaddress}</li>
-					       <li><span class="myli">성별 : </span><c:choose><c:when test="${requestScope.mvo.gender eq '1'}">남</c:when><c:otherwise>여</c:otherwise></c:choose></li> 
-					       <li><span class="myli">생년월일 : </span>${fn:substring(birthday, 0, 4)}.${fn:substring(birthday, 4, 6)}.${fn:substring(birthday, 6, 8)}</li>
-					       <li><span class="myli">나이 : </span>${requestScope.mvo.age}</li>
-					       <li><span class="myli">코인액 : </span><fmt:formatNumber value="${requestScope.mvo.coin}" pattern="###,###" /> 원</li>
-					       <li><span class="myli">포인트 : </span><fmt:formatNumber value="${requestScope.mvo.point}" pattern="###,###" /> POINT</li>
-					       <li><span class="myli">가입일자 : </span>${requestScope.mvo.registerday}</li>
+					       <li><span class="myli fw-bold">아이디 : </span>${requestScope.mvo.userid}</li>
+					       <li><span class="myli fw-bold">회원명 : </span>${requestScope.mvo.name}</li>
+					       <li><span class="myli fw-bold">이메일 : </span>${requestScope.mvo.email}</li>
+					       <li><span class="myli fw-bold">휴대폰 : </span>${fn:substring(mobile, 0, 3)}-${fn:substring(mobile, 3, 7)}-${fn:substring(mobile, 7, 11)}</li> 
+					       <li><span class="myli fw-bold">우편번호 : </span>${requestScope.mvo.postcode}</li>
+					       <li><span class="myli fw-bold">주소 : </span>${requestScope.mvo.address}&nbsp;${requestScope.mvo.detailaddress}&nbsp;${requestScope.mvo.extraaddress}</li>
+					       <li><span class="myli fw-bold">성별 : </span><c:choose><c:when test="${requestScope.mvo.gender eq '1'}">남자</c:when><c:otherwise>여</c:otherwise></c:choose></li> 
+					       <li><span class="myli fw-bold">생년월일 : </span>${fn:substring(birthday, 0, 4)}.${fn:substring(birthday, 4, 6)}.${fn:substring(birthday, 6, 8)}</li>
+					       <li><span class="myli fw-bold">코인액 : </span><fmt:formatNumber value="${requestScope.mvo.coin}" pattern="###,###" /> 원</li>
+					       <li><span class="myli fw-bold">포인트 : </span><fmt:formatNumber value="${requestScope.mvo.point}" pattern="###,###" /> POINT</li>
+					       <li><span class="myli fw-bold">가입일자 : </span>${requestScope.mvo.registerday}</li>
 					   </ol>
 					</div> 
 				</c:if>
@@ -172,9 +188,6 @@ $(document).ready(function () {
 					    
 				<%-- 전체회원 목록보기로 이동 --%>
 				<div id="div_btn">
-					<%-- 함수를 사용하여 내가 검색한 페이지가 그대로 나오도록 유지하는 방법.1페이지로 돌아가지 않고   --%>
-					<button type="button" class="btn btn-secondary mt-5" onclick="goMemberList()">회원목록</button>
-					
 					<%-- 상대경로 사용.(무조건 1페이지로이동. 새로 로딩된 페이지로 이동) --%>
 					<button type="button" class="btn btn-secondary mt-5" onclick="javascript:location.href='adminMemberList.sun'">처음으로</button> 
 				</div>

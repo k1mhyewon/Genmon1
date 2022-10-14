@@ -518,7 +518,11 @@ public class PersonDAO implements InterPersonDAO {
 						member.setCoin(rs.getInt(13));
 						member.setPoint(rs.getInt(14));
 						member.setRegisterday(rs.getString(15));
+						
+						
 					}
+					System.out.println("확인용 DAO : " + member.getEmail());
+					
 				} catch(GeneralSecurityException | UnsupportedEncodingException e) {
 					e.printStackTrace();	
 				} finally {

@@ -44,7 +44,7 @@
   
 	div#birthday > input {
 		 /*border: solid 1px purple; */
-		width: 92px;
+		width: 93px;
 		padding: 8px;
   	}
   	
@@ -70,6 +70,9 @@
 		display: inline-block;
 	}
   	
+  	div.noUpdate{
+  		color: red;
+  	}
 
 </style>
 
@@ -83,32 +86,23 @@
    	   $("div#pwderrormsg").hide();
    	   $("div.btn_Nocheck").hide();
    	   $("div#diffrent").hide();
+   	   $("div.noUpdate").hide();
     	
    	  // === 이메일주소 === //
-  	   $("input#email").blur((e) => {
-    	
-   		const $target = $(e.target);
-		const regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;   //  이메일 정규표현식 객체 생성 
-             
-         const bool = regExp.test($target.val()); //암호의 값을 정규표현식에 넣어 테스트해보기
-         
-         if($target.val() == "") {
-         	// 이메일 입력칸이 공백인 경우
-         	 $target.parent().find("div.first_error").show();
-         }
-         else {
-         	// 입력칸에 글이 들어온경우
-         	 $target.parent().find("div.first_error").hide();
-         	
-         	if(!bool) {
-    				// 이메일이 정규표현식에 위배된 경우  
-    			    $target.parent().find("div.error").show();
-    				$target.focus();
-    			}
-    			    $target.parent().find("div.error").hide();
-    			
-           }
+  	   $("input#email").click((e) => {
+  		   
+  		 const $target = $(e.target);
+  		 $target.parent().find($("div.noUpdate")).show();
+  		 
    	  }); // end of  $("input#name").bulr((e) => {} --------------------------------
+   			  
+   	 // === 이메일주소 === //
+ 	   $("div#birthday").click((e) => {
+ 		   
+ 		 const $target = $(e.target);
+ 		 $target.parent().find($("div.noUpdate")).show();
+ 		 
+  	  }); // end of  $("input#name").bulr((e) => {} --------------------------------
    			  
    			  
    			  
@@ -261,8 +255,7 @@
 	        		<li>
 						<label for="email">이메일주소</label>
 						<input type="email" name="email" id="email" class="t_input requiredInfo" required value="${sessionScope.loginuser.email}" readonly /> 
-						<div class="first_error">필수 입력란입니다.</div>
-						<div class="error">이메일 주소를 입력해 주십시오.</div>
+						<div class="noUpdate">정보를 수정할 수 없습니다.</div>
 					</li>
 				</ul>
 			
@@ -301,12 +294,13 @@
 	      <ul>
 	      	<li>
 		        <%-- <span>생년월일</span>--%>
-		         <div  >
-		         		<label for="birthday" style="text-align: left;" id="birthday" name="birthday"  value="${sessionScope.loginuser.birthday}" >생년월일</label>
-				    	<input name="year" id="year" title="년도" class="custom-select requiredInfo"  value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly> </input>
-						<input name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 4, 6)}" readonly></input>
-						<input name="day" id="day" title="일" class="custom-select requiredInfo"  value="${fn:substring(sessionScope.loginuser.birthday, 6, 8)}"readonly></input>
+		         <div id="birthday">
+			    	<input name="year" id="year" title="년도" class="custom-select requiredInfo"  value="${fn:substring(sessionScope.loginuser.birthday, 0, 4)}" readonly> </input>
+					<input name="month" id="month" title="월" class="custom-select requiredInfo" value="${fn:substring(sessionScope.loginuser.birthday, 4, 6)}" readonly></input>
+					<input name="day" id="day" title="일" class="custom-select requiredInfo"  value="${fn:substring(sessionScope.loginuser.birthday, 6, 8)}"readonly></input>
+				   <div class="noUpdate">정보를 수정할 수 없습니다.</div>
 				</div>
+				
 			 </li>
      	  </ul>
      	  

@@ -17,7 +17,11 @@ public class AdminMemberOneDetail extends AbstractController {
 		HttpSession session = request.getSession(); // 로그인한 유저id를 알아야한다.
 		MemberVO loginuser = (MemberVO)session.getAttribute("loginuser"); // loginuser이 object타입이므로 MemberVO로 형변환
 		
+	//	System.out.println("확인용 java1 : " + request.getParameter("email") );
+		
 		if(loginuser != null && "admin".equals(loginuser.getUserid()) ) {
+			
+		//	System.out.println("확인용 java2 : " + request.getParameter("email") );
 		
 			String userid = request.getParameter("userid");
 		
@@ -27,14 +31,16 @@ public class AdminMemberOneDetail extends AbstractController {
 			MemberVO mvo = pdao.memberOneDetail(userid);
 			
 			request.setAttribute("mvo", mvo);
-			System.out.println("확인용 mvo" + mvo);
+		/*	System.out.println("확인용 mvo" + mvo);
+			System.out.println("확인용 java : " + request.getParameter("email") );
+		*/	
 			
-			String goBackURL = request.getParameter("goBackURL");
+		/*	String goBackURL = request.getParameter("goBackURL");
 			System.out.println("~~~ 확인용 goBackURL =>" + goBackURL);
 			// ~~~ 확인용 goBackURL =>n1/admin/adminMemberList.sun
 
 			request.setAttribute("goBackURL", goBackURL);
-			
+		 */			
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/minsu/adminMemberOneDetail.jsp");

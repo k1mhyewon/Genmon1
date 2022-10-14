@@ -334,7 +334,7 @@ function goSearch() {
 
 
  <body style="background: #f4f4f4;">   
-<section class="py-4 px-2 " style="width:95%; margin:0 auto; ">
+<section class="py-4 px-2 " style="width:80%; margin:0 auto; ">
  
  &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 5% 10%;">Member List</h3> 
 		
@@ -377,7 +377,6 @@ function goSearch() {
 					<th scope="col" class= "col-md-2" name="name">Name</th>
 					<th scope="col" class= "col-md-3" name="email">Email</th> 
 					<th scope="col" class= "col-md-2" name="gender">Gender</th>
-					<th scope="col" class= "col-md-1" name="age">age</th>
 					<th scope="col" >
 						<nav>
 						 	<span style="display:flex; ">
@@ -410,7 +409,7 @@ function goSearch() {
 							<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
 						</label>
 					</th>
-	    			<td><p class="fw-bold mb-1">${mvo.userid}</p></td>
+	    			<td class="fw-bold userid mb-1">${mvo.userid}</td>
 	    			<td>${mvo.name}</td>
 	    			<td>${mvo.email}</td>
 	    			<td>
@@ -420,8 +419,6 @@ function goSearch() {
 	    				</c:choose>
 	    			</td>
 	    			
-	    			<td>${requestScope.mvo.age}</td> <%-- 나이에서 오류 남 원래mvo.age임 --%>
-	    				
 	    			<td>
 		   				<c:choose>
 		   					<c:when test="${cpvo.panmaestate eq '0'}"><span class="badge badge-warning rounded-pill d-inline">Disenable</span></c:when>
@@ -442,7 +439,7 @@ function goSearch() {
 			<%-- 페이지바 시작 --%>
 			<nav class="my-5">
 				<div style="display: flex; width: 80%;">
-					<ul class="pagination" style="margin: auto">${requestScope.pageBar}</ul>
+					<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
 				 </div>
 			  </nav>
 			<%-- 페이지바 끝 --%>
