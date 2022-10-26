@@ -562,11 +562,6 @@ public class ProductDAO implements InterProductDAO {
 		
 		return pvo;
 	}//end of public ParentProductVO selectPnameInfo(String pname) throws SQLException {
-	
-	
-	
-	
-	
-	
+
 	
 }

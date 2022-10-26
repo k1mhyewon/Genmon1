@@ -87,9 +87,6 @@ menu-nav{
 h2.nav_title{
 	font-size: 15pt; font-weight:550;line-height: 3.2;display: inline-block;
 }
-.container-wrap {
-    
-}
 
 /* 작아질때 */
  @media screen and (max-width: 767px) { .menu-nav-items {display: none;} .container-wrap {display: block; width: 100%;margin: 0 auto;}.box_sidebar .menu-nav .nav_title {margin-bottom: 7px;}}
@@ -126,13 +123,10 @@ h2.nav_title{
 				<a id="orderCancel" class="nav-link2 active" href="<%=ctxPath %>/customerCare/contact/ordercancel.sun">주문취소</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="order" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/order.sun">주문조회</a>
-			</li>
-			<li class="menu-nav-item menu nav-item">
 				<a id="productcare" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/productcare.sun">제품 사용 가이드</a>
 			</li>
 			<li class="menu-nav-item menu nav-item">
-				<a id="pickcard" class="nav-link2" href="#">시리얼 넘버 조회</a>
+				<a id="pinkcard" class="nav-link2" href="<%=ctxPath %>/customerCare/contact/pinkcard.sun">시리얼 넘버 조회</a>
 			</li>
 		</ul>
 

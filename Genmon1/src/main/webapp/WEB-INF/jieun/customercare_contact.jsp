@@ -123,7 +123,7 @@
 						<a class="btn margin_b50" id="guestcontactFrm">비회원 문의하기</a> <%-- 회원으로 로그인했으면 안보이게하기 --%> 
 					</c:if>
 					
-					<a href="#" class="btn margin_b50" id="livechat">실시간 채팅하기</a></div>
+					<!-- <a href="#" class="btn margin_b50" id="livechat">실시간 채팅하기</a></div> -->
                 </div>
                 
                 	<div class="divider margin_b50 margin_t50"></div>

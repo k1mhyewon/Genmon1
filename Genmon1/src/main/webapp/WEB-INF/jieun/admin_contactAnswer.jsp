@@ -384,9 +384,9 @@ $(document).ready(function(){
 				   dataType:"JSON",
 				   success:function(json) {
 					   alert(json.message);
-					   if(confirm("작성한 답변에 대해 이메일 발송을 하시겠습니까?")){
-						   
-					   }
+					 //window.opener.funcmail(val);
+					  // opener.location.href="javascript:funcmail(val);";
+					   funcmail(val);
 				   },
 				   error: function(request, status, error){
 						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -418,7 +418,10 @@ $(document).ready(function(){
 				   dataType:"JSON",
 				   success:function(json) {
 					   alert(json.message);
-					   window.close();
+					   //window.opener.funcmail(val);
+					   //opener.location.href="javascript:funcmail(val);";
+					   //$(opener.location).attr("href", "javascript:funcmail(val);");
+					   funcmail(val);
 				   },
 				   error: function(request, status, error){
 						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -429,11 +432,33 @@ $(document).ready(function(){
 	});
 	
 	
-	
-	
 });
 
+	
+	
+	
+	
+	
 
+function funcmail(val){
+	if(confirm("메일발송을 하시겠습니까?")){
+		$.ajax({
+			   url:"<%= request.getContextPath()%>/admin/mail.sun",
+			   type:"POST",
+			   data: {"contactid":"${cvo.contactid}","email":"${cvo.email}",
+				      "contents": val},
+			   dataType:"JSON",
+			   success:function(json) {
+				   alert(json.message);
+				   window.close();
+			   },
+			   error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			   }
+		 });
+	}
+}
+	
 
 </script>
 
@@ -451,7 +476,7 @@ $(document).ready(function(){
 	      method="post"
 	      enctype="multipart/form-data">
 
-
+ 
 		<div class="row">
 			
 			<input hidden="" value="${cvo.contactid}" type="text"  name="contactid" id="contactid" readonly>
@@ -481,7 +506,7 @@ $(document).ready(function(){
          	<div class="form-group existhide">
 				<label class="col-form-label" for="file">첨부파일</label>&nbsp;&nbsp;
 				<c:if test="${cvo.contactfile_orginFileName != null}">
-	                 <a href="<%= ctxPath%>/admin/fileDownload.sun?contactid=${cvo.contactid}">${cvo.contactfile_orginFileName}</a>
+	                 <a href="<%= ctxPath%>/admin/fileDownload.sun?contactid=${cvo.contactid}">${cvo.contactfile_orginFileName}</a><br>
 	                 <img src="/Genmon1/images/contact/${cvo.contactfile_systemFileName}" class="img-fluid" style="width:50%;" />
 	             </c:if>
 	             <c:if test="${cvo.contactfile_orginFileName == null}">

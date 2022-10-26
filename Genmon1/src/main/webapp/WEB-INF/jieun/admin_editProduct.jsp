@@ -251,55 +251,44 @@ $(document).ready(function() {
 			$("#selDirect").hide();
 		};
 	})
-	$(".must").prop("disabled", true);
+	//$(".must").prop("disabled", true);
 
 
-	 // 상품 등록 버튼을 누르면 	
+	 // 상품 수정 버튼을 누르면 	
 	$("button#btnEdit").click(function(){
 		$(".must").prop("disabled", false);
 		
 		let flag = false;
 		if(confirm("상품정보수정을 하시겠습니까?")){
 			
-			$(".infoData").each(function(){// 하나하나 검사한다.
+			if( $(".originimg").value == null){
+				alert("${cpvo.pimage1}");
+				$(".originimg").val("${cpvo.pimage1}");
+				alert($(".originimg").value);
+				alert($("#pname").value);
+			}
 			
-				$(".infoData").keydown(function(){
-					$("span.error").hide();
-					return;
-				});
-			
-				let val = $(this).val().trim();
-				if(val == ""){ // 선택안했으면 에러 메시지 표기
-					$(this).focus();
-					$(this).parent().find("span.error").show();
-					flag = true;
-					
-					return false; // 일반 for 문의 break와 같은 것 
-				}
-			});
-			
-			
-		 if(!flag){ // 필수입력사항을 다 선택했으면 
 			  const frm = document.prodInputFrm;
 		  	  frm.submit(); 
-		  	  // 제품등록 성공했으면 상품 목록  업데이트
-		  }
 		}
 		else{
 			history.go(-1);
 		}
-		
-		
-		// pname 이 같은게 있으면  
-	});	  
+ 	});	  
 	
  	// 취소버튼을 누르면 
   $("button[type='reset']").click(function(){
-	  $("span.error").hide();
+	  window.close();
+	  /* $("span.error").hide();
 	  $("div#divfileattach").html(""); // 또는 $("div#divfileattach").empty()
 	  if(confirm("상품등록을 취소하시겠습니까?")){
 
 	  };
+	  
+	  
+	  $("input#pimage1").click(function(){
+		  $(".originimg").hide();
+	  }) */
   });
   
 	
@@ -449,36 +438,6 @@ $(document).ready(function() {
 		
 		
 		
-		
-	// "수정" 버튼 클릭시 호출되는 함수  
-	function goEdit() {
-		// **** 필수입력사항에 모두 입력이 되었는지 검사한다. **** //
-		let b_Flag_requiredInfo = false;
-	/*	
-		$("input.requiredInfo").each( (index, item)=>{
-			const data = $(item).val().trim();
-			if(data == "") {
-				alert("*표시된 필수입력사항은 모두 입력하셔야 합니다.");
-				b_Flag_requiredInfo = true;
-				return false; // break; 라는 뜻이다.
-			}
-		});
-	*/
-	//  또는
-	    const required_list = document.querySelectorAll(".required"); 
-	    for(let i=0; i<required_list.length; i++) {
-	    	const val = required_list[i].value.trim();
-	    	if(val == "") {
-	    		alert("*표시된 필수입력사항은 모두 입력하셔야 합니다.");
-	    		b_Flag_requiredInfo = true;
-	    		break;
-	    	}
-	    }// end of for-----------------------
-	    ///////////////////////////////////////////////////////
-	    
-	    frm.submit();
-	    
-	}// end of function goRegister()----------------------	
 
 	
 	
@@ -533,8 +492,8 @@ $(document).ready(function() {
 				img.id = "prev_" + View_area;
 				img.classList.add("obj");
 				img.file = file;
-				img.style.width = '100px'; 
-				img.style.height = '100px';
+				img.style.width = '300px'; 
+				img.style.height = '300px';
 				preview.appendChild(img);
 				if (window.FileReader) { // FireFox, Chrome, Opera 확인.
 					var reader = new FileReader();
@@ -579,7 +538,7 @@ $(document).ready(function() {
 		<div class="row">
 			<div class="form-group">
 				<label for="pname" class="col-form-label">상품명 *${requestscope.cpvo.pname}</label><span class="error">상품명을 입력해주세요</span>
-				<input value="${cpvo.parentProvo.pname}"type="text" class="form-control infoData must" name="pname" id="pname" > 
+				<input value="${cpvo.parentProvo.pname}"type="text" class="form-control infoData must" name="pname" id="pname" readonly="readonly"> 
 			</div>
 			
 			<div class="form-group existhide" style="width: 50%;display:inline-block;">
@@ -608,10 +567,12 @@ $(document).ready(function() {
 				</select>
 			</div>
          	<div class="form-group ">
-				<label class="form-label" for="pimage1">상품썸네일사진 *</label><span class="error">상품사진을 등록해주세요</span>
-				<input  type="file" class="form-control infoData" name="pimage1" id="pimage1" onchange="previewImage(this,'View_area')"/>
-				<div id='View_area' style='position:relative; width: 100px; height: 100px; color: black; border: 0px solid black; dispaly: inline; '></div>
-				<img src="/Genmon1/images/common/products/${cpvo.pimage1}" class="originimg img-fluid" style="width:100%;" />
+				<label class="form-label" for="pimage1">상품썸네일사진 *</label><span class="error">상품사진을 등록해주세요</span><br>
+				<%-- <input  type="file" class="form-control infoData" name="pimage1" id="pimage1" onchange="previewImage(this,'View_area')"/>
+				<input hidden="" value="${cpvo.pimage1}" type="text" class="form-control infoData" name="oriimage" id="oriimage"  >
+				<div id='View_area' style='position:relative; width: 300px; height: 300px; color: black; border: 0px solid black; dispaly: inline; '></div>
+				 --%><img style='position:relative; width: 300px; height: 300px; color: black; border: 0px solid black; dispaly: inline; ' 
+				src="/Genmon1/images/common/products/${cpvo.pimage1}" class="originimg img-fluid" style="width:100%;" />
 			</div>
         
 			<div class="form-group existhide">
@@ -645,27 +606,30 @@ $(document).ready(function() {
         
          	
         	<br>
+         	
+         	
          	<div class="form-group ">
-	          	 <label for="imgfilename" class="col-form-label" >상품상세사진</label><br>
+<!-- 	          	 <label for="imgfilename" class="col-form-label" >상품상세사진</label><br>
 	             <label for="spinnerImgQty" class="col-form-label" style="font-size:8pt;">• 파일갯수 : </label>
 	          	 <input id="spinnerImgQty" name="imgfilename" value="0" style="width: 30px; height: 20px;">
 	          	 <br>
 	             <div id="divfileattach"></div>
-	             
+ -->	             
 	             <c:forEach var="imgfilename" items="${imgList}">
 	             	<img src="/Genmon1/images/common/products/${imgfilename}" class="img-fluid" style="width:50%;" />
 				</c:forEach>
 				
 	             <input type="hidden" name="attachCount" id="attachCount" />
-			</div>
+			</div> 
+			
         	
 		</div>
 
 
 
      <div class="modal-footer">
-       <button type="button" value="register" id="btnEdit" class="btn shadow-0 btn-md btn-outline-primary "onclick="goEdit()" >Edit</button>
-       <button type="reset" value="delete"  class="me-2 btn shadow-0 btn-md btn-primary btnRegister" style="" >delete</button>
+<!--        <button type="button" value="register" id="btnEdit" class="btn shadow-0 btn-md btn-outline-primary ">Edit</button> -->
+       <button type="reset" value="delete"  class="me-2 btn shadow-0 btn-md btn-primary btnRegister" >delete</button>
      </div>
      
 	</form>
