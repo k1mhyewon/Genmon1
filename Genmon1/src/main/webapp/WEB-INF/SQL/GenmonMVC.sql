@@ -421,6 +421,31 @@ comment on column TBL_MEMBER_TEST.status is '회원탈퇴유무';
 comment on column TBL_MEMBER_TEST.idle is '휴면유무';
 
 
-,lastpwdchangedate  date default sysdate     -- 마지막으로 암호를 변경한 날짜  
-,status             number(1) default 1 not null     -- 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
-,idle 
+
+select*
+from  tbl_all_product_test;
+
+select*
+from  tbl_product_imagefile_test;
+
+
+update tbl_all_product_test set PIMAGE1 = 'rosy_yc5_1.jpg'
+where pnum = 7;
+
+insert into tbl_product_imagefile_test (imgfileno, fk_pnum, imgfilename)
+values(seqimgfileno.nextval, 54, 'pouch.jpg');
+
+commit;
+
+rollback;
+
+
+
+
+
+
+
+
+
+
+
