@@ -20,14 +20,14 @@ public class MallDisplayJSON extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String panmaestate = request.getParameter("panmaestate"); // 0 인지 1인지 
+//		String panmaestate = request.getParameter("panmaestate"); // 0 인지 1인지 
 		String start = request.getParameter("start");
 		String len = request.getParameter("len");
 		
 		InterProductDAO pdao = new ProductDAO();
 		
 		Map<String, String> paraMap = new HashMap<>();
-		paraMap.put("panmaestate", panmaestate);
+//		paraMap.put("panmaestate", panmaestate);
 		paraMap.put("start", start); //  start "1"   "9"  "17" 		"25"   "33"
 		
 		String end = String.valueOf( Integer.parseInt(start) + Integer.parseInt(len) - 1 ); // 스트링 타입은 int로 바꿔 계산을 하고 그 값은 다시 스트링으로 해줘야 한다.
@@ -35,7 +35,7 @@ public class MallDisplayJSON extends AbstractController {
 		paraMap.put("end", end); //   end =>  start + len - 1 ;
 								 //	 end  "8"    "16"  "24"		"32"	"40"     
 		
-		List<ChildProductVO> displayList = pdao.selectDisplay(paraMap); 
+		List<ChildProductVO> displayList = pdao.selectDisplay(paraMap); // 	파라맵 where절 필요
 		
 		JSONArray jsonArr = new JSONArray(); // 복수개 = 배열로 나타낸다. []
 		
@@ -66,8 +66,8 @@ public class MallDisplayJSON extends AbstractController {
 	          
 				String json = jsonArr.toString(); // 문자열로 변환해준다.  // " [ {} {}  {} ] "
 				
-				System.out.println("확인용 json => "+ json);
-	            
+		//		System.out.println("확인용 json => "+ json);
+	           
 				request.setAttribute("json", json);
 	            
 	        //  super.setRedirect(false);
@@ -82,12 +82,12 @@ public class MallDisplayJSON extends AbstractController {
 				
 				request.setAttribute("json", json);
 				
-			//	 System.out.println(displayList.size() );
+				 System.out.println(displayList.size());
 				
 			//  super.setRedirect(false);
 	            super.setViewPage("/WEB-INF/common/jsonview.jsp"); 
 			}
 			
 		}	
-
+	
 }

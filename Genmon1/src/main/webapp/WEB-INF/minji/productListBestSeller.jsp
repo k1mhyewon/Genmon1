@@ -1,7 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<% String ctxPath=request.getContextPath();%>
+
+<% String ctxPath=request.getContextPath();%>    
 <jsp:include page="../common/header.jsp" />
 
 <style type="text/css">
@@ -390,9 +393,7 @@ $(document).ready(function () {
 	    	$("div#original").hide();
 	    	if(json.length == 0){// 글이 없는경우.
 	    		//$("div#original").html('');
-				html += "<div style='height: 300px;'>"+
-						"<div style='text-align:center;font-size:15pt'>&nbsp;해당되는 상품이 없습니다.</div>";
-						"<div>";
+				html += "<div style='text-align:center;font-size:20pt'>해당되는 상품이 없습니다.</div>";
 		    	$("div#show").html(html);
 			}
 	    	
@@ -402,17 +403,17 @@ $(document).ready(function () {
 					const price = Number(item.price).toLocaleString('en');
 					const total = Number(item.price-( item.price * item.salePcnt/100 ) ).toLocaleString('en');
 					const color = item.pcolor.substr(0,2).toUpperCase();
-                    html += '<div style="display: inline-block; margin: 10px 30px 30px 10px; ">'+
-                    		'<div  class="card-body" style="max-width:340px; max-height: 500px ;">';
+					html += '<div class="col-md-3 mt-3">'+
+                              '<div style="width:340px;">';
                            if(Number(item.pqty) == 0){
-                          	html+= '<a href="<%= ctxPath %>/product/productDetail.sun?pnum='+item.pnum+'"><img  class="pqty" style="width:340px;" src="<%= ctxPath %>/images/common/products/'+item.pimage1+'"></a>'+
+                          	html+= '<a href="Genmon1/product/productDetail.sun?pnum='+item.pnum+'" class="pqty"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/'+item.pimage1+'"></a>'+
                           			'<span class="grid-item-qty" style="display: inline-block; color: #449ce8;" class="grid-item-pqty"><i>out of stock</i></span>';
                            }    
                            else {
-                          	html+= '<a href="<%= ctxPath %>/product/productDetail.sun?pnum='+item.pnum+'" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/'+item.pimage1+'"></a>';
+                          	html+= '<a href="Genmon1/product/productDetail.sun?pnum='+item.pnum+'" class="product"><img style="width:340px;" src="<%= ctxPath %>/images/common/products/'+item.pimage1+'"></a>';
                             }    
 
-                            html += '<span class="grid-item-name">'+item.pname+' '+color+'</span>';
+                            html += '<span class="grid-item-name">'+item.pname+' '+color+'"</span>';
                            	
                             if(Number(item.salePcnt) > 0){
                            	html+= '<span style="text-decoration:line-through; color:gray;" class="grid-item-price">'+price+'</span>'+
@@ -420,10 +421,9 @@ $(document).ready(function () {
                             }
                             else{
                                       html += '<span class="grid-item-price">'+price+'</span>';
-                                     		 '<span class="grid-item-qty" class="grid-item-pqty"><i>\n</i></span>';
                             }
                             
-                            html +=  '<span class="grid-item-color" style="color: red;">+</span><span>Colors</span>'+
+                            html +=  '<span class="grid-item-color" style="color: red;"></span><span>Colors</span>'+
                             		 '</div></div>';
 					});// end of $.each -------------------------
 			    	$("div#show").html(html);
@@ -477,12 +477,11 @@ function addWish() {
 		<div class="product-title" style="font-size: 13pt;">
 			<span>선글라스</span>
 			<span>/</span>
-			<span>전체보기</span>
-			<span></span>
+			<span>베스트셀러</span>
 		</div>
 
 		<div class="product-filter" style="padding: 0% 1%;">
-			<a href="<%=ctxPath %>/product/productListSimple.sun"><button type="button" id="item-short"><i
+			<a href="<%=ctxPath %>/product/productListSimpleBest.sun"><button type="button" id="item-short"><i
 						class="fa-thin fa-grid-4"></i>간략보기</button></a>
 			<%-- 검색 필터 버튼 --%>
 				<a href="#pop01"><button type="button" class="popup_btn"><i
@@ -556,17 +555,17 @@ function addWish() {
 <br>
 
 <%-- 위에 필터 숨기고 아래 div로 결과값 보여주기 --%>
-	<div >
-		<div id="show">
-		</div>
+	<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" ><div id="show">
+
+	</div>
 	</div>
 
 
 	<!-- 상품목록 -->
 
 	<div class="row ml-auto" style="text-align: justify; margin-bottom: 2%;" id="original" >
-		<c:if test="${ not empty requestScope.proList}">
-			<c:forEach var="pvo" items="${requestScope.proList }">
+		<c:if test="${ not empty requestScope.bestList}">
+			<c:forEach var="pvo" items="${requestScope.bestList }">
 				<div class="col-md-3 mt-3">
 					<div style="width:340px;">
 
@@ -621,7 +620,6 @@ function addWish() {
 
 							<span class="grid-item-color"><span class="color-count">+</span> Colors</span>
 						</a>
-
 					</div>
 				</div>
 			</c:forEach>
@@ -644,6 +642,7 @@ function addWish() {
 				</span>
 			</div>
 		</nav>
+		
 	--%>
 
 		<%-- 인덱스 끝 --%>

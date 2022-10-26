@@ -781,7 +781,7 @@ b_flag_idDuplicate_click = false;
 					</div>	
 					
 					<div>
-						<iframe src="../iframeAgree/agree.html" width="100%" height="150px" class="box" ></iframe>
+						<iframe src="iframeAgree/agree.html" width="100%" height="150px" class="box" ></iframe>
 		      		</div>
 				</li>
 	     	 </ul>  	

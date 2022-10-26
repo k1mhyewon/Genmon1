@@ -59,16 +59,16 @@ public class ProducListFilterJSON extends AbstractController {
 				jsonObj.put("pmaterial", cpvo.getParentProvo().getPmaterial());
 				
 				jsonArr.put(jsonObj);
-			}// end of for -----------------
+			}// end of for ————————
 			
-			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
+			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} … ,{}]"
 			//System.out.println("~~~ 확인용 json =>"+json);
 			request.setAttribute("json", json);
 //					super.setRedirect(false);
 			super.setViewPage("/WEB-INF/common/jsonview.jsp");
 		} else {
 			//System.out.println("집에갈래");
-			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} ... ,{}]"
+			String json = jsonArr.toString(); // 문자열로 변환  // "[{},{},{},{},{} … ,{}]"
 			//System.out.println("~~~ 확인용 json =>"+json);
 			request.setAttribute("json", json);
 //					super.setRedirect(false);
