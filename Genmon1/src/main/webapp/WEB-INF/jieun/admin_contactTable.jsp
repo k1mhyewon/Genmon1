@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+	Date nowTime = new Date();
+	SimpleDateFormat sf = new SimpleDateFormat(" yyyy년MM월dd일  a hh:mm:ss");
+%>
 <% String ctxPath = request.getContextPath(); %>
     
 <jsp:include page="../common/adminSidebar.jsp" />
@@ -15,6 +21,12 @@
   <link rel="stylesheet" href="<%= ctxPath%>/css/style.css">
 
 <style>
+.link_tag{
+		font-size: 10pt;
+		color: gray;
+		text-decoration: none;
+		cursor: pointer;
+	}
 .form-outline {
     position: relative;
 }
@@ -204,8 +216,7 @@ a.prod:hover {
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
-	
- 	
+	$("li.contact").addClass('active');
  	/* 행호버효과 */
  	$(document).on("mouseover", "tr.tr_data", function(){
  		//$(this).children().addClass('MYhover');
@@ -366,8 +377,28 @@ $(document).ready(function () {
 					// $("div#displayHIT").html(html);
 				}
 				else if( json.length > 0 ){ // 데이터가 존재하는 경우   
-					
+				
 					$.each(json, function(index, item){  // each 는 파라미터가 2개 ( index, item )
+						
+					let ctype = item.ctype;
+						 switch (ctype) {
+						case "delivery":
+							ctype = "배송";
+							break;
+						case "refund":
+							ctype = "환불";
+							break;
+						case "product":
+							ctype = "상품";
+							break;
+						case "other":
+							ctype = "기타";
+							break;
+						default:
+							ctype = "전체";
+							break; 
+						}
+						
 						let status = item.status==1? '<span class="badge badge-success rounded-pill d-inline">Done</span>': '<span class="badge badge-warning rounded-pill d-inline">Not done</span>';
 						let contents = item.contents;
 						if(item.contents.length>20){
@@ -376,23 +407,18 @@ $(document).ready(function () {
 						
 						html += '<tr scope="row" class="tr_data" >'+
 									'<td scope="row" >'+
-										/* '<label class="control control--checkbox">'+
-											'<input type="checkbox" class="chkbox">'+
-											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
-										'</label>'+ */
 									'</td>'+ 
 									'<td class="under contactid">'+item.contactid+'</td>'+
 									'<td>'+
-//										'<p class="fw-bold mb-1">'+item.name+'</p>'+
 										'<p class="text-muted mb-0" style="font-weight:normal;">'+item.email+'</p>'+
 									'</td>'+
 									'<td class="under" >'+
-										'<p class="fw-normal mb-1" style="font-weight:bold;">'+item.ctype+'문의</p>'+
+										'<p class="fw-normal mb-1" style="font-weight:bold;">'+ctype+'문의</p>'+
 										'<p class=" text-muted mb-0">'+contents+'</p>'+
 									'</td>'+
 									'<td>'+item.cregisterday+'</td>'+
 									'<td>'+status+'</td>'+	
-									'<td>&nbsp;<a class="prod" style="display: inline-block"><i class="fas fa fa-envelope-square"></i></a>&nbsp;&nbsp;'+
+									'<td>&nbsp;<a class="prod" style="display: inline-block" ><i class="fas fa fa-envelope-square"></i></a>&nbsp;&nbsp;'+
 										'<a class="prod delete"  style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a></td>'+
 								'</tr>'+
 								'<tr class="spacer"><td colspan="100"></td></tr>';
@@ -411,6 +437,28 @@ $(document).ready(function () {
 		
 	}
 
+	
+	
+	
+	
+	
+	  function funcmail(email, contactid, contents){
+		if(confirm("메일발송을 하시겠습니까?")){
+			$.ajax({
+				   url:"<%= request.getContextPath()%>/admin/mail.sun",
+				   type:"POST",
+				   data: {"contactid":contactid,"email":email,
+					      "contents": contents},
+				   dataType:"JSON",
+				   success:function(json) {
+					   alert(json.message);
+				   },
+				   error: function(request, status, error){
+						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				   }
+			 });
+		}
+	}
 	
 </script>
 <%-- 인덱스 시작 --%>
@@ -438,7 +486,7 @@ $(document).ready(function () {
     <a class="nav-link" id="refund tab-4" aria-controls="tabs-4" href="#tabs-4" role="tab">환불</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="etc tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >기타</a>
+    <a class="nav-link" id="other tab-5" aria-controls="tabs-5" href="#tabs-5" role="tab" >기타</a>
   </li>
 </ul>
 <!-- Tabs navs -->
@@ -476,13 +524,8 @@ $(document).ready(function () {
 
     <div class="table-responsive custom-table-responsive" style="width:80%; margin:auto;">
     	<!-- <h3 style="color:#212121; font-size: 15pt; font-weight: normal;">Q&A</h3> -->
-	    	<div class="input-group mb-4">
-			  <input type="text" class="form-control" id="advanced-search-input" placeholder="검색하고 싶은 회원의 전화번호,이메일,이름을 입력해주세요." />
-			  <button class="btn btn-primary" id="advanced-search-button" type="button" style="border:none; background-color: #45494c">
-			    <i class="fa fa-search"></i>
-			  </button>
-			</div>
-
+		<span style="float:right;"class="mb-3 link_tag" onclick="javascript:window.location.reload()"><i class="fas fa fa-refresh"></i> <%= sf.format(nowTime) %></span>
+		
 		<table class="table custom-table ">
 		<thead>
 			<tr style="overflow: hidden; color:#212121;" class="fixed">

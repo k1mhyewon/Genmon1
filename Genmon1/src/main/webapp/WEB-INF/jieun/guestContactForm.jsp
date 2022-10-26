@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% String ctxPath = request.getContextPath(); %>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <!-- 폰트 -->
@@ -13,7 +13,6 @@
 
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="customerService.jsp" />
-
 <style>
 	.swiper-wrapper {
 			height:auto;
@@ -79,12 +78,16 @@
 	}
 </style>
 
-<script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script>
 
 	$(document).ready(function() {
-		$("input#name").focus();
+		const orderid = "${requestScope.orderid}";
+		const email = "${requestScope.email}";
+		$("input#email").val(email);
+		$("input#orderid").val(orderid);
+		
 		$("span.error").hide();
 		
 		// 비밀번호란에 스페이스바 입력못하게 하기 
@@ -100,100 +103,77 @@
 		
 	});// end of $(document).ready(function() {}----------------
 	
-	let name_flag = false;
 	let email_flag = false;
 	let textarea_flag = false;
 	let pwd_flag = false;
 	// 문의버튼 누를시 
 	function funcSubmitForm() {
-		
 		// 필수입력사항 입력했는지 검사 
-		const name = $("input#name").val().trim();
 		const email = $("input#email").val().trim();
 		const contents = $("textarea").val().trim();
-		const password = $("input#password").val().trim();
+		const password = $("input#typePassword").val().trim();
 		
 		// 입력란이 채워있을경우 true 깃발
-		let name_flag = name!="" ?? true;
 		let email_flag = email!="" ?? true;
 		let textarea_flag = contents!="" ?? true;
 		let pwd_flag = password!="" ?? true;
 		
-		
-		if(!name_flag){ // 이름 입력안했을경우  
-			const inputname = $("input#name");
-			inputname.focus();
-			inputname.css('border','1px solid red');
-			inputname.parent().find("span.error").show() // 경고 표기
+		if( !email_flag ){// 이메일 입력안했을경우
+			const inputemail = $("input#email");
+			inputemail.focus();
+			inputemail.css('border','1px solid red');
+			inputemail.parent().find("span.error").show() // 경고 표기
 			
-			inputname.keydown(function(){
-				inputname.parent().find("span.error").hide();
-				inputname.css('border','1px solid #ccc');
-				name_flag = true;
+			inputemail.keydown(function(){
+				inputemail.parent().find("span.error").hide();
+				inputemail.css('border','1px solid #ccc');
+				email_flag = true;
 				return;
 			});
 		}
-		else{// 이름 입력했을경우
+		else{// 이메일 입력했을경우
 			
-			if( !email_flag ){
-				const inputemail = $("input#email");
-				inputemail.focus();
-				inputemail.css('border','1px solid red');
-				inputemail.parent().find("span.error").show() // 경고 표기
+			if( !textarea_flag ){
+				const inputtextarea = $("textarea");
+				inputtextarea.focus();
+				inputtextarea.css('border','1px solid red');
+				inputtextarea.parent().find("span.error").show() // 경고 표기
 				
-				inputemail.keydown(function(){
-					inputemail.parent().find("span.error").hide();
-					inputemail.css('border','1px solid #ccc');
-					email_flag = true;
+				inputtextarea.keydown(function(){
+					inputtextarea.parent().find("span.error").hide();
+					inputtextarea.css('border','1px solid #ccc');
+					textarea_flag = true;
 					return;
 				});
 			}
-			else{// 이메일 입력했을경우
+			else{// 문의내용 입력했을경우
 				
-				if( !textarea_flag ){
-					const inputtextarea = $("textarea");
-					inputtextarea.focus();
-					inputtextarea.css('border','1px solid red');
-					inputtextarea.parent().find("span.error").show() // 경고 표기
+				if( !pwd_flag ){
+					const inputpassword = $("input#password");
+					inputpassword.focus();
+					inputpassword.css('border','1px solid red');
+					inputpassword.parent().find("span.error").show() // 경고 표기
 					
-					inputtextarea.keydown(function(){
-						inputtextarea.parent().find("span.error").hide();
-						inputtextarea.css('border','1px solid #ccc');
-						textarea_flag = true;
+					inputpassword.keydown(function(){
+						inputpassword.parent().find("span.error").hide();
+						inputpassword.css('border','1px solid #ccc');
+						pwd_flag = true;
 						return;
 					});
-				}
-				else{// 문의내용 입력했을경우
-					
-					if( !pwd_flag ){
-						const inputpassword = $("input#password");
-						inputpassword.focus();
-						inputpassword.css('border','1px solid red');
-						inputpassword.parent().find("span.error").show() // 경고 표기
-						
-						inputpassword.keydown(function(){
-							inputpassword.parent().find("span.error").hide();
-							inputpassword.css('border','1px solid #ccc');
-							pwd_flag = true;
-							return;
-						});
-					}
 				}
 			}
 		}
 		
 			
-		
-		if( (name_flag && email_flag && textarea_flag) && pwd_flag ){
+		if( (email_flag && textarea_flag && pwd_flag) ){
 			// 정말 제출하시겠습니까?
-			if(confirm("정말로 문의작성을 제출하시겠습니까?")){
-				$("div.logined :input").prop("disabled", false);
-				
-				// 문의 제출
+			if(confirm("정말로 작성하신 문의 제출하시겠습니까?")){
 				const frm = document.conInputFrm;
 			    frm.submit();
 			};
 		}
+		
+		
 	};// end of function funcSubmitForm() {}---------------------------------
 	
 	
@@ -223,8 +203,8 @@
        <div class="form" style="margin-top: 10px;" >
 		 <h3 style="font-size: 12pt; margin-bottom: 20px;">Contact</h3> 
 		
-		<form class="mb-5 " method="post" action="<%= ctxPath%>/contact/guestGoContact.sun" enctype="multipart/form-data" 
-		id="contactForm" name="conInputFrm" novalidate="novalidate"style="font-size: 11pt;">
+		<form class="mb-5 conInputFrm" method="post" action="<%= ctxPath%>/customerCare/contact/guestGoContact.sun" enctype="multipart/form-data" 
+		id="contactForm" name="conInputFrm" style="font-size: 11pt;">
 
 		<div class="row">
 			<div class="col-md-6 form-group mb-3">
@@ -233,22 +213,32 @@
 	             <option value="delivery">배송문의</option>
 	             <option value="product">상품문의</option>
 	             <option value="refund">환불문의</option>
-	             <option value="cancel">기타문의</option>
+	             <option value="other">기타문의</option>
 	         </select>
 			</div>
 		</div>
 
 
 		<div class="row logined">
-			<div class="col-md-6 form-group mb-3">
-				<label for="name" class="col-form-label">이름 *</label><span class="error">이름을 입력해주세요</span>
-				<input type="text" class="form-control" name="name" id="name" placeholder="Your name" >
-			</div>
-			<div class="col-md-6 form-group mb-3">
+			<div class="col form-group mb-3">
 				<label for="email" class="col-form-label">이메일 *</label><span class="error">이메일을 입력해주세요</span>
-				<input type="text" class="form-control" name="email" id="email" placeholder="Your email">
+				
+		<c:if test="${requestScope.orderid != null}">
+				<input type="text" class="form-control" name="email" id="email" placeholder="Your email" readonly="readonly">
+		</c:if>
+		<c:if test="${requestScope.orderid == null}">
+				<input type="text" class="form-control" name="email" id="email" placeholder="Your email" >
+		</c:if>
 			</div>
 		</div>
+		 <c:if test="${requestScope.orderid != null}"> 
+			<div class="row logined">
+				<div class="col-md-12 form-group mb-3">
+				<label for="orderid" class="col-form-label">주문번호</label>
+				<input type="text" class="form-control must" name="orderid" id="orderid" readonly="readonly">
+				</div>
+			</div>
+		 </c:if> 
 		
 		<div class="row">
 			<div class="col-md-12 form-group mb-3">

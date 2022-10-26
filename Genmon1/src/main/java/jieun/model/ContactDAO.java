@@ -228,10 +228,11 @@ public class ContactDAO implements InterContactDAO {
 	public void insertGuestContact(ContactVO cvo) throws SQLException {
 
 		try {
+			
 			conn = ds.getConnection();
 			
-			String sql = "insert into tbl_guest_contact(contactid, email, ctype, contents, pwd) "
-						+ "values ('G'||to_char(sysdate,'yyyymmdd')||seq_tbl_guest_contact_ctid.nextval, ?, ?, ?, ?) ";
+			String sql = "insert into tbl_guest_contact(contactid, email, ctype, contents, pwd, contactfile_systemFileName, contactfile_orginFileName,fk_orderid) "
+						+ "values ('G'||to_char(sysdate,'yyyymmdd')||seq_tbl_guest_contact_ctid.nextval, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -239,6 +240,9 @@ public class ContactDAO implements InterContactDAO {
 			pstmt.setString(2, cvo.getCtype());
 			pstmt.setString(3, cvo.getContents());
 			pstmt.setString(4, Sha256.encrypt(cvo.getPwd())); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+			pstmt.setString(5, cvo.getContactfile_systemFileName()); 
+			pstmt.setString(6, cvo.getContactfile_orginFileName()); 
+			pstmt.setString(7, cvo.getFk_orderid()); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
 
 			pstmt.executeUpdate();
 		
@@ -259,10 +263,10 @@ public class ContactDAO implements InterContactDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select contactid, fk_userid, ctype, contents, cregisterday, exist, acontents  "
+			String sql = " select contactid, fk_userid, ctype, contents, cregisterday, exist, acontents, contactfile_orginFileName "
 						+ " from  "
 						+ " ( "
-						+ " select row_number() over(order by cregisterday desc) AS RNO, contactid, fk_userid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd') as cregisterday, nvl2(answerid, 1,0) as exist, acontents "
+						+ " select row_number() over(order by cregisterday desc) AS RNO, contactid, fk_userid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd') as cregisterday, nvl2(answerid, 1,0) as exist, acontents, contactfile_orginFileName "
 						+ " from tbl_member_contact a left join tbl_member_contact_answer b "
 						+ " on a.contactid = b.fk_contactid  "
 						+ " where fk_userid = ? "
@@ -288,12 +292,28 @@ public class ContactDAO implements InterContactDAO {
 				ContactVO cvo = new ContactVO();
 				cvo.setContactid(rs.getString(1));
 				cvo.setFk_userid(rs.getString(2));
-				cvo.setCtype(rs.getString(3));
+				String ctype = rs.getString(3);
+				 switch (ctype) {
+					case "delivery":
+						ctype = "배송";
+						break;
+					case "refund":
+						ctype = "환불";
+						break;
+					case "product":
+						ctype = "상품";
+						break;
+					case "other":
+						ctype = "기타";
+						break;
+				 }
+				cvo.setCtype(ctype);
 				cvo.setContents(rs.getString(4));
 				cvo.setCregisterday(rs.getString(5));
 				cvo.setReplyExist(String.valueOf(rs.getInt(6)));
 				cvo.setAcontents(rs.getString(7));
-				
+				cvo.setContactfile_orginFileName(rs.getString(8));
+				//System.out.println(rs.getString(8));
 				contactList.add(cvo);
 			}
 			
@@ -301,7 +321,7 @@ public class ContactDAO implements InterContactDAO {
 			close();
 		}
 		return contactList;
-	}
+	}// end  of public List<ContactVO> selectAllMyContact(Map<String, String> paraMap) throws SQLException {}----
 
 	// 문의목록에서 클릭한 문의 관리자 답변 나오기 
 	@Override
@@ -433,7 +453,7 @@ public class ContactDAO implements InterContactDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_guest_contact_answer(answerid, fk_contactid, acontents) "
-					   + " values (seq_tbl_admin_nomemberContact_reply_rpid.nextval, ?, ?) ";
+					   + " values (seq_tbl_admin_guestContact_reply_rpid.nextval, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -547,8 +567,145 @@ public class ContactDAO implements InterContactDAO {
 			return result;
 		}// end of public int deleteContact(String contactid) throws SQLException {}-------------
 
+		
+		
+		
+		@Override
+		public int getGuestTotalPage(Map<String, String> paraMap) throws SQLException {
+			int totalPage = 0; 
+			try {
+				
+				conn = ds.getConnection();
+				String sql = " select ceil(count(*)/?) from tbl_guest_contact where email = ? and pwd = ? ";
+				
+				// 서치단어 , 필터 넣기 
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, Integer.parseInt(paraMap.get("sizePerPage")) ); // 한 페이지에 나오는 상품갯수 
+				pstmt.setString(2, aes.encrypt(paraMap.get("email")));  
+				pstmt.setString(3, Sha256.encrypt(paraMap.get("pwd"))); // 한 페이지에 나오는 상품갯수 
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next(); // 무조건 결과나온다. => if 할필요 없음 
+				
+				totalPage = rs.getInt(1);
+
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} finally {
+				close();
+			}
 			
-	
+			return totalPage;
+		}// end of public int getGuestTotalPage(Map<String, String> paraMap) throws SQLException {}----
+
+		
+		
+		
+		// 비회원문의리스트 목록 
+		@Override
+		public List<ContactVO> selectGuestMyContact(Map<String, String> paraMap) throws SQLException {
+			List<ContactVO> contactList = new ArrayList<>();
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select contactid, ctype, contents, cregisterday, exist, acontents, contactfile_orginFileName "
+							+ " from  "
+							+ " ( "
+							+ " select row_number() over(order by cregisterday desc) AS RNO, contactid, ctype, contents, to_char(cregisterday,'yyyy-mm-dd') as cregisterday, nvl2(answerid, 1,0) as exist, acontents, contactfile_orginFileName "
+							+ " from tbl_guest_contact a left join tbl_guest_contact_answer b "
+							+ " on a.contactid = b.fk_contactid  "
+							+ " where email = ? and pwd = ?"
+							+ " ) "
+							+ " where RNO between ? and ?  "
+							+ " order by cregisterday desc" ;
+				
+				// === 페이징처리의 공식 ===
+				// where RNO between (조회하고자하는페이지번호 * 한페이지당보여줄행의개수) - (한페이지당보여줄행의개수 - 1) and (조회하고자하는페이지번호 * 한페이지당보여줄행의개수); 
+
+				 int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				 int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, aes.encrypt(paraMap.get("email")));  
+				pstmt.setString(2, Sha256.encrypt(paraMap.get("pwd"))); // 한 페이지에 나오는 상품갯수 
+				pstmt.setInt(3, (currentShowPageNo*sizePerPage) - (sizePerPage - 1) ); // 공식 
+				pstmt.setInt(4, (currentShowPageNo*sizePerPage) ); // 공식
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					ContactVO cvo = new ContactVO();
+					cvo.setContactid(rs.getString(1));
+					String ctype = rs.getString(2);
+					 switch (ctype) {
+						case "delivery":
+							ctype = "배송";
+							break;
+						case "refund":
+							ctype = "환불";
+							break;
+						case "product":
+							ctype = "상품";
+							break;
+						case "other":
+							ctype = "기타";
+							break;
+					 }
+					cvo.setCtype(ctype);
+					cvo.setContents(rs.getString(3));
+					cvo.setCregisterday(rs.getString(4));
+					cvo.setReplyExist(String.valueOf(rs.getInt(5)));
+					cvo.setAcontents(rs.getString(6));
+					cvo.setContactfile_orginFileName(rs.getString(7));
+					
+					contactList.add(cvo);
+				}
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+				e.printStackTrace();	
+			} finally {
+				close();
+			}
+			return contactList;
+		}// end of public List<ContactVO> selectGuestMyContact(Map<String, String> paraMap) throws SQLException {}-----
+
+		
+		
+		// 자기 상담게시물 삭제하기 
+		@Override
+		public int deleteMyContact(String pwd, String contactid) throws SQLException {
+			int result = 0;
+			String mg = contactid.substring(0,1);
+			System.out.println(mg);
+			boolean mgflag = "M".equalsIgnoreCase(mg)?  false : true; //  멤버문의글일경우 false 인 깃발   
+			String sql="";
+			try {
+				conn = ds.getConnection();
+				
+				if(!mgflag) { // 회원일경우 
+					sql = " delete from tbl_member_contact "
+						+ " where contactid = ? and pwd = ? ";
+				}
+				else {// 비회원일경우 
+					sql = " delete from tbl_guest_contact "
+						+ " where contactid = ? and pwd = ? " ;
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, contactid);
+				pstmt.setString(2, Sha256.encrypt(pwd)); // 암호를 SHA256 알고리즘으로 단방향 암호화를 시킨다.
+
+				result = pstmt.executeUpdate();
+			
+			} finally {
+				close();
+			}
+			return result;
+		}// end of public int deleteMyContact(String pwd, String contactid) throws SQLException {}----
+
+			
 	
 	
 	
