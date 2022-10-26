@@ -42,15 +42,6 @@
 	    border-bottom: #e0e0e0 1px solid;
 	    width: 100%;
 	}
-	.margin_b50 {
-   	 	margin-bottom: 50px;
-	}
-	.margin_b200 {
-   	 	margin-bottom: 200px;
-	}
-	.margin_t50 {
-   	 	margin-top: 50px;
-	}
 	.box_content {
 	    width: 100%;
 	    margin-left: auto;
@@ -66,12 +57,27 @@
 	span {
 		font-size: 11pt;
 	}
+	div#login_container {
+    margin:  auto;
+    	width: 60%;
+    }
 @media screen and (max-width: 767px) { .divider {width: 100%;}}
 	
 </style>
 	<div class="box_content col-md-8" >
 	
-	
+		<div id="login_container">
+        	<div class="titles mb-5" style="text-align:center;font-size: 15pt;">시리얼 넘버 조회</div>
+        	<div class="row ">
+		 		<div class="col-md-12 form-group">
+				  <input type="password" id="pwd" name="pwd" class="form-control must password" maxlength="20" >
+		 		</div>
+		 		<div class="col-md-6">
+		           	<a style="display:inline-block;float:right;"href="#" class="col-md-6 btn margin_b50" onclick="funcGoDelete()">삭제하기</a>
+					<!-- <a style="display:inline-block;float:right;background-color: white;color:black;"href="#" class="col-md-6 btn margin_b50"  onclick="funcCancel()">취소하기</a> -->
+				</div>
+			</div>
+        </div>
 	
 	</div>
 	</div>

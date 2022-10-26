@@ -132,7 +132,7 @@
 		let pwd_flag = password!="" ?? true;
 		
 		
-		if(!name_flag){ // 이름 입력안했을경우  
+		if(!name_flag){ // 이름 입력안했을경우
 			const inputname = $("input#name");
 			inputname.focus();
 			inputname.css('border','1px solid red');
@@ -246,7 +246,7 @@
 	             <option value="delivery">배송문의</option>
 	             <option value="product">상품문의</option>
 	             <option value="refund">환불문의</option>
-	             <option value="cancel">기타문의</option>
+	             <option value="other">기타문의</option>
 	         </select>
 			</div>
 		</div>

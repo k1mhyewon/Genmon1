@@ -49,7 +49,7 @@ public class MemberGoContact extends AbstractController {
 				MultipartRequest mtrequest = null;
 				ServletContext svlCtx = session.getServletContext();
 				String uploadFileDir = svlCtx.getRealPath("/images/contact");
-				System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
+//				System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
 
 				// === 파일을 업로드 해준다. === // 
 				try {
@@ -73,12 +73,12 @@ public class MemberGoContact extends AbstractController {
 				
 				// 파일 다운받는거
 				String Contactfile_systemFileName =  mtrequest.getFilesystemName("file"); // 실제로 업로드된파일명(중복되면 파일명 뒤에 숫자가 붙음 )
-				System.out.println("~~ Contactfile_systemFileName  : "+ Contactfile_systemFileName  );
+//				System.out.println("~~ Contactfile_systemFileName  : "+ Contactfile_systemFileName  );
 				// 제품설명서 파일명(파일서버에 업로드 되어진 실제파일명)  
 				// 제품설명서 파일명 입력은 선택사항이므로 NULL 이 될 수 있다.
 				// 파일 보여지는거
 				String Contactfile_orginFileName =  mtrequest.getOriginalFileName("file"); // 원래 파일명 
-				System.out.println("~~ Contactfile_orginFileName  : "+ Contactfile_orginFileName ); 
+//				System.out.println("~~ Contactfile_orginFileName  : "+ Contactfile_orginFileName ); 
 				// 웹클라이언트의 웹브라우저에서 파일을 업로드 할때 올리는 제품설명서 파일명
 				// 제품설명서 파일명 입력은 선택사항이므로 NULL 이 될 수 있다.
 				// 첨부파일들 중 이것만 파일다운로드를 해주기 때문에 getOriginalFileName(String name) 메소드를 사용한다. 

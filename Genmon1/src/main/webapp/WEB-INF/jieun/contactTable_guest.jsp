@@ -142,7 +142,7 @@ td:hover{
 <script>
 	
 	$(document).ready(function(){ 
-		
+		//alert("${cvo.contactfile_systemFileName}");
 		 // panel-faq-container
 		  const panelFaqContainer = document.querySelectorAll(".panel-faq-container"); // NodeList 객체
 		  
@@ -171,6 +171,8 @@ td:hover{
 		    };
 		  });
 		  
+	
+		  
 		  
 		  $("button#delete").click(function(e){
 			  const contactid = $(e.target).next().val();
@@ -185,9 +187,8 @@ td:hover{
 							// 팝업창이름(아무것도안써도상관없음)
 			window.open(url, "goDeleteContact",
 					    "left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height);
-								
+			window.close();
 		  });
-		  
 	});// end of $(document).ready(function(){ }------------------------------
 	
 	
@@ -247,9 +248,10 @@ td:hover{
 	              <div class="panel-faq-answer" >
 		                <p style="font-size: 18pt; font-weight: bold"><br>Q. </p>
 		                <p>${cvo.contents}</p>
-						 <c:if test="${cvo.contactfile_orginFileName != null}"> 
+						<c:if test="${cvo.contactfile_orginFileName != null}"> 
 							<img src="/Genmon1/images/common/products/${cvo.contactfile_orginFileName}" class="img-fluid" style="width:20%;" />
 						 </c:if> 
+		                
 		                <c:if test="${cvo.acontents != null}">
 			                <p class="mt-5 " style="font-size: 18pt; font-weight: bold">A. </p>
 							<p class="mb-5 ">${cvo.acontents}</p>
@@ -259,10 +261,9 @@ td:hover{
 	          </td>
 	          <td style="margin:auto;">${cvo.cregisterday}</td>
 	          <td class="exist" style="margin:auto;">${cvo.replyExist}</td>
-	          <td><button type="button" id="delete" class="btn button" style="border: 1px solid #dee2e6; color: #adadad">삭제</button>
+	          <td><button id="delete"type="button" class="btn button" style="border: 1px solid #dee2e6; color: #adadad">삭제</button>
 	          <input hidden=""value="${cvo.contactid}">
 	          </td>
-	          
 	        </tr>
 	        
 	            
@@ -270,7 +271,6 @@ td:hover{
 
       </tbody>
     </table>
-    <br><br><br><br><br><br><br><br>
   </div>
   
     </div>
@@ -278,6 +278,17 @@ td:hover{
     </div>
 
 
+		<nav class="my-5">
+		 	<div style="display:flex; ">
+		 		<ul class="pagination " style="margin: auto;">${requestScope.pageBar}</ul>
+				
+				<!-- <select id="sizePerPage" name="sizePerPage">
+			       <option value="10">10</option>
+			       <option value="5">5</option>
+			       <option value="3">3</option>
+			    </select> -->
+		 	</div>
+ 		</nav> 
 </div>
 </div>
 </div>

@@ -341,19 +341,19 @@ $(document).ready(function() {
 
 });// end of $(document).ready(function() {}------------------[]
 
-
+ 
 
 // pname 직접입력을 선택했을경우 
 	function changepname(obj){
 		$("span.error").hide();
-		// alert(val);
+		//alert(obj.value);
 		let html1 = "";
 		let html2 = "";
-		if($("select#pname").val !="plus"){
+		if(obj.value !="plus"){
 			$("div.existhide").hide();
 			$("div#divPlusPname1").html("");
 			$("div#divPlusPname2").html("");
-			// console.log(pnameval);
+			 console.log(pnameval);
 			// displayPnameInfo(val);
 		}
 		else{
@@ -529,13 +529,9 @@ $(document).ready(function() {
 					</c:forEach>
 					  <option value="plus">상품추가</option>
 					</select>
-					
 					  <div id="divPlusPname1"></div><span class="error">상품명을 입력해주세요</span>
 					  <div id="divPlusPname2"></div>
-					  
 				</c:if>
-				<!-- <label for="pname" class="col-form-label">상품명 *</label><span class="error">상품명을 입력해주세요</span>
-				<input type="text" class="form-control infoData" name="pname" id="pname" placeholder="Product name" > -->
 			</div>
 			
          	<div class="form-group ">

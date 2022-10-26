@@ -190,10 +190,10 @@ tr.addPrd:hover{
 	cursor: pointer;
 }
 
-a{
+a.prod{
 	opacity: .5; 
 }
-a:hover{
+a.prod:hover{
 	opacity: 1; 
 }
 
@@ -206,7 +206,7 @@ a:hover{
 <script src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <script  type="text/javascript">
 $(document).ready(function () {
-	
+	$("li.product").addClass('active');
 	/* 행호버효과 */
 	$("tr[scope='row']>td").hover(function() {
 		/* $(this).addclass('thover'); */
@@ -222,20 +222,11 @@ $(document).ready(function () {
  		goAddProduct();
  	});
 
- 	/* $("tr[scope='row']").click(function() {
- 		if(!$(this).hasClass("addPrd")){
-	 		goEditProduct();
- 		}
-	}); */
  
  	
  	const searchButton = document.getElementById('search-button');
  	const searchInput = document.getElementById('search-input');
  	
- 	/* searchButton.addEventListener('click', () => {
- 	  const inputValue = searchInput.value;
- 	  alert(inputValue);
- 	}); */
  	
  	
  	$("a.prodEdit").click(function(){
@@ -243,8 +234,8 @@ $(document).ready(function () {
 		const url = "<%= ctxPath%>/admin/adminEditProduct.sun?pnum="+pnum;
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
-		const pop_width = 800;
-		const pop_height = 600;
+		const pop_width = 600;
+		const pop_height = 800;
 		const pop_left = Math.ceil((window.screen.width - pop_width)/2); /* 정수로만듦 */
 		const pop_top = Math.ceil((window.screen.height - pop_height)/2);/* 정수로만듦 */
 
@@ -299,21 +290,21 @@ $(document).ready(function () {
       
       <!-- <button type="button" class="btn btn-secondary" onclick="goSearch();" style="margin-right: 30px;">검색</button> -->
       
-    	<div class="input-group mb-4">
+<%--     	<div class="input-group mb-4">
 			  <input type="text" name="searchWord" class="form-control" id="searchWord" placeholder="검색하고 싶은 회원의 전화번호,이메일,이름을 입력해주세요." />
-			  <%-- form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
+			  form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
                유효성 검사를 거치지 않고 막바로 submit()을 하는 경우가 발생한다.
                이것을 막아주는 방법은 input 태그를 하나 더 만들어 주면 된다. 
                그래서 아래와 같이 style="display: none;" 해서 1개 더 만든 것이다. 
-       			--%>
-		      <input type="text" style="display: none;" /> <%-- 조심할 것은 type="hidden" 이 아니다. --%> 
+       			
+		      <input type="text" style="display: none;" /> 조심할 것은 type="hidden" 이 아니다. 
 			  <button class="btn" id="advanced-search-button" onclick="goSearch();" type="button" style="border:none; ">
 			    <i class="fa fa-search"></i>
 			  </button>
 			  
       
 		</div>
-			    
+ --%>			    
     
 		<table class="table custom-table datatable ">
 		<thead>
@@ -379,9 +370,9 @@ $(document).ready(function () {
 	   					<c:when test="${cpvo.panmaestate eq '2'}"><span class="badge badge-success rounded-pill d-inline">Waiting</span></c:when>
 	   				</c:choose>
     			</td> 
-				<td>&nbsp;<a class="prodEdit" style="display: inline-block;color:#4e4e4e"><i class="fas fa fa-edit "></i></a>&nbsp;&nbsp;
+				<td>&nbsp;<a class="prodEdit prod" style="display: inline-block;color:#4e4e4e"><i class="fas fa fa-edit "></i></a>&nbsp;&nbsp;
 					<c:if test="${cpvo.panmaestate ne '0'}">
-						<a class="prodStop"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a>
+						<a class="prodStop prod"style="display: inline-block; color: #dc3545;"><i class="fas fa fa-close"></i></a>
 					</c:if>
 				</td>
     		</tr>
@@ -392,12 +383,6 @@ $(document).ready(function () {
 			 <nav class="my-5">
 			 	<div style="display:flex; ">
 			 		<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
-					
-					<select id="sizePerPage" name="sizePerPage">
-				       <option value="10">10</option>
-				       <option value="5">5</option>
-				       <option value="3">3</option>
-				    </select>
 			 	</div>
 	 		</nav> 
 	</div>

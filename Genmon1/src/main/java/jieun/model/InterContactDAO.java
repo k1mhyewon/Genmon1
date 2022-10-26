@@ -47,5 +47,14 @@ public interface InterContactDAO {
 	// 관리자 문의 삭제 
 	int deleteContact(String contactid) throws SQLException;
 
+	// 전체 한 페이지에 나오는 상품갯수에 따른 총 문의페이지 갯수 - 비회원
+	int getGuestTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// 비회원문의리스트 목록 
+	List<ContactVO> selectGuestMyContact(Map<String, String> paraMap) throws SQLException;
+
+	// 자기 상담게시물 삭제하기 
+	int deleteMyContact(String pwd, String contactid) throws SQLException;
+
 
 }
