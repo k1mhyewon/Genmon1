@@ -384,9 +384,9 @@ $(document).ready(function(){
 				   dataType:"JSON",
 				   success:function(json) {
 					   alert(json.message);
-					   if(confirm("작성한 답변에 대해 이메일 발송을 하시겠습니까?")){
-						   
-					   }
+					 //window.opener.funcmail(val);
+					  // opener.location.href="javascript:funcmail(val);";
+					   funcmail(val);
 				   },
 				   error: function(request, status, error){
 						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -418,7 +418,10 @@ $(document).ready(function(){
 				   dataType:"JSON",
 				   success:function(json) {
 					   alert(json.message);
-					   window.close();
+					   //window.opener.funcmail(val);
+					   //opener.location.href="javascript:funcmail(val);";
+					   //$(opener.location).attr("href", "javascript:funcmail(val);");
+					   funcmail(val);
 				   },
 				   error: function(request, status, error){
 						alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -429,11 +432,33 @@ $(document).ready(function(){
 	});
 	
 	
-	
-	
 });
 
+	
+	
+	
+	
+	
 
+function funcmail(val){
+	if(confirm("메일발송을 하시겠습니까?")){
+		$.ajax({
+			   url:"<%= request.getContextPath()%>/admin/mail.sun",
+			   type:"POST",
+			   data: {"contactid":"${cvo.contactid}","email":"${cvo.email}",
+				      "contents": val},
+			   dataType:"JSON",
+			   success:function(json) {
+				   alert(json.message);
+				   window.close();
+			   },
+			   error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			   }
+		 });
+	}
+}
+	
 
 </script>
 

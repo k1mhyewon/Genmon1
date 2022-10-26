@@ -21,7 +21,7 @@
 	}
     div#login_container {
     	margin: 5% 5% ;
-    	width:50%;
+    	width: 40%;
     }
     
     div#login_container > div>ul > li > label, p{
@@ -206,7 +206,7 @@
 
 
 
-<div class="box_content col-md-6 mb-9" style="margin:auto;">
+<div class="box_content col-md-6 " style="margin: 0 auto; margin-bottom: 100px;">
 	<form name="loginFrm">
         <div id="login_container">
         	<div class="titles">문의 조회</div>

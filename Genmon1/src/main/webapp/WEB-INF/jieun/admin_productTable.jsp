@@ -222,20 +222,11 @@ $(document).ready(function () {
  		goAddProduct();
  	});
 
- 	/* $("tr[scope='row']").click(function() {
- 		if(!$(this).hasClass("addPrd")){
-	 		goEditProduct();
- 		}
-	}); */
  
  	
  	const searchButton = document.getElementById('search-button');
  	const searchInput = document.getElementById('search-input');
  	
- 	/* searchButton.addEventListener('click', () => {
- 	  const inputValue = searchInput.value;
- 	  alert(inputValue);
- 	}); */
  	
  	
  	$("a.prodEdit").click(function(){
@@ -243,8 +234,8 @@ $(document).ready(function () {
 		const url = "<%= ctxPath%>/admin/adminEditProduct.sun?pnum="+pnum;
 		
 		// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
-		const pop_width = 800;
-		const pop_height = 600;
+		const pop_width = 600;
+		const pop_height = 800;
 		const pop_left = Math.ceil((window.screen.width - pop_width)/2); /* 정수로만듦 */
 		const pop_top = Math.ceil((window.screen.height - pop_height)/2);/* 정수로만듦 */
 
@@ -299,21 +290,21 @@ $(document).ready(function () {
       
       <!-- <button type="button" class="btn btn-secondary" onclick="goSearch();" style="margin-right: 30px;">검색</button> -->
       
-    	<div class="input-group mb-4">
+<%--     	<div class="input-group mb-4">
 			  <input type="text" name="searchWord" class="form-control" id="searchWord" placeholder="검색하고 싶은 회원의 전화번호,이메일,이름을 입력해주세요." />
-			  <%-- form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
+			  form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
                유효성 검사를 거치지 않고 막바로 submit()을 하는 경우가 발생한다.
                이것을 막아주는 방법은 input 태그를 하나 더 만들어 주면 된다. 
                그래서 아래와 같이 style="display: none;" 해서 1개 더 만든 것이다. 
-       			--%>
-		      <input type="text" style="display: none;" /> <%-- 조심할 것은 type="hidden" 이 아니다. --%> 
+       			
+		      <input type="text" style="display: none;" /> 조심할 것은 type="hidden" 이 아니다. 
 			  <button class="btn" id="advanced-search-button" onclick="goSearch();" type="button" style="border:none; ">
 			    <i class="fa fa-search"></i>
 			  </button>
 			  
       
 		</div>
-			    
+ --%>			    
     
 		<table class="table custom-table datatable ">
 		<thead>
@@ -392,12 +383,6 @@ $(document).ready(function () {
 			 <nav class="my-5">
 			 	<div style="display:flex; ">
 			 		<ul class="pagination" style="margin: auto;">${requestScope.pageBar}</ul>
-					
-					<select id="sizePerPage" name="sizePerPage">
-				       <option value="10">10</option>
-				       <option value="5">5</option>
-				       <option value="3">3</option>
-				    </select>
 			 	</div>
 	 		</nav> 
 	</div>

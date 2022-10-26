@@ -80,7 +80,7 @@ public class AdminAddProduct extends AbstractController {
 						MultipartRequest mtrequest = null;
 						ServletContext svlCtx = session.getServletContext();
 						String uploadFileDir = svlCtx.getRealPath("/images/common/products");
-						System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
+						//System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
 
 						// === 파일을 업로드 해준다. === // 
 						try {
@@ -151,7 +151,7 @@ public class AdminAddProduct extends AbstractController {
 						else {
 							// 제품 부모테이블 pid 채번해오기 
 							pid = pdao.getPidParentProduct();
-							System.out.println("2pid=>"+pid);
+							//System.out.println("2pid=>"+pid);
 							ppvo.setPid(pid);
 							ppvo.setPmaterial(pmaterial);
 							ppvo.setPname(pname);
@@ -163,7 +163,7 @@ public class AdminAddProduct extends AbstractController {
 						}
 						
 						int n2= 0;
-						System.out.println("3pid=>"+pid);
+						//System.out.println("3pid=>"+pid);
 						cpvo.setFk_pid(pid);
 						// 제품 자식테이블 pnum 채번해오기 
 						int pnum = pdao.getPnumChildProduct();// 제품번호 채번 해오기 => 제품번호는 시퀀스를 쓰므로 먼저 제품번호를 채번하고 제품테이블과 이미지테이블에 제품번호를 넣는다
@@ -176,7 +176,7 @@ public class AdminAddProduct extends AbstractController {
 						if(salePcnt==null || salePcnt.trim()=="") {
 							salePcnt="0";
 						}
-						System.out.println("salePcnt=>"+salePcnt);
+						//System.out.println("salePcnt=>"+salePcnt);
 						
 						try {
 							cpvo.setSalePcnt(Integer.parseInt(salePcnt));

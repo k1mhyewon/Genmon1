@@ -18,7 +18,7 @@
 	}
     div#login_container {
     	margin: 5% 5% ;
-    	width: 50%;
+    	width: 40%;
     }
     
     div#login_container > div>ul > li > label, p{
@@ -183,28 +183,10 @@
 			});
         }
         else{
-        	// 이메일과 비밀번호 정규표현식 검사하고 맞으면 db에서 비밀번호랑 이메일을 가지고 찾아봄.
-    		const pwd = $("input#loginPwd");
-    		const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i);  
-            //  비밀번호 정규표현식 객체 생성 
-            const bool = regExp.test(pwd.val());
-            if(!bool){ // 위배된경우 
-            	pwd.focus();
-            	pwd.css('border','1px solid red');
-            	pwd.parent().find("span.error").show() // 경고 표기
-    			
-            	pwd.keydown(function(){
-            		pwd.parent().find("span.error").hide();
-            		pwd.css('border','1px solid #ccc');
-    				return;
-    			});
-            }
-            else{
 		        const frm = document.loginFrm;
-		        frm.action = "<%= ctxPath%>/customerCare/contact/guestSearchContact.sun";
+		        frm.action = "<%= ctxPath%>/customerCare/contact/contactTable_guest.sun";
 		        frm.method = "POST";
 		        frm.submit();
-            }
         }
 		
 	}
@@ -214,7 +196,7 @@
 
 
 
-<div class="box_content col-md-6 mb-9" style="margin:auto;">
+<div class="box_content col-md-6 " style="margin: 0 auto; margin-bottom: 100px;">
 	<form name="loginFrm">
         <div id="login_container">
         	<div class="titles">문의 조회</div>

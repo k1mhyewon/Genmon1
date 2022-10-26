@@ -102,25 +102,12 @@ public class ContactVO {
 	}
 
 	public void setFk_userid(String fk_userid) {
+		
 		this.fk_userid = fk_userid;
 	}
 
 	public String getCtype() {
 		
-		switch (ctype) {
-		case "delivery":
-			ctype = "배송";
-			break;
-		case "refund":
-			ctype = "환불";
-			break;
-		case "product":
-			ctype = "상품";
-			break;
-		default:
-			ctype = "기타";
-			break;
-		}
 		return ctype;
 	}
 

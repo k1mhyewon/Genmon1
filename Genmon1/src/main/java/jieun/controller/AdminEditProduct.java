@@ -46,7 +46,7 @@ public class AdminEditProduct extends AbstractController {
 			}
 			else { //  관리자로 로그인한 경우 상품 수정가능
 				String pnum = request.getParameter("pnum");// 제품번호
-				System.out.println(pnum);
+				//System.out.println(pnum);
 				InterProductDAO pdao = new ProductDAO();
 				String method = request.getMethod();
 				
@@ -83,7 +83,19 @@ public class AdminEditProduct extends AbstractController {
 						super.setViewPage("/WEB-INF/jieun/admin_editProduct.jsp"); 
 					}
 				}
-				else { // POST 방식 // 상품추가폼 넘어왔을때 
+				else { // POST 방식 // 상품추가폼 넘어왔을때
+					String pimage1 = request.getParameter("pimage1");
+					String oriimage= request.getParameter("oriimage");
+					String pname= request.getParameter("pname");
+					String pcontent= request.getParameter("pcontent");
+					if(pimage1 ==null) {
+						pimage1 =oriimage;
+					}
+					//pimage1 = pimage1 ==null? oriimage : pimage1 ;
+					System.out.println("pimage1=>"+pimage1);
+					System.out.println("oriimage=>"+oriimage);
+					System.out.println("pname=>"+pname);
+					System.out.println("pcontent=>"+pcontent);
 					
 					
 					
