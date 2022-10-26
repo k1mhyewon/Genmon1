@@ -168,7 +168,8 @@
 			$.ajax({
 				url : "<%= ctxPath%>/myinfo/deliInfo.sun" , 
 				type: "POST",  
-				data: {"orderid":orderid},
+				data: {"orderid":orderid,
+						"deliv_class":1},
 			    dataType:"JSON",
 			    success:function(json) {
 			    	// alert(json.deliv_company);
@@ -339,7 +340,7 @@
 		<div class="border-bottom mt-4"></div>
 		<span class="boldtxt2 my-3">주문 정보</span>
 		<ul>
-			<li><span class="list_span">결제일 </span> ${purvomap.purvo.purchaseDate }</li>
+			<li><span class="list_span">주문일 </span> ${odervo.orderDate }</li>
 			<li><span class="list_span">받는분 </span> ${odervo.name }</li>
 			<li><span class="list_span">휴대폰번호 </span> ${odervo.mobile }</li>
 			<li style="margin-bottom: 2px;"><span class="list_span">배송지 </span> ${odervo.address }</li>

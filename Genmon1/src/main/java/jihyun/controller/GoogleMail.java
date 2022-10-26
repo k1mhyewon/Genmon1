@@ -63,7 +63,7 @@ public class GoogleMail {
         msg.addRecipient(Message.RecipientType.TO, toAddr);
                 
         // 메시지 본문의 내용과 형식, 캐릭터 셋 설정 // 세미 할때는 여기 멜꾸 해주자 ㅎㅎ
-        msg.setContent("<span style='font-size:13pt; font-weight:bold;'>"+title+"</span><br><br> <table>"+content+"</table>", "text/html;charset=UTF-8");
+        msg.setContent("<span style='font-size:11pt; font-family:NanumBarunGothic, nbg, dotum, sans-serif; font-weight:bold;'>"+title+"</span><br><br> "+content+"", "text/html;charset=UTF-8");
                 
         // 메일 발송하기
         Transport.send(msg);

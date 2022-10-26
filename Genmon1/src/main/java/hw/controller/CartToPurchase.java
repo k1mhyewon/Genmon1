@@ -23,8 +23,8 @@ public class CartToPurchase extends AbstractController {
 			String all_qty = request.getParameter("all_qty");
 			String all_pnum = request.getParameter("all_pnum");
 
-			// System.out.println("all_qty 타입 : "+all_qty.getClass().getName());
-			// System.out.println("all_pnum 타입 : "+all_pnum.getClass().getName());
+			// System.out.println("all_qty : "+all_qty);
+			// System.out.println("all_pnum : "+all_pnum);
 			
 			
 			HttpSession session =  request.getSession(); 

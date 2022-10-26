@@ -206,6 +206,10 @@ th{
 <script  type="text/javascript">
 $(document).ready(function () {
 	
+	
+	// 메뉴창 효과
+	$("li.order").addClass('active');
+	
  	
  	/* 행호버효과 */
  	$(document).on("mouseover", "tr.tr_data", function(){

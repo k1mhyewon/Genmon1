@@ -51,7 +51,7 @@ public class MyInfoOrderDetail extends AbstractController {
 						int totalqty = orddtailList.size();
 						
 						for(int i=0 ;i<totalqty; i++) {
-							if(orddtailList.get(i).getOrder_status()== 3) {
+							if(orddtailList.get(i).getOrder_status()== 3||orddtailList.get(i).getOrder_status()== 2) {
 								total_status = orddtailList.get(i).getOrder_status();
 								break;
 								
@@ -131,7 +131,7 @@ public class MyInfoOrderDetail extends AbstractController {
 				int totalqty = orddtailList.size();
 				
 				for(int i=0 ;i<totalqty; i++) {
-					if(orddtailList.get(i).getOrder_status()== 3) {
+					if(orddtailList.get(i).getOrder_status()== 3 || orddtailList.get(i).getOrder_status()==2) {
 						total_status = orddtailList.get(i).getOrder_status();
 						break;
 						

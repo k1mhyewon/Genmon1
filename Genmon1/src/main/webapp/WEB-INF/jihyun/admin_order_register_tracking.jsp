@@ -153,6 +153,10 @@
 	$(document).ready(function(){
 		
 		
+		// 메뉴창 효과
+		$("li.order").addClass('active');
+		
+		
 		// 운송장 입력 유효성 검사
 		$("input:text.input_style").blur(function(e){
 			const $target = $(e.target);

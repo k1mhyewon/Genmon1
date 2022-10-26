@@ -230,7 +230,7 @@
 		
 		$("input:checkbox[name='chk_each_prod']:checked").each(function() {
 			chkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-			console.log(chkBoxArr);
+			// console.log(chkBoxArr);
 		})
 		
 		
@@ -309,7 +309,7 @@
 		$("input:checkbox[name='chk_each_prod']:checked").each(function() {
 			chkBoxArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
 			// console.log(chkBoxArr);
-		})
+		});
 		
 		$.ajax({
 			url:"<%= request.getContextPath()%>/wish/wishToCartSelect.sun",
@@ -319,7 +319,7 @@
 			dataType:"text",
 		    success:function(json) {
 		    	
-		    	$("#goCartModal").show();
+		    	$('#goCartModal').modal('show');
 		    	
 		    },
 		    error: function(request, status, error){
@@ -354,10 +354,10 @@
     <!-- 위시리스트 목록 -->
 
 	<c:if test="${not empty requestScope.wishList }">
-    	<div id="wishText">위시리스트()</div>
+    	<div id="wishText">위시리스트(${wishSize})</div>
 	    <div id="checkbox_choice">
 	        <span type="button" class="btn btn-light btn_chkbox" id="btn_chkAll" ><input type="checkbox" class="chk_wishprod" id="chkAll" value="all" /><label for="chkAll">&nbsp;전체선택/해제</label></span>
-	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()")>선택삭제</button><br>
+	        <button type="button" class="btn btn-dark btn_chkbox" onClick="selectDelete()">선택삭제</button><br>
 	        <button type="button" class="btn btn-dark btn_chkbox" id="addCart_btn" onClick="selectAddCart()">선택상품 장바구니 추가</button>
 	    </div>
 		<div class="album">
@@ -374,7 +374,7 @@
 									<p class="productName" style="font-weight: bold;">${wishvo.cpvo.parentProvo.pname}</p>
 									<c:if test="${ wishvo.cpvo.salePcnt > 0}">
 										<div class="productPrice" style="text-decoration:line-through; color:gray;"><fmt:formatNumber value="${wishvo.cpvo.parentProvo.price}" pattern="#,###" /> 원</div>
-										<div>
+										<div style="margin-bottom: 22px;">
 											<fmt:formatNumber value="${wishvo.cpvo.parentProvo.price - ((wishvo.cpvo.parentProvo.price * wishvo.cpvo.salePcnt)/100) }"
 																		pattern="#,###" /> 원
 										</div>

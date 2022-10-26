@@ -60,13 +60,13 @@
 
 <!-- product information -->
 <div style="font-size:18px; font-family: MyriadSet Pro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;height:28px; padding-top:25px;">Product Information</div> 
-	<table style="width:100%; border-top-color:rgb(183, 183, 183); border-top-width: 1px;border-top-style: solid; table-layout:fixed;border-collapse: collapse; "> 
+	<table style="width:100%; border-top-color:rgb(183, 183, 183); border-top-width: 1px;border-top-style: solid; table-layout:fixed;border-collapse: collapse; color:black;"> 
 		<colgroup><col style="width:20%"><col style="width:40%"><col style="width:10%"><col style="width:30%"></colgroup> 
 		
 		<tbody>
 			<tr>
 				<th colspan="1" rowspan="1" style="font-size:12px; font-family:Myriad Set Pro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;font-weight: normal; border-bottom-color: rgb(222,222, 222); border-bottom-width: 1px;border-bottom-style: solid; color:#333;background:#f4f4f4; text-align:left;padding-top:7px;padding-left:10px;padding-bottom:5px;">ProductName</th>
-				 	<td style="font-size:12px; font-family: Myriad SetPro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;border-bottom: 1px solid #dedede;padding-left:5px;"><%-- 제품이름 --%> </td>
+				 	<td style="font-size:12px; font-family: Myriad SetPro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;border-bottom: 1px solid #dedede;padding-left:5px;"> 제품이름  </td>
 				<th colspan="1" rowspan="1" style="font-size:12px; font-family: Myriad SetPro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;font-weight: normal; border-bottom-color: rgb(222,222, 222); border-bottom-width: 1px;border-bottom-style: solid; color:#333;background:#f4f4f4; text-align:left;padding-top:7px;padding-left:10px;padding-bottom:5px;">Price</th>
 					<td style="font-size:12px; font-family: Myriad SetPro,Lucida Grande,HelveticaNeue,Helvetica,Arial,Verdana,sans-serif;border-bottom: 1px solid #dedede;padding-left:5px;"><%-- 제품가격 --%></td></tr>
 	</tbody>

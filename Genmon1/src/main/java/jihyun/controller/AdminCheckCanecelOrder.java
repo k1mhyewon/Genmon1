@@ -16,7 +16,7 @@ public class AdminCheckCanecelOrder extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		//if(super.checkAdmin(request)) {
+		if(super.checkAdmin(request)) {
 			
 			String method = request.getMethod();
 			
@@ -42,7 +42,14 @@ public class AdminCheckCanecelOrder extends AbstractController {
 				
 			}
 			
-		//}
+		} else {
+			
+			request.setAttribute("message", "비정상적인 접근입니다");
+			request.setAttribute("loc", "javascript:history.back()");
+			
+			super.setViewPage("/WEB-INF/common/msg.jsp");
+			return;
+		}
 		
 	}
 

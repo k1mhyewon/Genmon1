@@ -277,7 +277,7 @@ th{
 	 	}); // end of $("input:checkbox[id='allCheckOrNone']").click() --------------------------------
 	 	
 	 	
-	 	
+	 	$("li.review").addClass('active');
 	 	
 	}); // end of $(document).ready() ================================================================
 	
@@ -352,10 +352,7 @@ th{
 						let content = item.content.substr(0,20)+"...";
 						html += '<tr scope="row" class="tr_data">'+
 									'<td scope="row" >'+
-										'<label class="control control--checkbox">'+
-											'<input type="checkbox" class="chkbox" name="chk_each_prod">'+
-											'<div class="control__indicator"><i class="fa fa-check" style="color:#fff; font-size: 8pt; display: block;"></i></div>'+
-										'</label>'+
+										
 									'</td>'+
 									'<td class="under orderDetailId">'+item.orderDetailId+'</td>'+
 									'<td>'+
@@ -397,7 +394,7 @@ th{
  <body style="background: #f4f4f4;">   
 <section class="py-4 px-2 " style="width:90%; margin:0 auto; ">
  
- &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 3% 10%;">Contact</h3> 
+ &nbsp;&nbsp; <h3 style="color:#404040; font-size: 16pt; font-weight: bolder; margin: 0 0 3% 10%;">Reviews</h3> 
 <!-- Tabs navs -->
 <ul class="nav nav-tabs mb-5" id="ex1" role="tablist" style="margin:auto;">
   <li class="nav-item" role="presentation">
@@ -453,11 +450,10 @@ th{
 			<tr style="overflow: hidden; color:#212121;" class="fixed">
 				<th scope="col">
 				<label class="control control--checkbox">
-					<input type="checkbox" class="js-check-all chkbox" id="allCheckOrNone">
-					<div class="control__indicator"><i class="fa fa-check" style="color:#f4f4f4; font-size: 8pt; display: block;"></i></div>
+					<input type="checkbox" class="js-check-all chkbox" id="allCheckOrNone"/>
 				</label>
 				</th>
-				<th scope="col">no</th>
+				<th scope="col">&nbsp;no</th>
 				<th scope="col">Userid</th>
 				<th scope="col">Contents</th>
 				<th scope="col">Date</th>
